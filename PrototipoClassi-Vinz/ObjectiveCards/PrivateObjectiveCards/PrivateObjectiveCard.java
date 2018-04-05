@@ -1,3 +1,7 @@
 package ObjectiveCards.PrivateObjectiveCards;
 
-public interface PrivateObjectiveCard extends ObjectiveCard{}
+public class PrivateObjectiveCard implements ObjectiveCard{
+	private IPrivateObjective privateObjective;
+	@Override
+	public int calcolaPunti(Vetrata vetrata);
+}
