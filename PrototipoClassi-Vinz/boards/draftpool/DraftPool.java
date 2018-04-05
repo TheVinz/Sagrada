@@ -1,15 +1,15 @@
-package AreeGioco.Riserva;
+package boards.draftpool;
 
 //Nel nostro programma la classe Riserva istanzierà un solo oggetto: Singleton? o altri pattern?
 
-public class Riserva{
+public class DraftPool{
 	//Dimensione della riserva
 	private final int size;
-	private CasellaRiserva[] dadiRiserva;
-	public Riserva(){}
-	public CasellaRiserva[] getRiserva(){}
+	private DraftPoolSpace[] draftPoolSpaces;
+	public DraftPool(){}
+	public DraftPoolSpaces[] getDraftPool(){}
 	//Pesca nuovi dadi dal sacchetto e li aggiunge alla riserva
-	public void drow(Sacco sacchetto){}
+	public void drow(Bag sacco){}
 	//inserisce un dado nella riserva nel sacchetto e ne pesca uno nuovo assegnandogli un valore scelto. Ritorna il dado pescato
-	public Dado redrow(Sacco sacchetto, Dado dado, int val){}
+	public Dado redrow(Bag sacco, Dice dice, int value){}
 }
