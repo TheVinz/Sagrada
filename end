@@ -1,0 +1,61 @@
+[1mdiff --git a/PrototipoClassi-Vinz/game/Game.java b/PrototipoClassi-Vinz/game/Game.java[m
+[1mdeleted file mode 100644[m
+[1mindex 160a596..0000000[m
+[1m--- a/PrototipoClassi-Vinz/game/Game.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,14 +0,0 @@[m
+[31m-package game;[m
+[31m-[m
+[31m-public class Game{[m
+[31m-	private final Bag bag;[m
+[31m-	public final DraftPool draftPool;[m
+[31m-	public final RoundTrack roundTrack;[m
+[31m-	public final Player[] players;[m
+[31m-	public final PublicObjectiveCard[] publicObjectiveCards;[m
+[31m-	public final ToolCard[] toolCards;[m
+[31m-	public Game(){}[m
+[31m-	public void start(){}[m
+[31m-	//Calcolo punteggio e proclamazione del vincitore [m
+[31m-	public void end(){}[m
+[31m-}[m
+[1mdiff --git a/PrototipoClassi-Vinz/game/Player.java b/PrototipoClassi-Vinz/game/Player.java[m
+[1mdeleted file mode 100644[m
+[1mindex 90a1c3a..0000000[m
+[1m--- a/PrototipoClassi-Vinz/game/Player.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,11 +0,0 @@[m
+[31m-package Partita;[m
+[31m-[m
+[31m-public class Player{[m
+[31m-	private WindowFrame windowFrame;[m
+[31m-	private PrivateObjectiveCard privateObjectiveCard;[m
+[31m-	private int favorTokens;[m
+[31m-	//Piazza un dado dalla riserva sulla propria vetrata[m
+[31m-	public void placeDice(DraftPool draftPool){}[m
+[31m-	//Utilizza una carta utensile[m
+[31m-	public void useCard(){}[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/PrototipoClassi-Vinz/game/Round.java b/PrototipoClassi-Vinz/game/Round.java[m
+[1mdeleted file mode 100644[m
+[1mindex 0be5973..0000000[m
+[1m--- a/PrototipoClassi-Vinz/game/Round.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,16 +0,0 @@[m
+[31m-package Partita;[m
+[31m-[m
+[31m-public class Round{[m
+[31m-	private Player activePlayer;[m
+[31m-	//Giocatore che ha iniziato il round[m
+[31m-	private Player firstPlayer;[m
+[31m-	//Nel costruttore viene gestita la routine di inizio round[m
+[31m-	public Round(){}[m
+[31m-	//Serie di azioni svolte al termine del round[m
+[31m-	public void endRound(){}[m
+[31m-	//Serie di azioni svolte dal giocatore attivo, il metodo non solleva eccezioni poichè eventuali eccezioni[m
+[31m-	//lanciate dai metodi riguardanti i dadi e le caselle di gioco vengono gestite qua dentro[m
+[31m-	public void doSomething(){}[m
+[31m-	//Aggiorna giocatore attivo e determina se il round è concluso o meno[m
+[31m-	public void nextPlayer(){}[m
+[31m-}[m
+\ No newline at end of file[m
