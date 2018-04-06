@@ -19,7 +19,8 @@ METODI CHIAMATI DA CLASSI AL DI FUORI DI QUESTA CARTELLA
 
 	ToolCard.java
 	public static ToolCard[] getToolCards()
-		metodo static che ritorna un array di tool cards che saranno quelle poi messe a disposizione dei giocatori durante la partita
+		metodo static che ritorna un array di tool cards che saranno quelle poi messe a 
+		disposizione dei giocatori durante la partita
 
 	ObjectiveCard.java
 	public static PublicObjectiveCard[] getPublicObjectiveCards()
