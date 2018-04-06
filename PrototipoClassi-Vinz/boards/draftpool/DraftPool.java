@@ -6,7 +6,7 @@ public class DraftPool{
 	//Dimensione della riserva
 	private final int size;
 	private DraftPoolSpace[] draftPoolSpaces;
-	public DraftPool(){}
+	public DraftPool(int size){}
 	public DraftPoolSpaces[] getDraftPool(){}
 	//Pesca nuovi dadi dal sacchetto e li aggiunge alla riserva
 	public void drow(Bag sacco){}

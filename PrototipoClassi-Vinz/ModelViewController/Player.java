@@ -1,4 +1,4 @@
-
+//Sul server
 
 public class Player{
 	private String name;
@@ -25,6 +25,10 @@ public class Player{
 
 	public String getFrameState(){
 		return windowFrame.getState();
+	}
+
+	public WindowFrameSpace getWindowFrameSpace(int i, int j){
+		return windowFrame.get(i,j);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-
+//Sul server
 
 public class State{
 	private final Bag bag;
@@ -17,5 +17,17 @@ public class State{
 	}
 	public void startRound(){
 		draftPool.drow();
+	}
+	public String printDraftPool(){
+		return draftPool.toString();
+	}
+	public Dice getDraftPoolDice(int dice){
+		return draftPool.get(dice)
+	}
+	public ToolCard[] getToolCards(){
+		return Arrays.clone(this.toolCards);
+	}
+	public ToolCard getToolCard(int card){
+		return ToolCards[card];
 	}
 }
