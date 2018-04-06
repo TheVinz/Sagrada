@@ -27,10 +27,9 @@ public class GameController{
 		}
 		model.notify(player.toString + " ha spostato " + dice.toString() + " dalla riserva sulla sua vetrata.");
 	}
-	public void useToolCard(int card,View playerView) throws InvalidMoveException{
-		ToolCard card=model.getToolCard(card);
+	public void useToolCard(int card) throws InvalidMoveException{
 		try{
-			card.doAbility(model, playerView);
+			model.useCard(card);
 		}
 		catch(InvalidMoveException e){
 			throw e;

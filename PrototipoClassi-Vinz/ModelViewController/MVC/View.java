@@ -69,10 +69,10 @@ public class View{
 		}
 	}
 
-	private void useToolCard(){
+	private void useToolCard(String toolCards){
 		Scanner sc=new Scanner(System.in);
 		int choice=sc.nextInt();
-		playerController.useToolCard(choice, this);
+		playerController.useToolCard(choice);
 	}
 
 	//Stampa a schermo il nuovo stato a seguito di una mossa o altra roba

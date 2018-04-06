@@ -35,9 +35,9 @@ public class PlayerController {
 		}
 	}
 
-	public void useToolCard(int card, View playerView) throws InvalidMoveException{
+	public void useToolCard(int card) throws InvalidMoveException{
 		try {
-			gameController.useToolCard(card, playerView);
+			gameController.useToolCard(card);
 		}
 		catch(InvalidMoveException e){
 			throw e;

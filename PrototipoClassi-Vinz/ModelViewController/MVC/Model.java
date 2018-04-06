@@ -3,6 +3,7 @@
 public class Model{
 	private final State gameState;
 	private final Queue<View> playerViews;
+	private View activePlayer;
 	public Model(State state, Collection<View> views){
 		gameState=state;
 		playerViews=new ArrayDequeue(views);
@@ -16,7 +17,8 @@ public class Model{
 		gameState.startRound();
 		Iterator<View> viewIter = playerViews.iterator();
 		while(viewIter.hasNext()){
-			viewIter.next().yourTurn();
+			activePlayer=viewIter.next();
+			activePlayer.yourTurn();
 		}
 	}
 
@@ -39,7 +41,8 @@ public class Model{
 		return state.getToolCards();
 	}
 
-	public ToolCard getToolCard(int card){
-		return state.getToolCard(int card);
+	public ToolCard iseToolCard(int card){
+		ToolCard card=state.getToolCard(card);
+		card.doAbility(this, activePlayer);
 	}
 }
