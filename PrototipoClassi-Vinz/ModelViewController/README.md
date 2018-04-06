@@ -5,11 +5,13 @@ Prova implementazione Model-View-Controller, guardare e dire se piace il lavoro 
 Se stai leggendo il readme (wow!!! leggi i readme!!!) dimmelo che così ci scrivo cose utili anzichè stronzate. Scotti gay.
 
 SULLE CLASSI
+
 	Classi sul server:
 		Model
 		GameController
 		State
 		Player
+		
 	Classi sul client:
 		View
 		PlayerController
