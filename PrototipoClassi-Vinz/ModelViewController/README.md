@@ -41,3 +41,7 @@ METODI CHIAMATI DA CLASSI AL DI FUORI DI QUESTA CARTELLA
 	WindowFrame.java
 	public WindowFrameSpace get(int i, int j)
 		ritorna il window frame space corrispondente alle coordinate indicate
+
+	Dice.java
+	public void move(Space target) throws invalid move exception
+		prova a muovere il dado nella posizione target, se la mossa non è valida solleva un' eccezione
