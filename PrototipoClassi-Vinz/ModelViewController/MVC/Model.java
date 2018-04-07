@@ -1,12 +1,15 @@
 //Sul server
 
 public class Model{
-	private final State gameState;
-	private final Queue<View> playerViews;
+	private State gameState;
+	private Queue<View> playerViews;
 	private View activePlayer;
-	public Model(State state, Collection<View> views){
-		gameState=state;
-		playerViews=new ArrayDequeue(views);
+	private Map<View,Player> viewPlayerMap;
+
+	public Model(Map<View,Player> map){
+		this.gameState=new state(map.values());
+		this.viewPlayerMap=map;
+		this.playerViews=new ArrayDequeue<View>(map.keySet());
 	}
 	public void init(){
 		for(View v : playerViews){
@@ -29,20 +32,32 @@ public class Model{
 		}
 	}
 
-	public String printDraftPool(){
-		gameState.printDraftPool();
+	public void printDraftPool(){
+		String draftPool=gameState.printDraftPool();
+		activePlayer.print(draftPool);
 	}
 
 	public Dice getDraftPoolDice(int dice){
 		return state.getDraftPoolDice(int dice);
 	}
 
-	public ToolCard[] getToolCards(){
-		return state.getToolCards();
+	public void printToolCards(){
+		ToolCard[] toolCards=state.getToolCards();
+		StringBuffer buffer=new StringBuffer();
+		for(int i=0; i<toolCards.length;i++){
+			buffer.append(toolCards[i].toString()+"\n");
+		}
+		activePlayer.print(buffer.toString());
 	}
 
-	public ToolCard iseToolCard(int card){
+	public ToolCard useToolCard(int card){
 		ToolCard card=state.getToolCard(card);
 		card.doAbility(this, activePlayer);
 	}
+
+	public void getWindowFrameChoises(View view){
+		Player player = viewPlayerMap.get(view);
+		view.print(player.getWindowFrameChoises());
+	}
+
 }

@@ -2,14 +2,18 @@
 
 public class View{
 	private Controller playerController;
+	private Model model;
 	public View(Controller controller){
 		this.playerController=controller;
+	}
+
+	public void bindModel(Model model){
+		this.model=model;
 	}
 	//Appena la partita può iniziare la view viene inizializzata
 	public void init(){
 		Scanner sc= new Scanner(System.in);
-		String text=playerController.getWindowFrameChoises();
-		System.out.println(text);
+		model.getWindowFrameChoises();
 		System.out.println("Quale gradisci?\n>>> ");
 		int choice=sc.nextInt();
 		while(choice>3 || choice<0){
@@ -17,7 +21,7 @@ public class View{
 		}
 		playerController.setFrame(choice);
 		sc.close();
-		System.out.println(playerController.getPlayer() + " ready!");
+		System.out.println("Ready!!");
 	}
 
 	private int invalidInt(Scanner sc){
@@ -35,20 +39,20 @@ public class View{
 
 	public void yourTurn(){
 		Scanner sc= new Scanner(System.in);
-		char answer;
-		String board=playerController.printDraftPool();
+		char answer;;
 		System.out.println("\n\nTocca a te!\n");
+		model.printDraftPool();
 		System.out.println("Piazzare un dado?(s/n)...\n\n");
 		System.out.println(board);
 		answer=sc.nextChar();
 		if(answer=='s') moveDice(board);
 		System.out.println("Usare una carta strumento?");
-		board=playerController.printToolCards();
+		model.printToolCards();
 		answer=sc.nextChar();
 		if(answer=='s') useToolCard(board);
 	}
 
-	private void moveDice(String draftPool){
+	private void moveDice(){
 		Scanner sc=new Scanner(System.in);
 		boolean loop=true;
 		int input,i,j;
@@ -69,7 +73,7 @@ public class View{
 		}
 	}
 
-	private void useToolCard(String toolCards){
+	private void useToolCard(){
 		Scanner sc=new Scanner(System.in);
 		int choice=sc.nextInt();
 		playerController.useToolCard(choice);
@@ -78,7 +82,5 @@ public class View{
 	//Stampa a schermo il nuovo stato a seguito di una mossa o altra roba
 	public void print(String message){
 		System.out.println(message);
-		System.out.println("La tua vetrata \n");
-		System.out.println(player.getFrameState();
 	}
 }

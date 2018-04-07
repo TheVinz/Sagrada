@@ -5,16 +5,8 @@ public class GameController{
 	public GameController(Model model){
 		this.model=model;
 	}
-	public String printDraftPool(){
-		return model.printDraftPool();
-	}
-	public String printToolCards(){
-		StringBuffer buffer=new StringBuffer();
-		ToolCard toolCards=model.getToolCards();
-		for(int i=0; i<toolCards.length;i++){
-			buffer.append(toolCards[i].toString()+"\n");
-		}
-		return buffer.toString();
+	public void printDraftPool(){
+		model.printDraftPool();
 	}
 	public void moveDice(int dice, int i, int j, Player player) throws InvalidMoveException{
 		Dice dice=model.getDraftPoolDice(dice);
@@ -29,7 +21,7 @@ public class GameController{
 	}
 	public void useToolCard(int card) throws InvalidMoveException{
 		try{
-			model.useCard(card);
+			model.useToolCard(card);
 		}
 		catch(InvalidMoveException e){
 			throw e;

@@ -1,10 +1,10 @@
 //Sul server
 
 public class State{
-	private final Bag bag;
-	private final DraftPool draftPool;
-	private final RoundTrack roundTrack;
-	private final List<Player> players;
+	private Bag bag;
+	private DraftPool draftPool;
+	private RoundTrack roundTrack;
+	private List<Player> players;
 	private final ToolCard[] toolCards;
 	private final PublicObjectiveCard[] publicObjectiveCards;
 	public State(Collection<Player> players){
