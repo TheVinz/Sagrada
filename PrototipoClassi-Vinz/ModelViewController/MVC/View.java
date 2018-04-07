@@ -50,6 +50,7 @@ public class View{
 		model.printToolCards();
 		answer=sc.nextChar();
 		if(answer=='s') useToolCard(board);
+		System.out.println("FineTurno");
 	}
 
 	private void moveDice(){

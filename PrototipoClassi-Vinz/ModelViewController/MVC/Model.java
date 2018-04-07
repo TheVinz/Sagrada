@@ -23,6 +23,15 @@ public class Model{
 			activePlayer=viewIter.next();
 			activePlayer.yourTurn();
 		}
+		viewIter= playerViews.descendingIterator();
+		while(viewIter.hasNext()){
+			activePlayer=viewIter.next();
+			activePlayer.yourTurn();
+		}
+		View view=playerViews.remove();
+		playerViews.add(view);
+		state.endRound();
+		notify("Fine round");
 	}
 
 	public void notify(String message){

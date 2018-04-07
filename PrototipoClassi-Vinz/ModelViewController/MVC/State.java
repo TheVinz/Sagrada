@@ -18,6 +18,10 @@ public class State{
 	public void startRound(){
 		draftPool.drow();
 	}
+	public void endRound(){
+		
+	}
+
 	public String printDraftPool(){
 		return draftPool.toString();
 	}
@@ -30,4 +34,6 @@ public class State{
 	public ToolCard getToolCard(int card){
 		return ToolCards[card];
 	}
+
+
 }
