@@ -1,6 +1,6 @@
 package spaces.windowframe;
 
-public class CasellaVetrata implements Space{
+public class WindowFrameSpace implements Space{
 	//Dado presente nella casella
 	private Dice dice;
 	private Color color;
