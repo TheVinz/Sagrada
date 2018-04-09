@@ -1,49 +1,34 @@
 //Sul server
 
 public class Model{
-	private State gameState;
-	private Queue<View> playerViews;
-	private View activePlayer;
-	private Map<View,Player> viewPlayerMap;
+	private State state;
+	private View view;
+	private Player player;
 
-	public Model(Map<View,Player> map){
-		this.gameState=new state(map.values());
-		this.viewPlayerMap=map;
-		this.playerViews=new ArrayDequeue<View>(map.keySet());
+	public Model(){
+	}
+	public void setView(View view){
+		this.view=view;
+	}
+	public void setPlayer(Player player){
+		this.player=player;
 	}
 	public void init(){
-		for(View v : playerViews){
-			v.init();
-		}
+		view.init();
 	}
-	public void startRound(){
-		gameState.startRound();
-		Iterator<View> viewIter = playerViews.iterator();
-		while(viewIter.hasNext()){
-			activePlayer=viewIter.next();
-			activePlayer.yourTurn();
-		}
-		viewIter= playerViews.descendingIterator();
-		while(viewIter.hasNext()){
-			activePlayer=viewIter.next();
-			activePlayer.yourTurn();
-		}
-		View view=playerViews.remove();
-		playerViews.add(view);
-		state.endRound();
-		notify("Fine round");
+	public void doRound(){
+		view.print("Tocca a te!!");
+		view.doRound();
 	}
 
-	public void notify(String message){
-		String stateRep=gameState.toString();
-		for(View v: playerViews.toArray()){
-			v.print(message + "\n\n" + stateRep);
-		}
+	public void notify(State state){
+		this.state=state;
+		view.print(state.toString());
 	}
 
 	public void printDraftPool(){
 		String draftPool=gameState.printDraftPool();
-		activePlayer.print(draftPool);
+		view.print(draftPool);
 	}
 
 	public Dice getDraftPoolDice(int dice){
@@ -56,17 +41,20 @@ public class Model{
 		for(int i=0; i<toolCards.length;i++){
 			buffer.append(toolCards[i].toString()+"\n");
 		}
-		activePlayer.print(buffer.toString());
+		view.print(buffer.toString());
 	}
 
-	public ToolCard useToolCard(int card){
-		ToolCard card=state.getToolCard(card);
-		card.doAbility(this, activePlayer);
+	public ToolCard getToolCard(int card){
+		return state.getToolCard(card);
 	}
 
 	public void getWindowFrameChoises(View view){
-		Player player = viewPlayerMap.get(view);
-		view.print(player.getWindowFrameChoises());
+		WindowFrame[] windowFrameChoises=player.getWindowFrameChoises();
+		StringBuffer buffer= new StringBuffer();
+		for(int i=0; i<windowFrameChoises.length; i++){
+			buffer.append(i + "\n" + windowFrameChoises[i].toString());
+		}
+		view.print(buffer.toString());
 	}
 
 }

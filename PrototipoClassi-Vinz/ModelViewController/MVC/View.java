@@ -1,10 +1,10 @@
 //Sul clients
 
 public class View{
-	private Controller playerController;
+	private Controller controller;
 	private Model model;
 	public View(Controller controller){
-		this.playerController=controller;
+		this.controller=controller;
 	}
 
 	public void bindModel(Model model){
@@ -14,70 +14,46 @@ public class View{
 	public void init(){
 		Scanner sc= new Scanner(System.in);
 		model.getWindowFrameChoises();
-		System.out.println("Quale gradisci?\n>>> ");
 		int choice=sc.nextInt();
-		while(choice>3 || choice<0){
-			choice=invalidInt(sc);
-		}
-		playerController.setFrame(choice);
+		controller.setFrame(choice);
 		sc.close();
-		System.out.println("Ready!!");
 	}
-
-	private int invalidInt(Scanner sc){
-		System.out.println("Non ci siamo, non ci siamo...\n>>>");
-		return sc.nextInt();
-	}
-
-	private boolean invalidMoveRoutine(){
-		Scanner sc=new Scanner(System.in);
-		System.out.println("Riprovare?(s/n)...\n>>>");
-		char action=sc.nextChar();
-		if(char=='s') return true;
-		else return false;
-		}
 
 	public void yourTurn(){
 		Scanner sc= new Scanner(System.in);
 		char answer;;
-		System.out.println("\n\nTocca a te!\n");
 		model.printDraftPool();
 		System.out.println("Piazzare un dado?(s/n)...\n\n");
-		System.out.println(board);
 		answer=sc.nextChar();
-		if(answer=='s') moveDice(board);
+		if(answer=='s') moveDice();
 		System.out.println("Usare una carta strumento?");
 		model.printToolCards();
 		answer=sc.nextChar();
-		if(answer=='s') useToolCard(board);
+		if(answer=='s') useToolCard();
 		System.out.println("FineTurno");
 	}
 
 	private void moveDice(){
 		Scanner sc=new Scanner(System.in);
-		boolean loop=true;
 		int input,i,j;
-		while(loop){
-			System.out.println("Scegli un dado\n>>>");
-			input=sc.nextInt();
-			System.out.println("Scegli una posizione\nCoordinata x >>>");
-			i=sc.nextInt();
-			System.out.println("Coordinata y >>>");
-			j=sc.nextInt();
-			try{
-				playerController.moveDice(input,i,j,player);
-			}
-			catch(InvalidMoveException e){
-				e.printMessage();
-				loop=invalidMoveRoutine();
-			}
+		System.out.println("Scegli un dado\n>>>");
+		input=sc.nextInt();
+		System.out.println("Scegli una posizione\nCoordinata x >>>");
+		i=sc.nextInt();
+		System.out.println("Coordinata y >>>");
+		j=sc.nextInt();
+		try{
+			controller.moveDice(input,i,j,player);
+		}
+		catch(InvalidMoveException e){
+			e.printMessage();
 		}
 	}
 
 	private void useToolCard(){
 		Scanner sc=new Scanner(System.in);
 		int choice=sc.nextInt();
-		playerController.useToolCard(choice);
+		controller.useToolCard(choice);
 	}
 
 	//Stampa a schermo il nuovo stato a seguito di una mossa o altra roba

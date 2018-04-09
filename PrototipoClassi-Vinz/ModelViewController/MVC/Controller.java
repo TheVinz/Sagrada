@@ -1,8 +1,8 @@
 //Sul server
 
-public class GameController{
+public class Controller{
 	private Model model;
-	public GameController(Model model){
+	public Controller(Model model){
 		this.model=model;
 	}
 	public void printDraftPool(){
@@ -20,11 +20,7 @@ public class GameController{
 		model.notify(player.toString + " ha spostato " + dice.toString() + " dalla riserva sulla sua vetrata.");
 	}
 	public void useToolCard(int card) throws InvalidMoveException{
-		try{
-			model.useToolCard(card);
-		}
-		catch(InvalidMoveException e){
-			throw e;
-		}
+		ToolCard toolCard=model.getToolCard(card);
+		toolCard.doAbility(model);
 	}
 }
