@@ -14,4 +14,20 @@ public enum Color{
 		if(this.color= other.color) return true;
 		else return false;
 	}
+	public Color asColor(char c){
+		switch(c){
+			case 'r' :
+				return RED;
+			case 'b' :
+				return BLUE;
+			case 'g' :
+				return GREEN;
+			case 'p' :
+				return PURPLE;
+			case 'y' :
+				return YELLOW;
+			default :
+				return null;
+		}
+	}
 }
