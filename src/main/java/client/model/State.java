@@ -1,9 +1,8 @@
 package client.model;
 
 import common.bag.Bag;
-import common.boards.draftPool.DraftPool;
-import common.boards.roundTrack.RoundTrack;
-import common.objectiveCards.ObjectiveCard;
+import common.boards.draftpool.DraftPool;
+import common.boards.roundtrack.RoundTrack;
 import common.objectiveCards.publicObjectiveCards.PublicObjectiveCard;
 import common.toolCards.ToolCard;
 

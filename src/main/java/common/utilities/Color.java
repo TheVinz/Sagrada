@@ -2,12 +2,7 @@ package common.utilities;
 
 
 public enum Color{
-	RED('r'), BLUE('b'), GREEN('g'), PURPLE('p'), YELLOW('y');
-	private char color;
-	private Color(char c){
-		color=c;
-	}
-
+	RED, BLUE, GREEN, PURPLE, YELLOW;
 	public Color asColor(char c){
 		switch(c){
 			case 'r' :
