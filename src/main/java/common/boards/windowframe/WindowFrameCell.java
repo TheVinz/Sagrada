@@ -33,12 +33,10 @@ public class WindowFrameCell implements Cell {
         return color;
     }
 
-    @Override
     public Dice getDice(){
         return this.dice;
     }
 
-    @Override
     public void move(Cell target) throws InvalidMoveException{
         if(this.isEmpty()) throw new InvalidMoveException("Empty cell");
         else{
@@ -46,13 +44,12 @@ public class WindowFrameCell implements Cell {
             dice=null;
         }
     }
-    @Override
+
     public void put(Dice dice) throws InvalidMoveException{
         if(!this.isEmpty()) throw new InvalidMoveException("Already filled cell");
         else this.dice=dice;
     }
 
-    @Override
     public boolean isEmpty(){
         return dice==null;
     }
