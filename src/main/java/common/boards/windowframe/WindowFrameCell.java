@@ -10,8 +10,18 @@ public class WindowFrameCell implements Cell {
     private Color color;
     private int shade;
 
-    public WindowFrameCell(Color color, int shade){
+    WindowFrameCell(){
+        this.color=null;
+        this.shade=0;
+    }
+
+    WindowFrameCell(Color color){
         this.color=color;
+        this.shade=0;
+    }
+
+    WindowFrameCell(int shade){
+        this.color=null;
         this.shade=shade;
     }
 
