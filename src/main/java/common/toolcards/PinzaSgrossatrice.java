@@ -3,31 +3,28 @@ package common.toolcards;
 import common.dice.Dice;
 import common.exceptions.InvalidMoveException;
 
-import java.util.ArrayList;
-import java.util.EmptyStackException;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class PinzaSgrossatrice implements ToolCard {
 
     private List<Object> parameters;
-    private Stack<Class> expectedParameters;
+    private Queue<Class> expectedParameters;
 
     public PinzaSgrossatrice(){
-        expectedParameters = new Stack<Class>();
+        expectedParameters = new ArrayDeque<Class>();
         parameters = new ArrayList<Object>();
         expectedParameters.add(Dice.class);
         expectedParameters.add(Integer.class);
     }
 
-    public Class nextParameter() throws EmptyStackException {
+    public Class nextParameter(){
         return expectedParameters.peek();
     }
 
-    public void setParameters(Object o)
+    public void setParameter(Object o)
     {
         parameters.add(o);
-        expectedParameters.pop();
+        expectedParameters.remove();
     }
     public void doAbility() throws InvalidMoveException {
         Dice dice = (Dice) parameters.get(0);
