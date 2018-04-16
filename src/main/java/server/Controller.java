@@ -1,5 +1,4 @@
-package client.control;
-import client.model.Model;
+package server;
 import client.view.View;
 import common.dice.Dice;
 
@@ -11,17 +10,17 @@ public class Controller{
 		this.model=model;
 	}
 
-	public void useToolCard(int card) {
+/*	public void useToolCard(int card) {
 		toolCardManager = new ToolCardManager(model.getToolCard(card));
-	}
+	}*/
 
-	public void selectDice(int dice)
+	public void selectFrameCell(int i, int j)
 	{
-		toolCardManager.setParameter(model.getDice(int dice));
+		/*toolCardManager.setParameter(model.get(int dice));*/
 	}
 
-	public void analyzeObject(Object o){
+/*	public void analyzeObject(Object o){
 		if(o.getClass().equals(Dice.class))
 			view.display("Scegli un dado");
-	}
+	}*/
 }

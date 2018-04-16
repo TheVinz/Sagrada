@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Model extends Observable {
+    private State state;
     private Map<Player,PlayerModel> playerStates = new HashMap<Player,PlayerModel>();
     public void pinzaSgrossatrice(List<Object> parameters) throws InvalidMoveException{
         Player player = (Player) parameters.get(0);

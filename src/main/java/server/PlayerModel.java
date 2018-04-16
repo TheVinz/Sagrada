@@ -1,6 +1,10 @@
 package server;
 
 
+import common.boards.windowframe.WindowFrame;
+import common.boards.windowframe.WindowFrameCell;
+import common.objectivecards.privateobjectivecards.PrivateObjectiveCard;
+
 public class PlayerModel {
 
 	private int favorTokens;
@@ -16,16 +20,10 @@ public class PlayerModel {
 		if(windowFrame==null) windowFrame=windowFrameChoises[i];
 	}
 
-	public String getFrameState(){
-		return windowFrame.getState();
+
+
+	public WindowFrameCell getWindowFrameSpace(int i, int j){
+		return windowFrame.getCell(i,j);
 	}
 
-	public WindowFrameSpace getWindowFrameSpace(int i, int j){
-		return windowFrame.get(i,j);
-	}
-
-	@Override
-	public String toString(){
-		return this.name;
-	}
 }

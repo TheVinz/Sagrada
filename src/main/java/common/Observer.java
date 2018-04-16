@@ -1,7 +1,9 @@
 package common;
 
+import common.viewchangement.Changement;
+
 public interface Observer {
-    public void update();
-    public <C> void update(C change);
+    void update();
+    void update(Changement change);
 
 }

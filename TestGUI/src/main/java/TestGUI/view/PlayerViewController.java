@@ -2,8 +2,6 @@ package TestGUI.view;
 
 import TestGUI.MainApp;
 import TestGUI.model.Model;
-import TestGUI.model.boards.Cell;
-import TestGUI.model.boards.windowframe.WindowFrameCell;
 import TestGUI.model.exceptions.InvalidMoveException;
 import TestGUI.model.utilities.CellObserver;
 import javafx.fxml.FXML;
@@ -13,6 +11,7 @@ import javafx.scene.ImageCursor;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
@@ -25,7 +24,7 @@ public class PlayerViewController implements CellObserver {
     private ImageView[][] grid;
     private ImageView[] pool;
 
-    private Cell picked;
+    private Image picked;
 
     @FXML
     private GridPane gridPane;
@@ -37,11 +36,6 @@ public class PlayerViewController implements CellObserver {
         pool=new ImageView[5];
         gridPane.setCursor(gridPane.getParent().getCursor());
         poolPane.setCursor(gridPane.getCursor());
-    }
-
-    private void updateWindowFrame(WindowFrameCell cell){
-        ImageView pic=grid[cell.getX()][cell.getY()];
-        pic.setImage(new Image(cell.asImage()));
     }
 
     public void setMainApp(MainApp mainApp){
@@ -66,10 +60,11 @@ public class PlayerViewController implements CellObserver {
         GridPane.setHalignment(pic, HPos.CENTER);
         poolPane.add(pic, i, 0);
         pic.setCursor(gridPane.getCursor());
-        pic.setOnMouseClicked(e -> draftPoolCellMoved(e));
+        pic.setOnMouseClicked(e -> {
+            if(e.getButton()==MouseButton.PRIMARY) draftPoolCellMoved(e);
+            else cancelMove(); });
         pic.setOnMouseDragEntered(e-> System.out.println("drag entered"));
         pic.setOnMouseDragReleased(e -> System.out.println("drag released"));
-        /*pic.setOnMouseDragged(e -> System.out.println("draggered"));*/
         model.getDraftPool().getDraftPool()[i].addObserver(this);
     }
 
@@ -82,44 +77,64 @@ public class PlayerViewController implements CellObserver {
         gridPane.add(pic, j, i);
         GridPane.setHalignment(pic, HPos.CENTER);
         pic.setCursor(gridPane.getCursor());
-        pic.setOnMouseClicked(e->windowFrameCellMoved(e));
+        pic.setOnMouseClicked(e->{
+            if(e.getButton()==MouseButton.PRIMARY) windowFrameCellMoved(e);
+            else cancelMove();
+        });
         model.getWindowFrame().getCell(i,j).addObserver(this);
     }
 
     private void windowFrameCellMoved(MouseEvent e) {
         ImageView pic = (ImageView) e.getSource();
         if(picked==null){
-            picked=model.getWindowFrame().getCell(GridPane.getRowIndex(pic), GridPane.getColumnIndex(pic));
-            mainApp.setCursor(new ImageCursor(pic.getImage()));
+            pickFromWindow(pic);
         }
         else{
-            Cell target=model.getWindowFrame().getCell(GridPane.getRowIndex(pic), GridPane.getColumnIndex(pic));
             try {
-                picked.move(target);
+                model.moveToWindow(GridPane.getRowIndex(pic), GridPane.getColumnIndex(pic));
             } catch (InvalidMoveException e1) {
                 handleExceprion(e1);
             }
-            mainApp.setCursor(Cursor.DEFAULT);
-            picked=null;
+            finally{
+                mainApp.setCursor(Cursor.DEFAULT);
+                picked=null;
+            }
         }
+    }
+
+    private void pickFromWindow(ImageView pic) {
+        picked=pic.getImage();
+        mainApp.setCursor(new ImageCursor(picked));
+        model.pickFromWindow(GridPane.getRowIndex(pic),GridPane.getColumnIndex(pic));
     }
 
     private void draftPoolCellMoved(MouseEvent e){
         ImageView pic = (ImageView) e.getSource();
         if(picked==null){
-            picked=model.getDraftPool().getDraftPool()[GridPane.getColumnIndex(pic)];
-            mainApp.setCursor(new ImageCursor(pic.getImage()));
+            pickFromDraftPool(pic);
         }
-        else{
-            Cell target=model.getDraftPool().getDraftPool()[GridPane.getColumnIndex(pic)];
-            try {
-                picked.move(target);
-            } catch (InvalidMoveException e1) {
-                handleExceprion(e1);
-            }
+        else try {
+            model.moveToDraftPool(GridPane.getColumnIndex(pic));
+        } catch (InvalidMoveException e1) {
+            handleExceprion(e1);
+        }
+        finally{
             mainApp.setCursor(Cursor.DEFAULT);
             picked=null;
         }
+    }
+
+
+    private void cancelMove(){
+        picked=null;
+        model.cancelMove();
+        mainApp.setCursor(Cursor.DEFAULT);
+    }
+
+    private void pickFromDraftPool(ImageView pic) {
+        picked=pic.getImage();
+        mainApp.setCursor(new ImageCursor(picked));
+        model.pickFromDraftPool(GridPane.getColumnIndex(pic));
     }
 
     private void handleExceprion(InvalidMoveException e1) {
@@ -143,4 +158,10 @@ public class PlayerViewController implements CellObserver {
     private void drawDraftPool(){
         new Thread(() -> model.drawDraftPool()).start();
     }
+
+    @FXML
+    private void randomClicks(MouseEvent e){
+        if(e.getButton()==MouseButton.SECONDARY) cancelMove();
+    }
+
 }

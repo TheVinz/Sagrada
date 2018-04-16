@@ -1,8 +1,9 @@
-package client.control;
+package server;
 
-import common.dice.Dice;
+import common.exceptions.InvalidMoveException;
 import common.toolcards.ToolCard;
-import client.view.View;
+import server.Controller;
+
 public class ToolCardManager {
     private ToolCard toolCard;
     private Controller controller;
@@ -12,7 +13,7 @@ public class ToolCardManager {
         controller.analyzeObject(toolCard.nextParameter());
     }
 
-    public void setParameter(Object o){
+    public void setParameter(Object o) throws InvalidMoveException {
         toolCard.setParameter(o);
         if(toolCard.nextParameter() == null)
             toolCard.doAbility();

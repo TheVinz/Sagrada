@@ -8,21 +8,29 @@ public class WindowFrameCell implements Cell {
     //Dado presente nella casella
     private Dice dice;
     private Color color;
+    private  final int row;
+    private  final int columnn;
     private int shade;
 
-    WindowFrameCell(){
+    WindowFrameCell(int row, int col){
         this.color=null;
         this.shade=0;
+        this.row=row;
+        this.columnn=col;
     }
 
-    WindowFrameCell(Color color){
+    WindowFrameCell(Color color, int row, int columnn){
         this.color=color;
         this.shade=0;
+        this.row=row;
+        this.columnn=columnn;
     }
 
-    WindowFrameCell(int shade){
+    WindowFrameCell(int shade, int row, int columnn){
         this.color=null;
         this.shade=shade;
+        this.row=row;
+        this.columnn=columnn;
     }
 
     public int getShade() {

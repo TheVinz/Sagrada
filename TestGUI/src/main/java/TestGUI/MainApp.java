@@ -5,13 +5,9 @@ import java.io.IOException;
 import TestGUI.model.Model;
 import TestGUI.view.PlayerViewController;
 import javafx.application.Application;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -32,7 +28,12 @@ public class MainApp extends Application {
 
         initRootLayout();
 
+        rootLayout.getStylesheets().add("File:resources/css/stylesheet.css");
+
         showPersonOverview();
+
+  /*      primaryStage.setMaximized(true);*/
+
     }
 
     /**

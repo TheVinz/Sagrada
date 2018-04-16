@@ -26,7 +26,7 @@ public class DraftPool{
 	    for(int i=0; i<size; i++) {
 			try {
 				draftPoolCells[i].put(bag.drow());
-				sleep(500);
+				sleep(200);
 			} catch (InvalidMoveException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
