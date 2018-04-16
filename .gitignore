@@ -1,4 +1,5 @@
 .idea
-*.class
+**/*.class
 .directory
 *.iml
+
