@@ -1,4 +1,4 @@
-package common.toolcards.;
+package common.toolcards;
 
 import common.exceptions.InvalidMoveException;
 
