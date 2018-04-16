@@ -1,7 +1,7 @@
 package client.control;
 
 import common.dice.Dice;
-import common.toolCards.ToolCard;
+import common.toolcards.ToolCard;
 import client.view.View;
 public class ToolCardManager {
     private ToolCard toolCard;
