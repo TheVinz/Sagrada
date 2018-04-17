@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane onMouseClicked="#randomClicks" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestGUI.client.view.PlayerViewController">
+<AnchorPane cache="true" cacheHint="SCALE" onMouseClicked="#randomClicks" prefHeight="416.0" prefWidth="451.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestGUI.client.view.PlayerViewController">
    <children>
-      <GridPane fx:id="poolPane" alignment="CENTER" gridLinesVisible="true" prefHeight="65.0" prefWidth="598.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="5.0">
+      <GridPane fx:id="poolPane" alignment="CENTER" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="598.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="5.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -22,8 +22,8 @@
         </rowConstraints>
 
       </GridPane>
-      <Button layoutX="466.0" layoutY="81.0" mnemonicParsing="false" onAction="#drawDraftPool" prefHeight="33.0" prefWidth="84.0" stylesheets="@../../../../../resources/css/stylesheet.css" text="Redrow" AnchorPane.rightAnchor="50.0" />
-      <GridPane fx:id="gridPane" alignment="CENTER" gridLinesVisible="true" prefHeight="272.0" prefWidth="598.0" styleClass="windowFrame" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+      <Button layoutX="466.0" layoutY="81.0" mnemonicParsing="false" onAction="#drawDraftPool" onMouseClicked="#randomClicks" prefHeight="33.0" prefWidth="84.0" stylesheets="@../../../../../resources/css/stylesheet.css" text="Redrow" AnchorPane.rightAnchor="50.0" />
+      <GridPane fx:id="gridPane" alignment="CENTER" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="598.0" styleClass="windowFrame" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -41,6 +41,6 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </GridPane>
-      <Button layoutX="50.0" layoutY="81.0" mnemonicParsing="false" onAction="#useToolCard" text="ToolCard" />
+      <Button layoutX="50.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#randomClicks" prefHeight="33.0" prefWidth="120.0" text="Use Tool Card" />
    </children>
 </AnchorPane>

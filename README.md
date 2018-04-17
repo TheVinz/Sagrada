@@ -14,5 +14,8 @@ Vinz:
 	Da riguardare l' implementazione dei changement che danno problemi, in particolare per quanto riguarda il fatto che nel metodo
 	notifyObservers(Changement change) viene inviata un' istanza di changement cosa che rende poi impossibile distinguere
 	un changement dall' altro nel client.
+	IN ALTERNATIVA
+	Per ogni classe di changement che creiamo ci dovrà essere un apposito metodo di notifyObservers()
+		(Per esempio: notifyMove(MoveChangement change){}, notifyRefill(RefillDraftPoolChangement change){})
 
 >>>>>>> origin/biscotto

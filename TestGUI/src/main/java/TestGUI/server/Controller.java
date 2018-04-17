@@ -26,7 +26,6 @@ public class Controller {
         else{
             if(!GameRules.validAdjacentDices(model.getWindowFrame(), target))
                 throw new InvalidMoveException("Dice must have an another adjacent one.");
-
             if(!GameRules.validAdjacentDiceColors(model.getWindowFrame(), source.getDice().getColor(), target))
                 throw new InvalidMoveException("Adjacent colors must be different.");
             else if(!GameRules.validAdjacentShapes(model.getWindowFrame(), source.getDice().getValue(), target))

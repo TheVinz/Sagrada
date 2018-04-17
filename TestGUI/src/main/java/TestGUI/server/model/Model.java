@@ -1,18 +1,14 @@
 package TestGUI.server.model;
 
 import TestGUI.common.Observable;
-import TestGUI.common.viewchangement.Changement;
 import TestGUI.common.viewchangement.Move;
 import TestGUI.common.viewchangement.RefilledDraftPool;
 import TestGUI.server.model.bag.Bag;
-import TestGUI.server.model.boards.Cell;
 import TestGUI.server.model.boards.draftpool.DraftPool;
 import TestGUI.server.model.boards.draftpool.DraftPoolCell;
 import TestGUI.server.model.boards.windowframe.WindowFrame;
 import TestGUI.server.model.boards.windowframe.WindowFrameCell;
 import TestGUI.server.model.exceptions.InvalidMoveException;
-
-import java.util.Arrays;
 
 public class Model extends Observable {
     private WindowFrame windowFrame;
