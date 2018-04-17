@@ -2,8 +2,9 @@ package TestGUI;
 
 import java.io.IOException;
 
-import TestGUI.model.Model;
-import TestGUI.view.PlayerViewController;
+import TestGUI.server.Controller;
+import TestGUI.server.model.Model;
+import TestGUI.client.view.PlayerViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 
     private Model model;
+    private Controller controller;
 
     private Stage primaryStage;
     private BorderPane rootLayout;
@@ -25,6 +27,7 @@ public class MainApp extends Application {
         this.primaryStage.setTitle("AddressApp");
 
         model=new Model();
+        controller= new Controller(model);
 
         initRootLayout();
 
@@ -43,7 +46,7 @@ public class MainApp extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("client/view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
@@ -62,14 +65,14 @@ public class MainApp extends Application {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/PlayerView.fxml"));
+            loader.setLocation(MainApp.class.getResource("client/view/PlayerView.fxml"));
             AnchorPane playerView = (AnchorPane) loader.load();
 
             // Set person overview into the center of root layout.
             rootLayout.setCenter(playerView);
 
             PlayerViewController controller = loader.getController();
-            controller.setMainApp(this);
+            controller.set(this, this.controller);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println(e.getMessage());

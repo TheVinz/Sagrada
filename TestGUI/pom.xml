@@ -27,13 +27,12 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/TestGUI/view</outputDirectory>
+                            <outputDirectory>${basedir}/target/classes/TestGUI/client/view</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/main/java/TestGUI/view</directory>
+                                    <directory>src/main/java/TestGUI/client/view</directory>
                                     <filtering>true</filtering>
                                     <includes>
-                                        <include>*.css</include>
                                         <include>*.fxml</include>
                                     </includes>
                                 </resource>

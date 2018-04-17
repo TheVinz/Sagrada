@@ -3,271 +3,333 @@
   <ID>JAVA</ID>
   <OriginalElement>client.view.View</OriginalElement>
   <nodes>
-    <node x="1639.0" y="1264.5">common.toolcards.ToolCard</node>
-    <node x="674.5" y="1703.5">common.Player</node>
-    <node x="1279.0" y="1290.5">server.ToolCardManager</node>
-    <node x="361.0" y="1397.5">client.view.View</node>
-    <node x="951.5" y="1410.5">server.Controller</node>
-    <node x="640.0" y="1583.5">common.viewchangement.DiceChangement</node>
-    <node x="3072.0" y="1544.5">common.bag.Bag</node>
-    <node x="4277.0" y="1823.5">common.utilities.Color</node>
-    <node x="2652.5" y="1690.5">common.objectivecards.ObjectiveCard</node>
-    <node x="3666.5" y="451.5">common.boards.Cell</node>
-    <node x="2350.0" y="1703.5">common.objectivecards.publicobjectivecards.PublicObjectiveCard</node>
-    <node x="926.0" y="1570.5">server.Model</node>
-    <node x="3650.5" y="158.5">common.boards.roundtrack.RoundTrack</node>
-    <node x="414.5" y="1583.5">common.viewchangement.Changement</node>
-    <node x="2038.5" y="1570.5">server.State</node>
-    <node x="3666.5" y="851.5">common.boards.draftpool.DraftPoolCell</node>
-    <node x="81.0" y="1557.5">common.Observer</node>
-    <node x="3990.5" y="1318.5">common.dice.Dice</node>
-    <node x="49.5" y="1811.5">common.Observable</node>
-    <node x="3024.5" y="1104.5">common.boards.draftpool.DraftPool</node>
-    <node x="1838.5" y="1797.5">server.PlayerModel</node>
-    <node x="2652.5" y="1810.5">common.objectivecards.privateobjectivecards.PrivateObjectiveCard</node>
-    <node x="3343.5" y="743.5">common.exceptions.InvalidMoveException</node>
-    <node x="3346.5" y="451.5">common.boards.roundtrack.RoundTrackCell</node>
+    <node x="0.0" y="575.0">client.view.View</node>
+    <node x="1140.9588392857145" y="462.0">common.toolcards.ToolCard</node>
+    <node x="344.3216369047622" y="462.0">common.Player</node>
+    <node x="1102.2135912698411" y="575.0">server.ToolCardManager</node>
+    <node x="354.00050595238116" y="781.0">server.Controller</node>
+    <node x="824.9588392857145" y="236.0">common.bag.Bag</node>
+    <node x="246.37163690476217" y="575.0">common.viewchangement.DiceChangement</node>
+    <node x="995.7088392857145" y="319.0">common.objectivecards.ObjectiveCard</node>
+    <node x="809.5729166666665" y="0.0">common.utilities.Color</node>
+    <node x="566.5838392857145" y="236.0">common.boards.Cell</node>
+    <node x="658.0838392857145" y="462.0">common.boards.roundtrack.RoundTrack</node>
+    <node x="367.50050595238116" y="698.0">server.Model</node>
+    <node x="940.9588392857145" y="462.0">common.objectivecards.publicobjectivecards.PublicObjectiveCard</node>
+    <node x="988.8385912698411" y="575.0">server.State</node>
+    <node x="57.9389583333334" y="319.0">common.viewchangement.Changement</node>
+    <node x="447.5838392857145" y="319.0">common.boards.draftpool.DraftPoolCell</node>
+    <node x="69.37163690476223" y="462.0">common.Observer</node>
+    <node x="577.6125" y="123.0">common.dice.Dice</node>
+    <node x="100.0" y="575.0">common.Observable</node>
+    <node x="455.3216369047622" y="462.0">common.boards.draftpool.DraftPool</node>
+    <node x="1312.0931249999999" y="575.0">server.PlayerModel</node>
+    <node x="1284.5931249999999" y="462.0">common.objectivecards.privateobjectivecards.PrivateObjectiveCard</node>
+    <node x="433.5208333333332" y="0.0">common.exceptions.InvalidMoveException</node>
+    <node x="619.5838392857145" y="319.0">common.boards.roundtrack.RoundTrackCell</node>
   </nodes>
   <notes />
   <edges>
     <edge source="server.State" target="common.toolcards.ToolCard">
-      <point x="-121.5" y="-22.85714285714289" />
-      <point x="1960.0" y="1577.142857142857" />
-      <point x="1960.0" y="1360.0" />
-      <point x="121.0" y="40.0" />
+      <point x="18.444444444444457" y="-16.5" />
+      <point x="1048.7830357142855" y="525.0" />
+      <point x="1151.9588392857145" y="525.0" />
+      <point x="-44.0" y="16.5" />
     </edge>
     <edge source="common.boards.Cell" target="common.dice.Dice">
-      <point x="93.5" y="0.0" />
-      <point x="4066.6666666666665" y="520.0" />
-      <point x="-13.333333333333485" y="-81.5" />
+      <point x="0.0" y="-16.5" />
+      <point x="603.5838392857145" y="216.0" />
+      <point x="612.2624999999998" y="216.0" />
+      <point x="-3.8500000000000227" y="16.5" />
     </edge>
     <edge source="server.Controller" target="server.Model">
-      <point x="0.0" y="29.5" />
-      <point x="0.0" y="-29.5" />
-    </edge>
-    <edge source="common.objectivecards.privateobjectivecards.PrivateObjectiveCard" target="common.utilities.Color">
-      <point x="147.5" y="0.0" />
-      <point x="-43.0" y="0.0" />
+      <point x="-14.625" y="-16.5" />
+      <point x="397.87550595238116" y="756.0" />
+      <point x="390.00050595238116" y="756.0" />
+      <point x="-22.5" y="16.5" />
     </edge>
     <edge source="client.view.View" target="common.Observer">
-      <point x="-119.0" y="0.0" />
-      <point x="200.0" y="1440.0" />
-      <point x="0.0" y="-42.5" />
+      <point x="20.0" y="-16.5" />
+      <point x="60.0" y="555.0" />
+      <point x="87.70497023809548" y="555.0" />
+      <point x="-36.66666666666674" y="16.5" />
+    </edge>
+    <edge source="common.objectivecards.privateobjectivecards.PrivateObjectiveCard" target="common.utilities.Color">
+      <point x="0.0" y="-16.5" />
+      <point x="1378.5931249999999" y="442.0" />
+      <point x="1400.7430555555554" y="442.0" />
+      <point x="1400.7430555555554" y="63.0" />
+      <point x="879.4479166666665" y="63.0" />
+      <point x="26.875" y="16.5" />
     </edge>
     <edge source="server.State" target="common.objectivecards.publicobjectivecards.PublicObjectiveCard">
-      <point x="121.5" y="11.428571428571331" />
-      <point x="2600.0" y="1611.4285714285713" />
-      <point x="2600.0" y="1708.5714285714287" />
-      <point x="90.0" y="-11.428571428571331" />
+      <point x="0.0" y="-16.5" />
+      <point x="0.0" y="16.5" />
     </edge>
     <edge source="common.dice.Dice" target="common.utilities.Color">
-      <point x="89.5" y="40.0" />
-      <point x="4320.0" y="1440.0" />
-      <point x="0.0" y="-16.5" />
+      <point x="25.66666666666663" y="-16.5" />
+      <point x="641.7791666666665" y="103.0" />
+      <point x="825.6979166666665" y="103.0" />
+      <point x="-26.875" y="16.5" />
     </edge>
     <edge source="server.Controller" target="server.ToolCardManager">
-      <point x="128.5" y="-22.85714285714289" />
-      <point x="1400.0" y="1417.142857142857" />
-      <point x="0.0" y="29.5" />
+      <point x="43.875" y="-16.5" />
+      <point x="456.37550595238116" y="756.0" />
+      <point x="1228.9588392857145" y="756.0" />
+      <point x="1228.9588392857145" y="658.0" />
+      <point x="1186.7135912698411" y="658.0" />
+      <point x="0.0" y="16.5" />
     </edge>
     <edge source="common.boards.draftpool.DraftPool" target="common.boards.draftpool.DraftPoolCell">
-      <point x="135.5" y="-40.0" />
-      <point x="3760.0" y="1120.0" />
-      <point x="0.0" y="68.5" />
+      <point x="28.5" y="-16.5" />
+      <point x="540.8216369047623" y="402.0" />
+      <point x="564.2505059523811" y="402.0" />
+      <point x="46.66666666666663" y="16.5" />
     </edge>
     <edge source="server.State" target="common.bag.Bag">
-      <point x="121.5" y="0.0" />
-      <point x="-88.0" y="0.0" />
+      <point x="-18.444444444444457" y="-16.5" />
+      <point x="1011.8941468253965" y="535.0" />
+      <point x="930.4588392857145" y="535.0" />
+      <point x="930.4588392857145" y="299.0" />
+      <point x="879.7088392857145" y="299.0" />
+      <point x="18.25" y="16.5" />
     </edge>
     <edge source="server.Model" target="server.State">
-      <point x="154.0" y="0.0" />
-      <point x="-121.5" y="0.0" />
+      <point x="22.5" y="-16.5" />
+      <point x="435.00050595238116" y="658.0" />
+      <point x="1030.3385912698411" y="658.0" />
+      <point x="0.0" y="16.5" />
     </edge>
     <edge source="common.boards.draftpool.DraftPool" target="common.dice.Dice">
-      <point x="135.5" y="40.0" />
-      <point x="4000.0" y="1200.0" />
-      <point x="-80.0" y="-81.5" />
+      <point x="-28.5" y="-16.5" />
+      <point x="483.8216369047622" y="432.0" />
+      <point x="357.9080357142855" y="432.0" />
+      <point x="357.9080357142855" y="186.0" />
+      <point x="589.1624999999999" y="186.0" />
+      <point x="-26.94999999999999" y="16.5" />
     </edge>
     <edge source="common.Observer" target="common.viewchangement.Changement">
-      <point x="119.0" y="0.0" />
-      <point x="-65.5" y="0.0" />
+      <point x="0.0" y="-16.5" />
+      <point x="124.37163690476223" y="442.0" />
+      <point x="107.0639583333334" y="442.0" />
+      <point x="-16.375" y="16.5" />
     </edge>
     <edge source="server.Controller" target="client.view.View">
-      <point x="-128.5" y="0.0" />
-      <point x="119.0" y="0.0" />
+      <point x="-43.875" y="-16.5" />
+      <point x="368.62550595238116" y="756.0" />
+      <point x="40.0" y="756.0" />
+      <point x="0.0" y="16.5" />
     </edge>
     <edge source="server.Model" target="common.dice.Dice">
-      <point x="40.0" y="29.5" />
-      <point x="1120.0" y="2000.0" />
-      <point x="4480.0" y="2000.0" />
-      <point x="4480.0" y="1400.0" />
-      <point x="89.5" y="0.0" />
+      <point x="-22.5" y="-16.5" />
+      <point x="390.00050595238116" y="658.0" />
+      <point x="235.87163690476217" y="658.0" />
+      <point x="235.87163690476217" y="176.0" />
+      <point x="581.4624999999999" y="176.0" />
+      <point x="-34.64999999999998" y="16.5" />
     </edge>
     <edge source="common.Observable" target="common.Observer">
-      <point x="-150.5" y="0.0" />
-      <point x="0.0" y="1880.0" />
-      <point x="0.0" y="1600.0" />
-      <point x="-119.0" y="0.0" />
-    </edge>
-    <edge source="common.Observable" target="common.viewchangement.Changement">
-      <point x="150.5" y="-40.0" />
-      <point x="480.0" y="1840.0" />
-      <point x="0.0" y="16.5" />
+      <point x="0.0" y="-16.5" />
+      <point x="36.66666666666674" y="16.5" />
     </edge>
     <edge source="common.boards.draftpool.DraftPool" target="common.bag.Bag">
-      <point x="0.0" y="55.5" />
-      <point x="0.0" y="-55.5" />
+      <point x="47.5" y="-16.5" />
+      <point x="559.8216369047623" y="412.0" />
+      <point x="783.0838392857145" y="412.0" />
+      <point x="783.0838392857145" y="299.0" />
+      <point x="843.2088392857145" y="299.0" />
+      <point x="-18.25" y="16.5" />
+    </edge>
+    <edge source="common.Observable" target="common.viewchangement.Changement">
+      <point x="41.33333333333326" y="-16.5" />
+      <point x="203.33333333333326" y="555.0" />
+      <point x="189.87163690476217" y="555.0" />
+      <point x="189.87163690476217" y="442.0" />
+      <point x="139.8139583333334" y="442.0" />
+      <point x="16.375" y="16.5" />
     </edge>
     <edge source="common.boards.draftpool.DraftPoolCell" target="common.dice.Dice">
-      <point x="93.5" y="0.0" />
-      <point x="4013.3333333333335" y="920.0" />
-      <point x="-66.66666666666652" y="-81.5" />
+      <point x="0.0" y="-16.5" />
+      <point x="517.5838392857145" y="299.0" />
+      <point x="514.218125" y="299.0" />
+      <point x="514.218125" y="206.0" />
+      <point x="604.5625" y="206.0" />
+      <point x="-11.549999999999955" y="16.5" />
     </edge>
     <edge source="common.dice.Dice" target="common.exceptions.InvalidMoveException">
-      <point x="-40.0" y="-81.5" />
-      <point x="4040.0" y="760.0" />
-      <point x="96.5" y="0.0" />
+      <point x="-25.666666666666686" y="-16.5" />
+      <point x="590.4458333333332" y="103.0" />
+      <point x="554.1458333333333" y="103.0" />
+      <point x="24.125" y="16.5" />
     </edge>
     <edge source="common.boards.roundtrack.RoundTrack" target="common.utilities.Color">
-      <point x="109.5" y="0.0" />
-      <point x="4520.0" y="240.0" />
-      <point x="4520.0" y="1840.0" />
-      <point x="43.0" y="0.0" />
-    </edge>
-    <edge source="common.boards.draftpool.DraftPoolCell" target="common.exceptions.InvalidMoveException">
-      <point x="-93.5" y="0.0" />
-      <point x="3440.0" y="920.0" />
-      <point x="0.0" y="16.5" />
-    </edge>
-    <edge source="common.boards.roundtrack.RoundTrack" target="common.dice.Dice">
-      <point x="109.5" y="26.666666666666686" />
-      <point x="4080.0" y="266.6666666666667" />
-      <point x="0.0" y="-81.5" />
+      <point x="55.5625" y="-16.5" />
+      <point x="777.1463392857145" y="442.0" />
+      <point x="919.4588392857145" y="442.0" />
+      <point x="919.4588392857145" y="73.0" />
+      <point x="868.6979166666665" y="73.0" />
+      <point x="16.125" y="16.5" />
     </edge>
     <edge source="server.State" target="common.boards.draftpool.DraftPool">
-      <point x="40.0" y="-29.5" />
-      <point x="2200.0" y="1160.0" />
-      <point x="-135.5" y="0.0" />
+      <point x="-36.888888888888914" y="-16.5" />
+      <point x="993.4497023809522" y="555.0" />
+      <point x="512.3216369047623" y="555.0" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="common.boards.draftpool.DraftPoolCell" target="common.exceptions.InvalidMoveException">
+      <point x="-56.0" y="-16.5" />
+      <point x="461.5838392857145" y="299.0" />
+      <point x="416.4080357142855" y="299.0" />
+      <point x="416.4080357142855" y="103.0" />
+      <point x="505.8958333333332" y="103.0" />
+      <point x="-24.125" y="16.5" />
+    </edge>
+    <edge source="common.boards.roundtrack.RoundTrack" target="common.dice.Dice">
+      <point x="23.8125" y="-16.5" />
+      <point x="745.3963392857145" y="422.0" />
+      <point x="794.0838392857145" y="422.0" />
+      <point x="794.0838392857145" y="196.0" />
+      <point x="635.3625" y="196.0" />
+      <point x="19.25" y="16.5" />
     </edge>
     <edge source="server.Model" target="server.PlayerModel">
-      <point x="80.0" y="29.5" />
-      <point x="1160.0" y="1840.0" />
-      <point x="-201.5" y="0.0" />
+      <point x="31.5" y="-16.5" />
+      <point x="444.00050595238116" y="668.0" />
+      <point x="1345.3431249999999" y="668.0" />
+      <point x="-33.25" y="16.5" />
     </edge>
     <edge source="common.objectivecards.privateobjectivecards.PrivateObjectiveCard" target="common.objectivecards.ObjectiveCard">
-      <point x="0.0" y="-29.5" />
-      <point x="0.0" y="29.5" />
+      <point x="-62.66666666666663" y="-16.5" />
+      <point x="1315.9264583333334" y="442.0" />
+      <point x="1101.4588392857145" y="442.0" />
+      <point x="35.25" y="16.5" />
     </edge>
     <edge source="common.boards.roundtrack.RoundTrackCell" target="common.dice.Dice">
-      <point x="40.0" y="68.5" />
-      <point x="3480.0" y="680.0" />
-      <point x="4053.3333333333335" y="680.0" />
-      <point x="-26.666666666666515" y="-81.5" />
+      <point x="0.0" y="-16.5" />
+      <point x="696.0838392857145" y="216.0" />
+      <point x="619.9624999999999" y="216.0" />
+      <point x="3.8500000000000227" y="16.5" />
     </edge>
     <edge source="common.boards.draftpool.DraftPoolCell" target="common.boards.Cell">
-      <point x="-93.5" y="-40.0" />
-      <point x="3600.0" y="880.0" />
-      <point x="3600.0" y="560.0" />
-      <point x="-93.5" y="40.0" />
+      <point x="28.0" y="-16.5" />
+      <point x="545.5838392857145" y="289.0" />
+      <point x="572.7505059523811" y="289.0" />
+      <point x="-30.833333333333314" y="16.5" />
     </edge>
     <edge source="server.Model" target="common.Observable">
-      <point x="0.0" y="29.5" />
-      <point x="1080.0" y="2000.0" />
-      <point x="200.0" y="2000.0" />
-      <point x="0.0" y="68.5" />
+      <point x="-31.5" y="-16.5" />
+      <point x="381.00050595238116" y="668.0" />
+      <point x="193.0" y="668.0" />
+      <point x="31.0" y="16.5" />
     </edge>
     <edge source="client.view.View" target="common.viewchangement.Changement">
-      <point x="0.0" y="42.5" />
-      <point x="0.0" y="-16.5" />
+      <point x="-20.0" y="-16.5" />
+      <point x="20.0" y="442.0" />
+      <point x="74.3139583333334" y="442.0" />
+      <point x="-49.125" y="16.5" />
     </edge>
     <edge source="common.boards.draftpool.DraftPool" target="common.exceptions.InvalidMoveException">
-      <point x="0.0" y="-55.5" />
-      <point x="3160.0" y="760.0" />
-      <point x="-96.5" y="0.0" />
-    </edge>
-    <edge source="common.boards.roundtrack.RoundTrack" target="common.boards.roundtrack.RoundTrackCell">
-      <point x="-80.0" y="-81.5" />
-      <point x="3680.0" y="80.0" />
-      <point x="3460.0" y="80.0" />
-      <point x="20.0" y="-68.5" />
+      <point x="-47.5" y="-16.5" />
+      <point x="464.8216369047622" y="442.0" />
+      <point x="346.9080357142855" y="442.0" />
+      <point x="346.9080357142855" y="93.0" />
+      <point x="457.6458333333332" y="93.0" />
+      <point x="-72.375" y="16.5" />
     </edge>
     <edge source="server.ToolCardManager" target="common.toolcards.ToolCard">
-      <point x="0.0" y="-29.5" />
-      <point x="1400.0" y="1200.0" />
-      <point x="1760.0" y="1200.0" />
-      <point x="0.0" y="-55.5" />
+      <point x="-42.25" y="-16.5" />
+      <point x="1144.4635912698411" y="555.0" />
+      <point x="1217.9588392857145" y="555.0" />
+      <point x="22.0" y="16.5" />
+    </edge>
+    <edge source="common.boards.roundtrack.RoundTrack" target="common.boards.roundtrack.RoundTrackCell">
+      <point x="7.9375" y="-16.5" />
+      <point x="729.5213392857145" y="402.0" />
+      <point x="747.0838392857145" y="402.0" />
+      <point x="51.0" y="16.5" />
     </edge>
     <edge source="server.Model" target="common.viewchangement.DiceChangement">
-      <point x="-154.0" y="0.0" />
-      <point x="80.0" y="0.0" />
+      <point x="-13.5" y="-16.5" />
+      <point x="399.00050595238116" y="648.0" />
+      <point x="326.37163690476217" y="648.0" />
+      <point x="0.0" y="16.5" />
     </edge>
     <edge source="common.boards.roundtrack.RoundTrackCell" target="common.exceptions.InvalidMoveException">
-      <point x="0.0" y="68.5" />
-      <point x="0.0" y="-16.5" />
+      <point x="61.200000000000045" y="-16.5" />
+      <point x="757.2838392857145" y="289.0" />
+      <point x="814.4588392857145" y="289.0" />
+      <point x="814.4588392857145" y="83.0" />
+      <point x="602.3958333333333" y="83.0" />
+      <point x="72.375" y="16.5" />
     </edge>
     <edge source="common.boards.roundtrack.RoundTrackCell" target="common.boards.Cell">
-      <point x="93.5" y="0.0" />
-      <point x="-93.5" y="0.0" />
+      <point x="-30.599999999999966" y="-16.5" />
+      <point x="665.4838392857145" y="289.0" />
+      <point x="634.4171726190477" y="289.0" />
+      <point x="30.83333333333337" y="16.5" />
     </edge>
     <edge source="common.viewchangement.DiceChangement" target="common.Player">
-      <point x="-80.0" y="11.428571428571331" />
-      <point x="600.0" y="1611.4285714285713" />
-      <point x="600.0" y="1720.0" />
-      <point x="-45.5" y="0.0" />
+      <point x="53.33333333333326" y="-16.5" />
+      <point x="379.7049702380954" y="555.0" />
+      <point x="371.62163690476217" y="555.0" />
+      <point x="-18.200000000000045" y="16.5" />
     </edge>
     <edge source="common.viewchangement.DiceChangement" target="common.viewchangement.Changement">
-      <point x="-80.0" y="0.0" />
-      <point x="65.5" y="0.0" />
-    </edge>
-    <edge source="common.bag.Bag" target="common.dice.Dice">
-      <point x="40.0" y="55.5" />
-      <point x="3200.0" y="1720.0" />
-      <point x="4080.0" y="1720.0" />
-      <point x="0.0" y="81.5" />
+      <point x="-53.33333333333326" y="-16.5" />
+      <point x="273.0383035714289" y="555.0" />
+      <point x="285.8005059523811" y="555.0" />
+      <point x="285.8005059523811" y="432.0" />
+      <point x="172.5639583333334" y="432.0" />
+      <point x="49.125" y="16.5" />
     </edge>
     <edge source="common.bag.Bag" target="common.utilities.Color">
-      <point x="-88.0" y="40.0" />
-      <point x="3000.0" y="1640.0" />
-      <point x="3000.0" y="1836.1904761904761" />
-      <point x="-43.0" y="-3.809523809523853" />
+      <point x="27.375" y="-16.5" />
+      <point x="889.6463392857145" y="93.0" />
+      <point x="847.1979166666665" y="93.0" />
+      <point x="-5.375" y="16.5" />
+    </edge>
+    <edge source="common.bag.Bag" target="common.dice.Dice">
+      <point x="-9.125" y="-16.5" />
+      <point x="852.3338392857145" y="176.0" />
+      <point x="650.7624999999998" y="176.0" />
+      <point x="34.64999999999998" y="16.5" />
     </edge>
     <edge source="server.Model" target="common.Player">
-      <point x="-60.0" y="29.5" />
-      <point x="1020.0" y="1800.0" />
-      <point x="760.0" y="1800.0" />
-      <point x="40.0" y="16.5" />
+      <point x="13.5" y="-16.5" />
+      <point x="426.00050595238116" y="648.0" />
+      <point x="434.87163690476217" y="648.0" />
+      <point x="434.87163690476217" y="535.0" />
+      <point x="426.2216369047623" y="535.0" />
+      <point x="36.40000000000009" y="16.5" />
     </edge>
     <edge source="common.boards.roundtrack.RoundTrack" target="common.boards.Cell">
-      <point x="0.0" y="81.5" />
-      <point x="0.0" y="-68.5" />
+      <point x="-55.5625" y="-16.5" />
+      <point x="666.0213392857145" y="402.0" />
+      <point x="598.0838392857145" y="402.0" />
+      <point x="-6.166666666666686" y="16.5" />
     </edge>
     <edge source="server.PlayerModel" target="common.objectivecards.privateobjectivecards.PrivateObjectiveCard">
-      <point x="0.0" y="42.5" />
-      <point x="2040.0" y="1960.0" />
-      <point x="2760.0" y="1960.0" />
-      <point x="-40.0" y="29.5" />
-    </edge>
-    <edge source="server.ToolCardManager" target="server.Controller">
-      <point x="-121.0" y="0.0" />
-      <point x="1080.0" y="1320.0" />
-      <point x="0.0" y="-29.5" />
-    </edge>
-    <edge source="common.objectivecards.publicobjectivecards.PublicObjectiveCard" target="common.objectivecards.ObjectiveCard">
-      <point x="90.0" y="0.0" />
-      <point x="-147.5" y="0.0" />
+      <point x="-33.25" y="-16.5" />
+      <point x="1345.3431249999999" y="555.0" />
+      <point x="1331.5931249999999" y="555.0" />
+      <point x="-47.0" y="16.5" />
     </edge>
     <edge source="server.State" target="common.boards.roundtrack.RoundTrack">
-      <point x="0.0" y="-29.5" />
-      <point x="2160.0" y="0.0" />
-      <point x="3760.0" y="0.0" />
-      <point x="0.0" y="-81.5" />
+      <point x="-27.66666666666663" y="-16.5" />
+      <point x="1002.6719246031744" y="545.0" />
+      <point x="721.5838392857145" y="545.0" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="common.objectivecards.publicobjectivecards.PublicObjectiveCard" target="common.objectivecards.ObjectiveCard">
+      <point x="0.0" y="-16.5" />
+      <point x="-35.25" y="16.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.30000000000000016" x="2390.6666666666656" y="2014.9999999999995" />
-  <SelectedNodes />
-  <Categories>
-    <Category>Methods</Category>
-  </Categories>
+  <settings layout="Hierarchic Group" zoom="1.1380597014925373" x="536.5139220365952" y="562.3836065573771" />
+  <SelectedNodes>
+    <node>server.Model</node>
+  </SelectedNodes>
+  <Categories />
   <SCOPE>All</SCOPE>
   <VISIBILITY>public</VISIBILITY>
 </Diagram>
