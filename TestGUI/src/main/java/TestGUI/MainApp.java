@@ -73,6 +73,7 @@ public class MainApp extends Application {
 
             PlayerViewController controller = loader.getController();
             controller.set(this, this.controller);
+            model.addObserver(controller);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println(e.getMessage());

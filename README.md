@@ -10,5 +10,9 @@ Scotti:
 
 Vinz:
 
-	Componenti fisici implementati. In attesa di ordini. 
+	Ho implementato un po' di Changement e in più ho inserito la classe command, che comunica i comandi della view al controller.
+	Da riguardare l' implementazione dei changement che danno problemi, in particolare per quanto riguarda il fatto che nel metodo
+	notifyObservers(Changement change) viene inviata un' istanza di changement cosa che rende poi impossibile distinguere
+	un changement dall' altro nel client.
+
 >>>>>>> origin/biscotto

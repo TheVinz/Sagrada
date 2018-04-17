@@ -35,6 +35,10 @@ public class DraftPoolCell implements Cell {
 		return dice==null;
 	}
 
+	public int getIndex() {
+		return index;
+	}
+
 	@Override
 	public String asImage() {
 		if(!isEmpty()){

@@ -27,13 +27,21 @@ public class DraftPool{
 	    for(int i=0; i<size; i++)
 	    	draftPoolCells[i].put(bag.drow());
     }
+
+    public String[] asImage(){
+		String[] result= new String[size];
+		for(int i=0;i<result.length; i++){
+			result[i]=get(i).asImage();
+		}
+		return result;
+	}
 	//inserisce un dado nella riserva nel sacchetto e ne pesca uno nuovo assegnandogli un valore scelto. Ritorna il dado pescato
 	public Dice redrow(Bag bag, Dice dice, int value){
 		bag.insert(dice);
 		return bag.drow(value);
 	}
 
-    public Cell get(Integer index) {
+    public DraftPoolCell get(Integer index) {
 		return this.draftPoolCells[index];
     }
 

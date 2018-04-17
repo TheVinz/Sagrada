@@ -1,6 +1,12 @@
 package TestGUI.client.view;
 
 import TestGUI.MainApp;
+import TestGUI.common.Command;
+import TestGUI.common.Observer;
+import TestGUI.common.viewchangement.Changement;
+import TestGUI.common.viewchangement.ChangementTypes;
+import TestGUI.common.viewchangement.Move;
+import TestGUI.common.viewchangement.RefilledDraftPool;
 import TestGUI.server.Controller;
 import TestGUI.server.model.exceptions.InvalidMoveException;
 import javafx.fxml.FXML;
@@ -15,7 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 
-public class PlayerViewController {
+public class PlayerViewController implements Observer {
 
     private MainApp mainApp;
     private Controller controller;
@@ -23,7 +29,7 @@ public class PlayerViewController {
     private ImageView[][] grid;
     private ImageView[] pool;
 
-    private Image picked;
+    private ImageView picked;
 
     private boolean activeToolCard;
 
@@ -64,7 +70,7 @@ public class PlayerViewController {
         pic.setCursor(gridPane.getCursor());
         pic.setOnMouseClicked(e -> {
             if(e.getButton()==MouseButton.PRIMARY) draftPoolCellClicked(e);
-            else cancelMove(); });
+            else endMove(); });
     }
 
     private void addPic(int i, int j) {
@@ -78,61 +84,46 @@ public class PlayerViewController {
         pic.setCursor(gridPane.getCursor());
         pic.setOnMouseClicked(e->{
             if(e.getButton()==MouseButton.PRIMARY) windowFrameCellClicked(e);
-            else cancelMove();
+            else endMove();
         });
     }
 
     private void windowFrameCellClicked(MouseEvent e) {
         ImageView pic = (ImageView) e.getSource();
-        if(picked==null){
-            pickFromWindow(pic);
-        }
-        else{
+        if(picked!=null){
             try {
-                controller.moveToWindowFrame(GridPane.getRowIndex(pic), GridPane.getColumnIndex(pic));
+                controller.sendCommand(new Command(GridPane.getRowIndex(pic), GridPane.getColumnIndex(pic)));
             } catch (InvalidMoveException e1) {
                 handleExceprion(e1);
             }
-            finally{
-                mainApp.setCursor(Cursor.DEFAULT);
-                picked=null;
-            }
+            endMove();
         }
     }
 
     private void draftPoolCellClicked(MouseEvent e){
         ImageView pic = (ImageView) e.getSource();
-        if(activeToolCard==true){
-        }
-        else if(picked==null){
+        if(picked==null){
             pickFromDraftPool(pic);
-        }
-        else try {
-                controller.moveToDraftPool(GridPane.getColumnIndex(pic));
+            try {
+                controller.sendCommand(new Command(GridPane.getColumnIndex(pic)));
             } catch (InvalidMoveException e1) {
                 handleExceprion(e1);
             }
-            finally{
-                mainApp.setCursor(Cursor.DEFAULT);
-                picked=null;
-            }
+        }
     }
 
     private void pickFromWindow(ImageView pic) {
-        picked=pic.getImage();
-        mainApp.setCursor(new ImageCursor(picked));
-        controller.pickWindowFrameCell(GridPane.getRowIndex(pic),GridPane.getColumnIndex(pic));
+        picked=pic;
+        mainApp.setCursor(new ImageCursor(picked.getImage()));
     }
 
     private void pickFromDraftPool(ImageView pic) {
-        picked=pic.getImage();
-        mainApp.setCursor(new ImageCursor(picked));
-        controller.pickDraftPoolCell(GridPane.getColumnIndex(pic));
+        picked=pic;
+        mainApp.setCursor(new ImageCursor(picked.getImage()));
     }
 
-    private void cancelMove(){
+    private void endMove(){
         picked=null;
-        controller.cancelMove();
         mainApp.setCursor(Cursor.DEFAULT);
     }
 
@@ -144,10 +135,26 @@ public class PlayerViewController {
         alert.showAndWait();
     }
 
+    private void handleMoveChangement(Move move){
+        switch(move.getMoveType()){
+            case Move.FROM_DP_TO_WF:
+                Image pic = pool[move.getSourceX()].getImage();
+                grid[move.getTargetX()][move.getTargetY()].setImage(pic);
+                pool[move.getSourceX()].setImage(null);
+        }
+    }
+
+    private void handleRefilledDraftPool(RefilledDraftPool refil){
+        String[] dices=refil.getDices();
+        for(int i=0; i<dices.length; i++){
+            pool[i].setImage(new Image(dices[i]));
+        }
+    }
+
     @FXML
     private void drawDraftPool(){
         try {
-            controller.refillDraftPool();
+            controller.sendCommand(new Command());
         } catch (InvalidMoveException e) {
             handleExceprion(e);
         }
@@ -155,7 +162,7 @@ public class PlayerViewController {
 
     @FXML
     private void randomClicks(MouseEvent e){
-        if(e.getButton()==MouseButton.SECONDARY) cancelMove();
+        if(e.getButton()==MouseButton.SECONDARY) endMove();
     }
 
     @FXML
@@ -166,4 +173,24 @@ public class PlayerViewController {
     public void setController(Controller controller) {
         this.controller=controller;
     }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void update(Changement change) {
+        switch(change.getType()){
+            case ChangementTypes.MOVE:
+                handleMoveChangement((Move) change);
+                break;
+            case ChangementTypes.REFILLED_DRAFT_POOL:
+                handleRefilledDraftPool((RefilledDraftPool) change);
+                break;
+            default:
+                break;
+        }
+    }
+
 }

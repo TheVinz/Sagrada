@@ -1,6 +1,7 @@
 package TestGUI.common;
 
-import common.viewchangement.Changement;
+
+import TestGUI.common.viewchangement.Changement;
 
 public interface Observer {
     void update();

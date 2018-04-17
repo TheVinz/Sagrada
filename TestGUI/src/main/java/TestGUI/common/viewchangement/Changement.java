@@ -1,17 +1,8 @@
 package TestGUI.common.viewchangement;
 
-import java.util.List;
+//Il changement può essere di diverse tipologie, ho bisogno di sapere a run time di che tipologia di changement
+//si tratta ---> getType e ChangementTypes
 
-public class Changement {
-    public final static int FROM_DP_TO_WF=0;
-    public final static int REFILLED_DP=1;
-
-    private int type;
-    private List<Changeble> parameters;
-
-    public Changement(int type){
-        this.type=type;
-    }
-
-    public void addParameter(Object obj);
+public abstract class Changement{
+    public abstract int getType();
 }
