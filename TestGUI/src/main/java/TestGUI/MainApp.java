@@ -2,7 +2,9 @@ package TestGUI;
 
 import java.io.IOException;
 
+import TestGUI.client.view.ModelProxy;
 import TestGUI.server.Controller;
+import TestGUI.server.ViewProxy;
 import TestGUI.server.model.Model;
 import TestGUI.client.view.PlayerViewController;
 import javafx.application.Application;
@@ -15,8 +17,7 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    private Model model;
-    private Controller controller;
+    private PlayerViewController viewController;
 
     private Stage primaryStage;
     private BorderPane rootLayout;
@@ -26,14 +27,20 @@ public class MainApp extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("AddressApp");
 
-        model=new Model();
-        controller= new Controller(model);
-
         initRootLayout();
 
         rootLayout.getStylesheets().add("File:resources/css/stylesheet.css");
 
         showPersonOverview();
+
+        Model model=new Model();
+        Controller controller= new Controller(model);
+        ViewProxy viewProxy=new ViewProxy(model, controller);
+        model.addObserver(viewProxy);
+
+        ModelProxy modelProxy=new ModelProxy(viewController);
+        viewProxy.bindClientView(modelProxy);
+        viewController.bindController(viewProxy);
 
   /*      primaryStage.setMaximized(true);*/
 
@@ -71,9 +78,8 @@ public class MainApp extends Application {
             // Set person overview into the center of root layout.
             rootLayout.setCenter(playerView);
 
-            PlayerViewController controller = loader.getController();
-            controller.set(this, this.controller);
-            model.addObserver(controller);
+            viewController = loader.getController();
+            viewController.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
@@ -91,10 +97,6 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public Model getModel(){
-        return this.model;
     }
 
     public void setCursor(Cursor cursor) {

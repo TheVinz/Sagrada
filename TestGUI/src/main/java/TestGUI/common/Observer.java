@@ -2,9 +2,12 @@ package TestGUI.common;
 
 
 import TestGUI.common.viewchangement.Changement;
+import TestGUI.server.model.boards.draftpool.DraftPoolCell;
+import TestGUI.server.model.boards.windowframe.WindowFrameCell;
 
 public interface Observer {
-    void update();
-    void update(Changement change);
 
+    void updateSimpleMove(DraftPoolCell source, WindowFrameCell target);
+
+    void updateRefillDraftPool();
 }

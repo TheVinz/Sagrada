@@ -18,4 +18,10 @@ Vinz:
 	Per ogni classe di changement che creiamo ci dovrà essere un apposito metodo di notifyObservers()
 		(Per esempio: notifyMove(MoveChangement change){}, notifyRefill(RefillDraftPoolChangement change){})
 
+	Aggiunte alcune idee per la funzionalità di rete:
+		Sia sul client che sul server ci sarà un piccolo sistema MVC che permetterà ai due sistemi di lavorare in maniera indipendente
+		dalla connessione.
+		Per la gestione della rete tutto il codice verrà implementato all' interno delle classi ViewProxy, ModelProxy e ControllerProxy,
+		in modo che la gestione di changement e command sia totalmente invisibile per Model, Controller e PlayerViewController.
+
 >>>>>>> origin/biscotto

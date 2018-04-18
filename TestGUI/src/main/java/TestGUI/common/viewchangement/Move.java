@@ -1,6 +1,6 @@
 package TestGUI.common.viewchangement;
 
-public class Move extends Changement{
+public class Move implements Changement{
 
     public static final int FROM_DP_TO_WF=1;
 

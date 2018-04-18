@@ -1,6 +1,6 @@
 package TestGUI.common.viewchangement;
 
-public class RefilledDraftPool extends Changement {
+public class RefilledDraftPool implements Changement {
     private final String[] dices;
 
     public RefilledDraftPool(String[] dices){

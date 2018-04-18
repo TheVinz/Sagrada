@@ -1,8 +1,6 @@
 package TestGUI.server.model;
 
 import TestGUI.common.Observable;
-import TestGUI.common.viewchangement.Move;
-import TestGUI.common.viewchangement.RefilledDraftPool;
 import TestGUI.server.model.bag.Bag;
 import TestGUI.server.model.boards.draftpool.DraftPool;
 import TestGUI.server.model.boards.draftpool.DraftPoolCell;
@@ -23,9 +21,7 @@ public class Model extends Observable {
     }
 
     @Override
-    public void notifyObservers() {
-
-    }
+    public void notifyObservers() {}
 
     public DraftPool getDraftPool() {
         return draftPool;
@@ -37,12 +33,12 @@ public class Model extends Observable {
 
     public void simpleMove(DraftPoolCell source, WindowFrameCell target) throws InvalidMoveException {
         source.move(target);
-        notifyObservers(new Move(source.getIndex(), target.getX(), target.getY()));
+        notifySimpleMove(source, target);
     }
 
     public void refillDraftPool() throws InvalidMoveException {
         draftPool.drow(bag);
-        notifyObservers(new RefilledDraftPool(draftPool.asImage()));
+        notifyRefillDraftPool();
     }
 
     public void useToolCard() {

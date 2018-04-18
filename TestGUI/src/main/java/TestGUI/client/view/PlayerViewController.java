@@ -3,6 +3,7 @@ package TestGUI.client.view;
 import TestGUI.MainApp;
 import TestGUI.common.Command;
 import TestGUI.common.Observer;
+import TestGUI.common.remotemvc.RemoteController;
 import TestGUI.common.viewchangement.Changement;
 import TestGUI.common.viewchangement.ChangementTypes;
 import TestGUI.common.viewchangement.Move;
@@ -21,10 +22,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 
-public class PlayerViewController implements Observer {
+public class PlayerViewController{
 
     private MainApp mainApp;
-    private Controller controller;
+    private ControllerProxy controller;
 
     private ImageView[][] grid;
     private ImageView[] pool;
@@ -46,9 +47,12 @@ public class PlayerViewController implements Observer {
         poolPane.setCursor(gridPane.getCursor());
     }
 
-    public void set(MainApp mainApp, Controller controller){
-        this.setController(controller);
+    public void setMainApp(MainApp mainApp){
         this.mainApp=mainApp;
+    }
+
+    public void bindController(RemoteController controller){
+        this.controller=new ControllerProxy(controller);
         for(int i=0; i<4; i++){
             for(int j=0; j<5; j++){
                 addPic(i,j);
@@ -127,6 +131,17 @@ public class PlayerViewController implements Observer {
         mainApp.setCursor(Cursor.DEFAULT);
     }
 
+    public void refillDraftPool(String[] dices) {
+        for(int i=0; i<dices.length; i++){
+            pool[i].setImage(new Image(dices[i]));
+        }
+    }
+
+    public void moveFromDPtoWF(int index, int row, int column){
+        Image pic=pool[index].getImage();
+        pool[index].setImage(null);
+        grid[row][column].setImage(pic);
+    }
 
     private void handleExceprion(InvalidMoveException e1) {
         Alert alert=new Alert(Alert.AlertType.ERROR);
@@ -135,21 +150,6 @@ public class PlayerViewController implements Observer {
         alert.showAndWait();
     }
 
-    private void handleMoveChangement(Move move){
-        switch(move.getMoveType()){
-            case Move.FROM_DP_TO_WF:
-                Image pic = pool[move.getSourceX()].getImage();
-                grid[move.getTargetX()][move.getTargetY()].setImage(pic);
-                pool[move.getSourceX()].setImage(null);
-        }
-    }
-
-    private void handleRefilledDraftPool(RefilledDraftPool refil){
-        String[] dices=refil.getDices();
-        for(int i=0; i<dices.length; i++){
-            pool[i].setImage(new Image(dices[i]));
-        }
-    }
 
     @FXML
     private void drawDraftPool(){
@@ -170,27 +170,6 @@ public class PlayerViewController implements Observer {
         activeToolCard=true;
     }
 
-    public void setController(Controller controller) {
-        this.controller=controller;
-    }
 
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void update(Changement change) {
-        switch(change.getType()){
-            case ChangementTypes.MOVE:
-                handleMoveChangement((Move) change);
-                break;
-            case ChangementTypes.REFILLED_DRAFT_POOL:
-                handleRefilledDraftPool((RefilledDraftPool) change);
-                break;
-            default:
-                break;
-        }
-    }
 
 }
