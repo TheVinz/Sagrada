@@ -1,13 +1,15 @@
 package TestGUI.common;
 
 
-import TestGUI.common.viewchangement.Changement;
-import TestGUI.server.model.boards.draftpool.DraftPoolCell;
-import TestGUI.server.model.boards.windowframe.WindowFrameCell;
+import TestGUI.server.model.boards.Cell;
+import TestGUI.server.model.toolcards.ToolCard;
 
 public interface Observer {
 
-    void updateSimpleMove(DraftPoolCell source, WindowFrameCell target);
+    void updateMove(Cell source, Cell target);
 
     void updateRefillDraftPool();
+    void updateCell(Cell cell);
+
+    void loadToolCards(ToolCard[] toolCards);
 }

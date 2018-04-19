@@ -5,4 +5,6 @@ package TestGUI.common.viewchangement;
 public class ChangementTypes {
     public static final int MOVE=1;
     public static final int REFILLED_DRAFT_POOL=2;
+    public static final int CELL_UPDATE = 3;
+    public static final int LOAD_TOOL_CARDS = 4;
 }

@@ -46,4 +46,12 @@ public class DraftPoolCell implements Cell {
 		}
 		else return "File:resources/icons/void.png";
 	}
+
+	@Override
+	public Dice removeDice() throws InvalidMoveException {
+		if(this.dice==null) throw new InvalidMoveException("Empty cell");
+		Dice dice=this.dice;
+		this.dice=null;
+		return dice;
+	}
 }

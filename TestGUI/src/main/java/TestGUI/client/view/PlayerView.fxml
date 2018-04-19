@@ -2,14 +2,15 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane cache="true" cacheHint="SCALE" onMouseClicked="#randomClicks" prefHeight="416.0" prefWidth="451.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestGUI.client.view.PlayerViewController">
+<AnchorPane cache="true" cacheHint="SCALE" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#randomClicks" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestGUI.client.view.PlayerViewController">
    <children>
-      <GridPane fx:id="poolPane" alignment="CENTER" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="598.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="5.0">
+      <GridPane fx:id="poolPane" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="598.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="5.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -22,8 +23,8 @@
         </rowConstraints>
 
       </GridPane>
-      <Button layoutX="466.0" layoutY="81.0" mnemonicParsing="false" onAction="#drawDraftPool" onMouseClicked="#randomClicks" prefHeight="33.0" prefWidth="84.0" stylesheets="@../../../../../resources/css/stylesheet.css" text="Redrow" AnchorPane.rightAnchor="50.0" />
-      <GridPane fx:id="gridPane" alignment="CENTER" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="598.0" styleClass="windowFrame" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+      <Button layoutX="466.0" layoutY="81.0" mnemonicParsing="false" onAction="#drawDraftPool" onMouseClicked="#randomClicks" prefHeight="40.0" prefWidth="120.0" styleClass="redrow" stylesheets="@../../../../../../resources/css/stylesheet.css" AnchorPane.rightAnchor="14.0" />
+      <GridPane fx:id="gridPane" alignment="CENTER" gridLinesVisible="true" layoutX="175.0" layoutY="486.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="400.0" styleClass="windowFrame" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="500.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -41,6 +42,9 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </GridPane>
-      <Button layoutX="50.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#randomClicks" prefHeight="33.0" prefWidth="120.0" text="Use Tool Card" />
+      <Button fx:id="toolCard1" layoutX="50.0" layoutY="167.0" mnemonicParsing="false" onAction="#useToolCard1" onMouseClicked="#randomClicks" prefHeight="200.0" prefWidth="120.0" text="Use Tool Card" AnchorPane.topAnchor="160.0" />
+      <Button fx:id="toolCard2" layoutX="190.0" layoutY="167.0" mnemonicParsing="false" onAction="#useToolCard2" onMouseClicked="#randomClicks" prefHeight="200.0" prefWidth="120.0" text="Use Tool Card" AnchorPane.topAnchor="160.0" />
+      <Button fx:id="toolCard3" layoutX="330.0" layoutY="167.0" mnemonicParsing="false" onMouseClicked="#randomClicks" prefHeight="200.0" prefWidth="120.0" text="Use Tool Card" AnchorPane.topAnchor="160.0" />
+      <Label fx:id="text" alignment="CENTER" contentDisplay="CENTER" layoutX="54.0" layoutY="81.0" prefHeight="40.0" prefWidth="272.0" text="Label" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="150.0" />
    </children>
 </AnchorPane>

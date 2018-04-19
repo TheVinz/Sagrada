@@ -47,6 +47,14 @@ public class WindowFrameCell implements Cell {
         }
     }
 
+    @Override
+    public Dice removeDice() throws InvalidMoveException {
+        if(this.dice==null) throw new InvalidMoveException("Empty cell.");
+        Dice dice=this.dice;
+        this.dice=null;
+        return dice;
+    }
+
     public int getShade() {
         return shade;
     }

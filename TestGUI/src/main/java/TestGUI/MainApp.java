@@ -36,13 +36,14 @@ public class MainApp extends Application {
         Model model=new Model();
         Controller controller= new Controller(model);
         ViewProxy viewProxy=new ViewProxy(model, controller);
-        model.addObserver(viewProxy);
 
         ModelProxy modelProxy=new ModelProxy(viewController);
         viewProxy.bindClientView(modelProxy);
         viewController.bindController(viewProxy);
 
-  /*      primaryStage.setMaximized(true);*/
+        model.addObserver(viewProxy);
+
+        primaryStage.setMaximized(true);
 
     }
 

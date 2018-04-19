@@ -9,4 +9,5 @@ public interface Cell {
 	void put(Dice dice) throws InvalidMoveException;
 	boolean isEmpty();
 	String asImage();
+	Dice removeDice() throws InvalidMoveException;
 }

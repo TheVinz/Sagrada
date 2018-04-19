@@ -2,23 +2,26 @@
     -fx-background-color: DARKBLUE;
 }
 
+.label{
+    -fx-background-color: #93bcff;
+    -fx-text-fill: black;
+    -fx-font-size: 20;
+}
 
 .windowFrame{
     -fx-background-color: WHITE;
     -fx-border-color: YELLOW;
 }
 
-.button{
+.redrow{
     -fx-border-radius: 0.05;
-    -fx-background-color: RED;
+    -fx-background-image: url("button.png");
     -fx-border-color: WHITE;
-    -fx-text-fill: WHITE;
 }
 
-.button:hover{
-    -fx-background-color: WHITE;
-    -fx-text-fill: RED;
+.redrow:hover{
     -fx-border-color: RED;
+    -fx-background-image: url("button1.png");
 }
 
 .redrow-button{
