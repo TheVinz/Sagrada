@@ -30,7 +30,7 @@ public class Controller{
 
     public void draftPoolClick(DraftPoolCell cell) throws InvalidMoveException {
 		if(activeToolCard!=null){
-			activeToolCard.setParameter(cell);
+			setToolCardParameter(cell);
 			if(!activeToolCard.hasNext()) {
 				activeToolCard=null;
 				toolCardUsed=true;
@@ -39,10 +39,16 @@ public class Controller{
 		else if(picked==null && !moveDone) picked=cell;
     }
 
+    /*
+    NB quando alla tool card serve una cella questa deve essere sempre accompagnata dalla window frame
+    alla quale appartiene per poter valutare l' effettiva validità della mossa mediante la classe
+    GameRules
+    */
+
     public void windowFrameClick(WindowFrame windowFrame, WindowFrameCell cell) throws InvalidMoveException {
 		if(activeToolCard!=null){
-			activeToolCard.setParameter(windowFrame);
-			activeToolCard.setParameter(cell);
+			setToolCardParameter(windowFrame);
+			setToolCardParameter(cell);
 			if(!activeToolCard.hasNext()) {
 				activeToolCard=null;
 				toolCardUsed=true;
@@ -58,6 +64,17 @@ public class Controller{
 
 	}
 
+
+	private void setToolCardParameter(Object o) throws InvalidMoveException {
+		try {
+			activeToolCard.setParameter(o);
+		} catch (InvalidMoveException e) {
+			activeToolCard=null;
+			throw e;
+		}
+	}
+
+	//TODO il controller deve poter verificare se il Player dispone di abbastanza segnalini favore per poter utilizzare la carta
 	public void useToolCard(int index){
 		if(!toolCardUsed) {
 			this.activeToolCard=model.getState().getToolCard(index);

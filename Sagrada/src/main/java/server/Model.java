@@ -28,6 +28,10 @@ public class Model implements Observable {
         return state;
     }
 
+
+    /*
+    Il ritorno della view proxy ignoratelo, servirà poi quando introdurremo la rete
+    */
     public ViewProxy addPlayer(String name) throws Exception {
         if(state.getPlayers().size()==4) throw new Exception("The game is full");
         else {
@@ -39,10 +43,24 @@ public class Model implements Observable {
         }
     }
 
+    //TODO introdurre gestione dei turni
+
     public void move(Player player, Cell source, Cell target) throws InvalidMoveException {
         source.move(target);
         notifyMove(player, source, target);
     }
+
+
+    public void increase(Player player, Cell cell) throws InvalidMoveException {
+        cell.getDice().increase();
+        notifyCellChangement(player, cell);
+    }
+
+    public void decrease(Player player, Cell cell) throws InvalidMoveException {
+        cell.getDice().decrease();
+        notifyCellChangement(player, cell);
+    }
+
 
     @Override
     public void addObserver(Observer o) {
@@ -103,4 +121,5 @@ public class Model implements Observable {
     public void notifyStartTurn(Observer o) {
         o.updateStartTurn();
     }
+
 }

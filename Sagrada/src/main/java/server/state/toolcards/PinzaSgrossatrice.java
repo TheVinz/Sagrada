@@ -2,9 +2,12 @@ package server.state.toolcards;
 
 
 
+import server.state.boards.draftpool.DraftPoolCell;
+import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameCell;
 import common.exceptions.InvalidMoveException;
 import server.Model;
+import server.state.player.Player;
 
 import java.util.*;
 public class PinzaSgrossatrice implements ToolCard {
@@ -13,6 +16,7 @@ public class PinzaSgrossatrice implements ToolCard {
 
     private List<Object> parameters;
     private Queue<Class> expectedParameters;
+    private Player player;
     private Model model;
 
     public PinzaSgrossatrice(Model model){
@@ -22,7 +26,7 @@ public class PinzaSgrossatrice implements ToolCard {
     public void start(){
         expectedParameters = new ArrayDeque<>();
         parameters = new ArrayList<>();
-        expectedParameters.add(WindowFrameCell.class);  //la cella deve avere un dado, se no eccezione
+        expectedParameters.add(DraftPoolCell.class);  //la cella deve avere un dado, se no eccezione
         expectedParameters.add(Integer.class);
     }
 
@@ -36,10 +40,17 @@ public class PinzaSgrossatrice implements ToolCard {
         parameters.add(o);
         if(!hasNext()) doAbility();
     }
+
+    /*
+    I doAbility terminano notificando alle view chi ha usato la carta
+    TODO la notifica arriva solo dopo che l'operazione è stata compiuta
+     */
+
     public void doAbility() throws InvalidMoveException {
-        WindowFrameCell cell= (WindowFrameCell) parameters.get(0);
+        DraftPoolCell cell= (DraftPoolCell) parameters.get(0);
         int choice=(Integer) parameters.get(1);
-        if(choice==INCREASE) cell.getDice().increase();
-        else cell.getDice().decrease();
+        if(choice==INCREASE) model.increase(player, cell);
+        else model.decrease(player, cell);
+        model.notifyToolCardUsed(player, this);
     }
 }

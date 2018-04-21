@@ -1,6 +1,13 @@
 package common.command;
 
 public class Command {
+	/*
+	I diversi tipi di changement sono rappresentati mediante int, dandogli un nome simbolico mediante public static final 
+	rendiamo il codice più leggibile.
+	Le classi Controller (lato server) e View (lato client) non devono sapere della struttura interna di questa classe, il lavoro di
+	traduzione viene fatto dal RemoteController che invia il Command alla RemoteView, questa traduce in elementi dello state e chiama metodi
+	del Controller. 
+	*/
     public static final int DRAFTPOOL_CLICK=1;
     public static final int WINDOW_FRAME_CLICK=2;
     public static final int ROUND_TRACK_CLICK=3;
@@ -33,7 +40,5 @@ public class Command {
 
     public int getY() { return y; }
 
-    public int getX() {
-        return x;
-    }
+    public int getX() {return x; }
 }
