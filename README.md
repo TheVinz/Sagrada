@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 # ing-sw-2018-Santomarco-Scotti-Stucchi
 =======================================================================================
+
 Scotti:
 
 	Ho tolto il pattern strategy
@@ -9,6 +10,7 @@ Scotti:
 	Non ho idea di come il model aggiorni la view dopo la tool card
 
 =======================================================================================
+
 Vinz:
 
 	Ho strutturato il programma in questo modo: 
@@ -33,6 +35,7 @@ Vinz:
 		
 		NB Ho aggiunto dei TODO in giro, leggete e provate a implementare un po' di roba
 ========================================================================================
+
 
 Appena si può si passa al master.
 
