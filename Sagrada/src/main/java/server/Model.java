@@ -1,17 +1,106 @@
 package server;
 
-import common.Observable;
-import common.Player;
-import common.boards.windowframe.WindowFrameCell;
-import common.dice.Dice;
 import common.exceptions.InvalidMoveException;
-import common.viewchangement.DiceChangement;
+import server.observer.Observable;
+import server.observer.Observer;
+import server.state.State;
+import server.state.boards.Cell;
+import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
+import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
+import server.state.player.Player;
+import server.state.toolcards.ToolCard;
+import server.state.util.Util;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class Model extends Observable {
+public class Model implements Observable {
+    private List<Observer> observers;
+
     private State state;
-    private Map<Player,PlayerModel> playerStates = new HashMap<Player,PlayerModel>();
+
+    public Model(){
+        state=new State(this);
+        observers=new ArrayList<>();
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public ViewProxy addPlayer(String name) throws Exception {
+        if(state.getPlayers().size()==4) throw new Exception("The game is full");
+        else {
+            int id=state.getPlayers().size();
+            state.addPlayer(name, id);
+            ViewProxy o=new ViewProxy(this, id);
+            addObserver(o);
+            return o;
+        }
+    }
+
+    public void move(Player player, Cell source, Cell target) throws InvalidMoveException {
+        source.move(target);
+        notifyMove(player, source, target);
+    }
+
+    @Override
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyMove(Player player, Cell source, Cell target) {
+        for(Observer o:observers) o.updateMove(source, target);
+    }
+
+    @Override
+    public void notifyCellChangement(Player player, Cell cell) {
+        for(Observer o:observers) o.updateCellChangement(cell);
+    }
+
+    @Override
+    public void notifyRefillDraftPool(Player player, Cell[] draftPool) {
+        for(Observer o:observers) o.updateRefillDraftPool(draftPool);
+    }
+
+    @Override
+    public void notifyToolCards() {
+        for(Observer o:observers) o.updateToolCards(state.getToolCards());
+    }
+
+    @Override
+    public void notifyObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
+        for(Observer o:observers) o.updateObjectiveCards(publicObjectiveCards);
+    }
+
+    @Override
+    public void notifyWindowFrameChoices() {
+        for(Observer o:observers) o.updateWindowFrameChoices(Util.getWindowFrameChoiche());
+    }
+
+    @Override
+    public void notifyPlayers(Player[] players) {
+        for(Observer o:observers) o.updatePlayers(players);
+    }
+
+    @Override
+    public void notifyToolCardUsed(Player player, ToolCard toolCard) {
+        for(Observer o:observers) o.updateToolCardUsed(player, toolCard);
+    }
+
+    @Override
+    public void notifyPrivateObjectiveCard(){
+        for(Observer o:observers) o.updatePrivateObjectiveCard(PrivateObjectiveCard.getCard());
+    }
+
+    @Override
+    public void notifyStartTurn(Observer o) {
+        o.updateStartTurn();
+    }
 }
