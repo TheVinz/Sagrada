@@ -1,6 +1,6 @@
 <<<<<<< HEAD
 # ing-sw-2018-Santomarco-Scotti-Stucchi
-=======
+=======================================================================================
 Scotti:
 
 	Ho tolto il pattern strategy
@@ -8,6 +8,7 @@ Scotti:
 	Ho fatto un esempio di interazione per la tool card
 	Non ho idea di come il model aggiorni la view dopo la tool card
 
+=======================================================================================
 Vinz:
 
 	Ho strutturato il programma in questo modo: 
@@ -31,5 +32,8 @@ Vinz:
 		invisibile per Model, Controller e PlayerViewController.
 		
 		NB Ho aggiunto dei TODO in giro, leggete e provate a implementare un po' di roba
+========================================================================================
+
+Appena si può si passa al master.
 
 >>>>>>> origin/biscotto
