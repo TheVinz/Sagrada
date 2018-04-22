@@ -5,11 +5,13 @@ import server.observer.Observable;
 import server.observer.Observer;
 import server.state.State;
 import server.state.boards.Cell;
+import server.state.boards.draftpool.DraftPoolCell;
+import server.state.dice.Dice;
 import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.player.Player;
 import server.state.toolcards.ToolCard;
-import server.state.util.Util;
+import server.state.utilities.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,16 @@ public class Model implements Observable {
         notifyMove(player, source, target);
     }
 
+    public void exchange(Player player, Cell first, Cell second) throws InvalidMoveException {
+        Dice dice= second.removeDice();
+        move(player, first, second);
+        putDice(player, dice, first);
+    }
+
+    public void putDice(Player player, Dice dice, Cell target) throws InvalidMoveException {
+        target.put(dice);
+        notifyCellChangement(player, target);
+    }
 
     public void increase(Player player, Cell cell) throws InvalidMoveException {
         cell.getDice().increase();
@@ -61,6 +73,27 @@ public class Model implements Observable {
         notifyCellChangement(player, cell);
     }
 
+    public Dice drowDice(Player player) {
+        Dice dice=state.getBag().drow();
+        notifyDrow(player, dice);
+        return dice;
+    }
+
+    public void flipDice(Player player, Cell cell) {
+        cell.getDice().flip();
+        notifyCellChangement(player, cell);
+    }
+
+    //TODO introdurre codice per i favor tokens
+    public void toolCardUsed(Player player, ToolCard toolCard){
+        /*
+         * Codice che aggiorna i favor tokens...
+         * ...
+         * ...
+         * ...
+         * */
+        notifyToolCardUsed(player, toolCard);
+    }
 
     @Override
     public void addObserver(Observer o) {
@@ -113,6 +146,11 @@ public class Model implements Observable {
     }
 
     @Override
+    public void notifyDrow(Player player, Dice dice){
+        for(Observer o : observers) o.updateDiceDrow(player, dice.getColor());
+    }
+
+    @Override
     public void notifyPrivateObjectiveCard(){
         for(Observer o:observers) o.updatePrivateObjectiveCard(PrivateObjectiveCard.getCard());
     }
@@ -121,5 +159,4 @@ public class Model implements Observable {
     public void notifyStartTurn(Observer o) {
         o.updateStartTurn();
     }
-
 }

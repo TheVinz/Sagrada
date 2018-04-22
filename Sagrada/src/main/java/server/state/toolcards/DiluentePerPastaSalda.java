@@ -1,24 +1,27 @@
 package server.state.toolcards;
 
+import common.exceptions.InvalidMoveException;
 import server.Model;
 import server.state.boards.draftpool.DraftPoolCell;
 import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameCell;
 import server.state.dice.Dice;
-import common.exceptions.InvalidMoveException;
 import server.state.player.Player;
 import server.state.utilities.GameRules;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 @SuppressWarnings("Duplicates")
-public class PennelloperPastaSalda extends ToolCard {
+public class DiluentePerPastaSalda extends ToolCard {
 
+    private boolean valueSetted;
     private boolean playable;
-    private boolean rerollDone;
+    private boolean drowDone;
     private DraftPoolCell poolCell;
+    private Dice dice;
 
-    public PennelloperPastaSalda(Model model) {
+    public DiluentePerPastaSalda(Model model) {
         super(model);
     }
 
@@ -30,14 +33,21 @@ public class PennelloperPastaSalda extends ToolCard {
         expectedParameters.add(WindowFrameCell.class);
         this.player=player;
         playable=false;
-        rerollDone=false;
+        drowDone=false;
+        valueSetted=false;
     }
 
     @Override
     public void setParameter(Object o) throws InvalidMoveException {
-        if(!rerollDone) {
+        if(!drowDone) {
             if(o.getClass()!=DraftPoolCell.class) throw new InvalidMoveException("Wrong parameter");
             else {
+                parameters.add(o);
+                doAbility();
+            }
+        }
+        else if(!valueSetted){
+            if(o.getClass()==Integer.class) {
                 parameters.add(o);
                 doAbility();
             }
@@ -54,17 +64,21 @@ public class PennelloperPastaSalda extends ToolCard {
 
     @Override
     void doAbility() throws InvalidMoveException {
-        if(!rerollDone) {
+        if(!drowDone) {
             poolCell = (DraftPoolCell) parameters.get(0);
-            Dice dice = poolCell.removeDice();
-            dice = new Dice(dice.getColor());
+            dice = poolCell.removeDice();
+            model.getState().getBag().insert(dice);
+            dice=model.drowDice(player);
+            drowDone=true;
+        }
+        else if(!valueSetted){
+            dice=new Dice(dice.getColor(), (Integer) parameters.get(1));
             model.putDice(player, dice, poolCell);
-            playable = verify(dice);
-            rerollDone=true;
+            valueSetted=true;
         }
         else{
-            WindowFrame frame= (WindowFrame) parameters.get(1);
-            WindowFrameCell cell= (WindowFrameCell) parameters.get(2);
+            WindowFrame frame= (WindowFrame) parameters.get(2);
+            WindowFrameCell cell= (WindowFrameCell) parameters.get(3);
             try {
                 if (frame != player.getWindowFrame() || !GameRules.validAllCellRestriction(poolCell.getDice(), cell)
                         || !GameRules.validAllDiceRestriction(frame, poolCell.getDice(), cell)) {
@@ -89,7 +103,7 @@ public class PennelloperPastaSalda extends ToolCard {
 
     @Override
     public boolean hasNext(){
-        return rerollDone && playable;
+        return drowDone && playable;
     }
 
     private boolean verify(Dice dice) {
@@ -102,6 +116,4 @@ public class PennelloperPastaSalda extends ToolCard {
         }
         return false;
     }
-
-
 }

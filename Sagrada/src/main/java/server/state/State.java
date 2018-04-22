@@ -8,7 +8,7 @@ import server.state.boards.roundtrack.RoundTrack;
 import server.state.boards.windowframe.WindowFrame;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.toolcards.ToolCard;
-import server.state.util.Util;
+import server.state.utilities.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +53,6 @@ public class State{
 	public WindowFrame getWindowFrame(int index){
 		return players.get(index).getWindowFrame();
 	}
-
-
+	public RoundTrack getRoundTrack() { return roundTrack; }
+	public Bag getBag() { return this.bag; }
 }

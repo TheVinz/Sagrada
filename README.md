@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 # ing-sw-2018-Santomarco-Scotti-Stucchi
+
 =======================================================================================
 
 Scotti:
@@ -32,6 +33,13 @@ Vinz:
 		all' interno delle classi ViewProxy, ModelProxy e ControllerProxy,
 		in modo che la gestione di changement e command sia totalmente 
 		invisibile per Model, Controller e PlayerViewController.
+
+	Aggiunte Tool Cards
+		Testatele voi vedete se riuscite a capirne il funzionamento.
+		Quelle che più mi preme vengano testate sono:
+			-DiluentePerPastaSalda
+			-PennelloPerPastaSalda
+			-TaglierinaManuale
 		
 		NB Ho aggiunto dei TODO in giro, leggete e provate a implementare un po' di roba
 ========================================================================================

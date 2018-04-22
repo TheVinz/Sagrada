@@ -1,6 +1,7 @@
 package server;
 import common.exceptions.InvalidMoveException;
 import server.state.boards.draftpool.DraftPoolCell;
+import server.state.boards.roundtrack.RoundTrackCell;
 import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameCell;
 import server.state.player.Player;
@@ -60,7 +61,9 @@ public class Controller{
 		}
 	}
 
-	public void roundTrackClick(int round, int index){
+	public void roundTrackClick(RoundTrackCell cell) throws InvalidMoveException {
+    	if(activeToolCard!=null)
+    		setToolCardParameter(cell);
 
 	}
 
@@ -72,13 +75,16 @@ public class Controller{
 			activeToolCard=null;
 			throw e;
 		}
+		if(!activeToolCard.hasNext()) activeToolCard=null;
 	}
 
 	//TODO il controller deve poter verificare se il Player dispone di abbastanza segnalini favore per poter utilizzare la carta
-	public void useToolCard(int index){
+	public void useToolCard(int index) throws InvalidMoveException {
 		if(!toolCardUsed) {
 			this.activeToolCard=model.getState().getToolCard(index);
-			activeToolCard.start();
+			activeToolCard.start(this.player);
+			if(!activeToolCard.hasNext()) this.activeToolCard=null;
 		}
+		else throw new InvalidMoveException("Only one tool card per turn");
 	}
 }

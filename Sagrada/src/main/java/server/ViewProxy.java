@@ -10,6 +10,7 @@ import server.observer.Observer;
 import server.state.State;
 import server.state.boards.Cell;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.dice.Dice;
 import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.player.Player;
@@ -49,7 +50,7 @@ public class ViewProxy implements RemoteView, Observer {
                 controller.windowFrameClick(state.getWindowFrame(id), state.getWindowFrame(id).getCell(c.getX(), c.getY()));
                 break;
             case ROUND_TRACK_CLICK:
-                controller.roundTrackClick(c.getX(), c.getY());
+                controller.roundTrackClick(state.getRoundTrack().getRoundSet(c.getX()).get(c.getY()));
                 break;
             case USE_TOOL_CARD:
                 controller.useToolCard(c.getX());
@@ -108,5 +109,10 @@ public class ViewProxy implements RemoteView, Observer {
     public void updateStartTurn() {
         controller.startTurn();
         remoteModel.receiveChangement(new StartTurn());
+    }
+
+    @Override
+    public void updateDiceDrow(Player player, Dice dice) {
+
     }
 }

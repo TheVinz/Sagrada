@@ -1,10 +1,13 @@
 package server.state.boards.roundtrack;
 
+import common.exceptions.InvalidMoveException;
 import server.state.boards.Cell;
+import server.state.boards.draftpool.DraftPool;
 import server.state.dice.Dice;
 import server.state.utilities.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 //Una sola istanza per la classe
 
@@ -22,16 +25,17 @@ public class RoundTrack{
 		}
 	}
 	//Aumenta il round
-	public void newRound(){
-		round++;
-	}
-	//Aggiunge un dado al set di dadi del turno attuale
-	public void add(Dice dice){
-		roundTrackSpaces.get(round).add(new RoundTrackCell(dice));
+	public void endRound(DraftPool pool) throws InvalidMoveException {
+		for(int i=pool.getSize()-1; i>=0; i--){
+			if(pool.getCell(i).getDice()!=null){
+				roundTrackSpaces.get(round).add(0,new RoundTrackCell());
+				roundTrackSpaces.get(round).get(0).put(pool.getCell(i).removeDice());
+			}
+		}
 	}
 	//Ritorna il set di dadi del turno indicato
-	public Cell[] getRoundSet(int round){
-		return roundTrackSpaces.get(round).toArray(new Cell[0]);
+	public List<RoundTrackCell> getRoundSet(int round){
+		return roundTrackSpaces.get(round);
 	}
 	//Ritorna un array dei colori dei dadi presenti sulla tabella, può tornare utile per l' effetto di alcune toolcards
 	public Color[] getColors(){

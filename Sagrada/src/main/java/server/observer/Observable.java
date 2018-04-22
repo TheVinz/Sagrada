@@ -1,5 +1,6 @@
 package server.observer;
 
+import server.state.dice.Dice;
 import server.state.player.Player;
 import server.state.boards.Cell;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
@@ -16,6 +17,7 @@ public interface Observable {
     void notifyWindowFrameChoices();
     void notifyPlayers(Player[] players);
     void notifyToolCardUsed(Player player, ToolCard toolCard);
+    void notifyDrow(Player player, Dice dice);
     void notifyPrivateObjectiveCard();
     void notifyStartTurn(Observer o);
 }

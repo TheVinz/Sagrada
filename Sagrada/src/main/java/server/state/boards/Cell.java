@@ -7,4 +7,5 @@ public interface Cell {
 	void move(Cell target) throws InvalidMoveException;
 	void put(Dice dice) throws InvalidMoveException;
 	boolean isEmpty();
+	Dice removeDice();
 }

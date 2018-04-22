@@ -1,4 +1,4 @@
-package server.state.util;
+package server.state.utilities;
 
 
 //Classe con soli metodi statici, utile per non fare troppo casino nel controller mettendoci 20 mila metodi
@@ -7,6 +7,7 @@ package server.state.util;
 import server.state.boards.Cell;
 import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameCell;
+import server.state.dice.Dice;
 import server.state.utilities.Color;
 
 public class GameRules {
@@ -16,18 +17,39 @@ public class GameRules {
                 || getLeft(windowFrame, cell) == null || getDown(windowFrame, cell) == null;
     }
 
+    public static boolean validAllCellRestriction(Dice dice, WindowFrameCell cell){
+        return validCellColor(dice, cell) && validCellShade(dice, cell);
+    }
+
+    public static boolean validCellShade(Dice dice, WindowFrameCell cell){
+        if(cell.getShade()==0) return true;
+        else return dice.getValue()==cell.getShade();
+    }
+
+    public static boolean validCellColor(Dice dice, WindowFrameCell cell){
+        if(cell.getColor()==null) return true;
+        else return dice.getColor() == cell.getColor();
+    }
+
+    public static boolean validAllDiceRestriction(WindowFrame windowFrame, Dice dice, WindowFrameCell cell){
+        return validAdjacentDices(windowFrame, cell) && validAdjacentDiceColors(windowFrame, dice, cell)
+                && validAdjacentShapes(windowFrame, dice, cell);
+    }
+
     public static boolean validAdjacentDices(WindowFrame windowFrame, WindowFrameCell target) {
         return diceOK(getDown(windowFrame, target)) || diceOK(getUp(windowFrame, target))
                 || diceOK(getLeft(windowFrame, target)) || diceOK(getRight(windowFrame, target));
     }
 
-    public static boolean validAdjacentDiceColors(WindowFrame windowFrame, Color color, WindowFrameCell cell){
+    public static boolean validAdjacentDiceColors(WindowFrame windowFrame, Dice dice, WindowFrameCell cell){
+        Color color = dice.getColor();
         return colorOK(color, getUp(windowFrame, cell)) && colorOK(color, getDown(windowFrame, cell)) &&
                 colorOK(color, getRight(windowFrame, cell)) && colorOK(color, getLeft(windowFrame, cell));
     }
 
 
-    public static boolean validAdjacentShapes(WindowFrame windowFrame, int shape, WindowFrameCell cell) {
+    public static boolean validAdjacentShapes(WindowFrame windowFrame,Dice dice, WindowFrameCell cell) {
+        int shape=dice.getValue();
         return shapeOK(shape, getUp(windowFrame, cell)) && shapeOK(shape, getDown(windowFrame, cell)) &&
                 shapeOK(shape, getRight(windowFrame, cell)) && shapeOK(shape, getLeft(windowFrame, cell));
     }

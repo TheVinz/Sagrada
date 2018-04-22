@@ -29,4 +29,11 @@ public class DraftPoolCell implements Cell{
 	public boolean isEmpty(){
 		return dice==null;
 	}
+
+	@Override
+	public Dice removeDice() {
+		Dice result=this.dice;
+		this.dice=null;
+		return result;
+	}
 }

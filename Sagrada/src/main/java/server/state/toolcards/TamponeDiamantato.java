@@ -1,32 +1,32 @@
 package server.state.toolcards;
 
+import server.Model;
+import server.state.boards.draftpool.DraftPool;
+import server.state.boards.draftpool.DraftPoolCell;
 import server.state.dice.Dice;
 import common.exceptions.InvalidMoveException;
+import server.state.player.Player;
 
 import java.util.*;
 
-public class TamponeDiamantato implements ToolCard {
+public class TamponeDiamantato extends ToolCard {
 
-    private List<Object> parameters;
-    private Queue<Class> expectedParameters;
-
-    public TamponeDiamantato() {
-        expectedParameters = new ArrayDeque<Class>();
-        parameters = new ArrayList<Object>();
-        expectedParameters.add(Dice.class);
+    public TamponeDiamantato(Model model) {
+        super(model);
     }
 
-    public Class nextParameter() {
-        return expectedParameters.peek();
+    @Override
+    public void start(Player player) throws InvalidMoveException {
+        expectedParameters = new ArrayDeque<>(1);
+        parameters = new ArrayList<>(1);
+        expectedParameters.add(DraftPoolCell.class);
+        this.player=player;
     }
 
-    public void setParameter(Object o) {
-        parameters.add(o);
-        expectedParameters.remove();
-    }
-
+    @Override
     public void doAbility() throws InvalidMoveException {
-        Dice dice = (Dice) parameters.get(0);
-        dice.flip();
+        DraftPoolCell cell= (DraftPoolCell) parameters.get(0);
+        model.flipDice(player, cell);
+        model.toolCardUsed(player, this);
     }
 }

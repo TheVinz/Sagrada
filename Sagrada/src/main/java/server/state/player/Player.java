@@ -8,6 +8,7 @@ public class Player {
     private int id;
     private WindowFrame windowFrame;
     private PrivateObjectiveCard privateObjectiveCard;
+    private boolean firstMoveDone;
 
     public Player(String name, int id){
         this.name=name;
@@ -24,5 +25,13 @@ public class Player {
 
     public WindowFrame getWindowFrame() {
         return windowFrame;
+    }
+
+    public boolean isFirstMoveDone() {
+        return firstMoveDone;
+    }
+
+    public void setFirstMoveDone(boolean firstMoveDone) {
+        this.firstMoveDone = firstMoveDone;
     }
 }

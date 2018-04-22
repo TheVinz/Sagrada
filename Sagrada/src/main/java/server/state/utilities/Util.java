@@ -1,4 +1,4 @@
-package server.state.util;
+package server.state.utilities;
 
 import server.Model;
 import server.state.boards.windowframe.WindowFrame;
@@ -90,7 +90,7 @@ public class Util {
                     result[i]=new PinzaSgrossatrice(model);
                     break;
                 case 1:
-                    result[i]=new PennelloperEglomise(model);
+                    result[i]=new PennelloPerEglomise(model);
                     break;
                 case 2:
                     result[i]=new AlesatorePerLaminaDiRame(model);

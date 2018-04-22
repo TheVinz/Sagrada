@@ -39,4 +39,8 @@ public class DraftPool{
     public DraftPoolCell getCell(int index) {
 		return draftPoolCells[index];
     }
+
+	public int getSize() {
+		return size;
+	}
 }

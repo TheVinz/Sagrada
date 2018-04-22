@@ -21,8 +21,7 @@ public class RoundTrackCell implements Cell {
     public void move(Cell target) throws InvalidMoveException{
         if(this.isEmpty()) throw new InvalidMoveException("Empty cell");
         else{
-            target.put(dice);
-            this.dice=null;
+            target.put(removeDice());
         }
     }
 
@@ -35,5 +34,12 @@ public class RoundTrackCell implements Cell {
 
     public boolean isEmpty(){
         return this.dice==null;
+    }
+
+    @Override
+    public Dice removeDice() {
+        Dice result=this.dice;
+        this.dice=null;
+        return result;
     }
 }
