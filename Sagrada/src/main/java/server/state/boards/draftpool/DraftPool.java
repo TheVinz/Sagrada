@@ -11,10 +11,12 @@ public class DraftPool{
 
 	public DraftPool(){
 		size=1;
+		draftPoolCells = new DraftPoolCell[1];
     }
-    public void increaseSize(){
+    public void increaseSize(){ //limite superiore?
 		size+=2;
 		draftPoolCells=new DraftPoolCell[size];
+		//manca inizializzazione draftPoolCells
 	}
 	public DraftPoolCell[] getDraftPool(){
 	    return this.draftPoolCells;
@@ -31,6 +33,7 @@ public class DraftPool{
 		}
     }
 	//inserisce un dado nella riserva nel sacchetto e ne pesca uno nuovo assegnandogli un valore scelto. Ritorna il dado pescato
+	//booooooooooooo
 	public Dice redrow(Bag bag, Dice dice, int value){
 		bag.insert(dice);
 		return bag.drow(value);
@@ -38,7 +41,7 @@ public class DraftPool{
 
     public DraftPoolCell getCell(int index) {
 		return draftPoolCells[index];
-    }
+    } //manca eccezione
 
 	public int getSize() {
 		return size;
