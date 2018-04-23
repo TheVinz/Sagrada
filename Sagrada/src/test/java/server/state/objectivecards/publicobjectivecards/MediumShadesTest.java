@@ -14,7 +14,7 @@ public class MediumShadesTest {   //copertoo
     private MediumShades mediumShades;
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.AURORA_SAGRADIS;
+        windowFrame = WindowFrame.SHADOW_THIEF;
         mediumShades = new MediumShades();
     }
     @Test

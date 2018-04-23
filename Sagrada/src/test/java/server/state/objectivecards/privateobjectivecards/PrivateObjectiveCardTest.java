@@ -15,7 +15,7 @@ public class PrivateObjectiveCardTest {
     private WindowFrame windowFrame;
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.AURORA_SAGRADIS;
+        windowFrame = WindowFrame.SUN_CATCHER;
     }
 
     @Test
@@ -25,7 +25,7 @@ public class PrivateObjectiveCardTest {
          } catch (InvalidMoveException e) {
             e.printStackTrace();
             }
-        assertEquals(0, BLUE_SHAPES.calculatePoints(windowFrame));
+        assertEquals(4, BLUE_SHAPES.calculatePoints(windowFrame));
     }
 
 }

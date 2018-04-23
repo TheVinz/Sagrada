@@ -19,8 +19,8 @@ public class AlesatorePerLaminaDiRame extends ToolCard {
 
     @Override
     public void start(Player player) {
-        parameters=new ArrayList<>();
-        expectedParameters=new ArrayDeque<>();
+        parameters=new ArrayList<>(4);
+        expectedParameters=new ArrayDeque<>(4);
         expectedParameters.add(WindowFrame.class);
         expectedParameters.add(WindowFrameCell.class);
         expectedParameters.add(WindowFrame.class);
@@ -37,12 +37,17 @@ public class AlesatorePerLaminaDiRame extends ToolCard {
         WindowFrameCell target= (WindowFrameCell) parameters.get(3);
         if(sourceFrame != targetFrame || sourceFrame!=player.getWindowFrame())
             throw new InvalidMoveException("Wrong parameter");
+        else if(source.isEmpty()) throw new InvalidMoveException("Empty cell");
         else{
             Dice dice=source.removeDice();
-            if(!GameRules.validCellColor(dice, target))
-                throw new InvalidMoveException("Cell and dice shapes must be equal");
-            else if(!GameRules.validAllDiceRestriction(targetFrame, dice, target))
+            if(!GameRules.validCellColor(dice, target)) {
+                source.put(dice);
+                throw new InvalidMoveException("Cell and dice colors must be equal");
+            }
+            else if(!GameRules.validAllDiceRestriction(targetFrame, dice, target)) {
+                source.put(dice);
                 throw new InvalidMoveException("Invalid adjacent dices");
+            }
             else{
                 source.put(dice);
                 model.move(player, source, target);

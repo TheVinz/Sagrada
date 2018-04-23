@@ -14,7 +14,7 @@ public class DarkShadesTest {    //copertoo
     private DarkShades darkShades;
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.AURORA_SAGRADIS;
+        windowFrame = WindowFrame.BATLLO;
         darkShades = new DarkShades();
     }
     @Test
