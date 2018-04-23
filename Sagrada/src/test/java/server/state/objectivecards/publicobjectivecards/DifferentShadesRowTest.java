@@ -1,4 +1,4 @@
-package server.state.objectivecards.privateobjectivecards;
+package server.state.objectivecards.publicobjectivecards;
 
 import common.exceptions.InvalidMoveException;
 import org.junit.Before;
@@ -7,25 +7,22 @@ import server.state.boards.windowframe.WindowFrame;
 import server.state.dice.Dice;
 import server.state.utilities.Color;
 
-import static server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard.*;
-
 import static org.junit.Assert.*;
 
-public class PrivateObjectiveCardTest {
+public class DifferentShadesRowTest {   //Scritta male la carta missa
     private WindowFrame windowFrame;
+    private DifferentShadesRow differentShadesRow;
     @Before
     public void initClass(){
         windowFrame = WindowFrame.AURORA_SAGRADIS;
+       differentShadesRow = new DifferentShadesRow();
     }
-
     @Test
     public void shouldCalculatePoints(){
-           try {
-              windowFrame.getCell(3,2).put(new Dice(Color.BLUE, 4));
-         } catch (InvalidMoveException e) {
-            e.printStackTrace();
-            }
-        assertEquals(0, BLUE_SHAPES.calculatePoints(windowFrame));
+
+
+        assertEquals(0,differentShadesRow.calculatePoints(windowFrame));
     }
+
 
 }
