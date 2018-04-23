@@ -152,7 +152,7 @@ public class Model implements Observable {
 
     @Override
     public void notifyPrivateObjectiveCard(){
-        for(Observer o:observers) o.updatePrivateObjectiveCard(PrivateObjectiveCard.getCard());
+        for(Observer o:observers) o.updatePrivateObjectiveCard(Util.getCard());
     }
 
     @Override

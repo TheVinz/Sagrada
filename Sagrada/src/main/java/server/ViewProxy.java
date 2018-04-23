@@ -15,6 +15,7 @@ import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.player.Player;
 import server.state.toolcards.ToolCard;
+import server.state.utilities.Color;
 
 import static common.command.Command.*;
 
@@ -112,7 +113,8 @@ public class ViewProxy implements RemoteView, Observer {
     }
 
     @Override
-    public void updateDiceDrow(Player player, Dice dice) {
+    public void updateDiceDrow(Player player, Color color) {
 
     }
+
 }

@@ -2,6 +2,7 @@ package server.state.utilities;
 
 import server.Model;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.toolcards.*;
 import server.state.objectivecards.publicobjectivecards.*;
@@ -12,9 +13,11 @@ import java.util.List;
 import java.util.Random;
 
 import static server.state.boards.windowframe.WindowFrame.*;
+import static server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard.*;
 
 public class Util {
     private static List<Integer> avalaiblePatterns= Arrays.asList(new Integer[]{0,1,2,3,4,5,6,7,8,9,10,11});
+    private static List<PrivateObjectiveCard> availableCards= Arrays.asList(new PrivateObjectiveCard[]{YELLOW_SHAPES, PURPLE_SHAPES, BLUE_SHAPES, GREEN_SHAPES, RED_SHAPES});
 
     public static WindowFrame[] getWindowFrameChoiche(){
         int choice[]=new int[2];
@@ -173,5 +176,10 @@ public class Util {
             }
         }
         return result;
+    }
+
+    public static PrivateObjectiveCard getCard() {
+        Collections.shuffle(availableCards);
+        return availableCards.get(0);
     }
 }
