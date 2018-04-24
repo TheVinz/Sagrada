@@ -32,7 +32,7 @@ public class DraftPool{
 	public void draw(Bag bag){
 	    for(int i=0; i<size; i++) {
 			try {
-				draftPoolCells.get(i).put(bag.drow());
+				draftPoolCells.get(i).put(bag.draw());
 			} catch (InvalidMoveException e) {
 				e.printStackTrace();
 			}
