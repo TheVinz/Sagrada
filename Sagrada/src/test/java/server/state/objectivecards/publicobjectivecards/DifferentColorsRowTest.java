@@ -9,7 +9,7 @@ import server.state.utilities.Color;
 
 import static org.junit.Assert.*;
 
-public class DifferentColorsRowTest {   //nada
+public class DifferentColorsRowTest {
     private WindowFrame windowFrame;
     private DifferentColorsRow differentColorsRow;
     @Before
@@ -19,7 +19,7 @@ public class DifferentColorsRowTest {   //nada
     }
     @Test
     public void shouldCalculatePoints(){
-        assertEquals(0,differentColorsRow.calculatePoints(windowFrame));
+        assertEquals(0,differentColorsRow.calculatePoints(windowFrame));   //vetrata vuota
         try {
             windowFrame.getCell(0,0).put(new Dice(Color.GREEN));
             windowFrame.getCell(0,1).put(new Dice(Color.YELLOW));
@@ -30,7 +30,7 @@ public class DifferentColorsRowTest {   //nada
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         }
-        assertEquals(6, differentColorsRow.calculatePoints(windowFrame));
+        assertEquals(6, differentColorsRow.calculatePoints(windowFrame));   //vetrata
     }
 
 
