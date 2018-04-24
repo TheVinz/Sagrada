@@ -42,10 +42,10 @@ public class Bag{
 		dices=new ArrayDeque<>(list);
 	}
 	//creo un nuovo dado del colore del char ottenuto pescando dalla pila
-	public Dice drow() {
+	public Dice draw() {
 		return new Dice(dices.pop());
 	}
-	public Dice drow(int value) {
+	public Dice draw(int value) {
 		return new Dice(dices.pop(), value);
 	}
 	//Re inserisco un dado nel sacco
