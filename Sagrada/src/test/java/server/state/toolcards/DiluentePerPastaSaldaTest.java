@@ -1,6 +1,7 @@
 package server.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import server.Model;
@@ -64,6 +65,11 @@ public class DiluentePerPastaSaldaTest {
         toolCard.setParameter(draftPoolCell);
         toolCard.setParameter(2);
         assertFalse(toolCard.hasNext());
+    }
+
+    @After
+    public void after(){
+        WindowFrame.AURORA_SAGRADIS.clean();
     }
 
 }
