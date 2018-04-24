@@ -7,17 +7,14 @@ import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.toolcards.*;
 import server.state.objectivecards.publicobjectivecards.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static server.state.boards.windowframe.WindowFrame.*;
 import static server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard.*;
 
 public class Util {
-    private static List<Integer> avalaiblePatterns= Arrays.asList(new Integer[]{0,1,2,3,4,5,6,7,8,9,10,11});
-    private static List<PrivateObjectiveCard> availableCards= Arrays.asList(new PrivateObjectiveCard[]{YELLOW_SHAPES, PURPLE_SHAPES, BLUE_SHAPES, GREEN_SHAPES, RED_SHAPES});
+    private static List<Integer> avalaiblePatterns=new LinkedList<>(Arrays.asList(new Integer[]{0,1,2,3,4,5,6,7,8,9,10,11,12}));
+    private static List<PrivateObjectiveCard> availableCards=new LinkedList<>( Arrays.asList(new PrivateObjectiveCard[]{YELLOW_SHAPES, PURPLE_SHAPES, BLUE_SHAPES, GREEN_SHAPES, RED_SHAPES}));
 
     public static WindowFrame[] getWindowFrameChoiche(){
         int choice[]=new int[2];
@@ -25,6 +22,7 @@ public class Util {
         Collections.shuffle(avalaiblePatterns);
         for(int i=0; i<choice.length; i++) {
             choice[i]=avalaiblePatterns.get(0);
+            avalaiblePatterns.remove(Integer.valueOf(choice[i]));
             switch (choice[i]) {
                 case 1:
                     result[2*i]=KALEIDOSCOPIC_DREAM;
@@ -70,6 +68,10 @@ public class Util {
                     result[2*i]=LUX_MUNDI;
                     result[2*i+1]=COMITAS ;
                     break;
+                case 12:
+                    result[2*i]=SUNS_GLORY;
+                    result[2*i+1]=FULGOR_DEL_CIELO;
+                    break;
                 default:
                     break;
             }
@@ -79,15 +81,15 @@ public class Util {
 
     public static ToolCard[] getToolCards(Model model) {
         //con StripCutter 13
-        boolean[] cards=new boolean[12];
+        boolean[] cards={true,true,true,true,true,true,true,true,true,true,true,true};
         ToolCard[] result=new ToolCard[3];
         Random rnd=new Random();
-        for(boolean b:cards) b=true;
         for(int i=0; i<3; i++){
             int card=rnd.nextInt(12);
             while(!cards[card]){
-                card=rnd.nextInt();
+                card=rnd.nextInt(12);
             }
+            cards[card]=false;
             switch (card){
                 case 0:
                     result[i]=new PinzaSgrossatrice(model);
@@ -135,11 +137,11 @@ public class Util {
     public static PublicObjectiveCard[] getPublicObjectiveCards() {
         PublicObjectiveCard[] result=new PublicObjectiveCard[3];
         Random rnd= new Random();
-        boolean[] cards=new boolean[10];
-        for(boolean b:cards) b=true;
+        boolean[] cards={true,true,true,true,true,true,true,true,true, true};
         for(int i=0; i<result.length; i++){
             int card=rnd.nextInt(10);
             while(!cards[card]) card=rnd.nextInt(10);
+            cards[card]=false;
             switch(card){
                 case 0:
                     result[i]=new DifferentColorsRow();
@@ -180,6 +182,8 @@ public class Util {
 
     public static PrivateObjectiveCard getCard() {
         Collections.shuffle(availableCards);
-        return availableCards.get(0);
+        PrivateObjectiveCard result=availableCards.get(0);
+        availableCards.remove(result);
+        return result;
     }
 }

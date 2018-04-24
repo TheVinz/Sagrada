@@ -16,6 +16,7 @@ public class WindowFrameTest {
     {
         windowFrame = WindowFrame.AURORA_SAGRADIS;
         dice = new Dice(Color.RED,1);
+        windowFrame.clean();
     }
 
     @Test

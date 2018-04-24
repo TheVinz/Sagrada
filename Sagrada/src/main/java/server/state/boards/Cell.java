@@ -30,7 +30,7 @@ public abstract class Cell {
 
 	public Dice removeDice() throws  InvalidMoveException{
 		if(this.isEmpty())
-			throw new InvalidMoveException("Not filled cell");
+			throw new InvalidMoveException("Empty cell");
 		else {
 			Dice result = this.dice;
 			this.dice = null;

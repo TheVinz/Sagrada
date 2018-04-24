@@ -43,7 +43,7 @@ public class CellTest {
             }
             catch (InvalidMoveException e)
             {
-                assertEquals(e.getMessage(),  "Not filled cell");
+                assertEquals(e.getMessage(),  "Empty cell");
             }
             finally {
                 try {
