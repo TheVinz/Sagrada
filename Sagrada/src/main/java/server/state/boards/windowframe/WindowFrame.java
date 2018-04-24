@@ -70,11 +70,11 @@ public enum WindowFrame {
 			}
 		}
 	}
-
+/*
 	public WindowFrameCell[][] getGrid(){
 		return this.cells;
 	}
-
+*/
 	public int getFavorToken() {
 		return favorToken;
 	}
