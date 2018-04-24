@@ -43,6 +43,11 @@ Vinz:
 		
 		NB Ho aggiunto dei TODO in giro, leggete e provate a implementare un po' di roba
 ========================================================================================
+TEST:
+
+	Tutte le objective cards sono testate.
+	ToolCards testate:
+		AlesatorePerLaminaDiRame
 
 
 Appena si può si passa al master.

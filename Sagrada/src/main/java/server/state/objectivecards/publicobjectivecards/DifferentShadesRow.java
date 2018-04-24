@@ -2,6 +2,7 @@ package server.state.objectivecards.publicobjectivecards;
 
 import server.state.boards.windowframe.WindowFrame;
 
+@SuppressWarnings("Duplicates")
 public class DifferentShadesRow extends PublicObjectiveCard{
     public int calculatePoints(WindowFrame windowFrame) {
         int points=0;
@@ -28,10 +29,11 @@ public class DifferentShadesRow extends PublicObjectiveCard{
                         case 6:
                             shades[5]++;
                             break;
-                        default:
-                            break;
+/*                        default:
+                            break;*/
                     }
                 }
+                else shades[0]+=2;
             }
             if(isGood(shades)) points+=5;
             shades=new int[]{0,0,0,0,0,0};

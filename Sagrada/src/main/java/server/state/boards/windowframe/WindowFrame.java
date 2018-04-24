@@ -83,5 +83,11 @@ public enum WindowFrame {
 		return cells[row][column];
 	}
 
+	public void clean(){
+		for(WindowFrameCell[] row : cells)
+			for(WindowFrameCell cell : row)
+				cell.removeDice();
+	}
+
 	public String getRep(){return this.rep;}
 }

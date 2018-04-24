@@ -15,7 +15,7 @@ public class PaleShadesTest {    //coperto
 
     @Before
     public void initClass() {
-        windowFrame = WindowFrame.AURORA_SAGRADIS;
+        windowFrame = WindowFrame.LUZ_CELESTIAL;
         paleShades = new PaleShades();
     }
 

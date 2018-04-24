@@ -2,6 +2,7 @@ package server.state.objectivecards.publicobjectivecards;
 
 import server.state.boards.windowframe.WindowFrame;
 
+@SuppressWarnings("Duplicates")
 public class DifferentColorsColumn extends PublicObjectiveCard {
     public int calculatePoints(WindowFrame windowFrame) {
         int points=0;
@@ -25,10 +26,11 @@ public class DifferentColorsColumn extends PublicObjectiveCard {
                         case YELLOW:
                             colors[4]++;
                             break;
-                        default:
-                            break;
+/*                        default:
+                            break;*/
                     }
                 }
+                else colors[0]+=2;
             }
             if(isGood(colors)) points+=5;
             colors=new int[]{0,0,0,0,0};

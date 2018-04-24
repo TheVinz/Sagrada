@@ -15,14 +15,21 @@ public class DifferentShadesTest {  //andata con vetrata vuota
     private DifferentShades differentShades;
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.AURORA_SAGRADIS;
+        windowFrame = WindowFrame.VIA_LUX;
         differentShades = new DifferentShades();
     }
     @Test
-    public void shouldCalculatePoints(){
-
-
+    public void shouldCalculatePoints() throws InvalidMoveException {
         assertEquals(0,differentShades.calculatePoints(windowFrame));
+        windowFrame.getCell(0,0).put(new Dice(Color.GREEN, 1));
+        windowFrame.getCell(0,1).put(new Dice(Color.GREEN, 3));
+        windowFrame.getCell(0,2).put(new Dice(Color.GREEN, 2));
+        windowFrame.getCell(1,0).put(new Dice(Color.GREEN, 6));
+        windowFrame.getCell(1,3).put(new Dice(Color.GREEN, 5));
+        windowFrame.getCell(2,1).put(new Dice(Color.GREEN, 1));
+        windowFrame.getCell(3,1).put(new Dice(Color.GREEN, 4));
+        windowFrame.getCell(3,4).put(new Dice(Color.GREEN, 3));
+        assertEquals(5, differentShades.calculatePoints(windowFrame));
     }
 
 }

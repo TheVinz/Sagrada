@@ -1,7 +1,6 @@
 package server.state.objectivecards.publicobjectivecards;
 
 import server.state.boards.windowframe.WindowFrame;
-import server.state.utilities.Color;
 
 public class ColoredDiagonal extends PublicObjectiveCard{
     public int calculatePoints(WindowFrame windowFrame) {
@@ -15,11 +14,43 @@ public class ColoredDiagonal extends PublicObjectiveCard{
     }
 
     private boolean isValid(int i, int j, WindowFrame windowFrame){
-        Color color=windowFrame.getCell(i,j).getDice().getColor();
-        return isValidRow(i+1) && isValidColumn(j+1) && windowFrame.getCell(i+1,j+1).getDice().getColor()==color ||
-                isValidRow(i+1) && isValidColumn(j-1) && windowFrame.getCell(i+1,j-1).getDice().getColor()==color ||
-                isValidRow(i-1) && isValidColumn(j+1) && windowFrame.getCell(i-1,j+1).getDice().getColor()==color ||
-                isValidRow(i-1) && isValidColumn(j-1) && windowFrame.getCell(i-1,j-1).getDice().getColor()==color;
+        if(!windowFrame.getCell(i,j).isEmpty()) {
+            return isValidUpRight(i,j, windowFrame) || isValidUpLeft(i,j, windowFrame)
+                    || isValidDownRight(i,j, windowFrame) || isValidDownLeft(i,j, windowFrame);
+        }
+        else return false;
+    }
+
+    private boolean isValidDownLeft(int i, int j, WindowFrame windowFrame) {
+        if(!isValidRow(i+1)) return false;
+        else if(!isValidColumn(j-1)) return false;
+        else if(windowFrame.getCell(i+1, j-1).isEmpty()) return false;
+        else
+            return windowFrame.getCell(i+1,j-1).getDice().getColor()==windowFrame.getCell(i,j).getDice().getColor();
+    }
+
+    private boolean isValidDownRight(int i, int j, WindowFrame windowFrame) {
+        if(!isValidRow(i+1)) return false;
+        else if(!isValidColumn(j+1)) return false;
+        else if(windowFrame.getCell(i+1, j+1).isEmpty()) return false;
+        else
+            return windowFrame.getCell(i+1,j+1).getDice().getColor()==windowFrame.getCell(i,j).getDice().getColor();
+    }
+
+    private boolean isValidUpLeft(int i, int j, WindowFrame windowFrame) {
+        if(!isValidRow(i-1)) return false;
+        else if(!isValidColumn(j-1)) return false;
+        else if(windowFrame.getCell(i-1, j-1).isEmpty()) return false;
+        else
+            return windowFrame.getCell(i-1,j-1).getDice().getColor()==windowFrame.getCell(i,j).getDice().getColor();
+    }
+
+    private boolean isValidUpRight(int i, int j, WindowFrame windowFrame) {
+        if(!isValidRow(i-1)) return false;
+        else if(!isValidColumn(j+1)) return false;
+        else if(windowFrame.getCell(i-1, j+1).isEmpty()) return false;
+        else
+            return windowFrame.getCell(i-1, j+1).getDice().getColor()==windowFrame.getCell(i,j).getDice().getColor();
     }
 
     private boolean isValidRow(int i){
@@ -27,6 +58,6 @@ public class ColoredDiagonal extends PublicObjectiveCard{
     }
 
     private boolean isValidColumn(int j){
-        return j>=0 && j<=WindowFrame.COLUMNS;
+        return j>=0 && j<WindowFrame.COLUMNS;
     }
 }
