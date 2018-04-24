@@ -46,8 +46,12 @@ Vinz:
 TEST:
 
 	Tutte le objective cards sono testate.
+	
 	ToolCards testate:
 		AlesatorePerLaminaDiRame
+		DiluentePerPastaSalda
+		Lathekin
+_________________________________________________________________________________________
 
 
 Appena si può si passa al master.
