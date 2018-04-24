@@ -3,6 +3,7 @@ package server.state.bag;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import server.state.dice.Dice;
 import server.state.utilities.Color;
 
 import java.util.ArrayList;
@@ -11,10 +12,13 @@ import static org.junit.Assert.*;
 
 public class BagTest {
     private Bag bag;
+    private Dice dice;
+
 
     @Before
     public void setUp(){
         bag=new Bag();
+        dice = new Dice(Color.BLUE,4);
     }
 
     @Test
@@ -51,6 +55,15 @@ public class BagTest {
     }
 
     @Test
-    public void insert() {
+    public void shouldInsert() {
+
+        bag.insert(dice);
+        assertNotEquals(null,bag);
+    }
+    @Test
+    public void shouldDraw(){
+        assertEquals(4,bag.draw(4).getValue());
+        assertNotEquals(null,bag.draw(4));
+
     }
 }

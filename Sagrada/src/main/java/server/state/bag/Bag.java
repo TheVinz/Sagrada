@@ -41,13 +41,18 @@ public class Bag{
 		Collections.shuffle(list);
 		dices=new ArrayDeque<>(list);
 	}
+
+
+
 	//creo un nuovo dado del colore del char ottenuto pescando dalla pila
 	public Dice draw() {
 		return new Dice(dices.pop());
 	}
+
 	public Dice draw(int value) {
 		return new Dice(dices.pop(), value);
 	}
+
 	//Re inserisco un dado nel sacco
 	public void insert(Dice dice){
 		dices.push(dice.getColor());
