@@ -74,7 +74,7 @@ public class Model implements Observable {
     }
 
     public Dice drowDice(Player player) {
-        Dice dice=state.getBag().drow();
+        Dice dice=state.getBag().draw();
         notifyDrow(player, dice);
         return dice;
     }

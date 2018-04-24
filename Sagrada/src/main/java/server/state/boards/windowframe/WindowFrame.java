@@ -1,5 +1,7 @@
 package server.state.boards.windowframe;
 
+import common.exceptions.InvalidMoveException;
+
 import java.util.*;
 
 import static server.state.utilities.Color.*;
@@ -86,7 +88,12 @@ public enum WindowFrame {
 	public void clean(){
 		for(WindowFrameCell[] row : cells)
 			for(WindowFrameCell cell : row)
-				cell.removeDice();
+				try{
+					cell.removeDice();
+				}catch (InvalidMoveException e){
+
+				}
+
 	}
 
 	public String getRep(){return this.rep;}

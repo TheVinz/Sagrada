@@ -4,9 +4,8 @@ import common.exceptions.InvalidMoveException;
 import server.state.utilities.Color;
 import server.state.dice.Dice;
 
-public class WindowFrameCell implements Cell {
-    //Dado presente nella casella
-    private Dice dice;
+public class WindowFrameCell extends Cell {
+
     private Color color;
     private  final int row;
     private  final int columnn;
@@ -49,31 +48,6 @@ public class WindowFrameCell implements Cell {
         return color;
     }
 
-    public Dice getDice(){
-        return this.dice;
-    }
 
-    public void move(Cell target) throws InvalidMoveException{
-        if(this.isEmpty()) throw new InvalidMoveException("Empty cell");
-        else{
-            target.put(this.getDice());
-            dice=null;
-        }
-    }
 
-    public void put(Dice dice) throws InvalidMoveException{
-        if(!this.isEmpty()) throw new InvalidMoveException("Already filled cell");
-        else this.dice=dice;
-    }
-
-    public boolean isEmpty(){
-        return dice==null;
-    }
-
-    @Override
-    public Dice removeDice() {
-        Dice result=this.dice;
-        this.dice=null;
-        return result;
-    }
 }

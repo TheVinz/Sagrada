@@ -2,10 +2,39 @@ package server.state.boards;
 import server.state.dice.Dice;
 import common.exceptions.InvalidMoveException;
 
-public interface Cell {
-	Dice getDice();
-	void move(Cell target) throws InvalidMoveException;
-	void put(Dice dice) throws InvalidMoveException;
-	boolean isEmpty();
-	Dice removeDice();
+public abstract class Cell {
+	private Dice dice;
+
+	public Dice getDice(){
+		return this.dice;
+	}
+
+	public void move(Cell target) throws InvalidMoveException{
+		if(this.isEmpty())
+			throw new InvalidMoveException("Empty cell");
+		else {
+			target.put(dice);
+			dice = null;
+		}
+	}
+
+	public void put(Dice dice) throws InvalidMoveException{
+		if(!this.isEmpty())
+			throw new InvalidMoveException("Already filled cell");
+		this.dice=dice;
+	}
+
+	public boolean isEmpty(){
+		return dice==null;
+	}
+
+	public Dice removeDice() throws  InvalidMoveException{
+		if(this.isEmpty())
+			throw new InvalidMoveException("Not filled cell");
+		else {
+			Dice result = this.dice;
+			this.dice = null;
+			return result;
+		}
+	}
 }

@@ -25,31 +25,23 @@ public class RoundTrack{
 		}
 	}
 	//Aumenta il round
-	public void endRound(DraftPool pool) throws InvalidMoveException {
+	public void endRound(DraftPool pool) throws InvalidMoveException, Exception {
+		if(round == 11)
+			throw new Exception("Game is finished");
 		for(int i=pool.getSize()-1; i>=0; i--){
 			if(pool.getCell(i).getDice()!=null){
-				roundTrackSpaces.get(round).add(0,new RoundTrackCell());
+				roundTrackSpaces.get(round).add(0, new RoundTrackCell());
 				roundTrackSpaces.get(round).get(0).put(pool.getCell(i).removeDice());
 			}
 		}
+		round++;
 	}
 	//Ritorna il set di dadi del turno indicato
 	public List<RoundTrackCell> getRoundSet(int round){
 		return roundTrackSpaces.get(round);
 	}
-	//Ritorna un array dei colori dei dadi presenti sulla tabella, può tornare utile per l' effetto di alcune toolcards
-	public Color[] getColors(){
-		ArrayList<Color> list= new ArrayList<>();
-		ArrayList<RoundTrackCell> cellList;
-		for(int i=1; i<=round; i++){
-			cellList=roundTrackSpaces.get(i);
-			for(int j=0; j<roundTrackSpaces.get(i).size(); j++){
-				if(!list.contains(cellList.get(j).getDice().getColor()))
-					list.add(cellList.get(j).getDice().getColor());
-			}
-		}
-		return list.toArray(new Color[0]);
-	}
+
+
 	public int getRound(){
 		return this.round;
 	}
