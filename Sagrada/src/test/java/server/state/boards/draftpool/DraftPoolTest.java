@@ -16,13 +16,26 @@ public class DraftPoolTest {
         draftPool = new DraftPool();
     }
     @Test
-    public void shouldIncreaseSize()
+    public void shouldIncreaseSize ()
     {
-        for(int i=0; i<6; i++)
+        for(int i=0; i<5; i++)
         {
             assertEquals(Math.min(9, 1+i*2), draftPool.getSize());
+            if(i == 4)
+                break;
+            try{
+                draftPool.increaseSize();
+            }
+            catch (Exception e){
+                fail("Should not be exception");
+            }
+        }
+        try{
             draftPool.increaseSize();
-
+            fail("Should be exception");
+        }
+        catch (Exception e){
+            assertEquals("The game is full", e.getMessage());
         }
     }
     @Test
@@ -34,8 +47,8 @@ public class DraftPoolTest {
     @Test
     public void shouldDrow()
     {
-        draftPool.drow(new Bag());
-        assertEquals(draftPool.getDraftPool().length, draftPool.getSize());
+        draftPool.draw(new Bag());
+        assertEquals(draftPool.getDraftPool().size(), draftPool.getSize());
     }
 
     @Test

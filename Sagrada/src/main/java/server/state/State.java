@@ -30,9 +30,10 @@ public class State{
 		this.draftPool=new DraftPool();
 	}
 
-	public void addPlayer(String name, int id){
+	public void addPlayer(String name, int id) throws Exception{
 		players.add(id, new Player(name, id));
 		draftPool.increaseSize();
+
 	}
 
 	public DraftPool getDraftPool(){
