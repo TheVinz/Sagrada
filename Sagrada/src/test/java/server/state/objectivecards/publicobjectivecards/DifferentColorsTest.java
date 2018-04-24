@@ -19,7 +19,7 @@ public class DifferentColorsTest {  //andata con vetrata vuota
     }
     @Test
     public void shouldCalculatePoints(){
-        assertEquals(0,differentColors.calculatePoints(windowFrame));
+        assertEquals(0,differentColors.calculatePoints(windowFrame));  //vetrata vuota
         try{
             windowFrame.getCell(0,0).put(new Dice(Color.RED));
             windowFrame.getCell(0,1).put(new Dice(Color.BLUE));
@@ -35,7 +35,17 @@ public class DifferentColorsTest {  //andata con vetrata vuota
         catch (InvalidMoveException e){
             e.printStackTrace();
         }
-        assertEquals(4, differentColors.calculatePoints(windowFrame));
+        assertEquals(4, differentColors.calculatePoints(windowFrame));   //9 dadi di cui 6 di colore diverso
+
+        try{
+            windowFrame.getCell(1,2).put(new Dice(Color.YELLOW));
+            windowFrame.getCell(1,3).put(new Dice(Color.BLUE));}
+            catch(InvalidMoveException e){
+            e.printStackTrace();
+            }
+
+        assertEquals(8,differentColors.calculatePoints(windowFrame));  //11  dadi di cui 6+6 diversi
+
     }
 
 
