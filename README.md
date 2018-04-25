@@ -52,6 +52,7 @@ TEST:
 		AlesatorePerLaminaDiRame
 		DiluentePerPastaSalda
 		Lathekin
+		Martelletto
 _________________________________________________________________________________________
 
 

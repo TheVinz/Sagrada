@@ -1,6 +1,7 @@
 package server.state.boards.draftpool;
 
 
+import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import server.state.bag.Bag;
@@ -45,8 +46,7 @@ public class DraftPoolTest {
     }
 
     @Test
-    public void shouldDrow()
-    {
+    public void shouldDrow() throws InvalidMoveException {
         draftPool.draw(new Bag());
         assertEquals(draftPool.getDraftPool().size(), draftPool.getSize());
     }

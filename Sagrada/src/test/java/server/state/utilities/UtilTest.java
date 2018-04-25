@@ -44,11 +44,84 @@ public class UtilTest {
         assertNotNull(toolCard[0]);
         assertNotNull(toolCard[1]);
         assertNotNull(toolCard[2]);
+
+
+        toolCard=Util.getToolCards(model);
+        assertNotEquals(toolCard[0].getClass(), toolCard[1].getClass());
+        assertNotEquals(toolCard[0].getClass(), toolCard[2].getClass());
+        assertNotEquals(toolCard[1].getClass(), toolCard[2].getClass());
+        assertNotNull(toolCard[0]);
+        assertNotNull(toolCard[1]);
+        assertNotNull(toolCard[2]);
+
+        toolCard=Util.getToolCards(model);
+        assertNotEquals(toolCard[0].getClass(), toolCard[1].getClass());
+        assertNotEquals(toolCard[0].getClass(), toolCard[2].getClass());
+        assertNotEquals(toolCard[1].getClass(), toolCard[2].getClass());
+        assertNotNull(toolCard[0]);
+        assertNotNull(toolCard[1]);
+        assertNotNull(toolCard[2]);
+
+        toolCard=Util.getToolCards(model);
+        assertNotEquals(toolCard[0].getClass(), toolCard[1].getClass());
+        assertNotEquals(toolCard[0].getClass(), toolCard[2].getClass());
+        assertNotEquals(toolCard[1].getClass(), toolCard[2].getClass());
+        assertNotNull(toolCard[0]);
+        assertNotNull(toolCard[1]);
+        assertNotNull(toolCard[2]);
+
+        toolCard=Util.getToolCards(model);
+        assertNotEquals(toolCard[0].getClass(), toolCard[1].getClass());
+        assertNotEquals(toolCard[0].getClass(), toolCard[2].getClass());
+        assertNotEquals(toolCard[1].getClass(), toolCard[2].getClass());
+        assertNotNull(toolCard[0]);
+        assertNotNull(toolCard[1]);
+        assertNotNull(toolCard[2]);
     }
 
     @Test
     public void getPublicObjectiveCards() {
         PublicObjectiveCard[] cards=Util.getPublicObjectiveCards();
+        assertNotEquals(cards[0].getClass(), cards[1].getClass());
+        assertNotEquals(cards[0].getClass(), cards[2].getClass());
+        assertNotEquals(cards[1].getClass(), cards[2].getClass());
+        assertNotNull(cards[0]);
+        assertNotNull(cards[1]);
+        assertNotNull(cards[2]);
+
+        cards=Util.getPublicObjectiveCards();
+        assertNotEquals(cards[0].getClass(), cards[1].getClass());
+        assertNotEquals(cards[0].getClass(), cards[2].getClass());
+        assertNotEquals(cards[1].getClass(), cards[2].getClass());
+        assertNotNull(cards[0]);
+        assertNotNull(cards[1]);
+        assertNotNull(cards[2]);
+
+        cards=Util.getPublicObjectiveCards();
+        assertNotEquals(cards[0].getClass(), cards[1].getClass());
+        assertNotEquals(cards[0].getClass(), cards[2].getClass());
+        assertNotEquals(cards[1].getClass(), cards[2].getClass());
+        assertNotNull(cards[0]);
+        assertNotNull(cards[1]);
+        assertNotNull(cards[2]);
+
+        cards=Util.getPublicObjectiveCards();
+        assertNotEquals(cards[0].getClass(), cards[1].getClass());
+        assertNotEquals(cards[0].getClass(), cards[2].getClass());
+        assertNotEquals(cards[1].getClass(), cards[2].getClass());
+        assertNotNull(cards[0]);
+        assertNotNull(cards[1]);
+        assertNotNull(cards[2]);
+
+        cards=Util.getPublicObjectiveCards();
+        assertNotEquals(cards[0].getClass(), cards[1].getClass());
+        assertNotEquals(cards[0].getClass(), cards[2].getClass());
+        assertNotEquals(cards[1].getClass(), cards[2].getClass());
+        assertNotNull(cards[0]);
+        assertNotNull(cards[1]);
+        assertNotNull(cards[2]);
+
+        cards=Util.getPublicObjectiveCards();
         assertNotEquals(cards[0].getClass(), cards[1].getClass());
         assertNotEquals(cards[0].getClass(), cards[2].getClass());
         assertNotEquals(cards[1].getClass(), cards[2].getClass());
