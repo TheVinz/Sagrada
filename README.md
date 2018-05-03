@@ -53,6 +53,8 @@ TEST:
 		DiluentePerPastaSalda
 		Lathekin
 		Martelletto
+		PennelloPerEglomise
+		PennelloPerPastaSalda
 _________________________________________________________________________________________
 
 
