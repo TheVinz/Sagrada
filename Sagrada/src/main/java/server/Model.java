@@ -83,6 +83,9 @@ public class Model implements Observable {
         cell.getDice().flip();
         notifyCellChangement(player, cell);
     }
+    public void endTurn(){
+
+    }
 
     //TODO introdurre codice per i favor tokens
     public void toolCardUsed(Player player, ToolCard toolCard){

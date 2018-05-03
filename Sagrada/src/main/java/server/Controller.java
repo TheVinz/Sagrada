@@ -58,6 +58,8 @@ public class Controller{
 		else if(picked != null){
 			model.move(player, picked, cell);
 			moveDone=true;
+			if(toolCardUsed)
+				this.endTurn();
 		}
 	}
 
@@ -75,16 +77,30 @@ public class Controller{
 			activeToolCard=null;
 			throw e;
 		}
-		if(!activeToolCard.hasNext()) activeToolCard=null;
+		if(!activeToolCard.hasNext()) {
+			activeToolCard=null;
+			if(moveDone)
+				this.endTurn();
+		}
 	}
-
+	public void endTurn()
+	{
+		player.setFirstMoveDone(true);
+		model.endTurn();
+	}
 	//TODO il controller deve poter verificare se il Player dispone di abbastanza segnalini favore per poter utilizzare la carta
 	public void useToolCard(int index) throws InvalidMoveException {
 		if(!toolCardUsed) {
 			this.activeToolCard=model.getState().getToolCard(index);
 			activeToolCard.start(this.player);
-			if(!activeToolCard.hasNext()) this.activeToolCard=null;
+			if(!activeToolCard.hasNext())
+			{
+				this.activeToolCard=null;
+				if(moveDone)
+					this.endTurn();
+			}
 		}
 		else throw new InvalidMoveException("Only one tool card per turn");
+
 	}
 }

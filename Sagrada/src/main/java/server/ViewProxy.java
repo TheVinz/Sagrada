@@ -56,6 +56,8 @@ public class ViewProxy implements RemoteView, Observer {
             case USE_TOOL_CARD:
                 controller.useToolCard(c.getX());
                 break;
+            case END_TURN:
+                controller.endTurn();
             default:
                 break;
         }

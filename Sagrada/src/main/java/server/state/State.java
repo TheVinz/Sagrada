@@ -20,6 +20,7 @@ public class State{
 	private final ToolCard[] toolCards;
 	private final PublicObjectiveCard[] publicObjectiveCards;
 	private final List<Player> players;
+	private final RoundManager roundManager;
 
 	public State(Model model){
 		this.bag=new Bag();
@@ -28,6 +29,7 @@ public class State{
 		this.publicObjectiveCards=Util.getPublicObjectiveCards();
 		this.players=new ArrayList<>();
 		this.draftPool=new DraftPool();
+		this.roundManager=new RoundManager();
 	}
 
 	public void addPlayer(String name, int id) throws Exception{
