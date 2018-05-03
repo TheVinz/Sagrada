@@ -17,7 +17,7 @@ public class DiluentePerPastaSalda extends ToolCard {
 
     private boolean valueSetted;
     private boolean playable;
-    private boolean drowDone;
+    private boolean drawDone;
     private DraftPoolCell poolCell;
     private Dice dice;
 
@@ -33,13 +33,13 @@ public class DiluentePerPastaSalda extends ToolCard {
         expectedParameters.add(WindowFrameCell.class);
         this.player=player;
         playable=false;
-        drowDone=false;
+        drawDone=false;
         valueSetted=false;
     }
 
     @Override
     public void setParameter(Object o) throws InvalidMoveException {
-        if(!drowDone) {
+        if(!drawDone) {
             if(o.getClass()!=DraftPoolCell.class) throw new InvalidMoveException("Wrong parameter");
             else {
                 parameters.add(o);
@@ -64,17 +64,18 @@ public class DiluentePerPastaSalda extends ToolCard {
 
     @Override
     void doAbility() throws InvalidMoveException {
-        if(!drowDone) {
+        if(!drawDone) {
             poolCell = (DraftPoolCell) parameters.get(0);
             dice = poolCell.removeDice();
             model.getState().getBag().insert(dice);
-            dice=model.drowDice(player);
-            drowDone=true;
+            dice=model.drawDice(player);
+            drawDone=true;
         }
         else if(!valueSetted){
             dice=new Dice(dice.getColor(), (Integer) parameters.get(1));
             model.putDice(player, dice, poolCell);
             valueSetted=true;
+            playable=verify(dice);
         }
         else{
             WindowFrame frame= (WindowFrame) parameters.get(2);
@@ -103,7 +104,7 @@ public class DiluentePerPastaSalda extends ToolCard {
 
     @Override
     public boolean hasNext(){
-        return drowDone && playable;
+        return drawDone && playable;
     }
 
     private boolean verify(Dice dice) {

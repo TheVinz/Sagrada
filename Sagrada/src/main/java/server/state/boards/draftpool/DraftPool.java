@@ -10,17 +10,14 @@ import java.util.Stack;
 
 public class DraftPool{
 	//Dimensione della riserva
-	private int size;
-	private List<DraftPoolCell> draftPoolCells = new ArrayList<DraftPoolCell>();
+	private List<DraftPoolCell> draftPoolCells = new ArrayList<>();
 
 	public DraftPool(){
-		size=1;
 		draftPoolCells.add(new DraftPoolCell());
     }
     public void increaseSize() throws Exception{ //limite superiore?
-		if(size == 9)
+		if(draftPoolCells.size() == 9)
 			throw new Exception("The game is full");
-		size+=2;
 		draftPoolCells.add(new DraftPoolCell());
 		draftPoolCells.add(new DraftPoolCell());
 	}
@@ -29,13 +26,9 @@ public class DraftPool{
     }
 
 	//Pesca nuovi dadi dal sacchetto e li aggiunge alla riserva
-	public void draw(Bag bag){
-	    for(int i=0; i<size; i++) {
-			try {
-				draftPoolCells.get(i).put(bag.draw());
-			} catch (InvalidMoveException e) {
-				e.printStackTrace();
-			}
+	public void draw(Bag bag) throws InvalidMoveException {
+	    for(int i=0; i<draftPoolCells.size(); i++) {
+			draftPoolCells.get(i).put(bag.draw());
 		}
     }
 
@@ -44,6 +37,6 @@ public class DraftPool{
     } //manca eccezione
 
 	public int getSize() {
-		return size;
+		return draftPoolCells.size();
 	}
 }

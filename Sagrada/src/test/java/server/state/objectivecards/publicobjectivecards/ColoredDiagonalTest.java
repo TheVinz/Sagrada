@@ -16,6 +16,7 @@ public class ColoredDiagonalTest {     //nullpointerexception
     public void initClass(){
         windowFrame = WindowFrame.AURORA_SAGRADIS;
         coloredDiagonal = new ColoredDiagonal();
+        windowFrame.clean();
     }
     @Test
     public void shouldCalculatePoints() throws InvalidMoveException {

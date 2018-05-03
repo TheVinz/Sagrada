@@ -40,10 +40,14 @@ public class PennelloPerEglomise extends ToolCard {
             throw new InvalidMoveException("Wrong parameter");
         else{
             Dice dice=source.removeDice();
-            if(!GameRules.validCellShade(dice, target))
+            if(!GameRules.validCellShade(dice, target)) {
+                source.put(dice);
                 throw new InvalidMoveException("Cell and dice shapes must be equal");
-            else if(!GameRules.validAllDiceRestriction(targetFrame, dice, target))
+            }
+            else if(!GameRules.validAllDiceRestriction(targetFrame, dice, target)) {
+                source.put(dice);
                 throw new InvalidMoveException("Invalid adjacent dices");
+            }
             else{
                 source.put(dice);
                 model.move(player, source, target);

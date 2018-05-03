@@ -42,20 +42,37 @@ public class Lathekin extends ToolCard {
         WindowFrameCell secondSource= (WindowFrameCell) parameters.get(5);
         WindowFrame secondtargetFrame= (WindowFrame) parameters.get(6);
         WindowFrameCell secondTarget= (WindowFrameCell) parameters.get(7);
-        if(firstSourceFrame!=secondSourceFrame || firstSourceFrame!=firstTargetFrame
+
+        if(firstSource==secondSource)
+            throw new InvalidMoveException("Choose two different dices");
+        else if(firstTarget==secondTarget)
+            throw new InvalidMoveException("Target positions must be different");
+        else if(firstSourceFrame!=secondSourceFrame || firstSourceFrame!=firstTargetFrame
                 || firstSourceFrame != secondtargetFrame || firstSourceFrame!=player.getWindowFrame())
             throw new InvalidMoveException("Dice must be on your same frame");
         else {
             Dice firstDice = firstSource.removeDice();
             Dice secondDice=secondSource.removeDice();
-            if(!GameRules.validAllCellRestriction(firstDice, firstSource))
+            if(!GameRules.validAllCellRestriction(firstDice, firstTarget)) {
+                firstSource.put(firstDice);
+                secondSource.put(secondDice);
                 throw new InvalidMoveException("First move does not respect cell restrictions");
-            else if(!GameRules.validAllDiceRestriction(player.getWindowFrame(), firstDice, firstTarget))
+            }
+            else if(!GameRules.validAllDiceRestriction(player.getWindowFrame(), firstDice, firstTarget)) {
+                firstSource.put(firstDice);
+                secondSource.put(secondDice);
                 throw new InvalidMoveException("First move does not respect dice restrictions");
-            else if(!GameRules.validAllCellRestriction(secondDice, secondSource))
+            }
+            else if(!GameRules.validAllCellRestriction(secondDice, secondTarget)) {
+                firstSource.put(firstDice);
+                secondSource.put(secondDice);
                 throw new InvalidMoveException("Second move does not respect cell restrictions");
-            else if(!GameRules.validAllDiceRestriction(player.getWindowFrame(), secondDice, secondTarget))
+            }
+            else if(!GameRules.validAllDiceRestriction(player.getWindowFrame(), secondDice, secondTarget)) {
+                firstSource.put(firstDice);
+                secondSource.put(secondDice);
                 throw new InvalidMoveException("Second move does not respect dice restrictions");
+            }
             else{
                 firstSource.put(firstDice);
                 secondSource.put(secondDice);

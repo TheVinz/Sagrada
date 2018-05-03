@@ -38,8 +38,11 @@ public class GameRules {
 
     public static boolean validAdjacentDices(WindowFrame windowFrame, WindowFrameCell target) {
         return diceOK(getDown(windowFrame, target)) || diceOK(getUp(windowFrame, target))
-                || diceOK(getLeft(windowFrame, target)) || diceOK(getRight(windowFrame, target));
+                || diceOK(getLeft(windowFrame, target)) || diceOK(getRight(windowFrame, target)) ||
+                diceOK(getUpRight(windowFrame, target)) || diceOK(getUpLeft(windowFrame, target))
+                || diceOK(getDownRight(windowFrame, target)) || diceOK(getDownLeft(windowFrame, target));
     }
+
 
     public static boolean validAdjacentDiceColors(WindowFrame windowFrame, Dice dice, WindowFrameCell cell){
         Color color = dice.getColor();
@@ -78,6 +81,30 @@ public class GameRules {
     private static WindowFrameCell getUp(WindowFrame windowFrame, WindowFrameCell cell) {
         if(cell.getRow()==0) return null;
         else return windowFrame.getCell(cell.getRow()-1, cell.getColumnn());
+    }
+
+    private static Cell getUpRight(WindowFrame windowFrame, WindowFrameCell cell) {
+        if(cell.getRow()==0) return null;
+        if(cell.getColumnn()==4) return null;
+        else return windowFrame.getCell(cell.getRow()-1, cell.getColumnn()+1);
+    }
+
+    private static Cell getUpLeft(WindowFrame windowFrame, WindowFrameCell cell) {
+        if(cell.getRow()==0) return null;
+        if(cell.getColumnn()==0) return null;
+        else return windowFrame.getCell(cell.getRow()-1, cell.getColumnn()-1);
+    }
+
+    private static Cell getDownLeft(WindowFrame windowFrame, WindowFrameCell cell) {
+        if(cell.getRow()==3) return null;
+        if(cell.getColumnn()==0) return null;
+        else return windowFrame.getCell(cell.getRow()+1, cell.getColumnn()-1);
+    }
+
+    private static Cell getDownRight(WindowFrame windowFrame, WindowFrameCell cell) {
+        if(cell.getRow()==3) return null;
+        if(cell.getColumnn()==4) return null;
+        else return windowFrame.getCell(cell.getRow()+1, cell.getColumnn()+1);
     }
 
     private static boolean diceOK(Cell cell){

@@ -7,6 +7,13 @@
     <groupId>progetto</groupId>
     <artifactId>sagrada</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <sonar.junit.reportPaths>target/surefire-reports</sonar.junit.reportPaths>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -23,9 +30,28 @@
         </dependency>
 
     </dependencies>
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+
+    <build>
+    <!-- To define the plugin version in your parent POM -->
+    <pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.4.0.905</version>
+            </plugin>
+        </plugins>
+    </pluginManagement>
+    <!-- To use the plugin goals in your POM or parent POM -->
+    <plugins>
+        <plugin>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.4.0.905</version>
+        </plugin>
+    </plugins>
+    </build>
+
+
 
 </project>

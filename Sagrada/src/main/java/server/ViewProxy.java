@@ -27,6 +27,7 @@ public class ViewProxy implements RemoteView, Observer {
 
     public ViewProxy(Model model, int id){
         model.addObserver(this);
+        state=model.getState();
         controller=new Controller(model, state.getPlayer(id));
         this.id=id;
     }

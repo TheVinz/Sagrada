@@ -26,6 +26,7 @@ public class Model implements Observable {
         observers=new ArrayList<>();
     }
 
+
     public State getState() {
         return state;
     }
@@ -73,7 +74,7 @@ public class Model implements Observable {
         notifyCellChangement(player, cell);
     }
 
-    public Dice drowDice(Player player) {
+    public Dice drawDice(Player player) {
         Dice dice=state.getBag().draw();
         notifyDrow(player, dice);
         return dice;
