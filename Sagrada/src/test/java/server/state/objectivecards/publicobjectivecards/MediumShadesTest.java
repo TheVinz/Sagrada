@@ -4,6 +4,7 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.utilities.Color;
 
@@ -14,7 +15,7 @@ public class MediumShadesTest {   //copertoo
     private MediumShades mediumShades;
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.SHADOW_THIEF;
+        windowFrame =new WindowFrame(WindowFrameList.VIA_LUX);
         mediumShades = new MediumShades();
     }
     @Test

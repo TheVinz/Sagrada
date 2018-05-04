@@ -14,9 +14,8 @@ public class WindowFrameTest {
     @Before
             public void init()
     {
-        windowFrame = WindowFrame.AURORA_SAGRADIS;
+        windowFrame = new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
         dice = new Dice(Color.RED,1);
-        windowFrame.clean();
     }
 
     @Test
@@ -26,7 +25,6 @@ public class WindowFrameTest {
     @Test
     public void shouldClean() throws InvalidMoveException {
         windowFrame.getCell(0,1).put(dice);
-        windowFrame.clean();
         assertNotEquals(dice,windowFrame.getCell(0,1));
     }
     @Test

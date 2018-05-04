@@ -13,6 +13,7 @@ import server.state.player.Player;
 import server.state.utilities.Color;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 public class AlesatorePerLaminaDiRameTest {
 
@@ -24,6 +25,8 @@ public class AlesatorePerLaminaDiRameTest {
     public void setUp() throws Exception {
         model= Mockito.mock(Model.class);
         player=Mockito.mock(Player.class);
+        WindowFrame frame = new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
+        when(player.getWindowFrame()).thenReturn(frame);
         test=new AlesatorePerLaminaDiRame(model);
         player.getWindowFrame().getCell(0,0).put(new Dice(Color.RED, 4));
         player.getWindowFrame().getCell(0,2).put(new Dice(Color.BLUE, 5));
@@ -37,38 +40,39 @@ public class AlesatorePerLaminaDiRameTest {
     @Test
     public void doAbility() throws InvalidMoveException {
         test.start(player);
-        test.setParameter(WindowFrame.AURORA_SAGRADIS);
-        test.setParameter(WindowFrame.AURORA_SAGRADIS.getCell(0, 0));
-        test.setParameter(WindowFrame.AURORA_SAGRADIS);
-        test.setParameter(WindowFrame.AURORA_SAGRADIS.getCell(0, 1));
+        test.setParameter(player.getWindowFrame());
+        test.setParameter(player.getWindowFrame().getCell(0, 0));
+        test.setParameter(player.getWindowFrame());
+        test.setParameter(player.getWindowFrame().getCell(0, 1));
 
+        WindowFrame frame=new WindowFrame(WindowFrameList.FIRELIGHT);
         test.start(player);
-        test.setParameter(WindowFrame.FIRELIGHT);
-        test.setParameter(WindowFrame.FIRELIGHT.getCell(0, 0));
-        test.setParameter(WindowFrame.AURORA_SAGRADIS);
+        test.setParameter(frame);
+        test.setParameter(frame.getCell(0, 0));
+        test.setParameter(player.getWindowFrame());
         try {
-            test.setParameter(WindowFrame.AURORA_SAGRADIS.getCell(0, 1));
+            test.setParameter(player.getWindowFrame().getCell(0, 1));
         }
         catch(InvalidMoveException e){
             assertEquals("Wrong parameter", e.getMessage());
         }
 
         test.start(player);
-        test.setParameter(WindowFrame.AURORA_SAGRADIS);
-        test.setParameter(WindowFrame.AURORA_SAGRADIS.getCell(0, 0));
-        test.setParameter(WindowFrame.AURORA_SAGRADIS);
+        test.setParameter(player.getWindowFrame());
+        test.setParameter(player.getWindowFrame().getCell(0, 0));
+        test.setParameter(player.getWindowFrame());
         try {
-            test.setParameter(WindowFrame.AURORA_SAGRADIS.getCell(0, 4));
+            test.setParameter(player.getWindowFrame().getCell(0, 4));
         }catch(InvalidMoveException e){
             assertEquals("Cell and dice colors must be equal", e.getMessage());
         }
 
         test.start(player);
-        test.setParameter(WindowFrame.AURORA_SAGRADIS);
-        test.setParameter(WindowFrame.AURORA_SAGRADIS.getCell(0, 0));
-        test.setParameter(WindowFrame.AURORA_SAGRADIS);
+        test.setParameter(player.getWindowFrame());
+        test.setParameter(player.getWindowFrame().getCell(0, 0));
+        test.setParameter(player.getWindowFrame());
         try {
-            test.setParameter(WindowFrame.AURORA_SAGRADIS.getCell(3, 0));
+            test.setParameter(player.getWindowFrame().getCell(3, 0));
         }catch(InvalidMoveException e){
             assertEquals("Invalid adjacent dices", e.getMessage());
         }
@@ -78,13 +82,13 @@ public class AlesatorePerLaminaDiRameTest {
     public void setParameter() throws InvalidMoveException {
         test.start(player);
         try{
-            test.setParameter(WindowFrame.AURORA_SAGRADIS);
+            test.setParameter(player.getWindowFrame());
         }
         catch (InvalidMoveException e){
             assert false;
         }
         try{
-            test.setParameter(WindowFrame.AURORA_SAGRADIS);
+            test.setParameter(player.getWindowFrame());
         }
         catch(InvalidMoveException e){
             assertEquals("Wrong parameter", e.getMessage());

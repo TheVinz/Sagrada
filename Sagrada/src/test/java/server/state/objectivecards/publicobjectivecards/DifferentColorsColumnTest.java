@@ -4,6 +4,7 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.utilities.Color;
 
@@ -15,7 +16,7 @@ public class DifferentColorsColumnTest {
 
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.KALEIDOSCOPIC_DREAM;
+        windowFrame = new WindowFrame(WindowFrameList.KALEIDOSCOPIC_DREAM);
         differentColorsColumn= new DifferentColorsColumn();
 
     }

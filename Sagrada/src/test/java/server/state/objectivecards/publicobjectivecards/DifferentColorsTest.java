@@ -4,6 +4,7 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.utilities.Color;
 
@@ -14,7 +15,7 @@ public class DifferentColorsTest {  //andata con vetrata vuota
     private DifferentColors differentColors;
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.FIRMITAS;
+        windowFrame = new WindowFrame(WindowFrameList.FIRMITAS);
         differentColors = new DifferentColors();
     }
     @Test

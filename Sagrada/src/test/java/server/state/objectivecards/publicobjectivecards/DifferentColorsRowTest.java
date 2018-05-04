@@ -4,6 +4,7 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.utilities.Color;
 
@@ -14,7 +15,7 @@ public class DifferentColorsRowTest {
     private DifferentColorsRow differentColorsRow;
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.VIRTUS;
+        windowFrame = new WindowFrame(WindowFrameList.VIRTUS);
         differentColorsRow = new DifferentColorsRow();
     }
     @Test

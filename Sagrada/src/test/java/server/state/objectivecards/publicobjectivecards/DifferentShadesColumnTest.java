@@ -4,6 +4,7 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.utilities.Color;
 
@@ -15,7 +16,7 @@ public class DifferentShadesColumnTest {   //nada
     private DifferentShadesColumn differentShadesColumn;
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.FULGOR_DEL_CIELO;
+        windowFrame = new WindowFrame(WindowFrameList.FULGOR_DEL_CIELO);
        differentShadesColumn = new DifferentShadesColumn();
     }
 

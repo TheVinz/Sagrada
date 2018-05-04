@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.player.Player;
 import server.Model;
@@ -26,14 +27,9 @@ public class PennelloperPastaSaldaTest {
         model=Mockito.spy(new Model());
         test=new PennelloperPastaSalda(model);
         player=Mockito.mock(Player.class);
-        Mockito.when(player.getWindowFrame()).thenReturn(WindowFrame.GRAVITAS);
-        player.getWindowFrame().clean();
+        WindowFrame frame=new WindowFrame(WindowFrameList.GRAVITAS);
+        Mockito.when(player.getWindowFrame()).thenReturn(frame);
         model.getState().getDraftPool().getCell(0).put(new Dice(Color.BLUE,4));
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        player.getWindowFrame().clean();
     }
 
     @Test

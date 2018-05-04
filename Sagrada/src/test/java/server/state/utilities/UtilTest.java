@@ -3,6 +3,7 @@ package server.state.utilities;
 import org.junit.Test;
 import server.Model;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.toolcards.ToolCard;
@@ -14,7 +15,7 @@ public class UtilTest {
 
     @Test
     public void getWindowFrameChoiche() {
-        WindowFrame[] frames= Util.getWindowFrameChoiche();
+        WindowFrameList[] frames= Util.getWindowFrameChoiche();
         assertNotEquals(frames[0], frames[2]);
         assertNotEquals(frames[1], frames[3]);
         frames= Util.getWindowFrameChoiche();

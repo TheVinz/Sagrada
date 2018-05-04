@@ -4,6 +4,7 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.utilities.Color;
 
@@ -14,9 +15,8 @@ public class ColoredDiagonalTest {     //nullpointerexception
     private ColoredDiagonal coloredDiagonal;
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.AURORA_SAGRADIS;
+        windowFrame = new WindowFrame(WindowFrameList.GRAVITAS);
         coloredDiagonal = new ColoredDiagonal();
-        windowFrame.clean();
     }
     @Test
     public void shouldCalculatePoints() throws InvalidMoveException {

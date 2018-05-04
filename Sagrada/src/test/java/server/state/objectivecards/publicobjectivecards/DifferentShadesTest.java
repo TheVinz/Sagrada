@@ -4,6 +4,7 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.utilities.Color;
 
@@ -15,7 +16,7 @@ public class DifferentShadesTest {  //andata con vetrata vuota
     private DifferentShades differentShades;
     @Before
     public void initClass(){
-        windowFrame = WindowFrame.VIA_LUX;
+        windowFrame = new WindowFrame(WindowFrameList.VIA_LUX);
         differentShades = new DifferentShades();
     }
     @Test

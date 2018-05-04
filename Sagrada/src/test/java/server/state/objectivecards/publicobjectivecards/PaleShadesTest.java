@@ -4,6 +4,7 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.utilities.Color;
 
@@ -15,7 +16,7 @@ public class PaleShadesTest {    //coperto
 
     @Before
     public void initClass() {
-        windowFrame = WindowFrame.LUZ_CELESTIAL;
+        windowFrame = new WindowFrame(WindowFrameList.LUZ_CELESTIAL);
         paleShades = new PaleShades();
     }
 

@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameCell;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.player.Player;
 import server.state.utilities.Color;
@@ -33,44 +34,49 @@ public class ModelTest {
 
     @Test
     public void exchange() throws InvalidMoveException {
-        WindowFrame.AURORA_SAGRADIS.clean();
+        WindowFrame frame= new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
+
         Dice dice= new Dice(Color.BLUE, 3), otherDice=new Dice(Color.GREEN, 6);
-        WindowFrame.AURORA_SAGRADIS.getCell(0,0).put(dice);
-        WindowFrame.AURORA_SAGRADIS.getCell(0,1).put(otherDice);
-        model.exchange(player, WindowFrame.AURORA_SAGRADIS.getCell(0,0), WindowFrame.AURORA_SAGRADIS.getCell(0,1));
-        assertEquals(dice, WindowFrame.AURORA_SAGRADIS.getCell(0,1).getDice());
-        assertEquals(otherDice, WindowFrame.AURORA_SAGRADIS.getCell(0,0).getDice());
+        frame.getCell(0,0).put(dice);
+        frame.getCell(0,1).put(otherDice);
+        model.exchange(player, frame.getCell(0,0), frame.getCell(0,1));
+        assertEquals(dice, frame.getCell(0,1).getDice());
+        assertEquals(otherDice, frame.getCell(0,0).getDice());
     }
 
     @Test
     public void increase() throws InvalidMoveException {
-        WindowFrame.AURORA_SAGRADIS.clean();
+        WindowFrame frame= new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
+
         Dice dice= new Dice(Color.BLUE, 3);
-        WindowFrame.AURORA_SAGRADIS.getCell(0,0).put(dice);
-        model.increase(player, WindowFrame.AURORA_SAGRADIS.getCell(0,0));
+        frame.getCell(0,0).put(dice);
+        model.increase(player, frame.getCell(0,0));
     }
 
     @Test
     public void decrease() throws InvalidMoveException {
-        WindowFrame.AURORA_SAGRADIS.clean();
+        WindowFrame frame= new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
+
         Dice dice= new Dice(Color.BLUE, 3);
-        WindowFrame.AURORA_SAGRADIS.getCell(0,0).put(dice);
-        model.decrease(player, WindowFrame.AURORA_SAGRADIS.getCell(0,0));
+        frame.getCell(0,0).put(dice);
+        model.decrease(player, frame.getCell(0,0));
     }
 
     @Test
     public void drawDice() throws InvalidMoveException {
-        WindowFrame.AURORA_SAGRADIS.clean();
-        WindowFrame.AURORA_SAGRADIS.getCell(0,0).put(model.drawDice(player));
+        WindowFrame frame= new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
+
+        frame.getCell(0,0).put(model.drawDice(player));
     }
 
     @Test
     public void flipDice() throws InvalidMoveException {
-        WindowFrame.AURORA_SAGRADIS.clean();
+        WindowFrame frame= new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
+
         Dice dice= new Dice(Color.BLUE, 3);
-        WindowFrame.AURORA_SAGRADIS.getCell(0,0).put(dice);
-        model.flipDice(player, WindowFrame.AURORA_SAGRADIS.getCell(0,0));
-        assertEquals(4, WindowFrame.AURORA_SAGRADIS.getCell(0,0).getDice().getValue());
+        frame.getCell(0,0).put(dice);
+        model.flipDice(player, frame.getCell(0,0));
+        assertEquals(4, frame.getCell(0,0).getDice().getValue());
     }
 
     @Test

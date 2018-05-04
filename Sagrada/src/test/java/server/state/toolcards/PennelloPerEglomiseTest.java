@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import server.Model;
 import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.player.Player;
 import server.state.utilities.Color;
@@ -25,23 +26,20 @@ public class PennelloPerEglomiseTest {
         Model model=new Model();
         test= new PennelloPerEglomise(model);
         player = Mockito.mock(Player.class);
-        when(player.getWindowFrame()).thenReturn(WindowFrame.BATLLO);
-        player.getWindowFrame().clean();
+        WindowFrame frame = new WindowFrame(WindowFrameList.BATLLO);
+        when(player.getWindowFrame()).thenReturn(frame);
         player.getWindowFrame().getCell(1,3).put(new Dice(Color.BLUE, 4));
         player.getWindowFrame().getCell(2,4).put(new Dice(Color.YELLOW, 6));
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        player.getWindowFrame().clean();
     }
 
     @Test
     public void doAbility() throws InvalidMoveException {
         test.start(player);
 
-        test.setParameter(WindowFrame.AURORA_SAGRADIS);
-        test.setParameter(WindowFrame.AURORA_SAGRADIS.getCell(2,2));
+        WindowFrame frame=new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
+
+        test.setParameter(frame);
+        test.setParameter(frame.getCell(2,2));
         test.setParameter(player.getWindowFrame());
         try {
             test.setParameter(player.getWindowFrame().getCell(2, 3));

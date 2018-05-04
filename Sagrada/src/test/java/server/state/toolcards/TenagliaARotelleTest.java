@@ -1,6 +1,7 @@
 package server.state.toolcards;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 import server.Model;
 import server.state.player.Player;
@@ -20,4 +21,7 @@ public class TenagliaARotelleTest {
 
 
     }
+
+    @Test
+    public void doAbility() {}
 }
