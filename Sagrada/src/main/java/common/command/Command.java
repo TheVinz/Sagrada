@@ -14,6 +14,7 @@ public class Command {
     public static final int USE_TOOL_CARD=4;
     public static final int PINZA_SGROSSATRICE_INCREASE=5;
     public static final int PINZA_SGROSSATRICE_DECREASE=6;
+    public static final int END_TURN=7;
 
     private int x;
     private int y;

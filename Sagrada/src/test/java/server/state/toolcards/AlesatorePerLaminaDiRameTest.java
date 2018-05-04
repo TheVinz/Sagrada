@@ -7,11 +7,11 @@ import org.mockito.*;
 import server.Model;
 import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameCell;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.player.Player;
 import server.state.utilities.Color;
 
-import static server.state.boards.windowframe.WindowFrame.AURORA_SAGRADIS;
 import static org.junit.Assert.*;
 
 public class AlesatorePerLaminaDiRameTest {
@@ -25,10 +25,8 @@ public class AlesatorePerLaminaDiRameTest {
         model= Mockito.mock(Model.class);
         player=Mockito.mock(Player.class);
         test=new AlesatorePerLaminaDiRame(model);
-        Mockito.when(player.getWindowFrame()).thenReturn(AURORA_SAGRADIS);
-        AURORA_SAGRADIS.clean();
-        AURORA_SAGRADIS.getCell(0,0).put(new Dice(Color.RED, 4));
-        AURORA_SAGRADIS.getCell(0,2).put(new Dice(Color.BLUE, 5));
+        player.getWindowFrame().getCell(0,0).put(new Dice(Color.RED, 4));
+        player.getWindowFrame().getCell(0,2).put(new Dice(Color.BLUE, 5));
     }
 
     @Test

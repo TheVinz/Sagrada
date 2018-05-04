@@ -1,7 +1,7 @@
 package server.state.utilities;
 
 import server.Model;
-import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.toolcards.*;
@@ -9,16 +9,16 @@ import server.state.objectivecards.publicobjectivecards.*;
 
 import java.util.*;
 
-import static server.state.boards.windowframe.WindowFrame.*;
+import static server.state.boards.windowframe.WindowFrameList.*;
 import static server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard.*;
 
 public class Util {
     private static List<Integer> avalaiblePatterns=new LinkedList<>(Arrays.asList(new Integer[]{0,1,2,3,4,5,6,7,8,9,10,11,12}));
     private static List<PrivateObjectiveCard> availableCards=new LinkedList<>( Arrays.asList(new PrivateObjectiveCard[]{YELLOW_SHAPES, PURPLE_SHAPES, BLUE_SHAPES, GREEN_SHAPES, RED_SHAPES}));
 
-    public static WindowFrame[] getWindowFrameChoiche(){
+    public static WindowFrameList[] getWindowFrameChoiche(){
         int choice[]=new int[2];
-        WindowFrame[] result=new WindowFrame[4];
+        WindowFrameList[] result=new WindowFrameList[4];
         Collections.shuffle(avalaiblePatterns);
         for(int i=0; i<choice.length; i++) {
             choice[i]=avalaiblePatterns.get(0);

@@ -9,7 +9,7 @@ import common.viewchangement.StartTurn;
 import server.observer.Observer;
 import server.state.State;
 import server.state.boards.Cell;
-import server.state.boards.windowframe.WindowFrame;
+import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
@@ -90,7 +90,7 @@ public class ViewProxy implements RemoteView, Observer {
     }
 
     @Override
-    public void updateWindowFrameChoices(WindowFrame[] windowFrames) {
+    public void updateWindowFrameChoices(WindowFrameList[] windowFrameLists) {
 
     }
 

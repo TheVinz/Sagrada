@@ -40,4 +40,5 @@ public class RigaInSughero extends ToolCard {
             model.toolCardUsed(player, this);
         }
     }
+
 }
