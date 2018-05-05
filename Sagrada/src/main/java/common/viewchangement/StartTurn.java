@@ -1,8 +1,10 @@
 package common.viewchangement;
 
+import client.view.ChangementVisitor;
+
 public class StartTurn implements Changement{
     @Override
-    public int getType() {
-        return ChangementTypes.START_TURN;
+    public void change(ChangementVisitor changementVisitor) {
+        changementVisitor.change(this);
     }
 }

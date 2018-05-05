@@ -1,5 +1,7 @@
 package common.viewchangement;
 
+import client.view.ChangementVisitor;
+
 public interface Changement {
 	/*
 	Il changement viene creato dalla RemoteView (server) mediante le classi dello stato e interpretato dal RemoteModel (client)
@@ -11,5 +13,5 @@ public interface Changement {
 	però così il codice è più leggibile. 
 	*/
 
-    int getType();
+    void change(ChangementVisitor changementVisitor) throws Exception;
 }

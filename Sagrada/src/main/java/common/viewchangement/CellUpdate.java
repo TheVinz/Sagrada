@@ -1,5 +1,7 @@
 package common.viewchangement;
 
+import client.view.ChangementVisitor;
+
 public class CellUpdate implements Changement {
     public static final int WINDOW_FRAME=1;
     public static final int DRAFT_POOL=2;
@@ -39,7 +41,7 @@ public class CellUpdate implements Changement {
     }
 
     @Override
-    public int getType() {
-        return ChangementTypes.CELL_UPDATE;
+    public void change(ChangementVisitor changementVisitor) {
+        changementVisitor.change(this);
     }
 }

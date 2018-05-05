@@ -1,5 +1,7 @@
 package common.viewchangement;
 
+import client.view.ChangementVisitor;
+
 public class RefilledDraftPool implements Changement {
     private final int[] values;
     private final char[] colors;
@@ -18,7 +20,7 @@ public class RefilledDraftPool implements Changement {
     }
 
     @Override
-    public int getType() {
-        return ChangementTypes.REFILLED_DRAFT_POOL;
+    public void change(ChangementVisitor changementVisitor) {
+        changementVisitor.change(this);
     }
 }

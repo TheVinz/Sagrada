@@ -1,11 +1,14 @@
 package common.viewchangement;
 
+import client.view.ChangementVisitor;
+
 public class Move implements Changement{
 
     public static final int DRAFT_POOL=0;
     public static final int WINDOW_FRAME=1;
     public static final int ROUND_TRACK=2;
 
+    private final String player;
     private final int sourceType;
     private final int sourceX;
     private final int sourceY;
@@ -13,7 +16,8 @@ public class Move implements Changement{
     private final int targetX;
     private final int targetY;
 
-    public Move(int sourceType, int sourceX, int sourceY,int targetType, int targetX, int targetY){
+    public Move(String player, int sourceType, int sourceX, int sourceY,int targetType, int targetX, int targetY){
+        this.player = player;
         this.sourceType=sourceType;
         this.sourceX=sourceX;
         this.sourceY=sourceY;
@@ -39,10 +43,6 @@ public class Move implements Changement{
         return targetY;
     }
 
-    public int getType() {
-        return ChangementTypes.MOVE;
-    }
-
     public int getSourceType(){
         return this.sourceType;
     }
@@ -50,4 +50,15 @@ public class Move implements Changement{
     public int getTargetType(){
         return this.targetType;
     }
+
+    public String getPlayer() {
+        return player;
+    }
+
+    @Override
+    public void change(ChangementVisitor changementVisitor) throws Exception {
+        changementVisitor.change(this);
+    }
+
+
 }

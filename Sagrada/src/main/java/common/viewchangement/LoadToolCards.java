@@ -1,5 +1,7 @@
 package common.viewchangement;
 
+import client.view.ChangementVisitor;
+
 public class LoadToolCards implements Changement {
     public static final int PINZA_SGROSSATRICE=1;
     public static final int PENNELLO_PER_EGLOMISE=2;
@@ -26,7 +28,7 @@ public class LoadToolCards implements Changement {
     }
 
     @Override
-    public int getType() {
-        return ChangementTypes.LOAD_TOOL_CARDS;
+    public void change(ChangementVisitor changementVisitor) {
+        changementVisitor.change(this);
     }
 }
