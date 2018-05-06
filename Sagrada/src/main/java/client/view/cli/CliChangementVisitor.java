@@ -30,8 +30,8 @@ public class CliChangementVisitor implements ChangementVisitor {
         String dice = null;
         if(move.getSourceType() == 0) {
             source = "draft pool";
-            dice = cliState.getDraftPool().get(move.getSourceX());
-            cliState.getDraftPool().add(move.getSourceX(), null);
+           dice = cliState.getDraftPool().get(move.getSourceX());
+           cliState.getDraftPool().add(move.getSourceX(), null);
         }
         else if(move.getSourceType() == 1) {
             dice = cliPlayerState.getWindowFrame()[move.getSourceX()][move.getSourceY()];
@@ -39,7 +39,7 @@ public class CliChangementVisitor implements ChangementVisitor {
         }
         else {
             source = "round track";
-            //da implementare
+           //da implementare
         }
         if(move.getTargetType() == 0) {
             cliState.getDraftPool().add(move.getTargetX(), dice);
