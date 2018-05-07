@@ -37,11 +37,11 @@ public class TenagliaARotelleTest {
         draftPool = model.getState().getDraftPool();
         Mockito.when(player.getWindowFrame()).thenReturn(new WindowFrame(WindowFrameList.AURORA_SAGRADIS));
         windowFrame = player.getWindowFrame();
-        windowFrame.getCell(0, 0).put(new Dice(Color.YELLOW, 4));
+        windowFrame.getCell(0, 0).put(new Dice(Color.RED, 4));
         windowFrame.getCell(0, 2).put(new Dice(Color.BLUE, 5));
         draftPool = new DraftPool();
         draftPool.increaseSize();
-        draftPool.getCell(0).put(new Dice(Color.RED, 6));
+        draftPool.getCell(0).put(new Dice(Color.YELLOW, 6));
         draftPool.getCell(1).put(new Dice(Color.GREEN, 5));
         draftPool.getCell(2).put(new Dice(Color.YELLOW, 4));
 

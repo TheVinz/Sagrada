@@ -26,6 +26,7 @@ public class CliDisplayerTest {
     public void initClass() throws InvalidMoveException {
         cliPlayerState=Mockito.mock(CliPlayerState.class);
         player=Mockito.mock(Player.class);
+        cliDisplayer=Mockito.mock(CliDisplayer.class);
         stringFrame[0][0]="X";
         stringFrame[0][1]="3G";
         stringFrame[0][2]="3";
@@ -46,21 +47,16 @@ public class CliDisplayerTest {
         stringFrame[3][2]="X";
         stringFrame[3][3]="3R";
         stringFrame[3][4]="Y";
-
-
-
-
-
-
+        for(int i=0;i<4;i++)
+          for(int j=0;j<5;j++)
+             when(cliPlayerState.getWindowFrame()[i][j]).thenReturn(stringFrame[i][j]);
 
 
 
             }
     @Test
     public void shouldPrintWindowFrame(){
-
-      //  assertEquals("X3G3G3BXX4Y6BXR12G1GYBX3RY",);
-
+        cliDisplayer.printWindowFrame(cliPlayerState);
 
     }
 }
