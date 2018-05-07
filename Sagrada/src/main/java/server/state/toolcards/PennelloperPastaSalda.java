@@ -1,6 +1,7 @@
 package server.state.toolcards;
 
 import server.Model;
+import server.state.ModelObject;
 import server.state.boards.draftpool.DraftPoolCell;
 import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameCell;
@@ -26,24 +27,24 @@ public class PennelloperPastaSalda extends ToolCard {
     public void start(Player player) {
         expectedParameters=new ArrayDeque<>(3);
         parameters=new ArrayList<>(3);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
         this.player=player;
         playable=false;
         rerollDone=false;
     }
 
     @Override
-    public void setParameter(Object o) throws InvalidMoveException {
+    public void setParameter(ModelObject o) throws InvalidMoveException {
         if(!rerollDone) {
-            if(o.getClass()!=DraftPoolCell.class) throw new InvalidMoveException("Wrong parameter");
+            if(o.getType()!="DraftPoolCell") throw new InvalidMoveException("Wrong parameter");
             else {
                 parameters.add(o);
                 doAbility();
             }
         }
         else {
-            if(o.getClass()==expectedParameters.peek()){
+            if(o.getType()==expectedParameters.peek()){
                 expectedParameters.poll();
                 parameters.add(o);
                 if(expectedParameters.isEmpty()) doAbility();
@@ -70,8 +71,8 @@ public class PennelloperPastaSalda extends ToolCard {
                         || !GameRules.validAllDiceRestriction(frame, poolCell.getDice(), cell)) {
                     parameters.remove(frame);
                     parameters.remove(cell);
-                    expectedParameters.add(WindowFrame.class);
-                    expectedParameters.add(WindowFrameCell.class);
+                    expectedParameters.add("WindowFrame");
+                    expectedParameters.add("WindowFrameCell");
                 } else {
                     model.move(player, poolCell, cell);
                     playable=false;
@@ -81,8 +82,8 @@ public class PennelloperPastaSalda extends ToolCard {
             catch (InvalidMoveException e){
                 parameters.remove(frame);
                 parameters.remove(cell);
-                expectedParameters.add(WindowFrame.class);
-                expectedParameters.add(WindowFrameCell.class);
+                expectedParameters.add("WindowFrame");
+                expectedParameters.add("WindowFrameCell");
             }
         }
     }

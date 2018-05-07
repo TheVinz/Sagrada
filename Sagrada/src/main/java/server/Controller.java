@@ -1,5 +1,6 @@
 package server;
 import common.exceptions.InvalidMoveException;
+import server.state.ModelObject;
 import server.state.boards.draftpool.DraftPoolCell;
 import server.state.boards.roundtrack.RoundTrackCell;
 import server.state.boards.windowframe.WindowFrame;
@@ -70,7 +71,7 @@ public class Controller{
 	}
 
 
-	private void setToolCardParameter(Object o) throws InvalidMoveException {
+	private void setToolCardParameter(ModelObject o) throws InvalidMoveException {
 		try {
 			activeToolCard.setParameter(o);
 		} catch (InvalidMoveException e) {
