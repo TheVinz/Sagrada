@@ -32,8 +32,8 @@ public class State{
 		this.roundManager=new RoundManager();
 	}
 
-	public void addPlayer(String name, int id) throws Exception{
-		players.add(id, new Player(name, id));
+	public void addPlayer(String name, int id, Model model) throws Exception{
+		players.add(id, new Player(name, id, model));
 		draftPool.increaseSize();
 
 	}

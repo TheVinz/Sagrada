@@ -20,9 +20,9 @@ public class RigaInSughero extends ToolCard {
     public void start(Player player) throws InvalidMoveException {
         parameters=new ArrayList<>(3);
         expectedParameters=new ArrayDeque<>(3);
-        expectedParameters.add(DraftPoolCell.class);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
+        expectedParameters.add("DraftPoolCell");
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
         this.player=player;
     }
 

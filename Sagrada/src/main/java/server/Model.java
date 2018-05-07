@@ -39,7 +39,7 @@ public class Model implements Observable {
         if(state.getPlayers().size()==4) throw new Exception("The game is full");
         else {
             int id=state.getPlayers().size();
-            state.addPlayer(name, id);
+            state.addPlayer(name, id, this);
             ViewProxy o=new ViewProxy(this, id);
             addObserver(o);
             return o;

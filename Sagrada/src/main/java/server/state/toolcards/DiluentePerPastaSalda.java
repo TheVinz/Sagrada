@@ -2,11 +2,13 @@ package server.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import server.Model;
+import server.state.ModelObject;
 import server.state.boards.draftpool.DraftPoolCell;
 import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameCell;
 import server.state.dice.Dice;
 import server.state.player.Player;
+import server.state.utilities.Choice;
 import server.state.utilities.GameRules;
 
 import java.util.ArrayDeque;
@@ -29,8 +31,8 @@ public class DiluentePerPastaSalda extends ToolCard {
     public void start(Player player) {
         expectedParameters=new ArrayDeque<>(3);
         parameters=new ArrayList<>(3);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
         this.player=player;
         playable=false;
         drawDone=false;
@@ -38,22 +40,22 @@ public class DiluentePerPastaSalda extends ToolCard {
     }
 
     @Override
-    public void setParameter(Object o) throws InvalidMoveException {
+    public void setParameter(ModelObject o) throws InvalidMoveException {
         if(!drawDone) {
-            if(o.getClass()!=DraftPoolCell.class) throw new InvalidMoveException("Wrong parameter");
+            if(o.getType()!="DraftPoolCell") throw new InvalidMoveException("Wrong parameter");
             else {
                 parameters.add(o);
                 doAbility();
             }
         }
         else if(!valueSetted){
-            if(o.getClass()==Integer.class) {
+            if(o.getType()=="Choice") {
                 parameters.add(o);
                 doAbility();
             }
         }
         else {
-            if(o.getClass()==expectedParameters.peek()){
+            if(o.getType()==expectedParameters.peek()){
                 expectedParameters.poll();
                 parameters.add(o);
                 if(expectedParameters.isEmpty()) doAbility();
@@ -72,7 +74,7 @@ public class DiluentePerPastaSalda extends ToolCard {
             drawDone=true;
         }
         else if(!valueSetted){
-            dice=new Dice(dice.getColor(), (Integer) parameters.get(1));
+            dice=new Dice(dice.getColor(), ((Choice) parameters.get(1)).getChoice());
             model.putDice(player, dice, poolCell);
             valueSetted=true;
             playable=verify(dice);
@@ -85,8 +87,8 @@ public class DiluentePerPastaSalda extends ToolCard {
                         || !GameRules.validAllDiceRestriction(frame, poolCell.getDice(), cell)) {
                     parameters.remove(frame);
                     parameters.remove(cell);
-                    expectedParameters.add(WindowFrame.class);
-                    expectedParameters.add(WindowFrameCell.class);
+                    expectedParameters.add("WindowFrame");
+                    expectedParameters.add("WindowFrameCell");
                 } else {
                     model.move(player, poolCell, cell);
                     playable=false;
@@ -96,8 +98,8 @@ public class DiluentePerPastaSalda extends ToolCard {
             catch (InvalidMoveException e){
                 parameters.remove(frame);
                 parameters.remove(cell);
-                expectedParameters.add(WindowFrame.class);
-                expectedParameters.add(WindowFrameCell.class);
+                expectedParameters.add("WindowFrame");
+                expectedParameters.add("WindowFrameCell");
             }
         }
     }

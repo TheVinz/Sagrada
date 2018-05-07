@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CliState {
 
-    private String currentPlayer;
+    private CliPlayerState cliCurrentPlayerState;
     private List<CliPlayerState> cliPlayerStates = new ArrayList<CliPlayerState>();
     private Integer[] toolCardIds = new Integer[3];
     private Integer[] publicObjectiveCardIds = new Integer[3];
@@ -34,5 +34,10 @@ public class CliState {
             if(cliPlayerStates.get(i).getName().equals(name))
                 return cliPlayerStates.get(i);
         throw new Exception("player not found");
+    }
+
+
+    public CliPlayerState getCliCurrentPlayerState() {
+        return cliCurrentPlayerState;
     }
 }

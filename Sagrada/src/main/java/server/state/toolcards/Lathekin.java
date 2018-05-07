@@ -21,14 +21,14 @@ public class Lathekin extends ToolCard {
     public void start(Player player) {
         expectedParameters=new ArrayDeque<>(8);
         parameters=new ArrayList<>(8);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
         this.player=player;
     }
 

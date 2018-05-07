@@ -7,6 +7,7 @@ import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameCell;
 import server.state.dice.Dice;
 import server.state.player.Player;
+import server.state.utilities.Choice;
 import server.state.utilities.Color;
 import server.state.utilities.GameRules;
 
@@ -27,16 +28,16 @@ public class TaglierinaManuale extends ToolCard {
     public void start(Player player) throws InvalidMoveException {
         expectedParameters=new ArrayDeque<>(10);
         parameters=new ArrayList<>(10);
-        expectedParameters.add(RoundTrackCell.class);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
-        expectedParameters.add(Integer.class);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
+        expectedParameters.add("RoundTrackCell");
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
+        expectedParameters.add("Choice");
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
         this.player=player;
     }
 
@@ -53,7 +54,7 @@ public class TaglierinaManuale extends ToolCard {
         WindowFrameCell firstSource= (WindowFrameCell) parameters.get(2);
         WindowFrame firstTargetFrame= (WindowFrame) parameters.get(3);
         WindowFrameCell firstTarget= (WindowFrameCell) parameters.get(4);
-        Integer secondMove=(Integer) parameters.get(5);
+        Integer secondMove=((Choice) parameters.get(5)).getChoice();
         WindowFrame secondSourceFrame= (WindowFrame) parameters.get(6);
         WindowFrameCell secondSource= (WindowFrameCell) parameters.get(7);
         WindowFrame secondTargetFrame= (WindowFrame) parameters.get(8);

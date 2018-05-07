@@ -22,9 +22,9 @@ public class TenagliaARotelle extends ToolCard {
         if(player.isFirstMoveDone()) throw new InvalidMoveException("Only during your first turn");
         parameters=new ArrayList<>(3);
         expectedParameters=new ArrayDeque<>(3);
-        expectedParameters.add(DraftPoolCell.class);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
+        expectedParameters.add("DraftPoolCell");
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
         this.player=player;
     }
 

@@ -1,12 +1,13 @@
 package server.state.boards.windowframe;
 
 import common.exceptions.InvalidMoveException;
+import server.state.ModelObject;
 
 import java.util.*;
 
 import static server.state.utilities.Color.*;
 
-public class WindowFrame {
+public class WindowFrame implements ModelObject {
 
 
 	private final WindowFrameCell[][] cells;
@@ -73,4 +74,9 @@ public class WindowFrame {
 	}
 
 	public String getRep(){return windowFrameList.getRep();}
+
+	@Override
+	public String getType() {
+		return "WindowFrame";
+	}
 }

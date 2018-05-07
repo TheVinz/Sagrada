@@ -1,10 +1,11 @@
 package server.state.boards.windowframe;
+import server.state.ModelObject;
 import server.state.boards.*;
 import common.exceptions.InvalidMoveException;
 import server.state.utilities.Color;
 import server.state.dice.Dice;
 
-public class WindowFrameCell extends Cell {
+public class WindowFrameCell extends Cell implements ModelObject {
 
     private Color color;
     private  final int row;
@@ -49,5 +50,8 @@ public class WindowFrameCell extends Cell {
     }
 
 
-
+    @Override
+    public String getType() {
+        return "WindowFrameCell";
+    }
 }

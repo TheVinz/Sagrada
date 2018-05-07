@@ -21,10 +21,10 @@ public class AlesatorePerLaminaDiRame extends ToolCard {
     public void start(Player player) {
         parameters=new ArrayList<>(4);
         expectedParameters=new ArrayDeque<>(4);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
-        expectedParameters.add(WindowFrame.class);
-        expectedParameters.add(WindowFrameCell.class);
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
+        expectedParameters.add("WindowFrame");
+        expectedParameters.add("WindowFrameCell");
         this.player=player;
     }
 

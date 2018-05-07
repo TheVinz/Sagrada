@@ -18,8 +18,8 @@ public class TaglierinaCircolare extends ToolCard{
     public void start(Player player) {
         expectedParameters=new ArrayDeque<>(2);
         parameters=new ArrayList<>(2);
-        expectedParameters.add(DraftPoolCell.class);
-        expectedParameters.add(RoundTrackCell.class);
+        expectedParameters.add("DraftPoolCell");
+        expectedParameters.add("RoundTrackCell");
         this.player=player;
     }
 
