@@ -71,7 +71,7 @@ public class CliDisplayer {
         displayText("Sul campo di gioco ci sono queste PublicObjectiveCard:\n");
         for(int i=0;i<3;i++){
             Integer j=cliState.getPublicObjectiveCardIds()[i];
-            displayText("L'ObjectiveCard numero "+ i+" è la ObjectiveCard"+ j+"\n");
+            displayText("L'ObjectiveCard numero "+ i+" è la ObjectiveCard "+ j+"\n");
         }
 
 
