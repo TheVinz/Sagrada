@@ -31,7 +31,7 @@ public class TaglierinaManualeTest {
         model = Mockito.spy(new Model());
         player = Mockito.mock(Player.class);
         toolCard = new TaglierinaManuale(model);
-        Mockito.when(player.getWindowFrame()).thenReturn(new WindowFrame(WindowFrameList.AURORA_SAGRADIS));
+        when(player.getWindowFrame()).thenReturn(new WindowFrame(WindowFrameList.AURORA_SAGRADIS));
         windowFrame = player.getWindowFrame();
         windowFrame.getCell(0, 0).put(new Dice(Color.RED, 4));
         windowFrame.getCell(0, 1).put(new Dice(Color.YELLOW, 3));
@@ -55,7 +55,10 @@ public class TaglierinaManualeTest {
         toolCard.setParameter(windowFrame.getCell(0,1));    //primo dado
         toolCard.setParameter(windowFrame);
         toolCard.setParameter(windowFrame.getCell(0,3));    //dove sposto il primo dado
-        integer = 1;
+        integer = 0;
+
+
+
         toolCard.setParameter(windowFrame);
         toolCard.setParameter(windowFrame.getCell(1,0));   //secondo dado
         toolCard.setParameter(windowFrame);

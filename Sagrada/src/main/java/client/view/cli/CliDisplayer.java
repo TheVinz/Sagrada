@@ -5,7 +5,10 @@ public class CliDisplayer {
     CliState cliState;
 
     public void displayText(String text){
-        System.out.println(text);
+        if(text!="/n"){
+        System.out.print(text);}
+        else
+            System.out.println();
 
     }
 
@@ -32,7 +35,9 @@ public class CliDisplayer {
 
         for(int i=0;i<5;i++){
             for(int j=0;j<4;j++) {
-                displayText(cliPlayerState.getWindowFrame()[i][j]);      //passiamo a displayText cella per cella e lui gestirà la stampa
+                displayText(cliPlayerState.getWindowFrame()[i][j]+" ");      //passiamo a displayText cella per cella e lui gestirà la stampa
+                if(cliPlayerState.getWindowFrame()[i][j].length()==1)
+                    displayText(" ");
             }
             displayText("/n");   //stampare uno spazio dopo aver stampato una riga
         }
@@ -57,23 +62,26 @@ public class CliDisplayer {
         }
     }
     public void printDraftPool(CliPlayerState cliPlayerState){
-        displayText("Nella DraftPool ci sono questi dadi");
+        displayText("Nella DraftPool ci sono questi dadi: ");
         for(int i=0;i<cliState.getDraftPool().size();i++){
-            displayText(cliState.getDraftPool().get(i));
+            displayText(cliState.getDraftPool().get(i)+" ");
         }
     }
 
     public void printPublicObjectiveCards(){
         displayText("Sul campo di gioco ci sono queste PublicObjectiveCard:");
+        displayText("/n");
         for(int i=0;i<3;i++){
             Integer j=cliState.getPublicObjectiveCardIds()[i];
-            displayText("L'ObjectiveCard numero"+ i+" è la ObjectiveCard"+ j);}
+            displayText("L'ObjectiveCard numero"+ i+" è la ObjectiveCard"+ j);
+            displayText("/n");
+        }
 
 
     }
 
     public void printPrivateObjectiveCard(CliPlayerState cliPlayerState){
-        displayText("la tua carta privata:");
+        displayText("la tua carta privata: ");
         displayText(cliPlayerState.getPrivateObjectiveCard());
         displayText("/n");
     }

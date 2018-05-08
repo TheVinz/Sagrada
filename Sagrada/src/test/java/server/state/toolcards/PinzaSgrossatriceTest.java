@@ -11,6 +11,7 @@ import server.state.boards.windowframe.WindowFrameCell;
 import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.player.Player;
+import server.state.utilities.Choice;
 import server.state.utilities.Color;
 
 import static org.junit.Assert.*;
@@ -46,12 +47,12 @@ public class PinzaSgrossatriceTest {
     public void shouldDoAbility() throws InvalidMoveException {
         toolCard.start(player);
         toolCard.setParameter(draftPool.getCell(0));
-        integer = 0;
-        toolCard.setParameter(integer);
+
+       toolCard.setParameter(new Choice(0));
         toolCard.start(player);
         toolCard.setParameter(draftPool.getCell(0));
-        integer = 1;
-        toolCard.setParameter(integer);
+
+       toolCard.setParameter(new Choice(1));
     }
 
 }
