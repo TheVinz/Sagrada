@@ -1,34 +1,43 @@
 package client.view.cli;
 
 import common.exceptions.InvalidMoveException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import server.state.boards.draftpool.DraftPool;
 import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.state.player.Player;
 import server.state.utilities.Color;
-
-
-
-
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class CliDisplayerTest {
 
     private String[][] stringFrame = new String[4][5];
     private CliPlayerState cliPlayerState;
     private CliDisplayer cliDisplayer;
+    private CliState cliState;
     private String privateObjectiveCard;
+    private List<String> draftPool = new ArrayList<>();
+    private ByteArrayOutputStream outContent;
+    private Integer[] toolCard = new Integer[3];
+    private Integer[] publicObjectiveCardIds = new Integer[3];
+
 
 
     @Before
-    public void initClass() throws InvalidMoveException {
+    public void initClass() throws Exception {
         cliPlayerState = Mockito.mock(CliPlayerState.class);
-        cliDisplayer = Mockito.mock(CliDisplayer.class);
+        cliState = Mockito.mock(CliState.class);
+        cliDisplayer = new CliDisplayer();
         stringFrame[0][0] = "X";
         stringFrame[0][1] = "3G";
         stringFrame[0][2] = "3";
@@ -49,41 +58,56 @@ public class CliDisplayerTest {
         stringFrame[3][2] = "X";
         stringFrame[3][3] = "3R";
         stringFrame[3][4] = "Y";
+        toolCard[0]=1;
+        toolCard[1]=5;
+        toolCard[2]=12;
+        publicObjectiveCardIds[0]=1;
+        publicObjectiveCardIds[1]=12;
+        publicObjectiveCardIds[2]=5;
 
-        for (int i = 0; i < 4; i++)
-            for (int j = 0; j < 5; j++) {
-                when(cliPlayerState.getWindowFrame()).thenReturn(stringFrame);
-            }
-            privateObjectiveCard = "RED";
-            when(cliPlayerState.getPrivateObjectiveCard()).thenReturn(privateObjectiveCard);
+        draftPool.add("3B");
+        draftPool.add("X");
+        draftPool.add("5Y");
+
+        when(cliPlayerState.getWindowFrame()).thenReturn(stringFrame);
+        when(cliState.getToolCardIds()).thenReturn(toolCard);
+        when(cliState.getDraftPool()).thenReturn(draftPool);
+        when(cliState.getPublicObjectiveCardIds()).thenReturn(publicObjectiveCardIds);
+
+        privateObjectiveCard = "RED";
+        when(cliPlayerState.getPrivateObjectiveCard()).thenReturn(privateObjectiveCard);
 
     }
 
     @Test
     public void shouldPrintWindowFrame() {
+        outContent = new ByteArrayOutputStream();
         cliDisplayer.printWindowFrame(cliPlayerState);
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 5; j++) {
-                cliDisplayer.displayText(cliPlayerState.getWindowFrame()[i][j]);
-                System.out.print(cliPlayerState.getWindowFrame()[i][j]+" ");
-                if(cliPlayerState.getWindowFrame()[i][j].length()==1)
-                System.out.print(" ");
-            }
-            cliDisplayer.displayText("/n");
-           System.out.println();
-        }
     }
-
     @Test
-    public void shouldDisplayText() {
-        cliDisplayer.displayText("/n");
-
+    public void shouldPrintMenu() {
+        outContent = new ByteArrayOutputStream();
+        cliDisplayer.printMenu();
     }
-
+    @Test
+    public void shouldPrintDraftPool(){
+        outContent = new ByteArrayOutputStream();
+        cliDisplayer.printDraftPool(cliState);
+    }
+    @Test
+    public void shouldPrintToolCard(){
+        outContent = new ByteArrayOutputStream();
+        cliDisplayer.printToolCard(cliState);
+    }
     @Test
     public void shouldPrintPrivateObjeciveCard(){
-        System.out.print("La tua carta privata: ");
-        System.out.println(cliPlayerState.getPrivateObjectiveCard());
-
+        outContent = new ByteArrayOutputStream();
+        cliDisplayer.printPrivateObjectiveCard(cliPlayerState);
     }
+    @Test
+    public void shouldPrintPublicObjectiveCard(){
+        outContent = new ByteArrayOutputStream();
+        cliDisplayer.printPublicObjectiveCards(cliState);
+    }
+
 }
