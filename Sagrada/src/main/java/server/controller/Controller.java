@@ -59,7 +59,7 @@ public class Controller{
 				activeToolCard=null;
 				toolCardUsed=true;
 			}
-		}
+		}//+
 		else if(picked==null && !moveDone) picked=cell;
     }
 
