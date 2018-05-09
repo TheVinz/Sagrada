@@ -1,5 +1,6 @@
-package server;
+package server.controller;
 import common.exceptions.InvalidMoveException;
+import server.Model;
 import server.state.ModelObject;
 import server.state.boards.draftpool.DraftPoolCell;
 import server.state.boards.roundtrack.RoundTrackCell;
@@ -12,17 +13,38 @@ public class Controller{
 	private Model model;
 	private Player player;
 
-	private boolean moveDone;
+	private PlayerState waitingState;
+	private PlayerState usingToolCard;
+	private PlayerState movingDice;
+
+	private PlayerState currentState;
+
+/*	private boolean moveDone;
 	private boolean toolCardUsed;
 
 	private ToolCard activeToolCard;
-	private DraftPoolCell picked;
+	private DraftPoolCell picked;*/
 
 	public Controller(Model model, Player player){
 		this.player=player;
 		this.model=model;
+		waitingState = new WaitingState(model, player);
+		usingToolCard = new UsingToolCard(model, player);
+		movingDice = new MovingDice(model, player);
 	}
 
+	public void selectObject(ModelObject o) throws InvalidMoveException {
+		if(player.isActive()) {
+			currentState = currentState.selectObject(o);
+		}
+	}
+
+
+
+
+
+
+/*
 	public void startTurn(){
 		moveDone=false;
 		toolCardUsed=false;
@@ -40,12 +62,6 @@ public class Controller{
 		}
 		else if(picked==null && !moveDone) picked=cell;
     }
-
-    /*
-    NB quando alla tool card serve una cella questa deve essere sempre accompagnata dalla window frame
-    alla quale appartiene per poter valutare l' effettiva validità della mossa mediante la classe
-    GameRules
-    */
 
     public void windowFrameClick(WindowFrame windowFrame, WindowFrameCell cell) throws InvalidMoveException {
 		if(activeToolCard!=null){
@@ -103,5 +119,5 @@ public class Controller{
 		}
 		else throw new InvalidMoveException("Only one tool card per turn");
 
-	}
+	}*/
 }

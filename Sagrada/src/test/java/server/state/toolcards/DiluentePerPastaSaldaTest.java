@@ -12,6 +12,7 @@ import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.player.Player;
+import server.state.utilities.Choice;
 import server.state.utilities.Color;
 
 import static org.junit.Assert.*;
@@ -51,7 +52,7 @@ public class DiluentePerPastaSaldaTest {
 
         toolCard.start(player);
         toolCard.setParameter(draftPoolCell);
-        toolCard.setParameter(1);
+        toolCard.setParameter(new Choice(1));
 
         //expected Yellow 1 in DraftPool[0]
 
@@ -99,7 +100,7 @@ public class DiluentePerPastaSaldaTest {
 
         draftPoolCell.put(new Dice(YELLOW));
         toolCard.setParameter(draftPoolCell);
-        toolCard.setParameter(6);
+        toolCard.setParameter(new Choice(6));
 
         //Yellow 6 in DP[0]
         //should have no valid cell for Yellow 6 on WF

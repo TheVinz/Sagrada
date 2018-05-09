@@ -9,7 +9,7 @@ import common.exceptions.InvalidMoveException;
 public class RoundTrackCell extends Cell implements ModelObject {
 
     @Override
-    public String getType() {
-        return "RoundTrackCell";
+    public int getType() {
+        return ROUND_TRACK_CELL;
     }
 }

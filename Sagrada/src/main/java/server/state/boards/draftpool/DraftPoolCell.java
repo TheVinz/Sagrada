@@ -8,7 +8,7 @@ import common.exceptions.InvalidMoveException;
 public class DraftPoolCell extends Cell implements ModelObject {
 
     @Override
-    public String getType() {
-        return "DraftPoolCell";
+    public int getType() {
+        return DRAFT_POOL_CELL;
     }
 }

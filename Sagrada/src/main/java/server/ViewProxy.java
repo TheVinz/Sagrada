@@ -6,11 +6,11 @@ import common.remotemvc.RemoteModel;
 import common.remotemvc.RemoteView;
 import common.viewchangement.Changement;
 import common.viewchangement.StartTurn;
+import server.controller.Controller;
 import server.observer.Observer;
 import server.state.State;
 import server.state.boards.Cell;
 import server.state.boards.windowframe.WindowFrameList;
-import server.state.dice.Dice;
 import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.player.Player;
@@ -39,6 +39,7 @@ public class ViewProxy implements RemoteView, Observer {
 
     @Override
     public void sendChangement(Changement change) {
+
 
     }
 
