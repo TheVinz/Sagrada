@@ -13,7 +13,7 @@ public class CliState {
     private Integer[] toolCardIds = new Integer[3];
     private Integer[] publicObjectiveCardIds = new Integer[3];
     private List<String> draftPool = new ArrayList<String>();
-   // private String[] draftPool = new String[3];    //per me dev'essere un'array di stringhe, in ogni cella della draftPool un solo elemento.
+
     private List<String> roundTrack = new ArrayList<String>();
 
     public Integer[] getToolCardIds() {
@@ -27,7 +27,7 @@ public class CliState {
     public List<String> getDraftPool() {
         return draftPool;
     }
-    //public String[] getDraftPool(){return draftPool;}
+
     public List<String> getRoundTrack() {
         return roundTrack;
     }

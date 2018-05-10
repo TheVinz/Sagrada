@@ -33,24 +33,25 @@ public class CliDisplayer {
         displayText("La tua windowframe:\n");
         for(int i=0;i<4;i++){
             for(int j=0;j<5;j++) {
-                displayText(cliPlayerState.getWindowFrame()[i][j]+" ");      //passiamo a displayText cella per cella e lui gestirà la stampa
+                displayText(cliPlayerState.getWindowFrame()[i][j]+" ");
                 if(cliPlayerState.getWindowFrame()[i][j].length()==1)
                     displayText(" ");
             }
-           displayText("\n");   //stampare uno spazio dopo aver stampato una riga
+           displayText("\n");
         }
     }
 
-    //public void printRoundTrack(){
-        //displayText("RoundTrack:\n");
-        //for(int i=1;i-1<cliState.getRoundTrack().size();i++){
-            //displayText("Round "+i);
-           // for (int j=0;j<cliState.getRoundTrack().get(i-1).length();j++){
-          //      displayText(" "+cliState.getRoundTrack());
-        //    }
-      //      displayText("\n");
-    //    }
-  //  }
+    public void printRoundTrack(CliState cliState){
+        displayText("RoundTrack:\n");
+        for(int i=0;i<cliState.getRoundTrack().size();i++){
+            displayText(i+": ");
+            for(int j=0;j<cliState.getRoundTrack().get(i).length();j=j+2){
+                displayText(cliState.getRoundTrack().get(i).substring(j,j+2)+" ");
+            }
+            displayText("\n");
+        }
+
+    }
 
     public void printToolCard(CliState cliState){
         displayText("Puoi usare queste Toolcard:\n");
@@ -71,17 +72,18 @@ public class CliDisplayer {
         displayText("Sul campo di gioco ci sono queste PublicObjectiveCard:\n");
         for(int i=0;i<3;i++){
             Integer j=cliState.getPublicObjectiveCardIds()[i];
-            displayText("L'ObjectiveCard numero "+ i+" è la ObjectiveCard"+ j+"\n");
+            displayText("L'ObjectiveCard numero "+ i+" è la ObjectiveCard "+ j+"\n");
         }
-
-
     }
 
     public void printPrivateObjectiveCard(CliPlayerState cliPlayerState){
         displayText("La tua carta privata: ");
         displayText(cliPlayerState.getPrivateObjectiveCard()+"\n");
-
     }
+
+    public void printFavorTokens(CliPlayerState cliPlayerState){
+        displayText("I tuoi FavorTokens sono "+cliPlayerState.getFavorTokens()+"\n");
+        }
 
 
 
