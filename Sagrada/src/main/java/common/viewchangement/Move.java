@@ -1,6 +1,8 @@
 package common.viewchangement;
 
-import client.view.ChangementVisitor;
+import common.ChangementVisitor;
+
+import java.rmi.RemoteException;
 
 public class Move implements Changement{
 
@@ -56,8 +58,12 @@ public class Move implements Changement{
     }
 
     @Override
-    public void change(ChangementVisitor changementVisitor) throws Exception {
-        changementVisitor.change(this);
+    public void change(ChangementVisitor changementVisitor) {
+        try{
+            changementVisitor.change(this);
+        }catch(RemoteException e){
+
+        }
     }
 
 

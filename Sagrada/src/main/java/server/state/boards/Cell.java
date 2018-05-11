@@ -1,8 +1,9 @@
 package server.state.boards;
+import server.state.ModelObject;
 import server.state.dice.Dice;
 import common.exceptions.InvalidMoveException;
 
-public abstract class Cell {
+public abstract class Cell implements ModelObject {
 	private Dice dice;
 
 	public Dice getDice(){

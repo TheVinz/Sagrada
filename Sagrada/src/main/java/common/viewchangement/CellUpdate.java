@@ -1,6 +1,9 @@
 package common.viewchangement;
 
-import client.view.ChangementVisitor;
+import common.ChangementVisitor;
+import server.state.utilities.Color;
+
+import java.rmi.RemoteException;
 
 public class CellUpdate implements Changement {
     public static final int WINDOW_FRAME=1;
@@ -11,9 +14,9 @@ public class CellUpdate implements Changement {
     private int row;
     private int column;
     private int value;
-    private char color;
+    private Color color;
 
-    public CellUpdate(int type, int row, int column, int value, char color) {
+    public CellUpdate(String player, int type, int row, int column, int value, Color color) {
         this.row=row;
         this.column=column;
         this.value=value;
@@ -32,7 +35,7 @@ public class CellUpdate implements Changement {
         return value;
     }
 
-    public char getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -42,6 +45,10 @@ public class CellUpdate implements Changement {
 
     @Override
     public void change(ChangementVisitor changementVisitor) {
-        changementVisitor.change(this);
+        try{
+            changementVisitor.change(this);
+        }catch(RemoteException e){
+
+        }
     }
 }

@@ -1,6 +1,8 @@
 package common.viewchangement;
 
-import client.view.ChangementVisitor;
+import common.ChangementVisitor;
+
+import java.rmi.RemoteException;
 
 public class RefilledDraftPool implements Changement {
     private final int[] values;
@@ -21,6 +23,10 @@ public class RefilledDraftPool implements Changement {
 
     @Override
     public void change(ChangementVisitor changementVisitor) {
-        changementVisitor.change(this);
+        try{
+            changementVisitor.change(this);
+        }catch(RemoteException e){
+
+        }
     }
 }

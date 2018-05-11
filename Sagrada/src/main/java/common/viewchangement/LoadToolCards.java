@@ -1,6 +1,8 @@
 package common.viewchangement;
 
-import client.view.ChangementVisitor;
+import common.ChangementVisitor;
+
+import java.rmi.RemoteException;
 
 public class LoadToolCards implements Changement {
     public static final int PINZA_SGROSSATRICE=1;
@@ -29,6 +31,10 @@ public class LoadToolCards implements Changement {
 
     @Override
     public void change(ChangementVisitor changementVisitor) {
-        changementVisitor.change(this);
+        try{
+            changementVisitor.change(this);
+        }catch(RemoteException e){
+
+        }
     }
 }

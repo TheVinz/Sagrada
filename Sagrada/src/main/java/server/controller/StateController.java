@@ -9,7 +9,7 @@ import server.state.boards.windowframe.WindowFrameCell;
 import server.state.player.Player;
 import server.state.toolcards.ToolCard;
 
-public class Controller{
+public class StateController {
 	private Model model;
 	private Player player;
 
@@ -25,7 +25,7 @@ public class Controller{
 	private ToolCard activeToolCard;
 	private DraftPoolCell picked;*/
 
-	public Controller(Model model, Player player){
+	public StateController(Model model, Player player){
 		this.player=player;
 		this.model=model;
 		waitingState = new WaitingState(model, player);

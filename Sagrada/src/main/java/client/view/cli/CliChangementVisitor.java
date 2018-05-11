@@ -1,6 +1,6 @@
 package client.view.cli;
 
-import client.view.ChangementVisitor;
+import common.ChangementVisitor;
 import common.viewchangement.*;
 
 public class CliChangementVisitor implements ChangementVisitor {
@@ -22,10 +22,14 @@ public class CliChangementVisitor implements ChangementVisitor {
     }
 
     @Override
-    public void change(Move move) throws Exception{
+    public void change(Move move){
         CliPlayerState cliPlayerState = null;
         if(move.getPlayer() != null)
-            cliPlayerState = cliState.getCliPlayerState(move.getPlayer());
+            try {
+                cliPlayerState = cliState.getCliPlayerState(move.getPlayer());
+            }catch(Exception e){
+
+            }
         String source, target;
         String dice = null;
         if(move.getSourceType() == 0) {

@@ -43,4 +43,11 @@ public class Player {
     }
 
 
+    public int getId() {
+        return id;
+    }
+
+    public void setDiceMoved(boolean diceMoved) {
+        this.diceMoved = diceMoved;
+    }
 }
