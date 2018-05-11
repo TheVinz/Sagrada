@@ -47,19 +47,19 @@ public class ViewProxy implements RemoteView, Observer {
     public void receiveCommand(Command c) throws InvalidMoveException {
         switch(c.getType()){
             case DRAFTPOOL_CLICK:
-                controller.draftPoolClick(state.getDraftPool().getCell(c.getX()));
+                controller.selectObject(state.getDraftPool().getCell(c.getX()));
                 break;
             case WINDOW_FRAME_CLICK:
-                controller.windowFrameClick(state.getWindowFrame(id), state.getWindowFrame(id).getCell(c.getX(), c.getY()));
+                controller.selectObject(state.getWindowFrame(id));
+                controller.selectObject(state.getWindowFrame(id).getCell(c.getX(), c.getY()));
                 break;
             case ROUND_TRACK_CLICK:
-                controller.roundTrackClick(state.getRoundTrack().getRoundSet(c.getX()).get(c.getY()));
+                controller.selectObject(state.getRoundTrack().getRoundSet(c.getX()).get(c.getY()));
                 break;
             case USE_TOOL_CARD:
-                controller.useToolCard(c.getX());
+                controller.selectObject(state.getToolCard(c.getX()));
                 break;
-            case END_TURN:
-                controller.endTurn();
+            /*case END_TURN:*/
             default:
                 break;
         }
@@ -112,8 +112,7 @@ public class ViewProxy implements RemoteView, Observer {
 
     @Override
     public void updateStartTurn() {
-        controller.startTurn();
-        remoteModel.receiveChangement(new StartTurn());
+
     }
 
     @Override

@@ -31,8 +31,8 @@ public class DiluentePerPastaSalda extends ToolCard {
     public void start(Player player) {
         expectedParameters=new ArrayDeque<>(3);
         parameters=new ArrayList<>(3);
-        expectedParameters.add("WindowFrame");
-        expectedParameters.add("WindowFrameCell");
+        expectedParameters.add(WINDOW_FRAME);
+        expectedParameters.add(WINDOW_FRAME_CELL);
         this.player=player;
         playable=false;
         drawDone=false;
@@ -42,14 +42,14 @@ public class DiluentePerPastaSalda extends ToolCard {
     @Override
     public void setParameter(ModelObject o) throws InvalidMoveException {
         if(!drawDone) {
-            if(o.getType()!="DraftPoolCell") throw new InvalidMoveException("Wrong parameter");
+            if(o.getType()!=DRAFT_POOL_CELL) throw new InvalidMoveException("Wrong parameter");
             else {
                 parameters.add(o);
                 doAbility();
             }
         }
         else if(!valueSetted){
-            if(o.getType()=="Choice") {
+            if(o.getType()==CHOICE) {
                 parameters.add(o);
                 doAbility();
             }
@@ -87,8 +87,8 @@ public class DiluentePerPastaSalda extends ToolCard {
                         || !GameRules.validAllDiceRestriction(frame, poolCell.getDice(), cell)) {
                     parameters.remove(frame);
                     parameters.remove(cell);
-                    expectedParameters.add("WindowFrame");
-                    expectedParameters.add("WindowFrameCell");
+                    expectedParameters.add(WINDOW_FRAME);
+                    expectedParameters.add(WINDOW_FRAME_CELL);
                 } else {
                     model.move(player, poolCell, cell);
                     playable=false;
@@ -98,8 +98,8 @@ public class DiluentePerPastaSalda extends ToolCard {
             catch (InvalidMoveException e){
                 parameters.remove(frame);
                 parameters.remove(cell);
-                expectedParameters.add("WindowFrame");
-                expectedParameters.add("WindowFrameCell");
+                expectedParameters.add(WINDOW_FRAME);
+                expectedParameters.add(WINDOW_FRAME_CELL);
             }
         }
     }

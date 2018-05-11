@@ -28,23 +28,24 @@ public class TaglierinaManuale extends ToolCard {
     public void start(Player player) throws InvalidMoveException {
         expectedParameters=new ArrayDeque<>(10);
         parameters=new ArrayList<>(10);
-        expectedParameters.add("RoundTrackCell");
-        expectedParameters.add("WindowFrame");
-        expectedParameters.add("WindowFrameCell");
-        expectedParameters.add("WindowFrame");
-        expectedParameters.add("WindowFrameCell");
-        expectedParameters.add("Choice");
-        expectedParameters.add("WindowFrame");
-        expectedParameters.add("WindowFrameCell");
-        expectedParameters.add("WindowFrame");
-        expectedParameters.add("WindowFrameCell");
+        expectedParameters.add(ROUND_TRACK_CELL);
+        expectedParameters.add(WINDOW_FRAME);
+        expectedParameters.add(WINDOW_FRAME_CELL);
+        expectedParameters.add(WINDOW_FRAME);
+        expectedParameters.add(WINDOW_FRAME_CELL);
+        expectedParameters.add(CHOICE);
         this.player=player;
     }
 
     @Override
     public boolean hasNext(){
-        if(parameters.get(5)!=null && parameters.get(5).equals(ONE_MOVE)) return false;
-        else return !expectedParameters.isEmpty();
+        if(parameters.size()==6 && ((Choice) parameters.get(5)).getChoice()==TWO_MOVES){
+            expectedParameters.add(WINDOW_FRAME);
+            expectedParameters.add(WINDOW_FRAME_CELL);
+            expectedParameters.add(WINDOW_FRAME);
+            expectedParameters.add(WINDOW_FRAME_CELL);
+        }
+        return !expectedParameters.isEmpty();
     }
 
     @Override
@@ -55,10 +56,10 @@ public class TaglierinaManuale extends ToolCard {
         WindowFrame firstTargetFrame= (WindowFrame) parameters.get(3);
         WindowFrameCell firstTarget= (WindowFrameCell) parameters.get(4);
         Integer secondMove=((Choice) parameters.get(5)).getChoice();
-        WindowFrame secondSourceFrame= (WindowFrame) parameters.get(6);
-        WindowFrameCell secondSource= (WindowFrameCell) parameters.get(7);
-        WindowFrame secondTargetFrame= (WindowFrame) parameters.get(8);
-        WindowFrameCell secondTarget= (WindowFrameCell) parameters.get(9);
+        WindowFrame secondSourceFrame;
+        WindowFrameCell secondSource = null;
+        WindowFrame secondTargetFrame;
+        WindowFrameCell secondTarget= null;
         Color color=roundTrackCell.getDice().getColor();
         if(firstSourceFrame!=player.getWindowFrame() || firstTargetFrame!=player.getWindowFrame())
             throw new InvalidMoveException("Invalid frame");
@@ -66,11 +67,12 @@ public class TaglierinaManuale extends ToolCard {
             throw new InvalidMoveException("Dice colors error");
         else {
             Dice dice=firstSource.removeDice();
-            if(!GameRules.validAllCellRestriction(firstSource.getDice(), firstTarget)
-                    || !GameRules.validAllDiceRestriction(firstTargetFrame, firstSource.getDice(), firstSource)) {
+            if(!GameRules.validAllCellRestriction(dice, firstTarget)
+                    || !GameRules.validAllDiceRestriction(firstTargetFrame, dice, firstSource)) {
                 firstSource.put(dice);
                 throw new InvalidMoveException("Move must respect all placement restrictions");
             }
+            firstSource.put(dice);
         }
         if(secondMove==TWO_MOVES){
             secondSourceFrame= (WindowFrame) parameters.get(6);
@@ -83,11 +85,12 @@ public class TaglierinaManuale extends ToolCard {
                 throw new InvalidMoveException("Dice colors error");
             else {
                 Dice dice=secondSource.removeDice();
-                if(!GameRules.validAllCellRestriction(secondSource.getDice(), secondTarget)
-                        || !GameRules.validAllDiceRestriction(secondTargetFrame, secondSource.getDice(), secondSource)) {
+                if(!GameRules.validAllCellRestriction(dice, secondTarget)
+                        || !GameRules.validAllDiceRestriction(secondTargetFrame, dice, secondSource)) {
                     secondSource.put(dice);
                     throw new InvalidMoveException("Move must respect all placement restrictions");
                 }
+                secondSource.put(dice);
             }
         }
         if(firstTarget.isEmpty()) {

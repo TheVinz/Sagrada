@@ -77,7 +77,7 @@ public class Model implements Observable {
 
     public Dice drawDice(Player player) {
         Dice dice=state.getBag().draw();
-        notifyDrow(player, dice);
+        notifyDraw(player, dice);
         return dice;
     }
 
@@ -85,8 +85,12 @@ public class Model implements Observable {
         cell.getDice().flip();
         notifyCellChangement(player, cell);
     }
-    public void endTurn(){
-
+    public void endRound() throws Exception {
+        state.getRoundTrack().endRound(state.getDraftPool());
+    }
+    public void startRound() throws InvalidMoveException{
+        state.getDraftPool().draw(state.getBag());
+        notifyRefillDraftPool(state.getDraftPool().getDraftPool().toArray(new Cell[0]));
     }
 
     //TODO introdurre codice per i favor tokens
@@ -121,7 +125,7 @@ public class Model implements Observable {
     }
 
     @Override
-    public void notifyRefillDraftPool(Player player, Cell[] draftPool) {
+    public void notifyRefillDraftPool(Cell[] draftPool) {
         for(Observer o:observers) o.updateRefillDraftPool(draftPool);
     }
 
@@ -151,8 +155,8 @@ public class Model implements Observable {
     }
 
     @Override
-    public void notifyDrow(Player player, Dice dice){
-        for(Observer o : observers) o.updateDiceDrow(player, dice.getColor());
+    public void notifyDraw(Player player, Dice dice){
+        for(Observer o : observers) o.updateDiceDraw(player, dice.getColor());
     }
 
     @Override

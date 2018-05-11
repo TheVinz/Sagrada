@@ -14,6 +14,7 @@ public class Player {
 
     private boolean diceMoved;
     private boolean toolCardUsed;
+    private boolean active;
 
     public Player(String name, int id, Model model){
         this.name=name;
@@ -42,5 +43,17 @@ public class Player {
         this.firstMoveDone = firstMoveDone;
     }
 
+    public void setDiceMoved(){
+        this.diceMoved=true;
+    }
 
+    public boolean isActive() {
+        return this.active;
+    }
+    public boolean isDiceMoved(){
+        return this.diceMoved;
+    }
+    public boolean isToolCardUsed(){
+        return this.toolCardUsed;
+    }
 }

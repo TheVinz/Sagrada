@@ -11,13 +11,13 @@ public interface Observable {
     void removeObserver(Observer o);
     void notifyMove(Player player, Cell source, Cell target);
     void notifyCellChangement(Player player, Cell cell);
-    void notifyRefillDraftPool(Player player, Cell[] draftPool);
+    void notifyRefillDraftPool(Cell[] draftPool);
     void notifyToolCards();
     void notifyObjectiveCards(PublicObjectiveCard[] publicObjectiveCards);
     void notifyWindowFrameChoices();
     void notifyPlayers(Player[] players);
     void notifyToolCardUsed(Player player, ToolCard toolCard);
-    void notifyDrow(Player player, Dice dice);
+    void notifyDraw(Player player, Dice dice);
     void notifyPrivateObjectiveCard();
     void notifyStartTurn(Observer o);
 }

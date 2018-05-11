@@ -19,7 +19,7 @@ public class TamponeDiamantato extends ToolCard {
     public void start(Player player) throws InvalidMoveException {
         expectedParameters = new ArrayDeque<>(1);
         parameters = new ArrayList<>(1);
-        expectedParameters.add("DraftPoolCell");
+        expectedParameters.add(DRAFT_POOL_CELL);
         this.player=player;
     }
 

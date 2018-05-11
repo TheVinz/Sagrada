@@ -15,7 +15,7 @@ public class WaitingState implements PlayerState {
 
     private PlayerState nextState;
 
-    public WaitingState(Model model, Player player){
+    public WaitingState(Player player, Model model){
         this.model = model;
         this.player = player;
     }
@@ -24,16 +24,15 @@ public class WaitingState implements PlayerState {
     public PlayerState selectObject(ModelObject  modelObject) throws InvalidMoveException {
         switch (modelObject.getType()){
             case ModelObject.DRAFT_POOL_CELL:
-                if(!player.diceMoved()) {
+                if(!player.isDiceMoved()) {
                     nextState = new MovingDice(player, model);
                     return nextState.selectObject(modelObject);
                 }
                 else return this;
             case ModelObject.TOOL_CARD:
-                if(!player.toolCardUsed()) {
+                if(!player.isToolCardUsed()) {
                     nextState = new UsingToolCard(player, model);
-                    nextState.selectObject(modelObject);
-                    return nextState;
+                    return nextState.selectObject(modelObject);
                 }
                 else return this;
             default:

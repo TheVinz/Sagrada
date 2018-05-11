@@ -25,7 +25,7 @@ public class RoundTrack{
 		}
 	}
 	//Aumenta il round
-	public void endRound(DraftPool pool) throws InvalidMoveException, Exception {
+	public void endRound(DraftPool pool) throws Exception {
 		if(round == 11)
 			throw new Exception("Game is finished");
 		for(int i=pool.getSize()-1; i>=0; i--){
