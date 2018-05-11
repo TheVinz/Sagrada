@@ -52,14 +52,14 @@ public class CliDisplayer {
     //    }
   //  }
 
-    public void printToolCard(CliState cliState){
+    public void printToolCard(){
         displayText("Puoi usare queste Toolcard:\n");
         for(int i=0;i<3;i++){
             displayText("La ToolCard numero " +i+" è la ToolCard "+cliState.getToolCardIds()[i]+"\n");     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
                                                                        //per ora un numero a cui dovremo associare la vera e propria ToolCard.
         }
     }
-    public void printDraftPool(CliState cliState){
+    public void printDraftPool(){
         displayText("Nella DraftPool ci sono questi dadi: ");
         for(int i=0; i<cliState.getDraftPool().size();i++){
             displayText(cliState.getDraftPool().get(i)+" ");
@@ -67,7 +67,7 @@ public class CliDisplayer {
         displayText("\n");
     }
 
-    public void printPublicObjectiveCards(CliState cliState){
+    public void printPublicObjectiveCards(){
         displayText("Sul campo di gioco ci sono queste PublicObjectiveCard:\n");
         for(int i=0;i<3;i++){
             Integer j=cliState.getPublicObjectiveCardIds()[i];
@@ -84,5 +84,6 @@ public class CliDisplayer {
     }
 
 
-
+    public void printPlayerWindowFrame() {
+    }
 }

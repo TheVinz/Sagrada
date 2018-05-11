@@ -25,10 +25,15 @@ public class MovingDice implements PlayerState {
     @Override
     public PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException {
         switch(modelObject.getType()){
-            case WindowFrameCell:
+            case ModelObject.WINDOW_FRAME_CELL:
                 target=(WindowFrameCell) modelObject;
                 model.move(player, source, target);
-
+                return new WaitingState(player, model);
+            case ModelObject.DRAFT_POOL_CELL:
+                source=(DraftPoolCell) modelObject;
+                return this;
+            default:
+                return this;
         }
     }
 }

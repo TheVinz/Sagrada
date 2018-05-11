@@ -1,32 +1,23 @@
 package client.view.cli.cliphasestate;
 
-import client.view.cli.CliController;
 import client.view.cli.CliDisplayer;
+import common.CommandVisitor;
+
+import java.rmi.RemoteException;
 
 public class UsingToolCardPhase implements CliPhaseSate {
     private CliDisplayer cliDisplayer;
-    private CliController cliController;
+    private CommandVisitor commandVisitor;
 
-    public UsingToolCardPhase(CliDisplayer cliDisplayer, CliController cliController) {
+    public UsingToolCardPhase(CliDisplayer cliDisplayer, CommandVisitor commandVisitor) {
 
         this.cliDisplayer = cliDisplayer;
-        this.cliController = cliController;
+        this.commandVisitor = commandVisitor;
     }
 
     @Override
-    public CliPhaseSate handle(String input) {
-        switch (input){
-            case "P":
-                //
-                break;
-            case "M":
-                cliDisplayer.printMenu();
-                break;
-            //code missing
-            default:
-                cliDisplayer.displayText("Input error");
+    public CliPhaseSate handle(String input) throws RemoteException {
 
-        }
         return this;
 
     }

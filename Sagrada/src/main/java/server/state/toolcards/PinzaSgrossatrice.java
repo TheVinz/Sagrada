@@ -20,8 +20,8 @@ public class PinzaSgrossatrice extends ToolCard {
     public void start(Player player){
         expectedParameters = new ArrayDeque<>();
         parameters = new ArrayList<>();
-        expectedParameters.add("DraftPoolCell");  //la cella deve avere un dado, se no eccezione
-        expectedParameters.add("Choice");
+        expectedParameters.add(DRAFT_POOL_CELL);  //la cella deve avere un dado, se no eccezione
+        expectedParameters.add(CHOICE);
         this.player=player;
     }
 

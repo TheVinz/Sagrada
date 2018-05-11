@@ -13,12 +13,9 @@ public class StateController {
 	private Model model;
 	private Player player;
 
-	private PlayerState waitingState;
-	private PlayerState usingToolCard;
-	private PlayerState movingDice;
-
 	private PlayerState currentState;
 
+<<<<<<< HEAD:Sagrada/src/main/java/server/controller/StateController.java
 /*	private boolean moveDone;
 	private boolean toolCardUsed;
 
@@ -26,98 +23,23 @@ public class StateController {
 	private DraftPoolCell picked;*/
 
 	public StateController(Model model, Player player){
+=======
+	public Controller(Model model, Player player){
+>>>>>>> 1fec6cf48718e7abd567f081ad211c86594442c1:Sagrada/src/main/java/server/controller/Controller.java
 		this.player=player;
 		this.model=model;
-		waitingState = new WaitingState(model, player);
-		usingToolCard = new UsingToolCard(model, player);
-		movingDice = new MovingDice(model, player);
+		currentState=new WaitingState(player, model);
 	}
 
 	public void selectObject(ModelObject o) throws InvalidMoveException {
 		if(player.isActive()) {
-			currentState = currentState.selectObject(o);
-		}
-	}
-
-
-
-
-
-
-/*
-	public void startTurn(){
-		moveDone=false;
-		toolCardUsed=false;
-		activeToolCard=null;
-		picked=null;
-	}
-
-    public void draftPoolClick(DraftPoolCell cell) throws InvalidMoveException {
-		if(activeToolCard!=null){
-			setToolCardParameter(cell);
-			if(!activeToolCard.hasNext()) {
-				activeToolCard=null;
-				toolCardUsed=true;
-			}
-		}//+
-		else if(picked==null && !moveDone) picked=cell;
-    }
-
-    public void windowFrameClick(WindowFrame windowFrame, WindowFrameCell cell) throws InvalidMoveException {
-		if(activeToolCard!=null){
-			setToolCardParameter(windowFrame);
-			setToolCardParameter(cell);
-			if(!activeToolCard.hasNext()) {
-				activeToolCard=null;
-				toolCardUsed=true;
+			try {
+				currentState = currentState.selectObject(o);
+			} catch(InvalidMoveException e){
+				currentState=new WaitingState(player, model);
+				throw e;
 			}
 		}
-		else if(picked != null){
-			model.move(player, picked, cell);
-			moveDone=true;
-			if(toolCardUsed)
-				this.endTurn();
-		}
 	}
 
-	public void roundTrackClick(RoundTrackCell cell) throws InvalidMoveException {
-    	if(activeToolCard!=null)
-    		setToolCardParameter(cell);
-
-	}
-
-
-	private void setToolCardParameter(ModelObject o) throws InvalidMoveException {
-		try {
-			activeToolCard.setParameter(o);
-		} catch (InvalidMoveException e) {
-			activeToolCard=null;
-			throw e;
-		}
-		if(!activeToolCard.hasNext()) {
-			activeToolCard=null;
-			if(moveDone)
-				this.endTurn();
-		}
-	}
-	public void endTurn()
-	{
-		player.setFirstMoveDone(true);
-		model.endTurn();
-	}
-	//TODO il controller deve poter verificare se il Player dispone di abbastanza segnalini favore per poter utilizzare la carta
-	public void useToolCard(int index) throws InvalidMoveException {
-		if(!toolCardUsed) {
-			this.activeToolCard=model.getState().getToolCard(index);
-			activeToolCard.start(this.player);
-			if(!activeToolCard.hasNext())
-			{
-				this.activeToolCard=null;
-				if(moveDone)
-					this.endTurn();
-			}
-		}
-		else throw new InvalidMoveException("Only one tool card per turn");
-
-	}*/
 }

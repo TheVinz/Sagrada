@@ -12,6 +12,7 @@ import server.state.boards.windowframe.WindowFrameCell;
 import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.player.Player;
+import server.state.utilities.Choice;
 import server.state.utilities.Color;
 
 import static org.junit.Assert.*;
@@ -26,7 +27,7 @@ public class TaglierinaManualeTest {
     private WindowFrame windowFrame;
     private Integer integer;
 
-    @Test
+    @Before
     public void setUp() throws Exception {
         model = Mockito.spy(new Model());
         player = Mockito.mock(Player.class);
@@ -36,7 +37,7 @@ public class TaglierinaManualeTest {
         windowFrame.getCell(0, 0).put(new Dice(Color.RED, 4));
         windowFrame.getCell(0, 1).put(new Dice(Color.YELLOW, 3));
         windowFrame.getCell(0, 2).put(new Dice(Color.BLUE, 5));
-        windowFrame.getCell(1, 0).put(new Dice(Color.YELLOW, 1));
+        windowFrame.getCell(1, 0).put(new Dice(Color.YELLOW, 3));
         draftPool = new DraftPool();
         draftPool.increaseSize();
         draftPool.getCell(0).put(new Dice(Color.YELLOW, 4));
@@ -50,14 +51,12 @@ public class TaglierinaManualeTest {
     @Test
     public void shouldDoAbility() throws InvalidMoveException {
         toolCard.start(player);
-        toolCard.setParameter(roundTrack.getRoundSet(0).get(0));
+        toolCard.setParameter(roundTrack.getRoundSet(1).get(0));
         toolCard.setParameter(windowFrame);
         toolCard.setParameter(windowFrame.getCell(0,1));    //primo dado
         toolCard.setParameter(windowFrame);
         toolCard.setParameter(windowFrame.getCell(0,3));    //dove sposto il primo dado
-        integer = 0;
-
-
+        toolCard.setParameter(new Choice(TaglierinaManuale.TWO_MOVES));
 
         toolCard.setParameter(windowFrame);
         toolCard.setParameter(windowFrame.getCell(1,0));   //secondo dado

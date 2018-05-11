@@ -7,6 +7,7 @@ import client.view.cli.cliphasestate.UsingToolCardPhase;
 import client.view.network.ClientConnection;
 import client.view.network.ClientConnectionFactory;
 
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class CliLaunchClient {
@@ -24,13 +25,19 @@ public class CliLaunchClient {
         }while(connectionChoice!=0 || connectionChoice!=1);
 
         clientConnection = new ClientConnectionFactory().getClientConnection(0, new CliChangementVisitor(cliDisplayer, cliState));
-        cliController = new CliController(clientConnection.getCommandVisitor(), cliDisplayer);
 
-        CliPhaseSate currentPhase = new MenuPhase(cliDisplayer, cliController);
+        CliPhaseSate currentPhase = new MenuPhase(cliDisplayer, clientConnection.getCommandVisitor());
+        cliDisplayer.printMenu();
 
         while(true){
+            cliDisplayer.displayText("(insert M to undo the operation and see the menu)");
             String input = scanner.nextLine();
-            currentPhase = currentPhase.handle(input);
+            try{
+                currentPhase = currentPhase.handle(input);
+            }catch (RemoteException e){
+                cliDisplayer.displayText("Network problem, try again\n");
+            }
+
         }
 
 
