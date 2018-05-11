@@ -18,9 +18,9 @@ public class CliChangementVisitor implements ChangementVisitor {
         int row,column;
         String s= ""+cellUpdate.getValue()+cellUpdate.getColor();
        if(cellUpdate.getCellType()==2){    //caso draftpool
-           column = cellUpdate.getColumn();
+           row = cellUpdate.getRow();
 
-           cliState.getDraftPool().add(column,s);      //s voglio che sia la stringa con numero e colore dado
+           cliState.getDraftPool().add(row,s);      //s voglio che sia la stringa con numero e colore dado
        }
        else if(cellUpdate.getCellType()==1){   //caso windowframe
            if(cellUpdate.getPlayer()!=null)
