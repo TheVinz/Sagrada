@@ -51,7 +51,7 @@ public class WindowFrameCell extends Cell implements ModelObject {
 
 
     @Override
-    public String getType() {
-        return "WindowFrameCell";
+    public int getType() {
+        return WINDOW_FRAME_CELL;
     }
 }

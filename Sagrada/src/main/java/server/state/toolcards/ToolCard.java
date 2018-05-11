@@ -11,7 +11,7 @@ import java.util.Queue;
 public abstract class ToolCard implements ModelObject {
 	protected final Model model;
 	List<ModelObject> parameters;
-	Queue<String> expectedParameters;
+	Queue<Integer> expectedParameters;
 	protected Player player;
 
 	public ToolCard(Model model){
@@ -34,7 +34,7 @@ public abstract class ToolCard implements ModelObject {
 	abstract void doAbility() throws InvalidMoveException;
 
 	@Override
-	public String getType() {
-		return "ToolCard";
+	public int getType() {
+		return TOOL_CARD;
 	}
 }

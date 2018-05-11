@@ -3,17 +3,17 @@ package server.state.utilities;
 import server.state.ModelObject;
 
 public class Choice implements ModelObject {
-    private Integer choice;
+    private Integer choiceInt;
 
     public Choice(Integer choice){
-        this.choice = choice;
+        this.choiceInt = choice;
     }
     public Integer getChoice() {
-        return choice;
+        return choiceInt;
     }
 
     @Override
-    public String getType() {
-        return "Choice";
+    public int getType() {
+        return CHOICE;
     }
 }

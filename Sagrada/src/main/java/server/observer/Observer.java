@@ -20,5 +20,5 @@ public interface Observer {
     void updateToolCardUsed(Player player, ToolCard toolCard);
     void updatePrivateObjectiveCard(PrivateObjectiveCard card);
     void updateStartTurn();
-    void updateDiceDrow(Player player, Color color);
+    void updateDiceDraw(Player player, Color color);
 }

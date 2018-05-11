@@ -76,7 +76,7 @@ public class WindowFrame implements ModelObject {
 	public String getRep(){return windowFrameList.getRep();}
 
 	@Override
-	public String getType() {
-		return "WindowFrame";
+	public int getType() {
+		return WINDOW_FRAME;
 	}
 }
