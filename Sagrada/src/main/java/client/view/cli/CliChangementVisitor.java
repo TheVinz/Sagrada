@@ -2,6 +2,7 @@ package client.view.cli;
 
 import common.ChangementVisitor;
 import common.viewchangement.*;
+import server.state.dice.Dice;
 
 public class CliChangementVisitor implements ChangementVisitor {
     CliDisplayer cliDisplayer;
@@ -12,13 +13,33 @@ public class CliChangementVisitor implements ChangementVisitor {
         this.cliState = cliState;
     }
     @Override
-    public void change(CellUpdate cellUpdate) {
+    public void change(CellUpdate cellUpdate){
+        CliPlayerState cliPlayerState = null;
+        int row,column;
+        String s= ""+cellUpdate.getValue()+cellUpdate.getColor();
+       if(cellUpdate.getCellType()==2){    //caso draftpool
+           row = cellUpdate.getRow();
+
+           cliState.getDraftPool().add(row,s);      //s voglio che sia la stringa con numero e colore dado
+       }
+       else if(cellUpdate.getCellType()==1){   //caso windowframe
+           if(cellUpdate.getPlayer()!=null)
+               cliPlayerState = cliState.getCliPlayerState(cellUpdate.getPlayer());   //assegno il giocatore
+           row=cellUpdate.getRow();
+           column=cellUpdate.getColumn();
+           cliPlayerState.getWindowFrame()[row][column]=s;    //cella presa da cellupdate
+       }
+       else{  //caso roundtrack
+
+       }
 
     }
 
     @Override
     public void change(LoadToolCards loadToolCards) {
-
+            for(int i=0; i<3;i++){
+                cliState.getToolCardIds()[i]=loadToolCards.getToolCards()[i];
+            }
     }
 
     @Override
@@ -58,17 +79,23 @@ public class CliChangementVisitor implements ChangementVisitor {
             //da implementare
         }
 
-        cliDisplayer.displayText(move.getPlayer().concat(" moves dice from ").concat(source).concat(" to ").concat(target));
+        cliDisplayer.displayText(move.getPlayer().concat(" moves dice from ").concat(source).concat(" to ").concat(target)+"\n");
 
     }
 
     @Override
     public void change(RefilledDraftPool refilledDraftPool) {
-
+        String s;
+        for(int i=0;i<refilledDraftPool.getColors().length;i++){
+            s=""+refilledDraftPool.getValues()[i]+refilledDraftPool.getColors()[i];
+        cliState.getDraftPool().add(i,s);
+        }
+        cliDisplayer.displayText("La DraftPool è stata riempita:\n");
     }
 
     @Override
     public void change(StartTurn startTurn) {
+
 
     }
 }

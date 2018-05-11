@@ -30,6 +30,8 @@ public class CliDisplayerTest {
     private ByteArrayOutputStream outContent;
     private Integer[] toolCard = new Integer[3];
     private Integer[] publicObjectiveCardIds = new Integer[3];
+    private Integer favorTokens;
+    private List<String> roundTrack = new ArrayList<String>();
 
 
 
@@ -68,14 +70,20 @@ public class CliDisplayerTest {
         draftPool.add("3B");
         draftPool.add("X");
         draftPool.add("5Y");
+        roundTrack.add(0,"3G6B");
+        roundTrack.add(1,"3B");
+        roundTrack.add(2,"5R2G4B");
 
         when(cliPlayerState.getWindowFrame()).thenReturn(stringFrame);
         when(cliState.getToolCardIds()).thenReturn(toolCard);
         when(cliState.getDraftPool()).thenReturn(draftPool);
         when(cliState.getPublicObjectiveCardIds()).thenReturn(publicObjectiveCardIds);
+        when(cliState.getRoundTrack()).thenReturn(roundTrack);
 
         privateObjectiveCard = "RED";
         when(cliPlayerState.getPrivateObjectiveCard()).thenReturn(privateObjectiveCard);
+        favorTokens = 3;
+        when(cliPlayerState.getFavorTokens()).thenReturn(favorTokens);
 
     }
 
@@ -109,5 +117,16 @@ public class CliDisplayerTest {
         outContent = new ByteArrayOutputStream();
         cliDisplayer.printPublicObjectiveCards(cliState);
     }
+    @Test
+    public void shouldPrintFavorTokens(){
+        outContent = new ByteArrayOutputStream();
+        cliDisplayer.printFavorTokens(cliPlayerState);
+    }
+    @Test
+    public void shouldPrintRoundTrack(){
+        outContent = new ByteArrayOutputStream();
+        cliDisplayer.printRoundTrack(cliState);
+    }
+
 
 }

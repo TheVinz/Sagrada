@@ -15,7 +15,6 @@ public class CliLaunchClient {
 
         int connectionChoice = 0;
         ClientConnection clientConnection;
-        CliController cliController;
         Scanner scanner = new Scanner(System.in);
         CliDisplayer cliDisplayer = new CliDisplayer();
         CliState cliState = new CliState();

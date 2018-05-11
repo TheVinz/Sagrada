@@ -10,13 +10,16 @@ public class CellUpdate implements Changement {
     public static final int DRAFT_POOL=2;
     public static final int ROUND_TRACK=3;
 
-    private int cellType;
-    private int row;
-    private int column;
-    private int value;
-    private Color color;
+    private final String player;
+    private final int cellType;
+    private final int row;
+    private final int column;
+    private final int value;
+    private final char color;
 
-    public CellUpdate(String player, int type, int row, int column, int value, Color color) {
+    public CellUpdate(String player,int type, int row, int column, int value, char color) {
+        this.player = player;
+        this.cellType=type;
         this.row=row;
         this.column=column;
         this.value=value;
@@ -35,7 +38,7 @@ public class CellUpdate implements Changement {
         return value;
     }
 
-    public Color getColor() {
+    public char getColor() {
         return color;
     }
 
@@ -43,11 +46,13 @@ public class CellUpdate implements Changement {
         return cellType;
     }
 
+    public String getPlayer(){ return player; }
+
     @Override
     public void change(ChangementVisitor changementVisitor) {
-        try{
+        try {
             changementVisitor.change(this);
-        }catch(RemoteException e){
+        } catch (RemoteException e) {
 
         }
     }
