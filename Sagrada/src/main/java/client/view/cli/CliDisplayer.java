@@ -2,7 +2,7 @@ package client.view.cli;
 
 
 public class CliDisplayer {
-    CliState cliState;
+    private CliState cliState;
 
     public void displayText(String text){
 
@@ -19,7 +19,7 @@ public class CliDisplayer {
         displayText("-Per vedere la tua PrivateObjectiveCard premi\t C\n");
         displayText("-Per vedere le PublicObjectiveCard premi\t\t O\n");
         displayText("-Per vedere la RoundTrack premi\t\t\t\t\t R\n");
-        displayText("-Per vedere\n\n ");
+        displayText("-Per vedere la WindowFrame di altri premi\t\t A\n\n ");
         displayText("Cosa vuoi fare?\n");
         displayText("-Per posizionare un dado premi\t\t\t D\n");
         displayText("-Per usare una ToolCard premi\t\t\t U\n");
@@ -41,7 +41,7 @@ public class CliDisplayer {
         }
     }
 
-    public void printRoundTrack(CliState cliState){
+    public void printRoundTrack(){
         displayText("RoundTrack:\n");
         for(int i=0;i<cliState.getRoundTrack().size();i++){
             displayText(i+": ");
@@ -87,5 +87,7 @@ public class CliDisplayer {
 
 
     public void printPlayerWindowFrame() {
+      //  displayText("Questa è la vetrata di "+name+":\n");
+        //this.printWindowFrame(cliState.getCliPlayerState(name));
     }
 }

@@ -5,6 +5,12 @@ public class CliPlayerState {
     private String[][] windowFrame = new String[4][5];
     private String privateObjectiveCard;
     private Integer favorTokens;
+    public CliPlayerState(String name,String[][] windowFrame,String privateObjectiveCard,Integer favorTokens){
+        this.name=name;
+        this.windowFrame=windowFrame;
+        this.privateObjectiveCard=privateObjectiveCard;
+        this.favorTokens=favorTokens;
+    }
 
     public String[][] getWindowFrame() {
         return windowFrame;

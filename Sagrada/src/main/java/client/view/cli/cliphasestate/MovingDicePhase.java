@@ -31,8 +31,8 @@ public class MovingDicePhase implements CliPhaseSate {
             cliDisplayer.printMenu();
             return new MenuPhase(cliDisplayer, commandVisitor);
         }
-
         Response response;
+
         if(!firstCell) {
             if (input.length() == 0 && input.charAt(0) >= 0 && input.charAt(0) <= 9) {
                 response = commandVisitor.handle(new GameCommand(1, 0));

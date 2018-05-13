@@ -28,7 +28,8 @@ public class CliChangementVisitor implements ChangementVisitor {
            column=cellUpdate.getColumn();
            cliPlayerState.getWindowFrame()[row][column]=s;    //cella presa da cellupdate
        }
-       else{  //caso roundtrack
+       else{
+           row=cellUpdate.getRow(); //caso roundtrack, se per caso nella cella ci sono più dadi?
 
        }
 
@@ -94,7 +95,7 @@ public class CliChangementVisitor implements ChangementVisitor {
 
     @Override
     public void change(StartTurn startTurn) {
-
+        cliState=new CliState(startTurn.getDraftpool(),startTurn.getRoundTrack(),startTurn.getToolCardIds(),startTurn.getPublicObjectiveCardIds(),startTurn.getCliPlayerStates());
 
     }
 }

@@ -1,20 +1,34 @@
 package client.view.cli;
 
 
+import common.viewchangement.StartTurn;
 import server.state.boards.draftpool.DraftPool;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CliState {
-
     private CliPlayerState cliCurrentPlayerState;
     private List<CliPlayerState> cliPlayerStates = new ArrayList<CliPlayerState>();
     private Integer[] toolCardIds = new Integer[3];
     private Integer[] publicObjectiveCardIds = new Integer[3];
     private List<String> draftPool = new ArrayList<String>();
-
     private List<String> roundTrack = new ArrayList<String>();
+    public CliState(){
+
+    }
+
+    public CliState(List<String> draftPool,List<String> roundTrack,Integer[] toolCardIds,Integer[] publicObjectiveCardIds,List<CliPlayerState> cliPlayerStates){
+        this.draftPool=draftPool;
+        this.roundTrack=roundTrack;
+        this.toolCardIds=toolCardIds;
+        this.publicObjectiveCardIds=publicObjectiveCardIds;
+        this.cliPlayerStates=cliPlayerStates;
+    }
+
+
+
+
 
     public Integer[] getToolCardIds() {
         return toolCardIds;
@@ -39,6 +53,24 @@ public class CliState {
         return cliPlayerStates.get(0); //da togliere
     }
 
+    //public void setDraftPool(List<String> draftPool) {
+  //      this.draftPool = draftPool;
+//    }
+
+    //public void setCliPlayerStates(List<CliPlayerState> cliPlayerStates) {
+  //      this.cliPlayerStates=cliPlayerStates;
+//    }
+
+    //public void setPublicObjectiveCardIds(Integer[] publicObjectiveCardIds) {
+  //      this.publicObjectiveCardIds = publicObjectiveCardIds;
+//    }
+
+//    public void setToolCardIds(Integer[] toolCardIds) {
+      //  this.toolCardIds = toolCardIds;
+    //}
+    //public void setRoundTrack(List<String> roundTrack){
+   //     this.roundTrack=roundTrack;
+   // }
 
     public CliPlayerState getCliCurrentPlayerState() {
         return cliCurrentPlayerState;

@@ -19,15 +19,24 @@ public class MenuPhase implements CliPhaseSate {
     @Override
     public CliPhaseSate handle(String input) throws RemoteException {
         switch (input){
-            case "P":
-                //
-                return this;
+
             case "M":
                 cliDisplayer.printMenu();
                 return this;
+            case "P":
+                cliDisplayer.printDraftPool();
+                return this;
+            case "V":
+               // cliDisplayer.printWindowFrame();     //mi serve il giocatore
+            case "T":
+                cliDisplayer.printToolCard();
+            case "O":
+                cliDisplayer.printPublicObjectiveCards();
+            case "A":
+                cliDisplayer.displayText("Put the name of the player:\n");
             case "D":
                 cliDisplayer.printDraftPool();
-                cliDisplayer.displayText("Select a draft pool cell: ");
+                cliDisplayer.displayText("Select a draft pool cell:\n ");
                 return new MovingDicePhase(cliDisplayer, commandVisitor);
             case "U":
                 cliDisplayer.printToolCard();
