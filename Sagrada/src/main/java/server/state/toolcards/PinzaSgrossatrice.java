@@ -17,6 +17,11 @@ public class PinzaSgrossatrice extends ToolCard {
         super(model);
     }
 
+    @Override
+    public int getNumber() {
+        return 1;
+    }
+
     public void start(Player player){
         expectedParameters = new ArrayDeque<>();
         parameters = new ArrayList<>();

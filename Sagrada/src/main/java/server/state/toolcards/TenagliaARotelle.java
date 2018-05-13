@@ -18,6 +18,11 @@ public class TenagliaARotelle extends ToolCard {
     }
 
     @Override
+    public int getNumber() {
+        return 8;
+    }
+
+    @Override
     public void start(Player player) throws InvalidMoveException {
         if(player.isFirstMoveDone()) throw new InvalidMoveException("Only during your first turn");
         parameters=new ArrayList<>(3);

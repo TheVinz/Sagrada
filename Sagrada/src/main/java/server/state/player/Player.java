@@ -15,12 +15,14 @@ public class Player {
     private boolean diceMoved;
     private boolean toolCardUsed;
     private boolean active;
+    private boolean secondTurn;
 
     public Player(String name, int id, Model model){
         this.name=name;
         this.id=id;
         this.diceMoved=false;
         this.toolCardUsed=false;
+        this.secondTurn=false;
     }
 
     public void setWindowFrame(WindowFrame windowFrame){
@@ -46,15 +48,18 @@ public class Player {
     public void setDiceMoved(){
         this.diceMoved=true;
     }
+    public void setActive(){
+        this.active=true;
+    }
 
-<<<<<<< HEAD
     public int getId() {
         return id;
     }
 
     public void setDiceMoved(boolean diceMoved) {
         this.diceMoved = diceMoved;
-=======
+    }
+
     public boolean isActive() {
         return this.active;
     }
@@ -63,6 +68,6 @@ public class Player {
     }
     public boolean isToolCardUsed(){
         return this.toolCardUsed;
->>>>>>> 1fec6cf48718e7abd567f081ad211c86594442c1
     }
+    public boolean isSecondTurn() {return this.secondTurn;}
 }

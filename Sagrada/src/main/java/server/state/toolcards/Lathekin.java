@@ -18,6 +18,11 @@ public class Lathekin extends ToolCard {
     }
 
     @Override
+    public int getNumber() {
+        return 4;
+    }
+
+    @Override
     public void start(Player player) {
         expectedParameters=new ArrayDeque<>(8);
         parameters=new ArrayList<>(8);

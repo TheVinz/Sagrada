@@ -16,6 +16,11 @@ public class TamponeDiamantato extends ToolCard {
     }
 
     @Override
+    public int getNumber() {
+        return 10;
+    }
+
+    @Override
     public void start(Player player) throws InvalidMoveException {
         expectedParameters = new ArrayDeque<>(1);
         parameters = new ArrayList<>(1);

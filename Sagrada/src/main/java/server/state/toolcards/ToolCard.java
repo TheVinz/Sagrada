@@ -18,6 +18,8 @@ public abstract class ToolCard implements ModelObject {
 		this.model=model;
 	}
 
+	public abstract int getNumber();
+
 	public abstract void start(Player player) throws InvalidMoveException;
 	public void setParameter(ModelObject o) throws InvalidMoveException{
 		if(o.getType()!=expectedParameters.poll()) throw new InvalidMoveException("Wrong parameter");

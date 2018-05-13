@@ -18,6 +18,11 @@ public class AlesatorePerLaminaDiRame extends ToolCard {
     }
 
     @Override
+    public int getNumber() {
+        return 3;
+    }
+
+    @Override
     public void start(Player player) {
         parameters=new ArrayList<>(4);
         expectedParameters=new ArrayDeque<>(4);
@@ -55,4 +60,6 @@ public class AlesatorePerLaminaDiRame extends ToolCard {
             }
         }
     }
+
+
 }

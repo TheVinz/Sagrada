@@ -4,11 +4,11 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import server.state.boards.windowframe.WindowFrame;
-import server.state.boards.windowframe.WindowFrameCell;
 import server.state.boards.windowframe.WindowFrameList;
 import server.state.dice.Dice;
 import server.state.player.Player;
 import server.state.utilities.Color;
+import server.viewproxy.ViewProxy;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;

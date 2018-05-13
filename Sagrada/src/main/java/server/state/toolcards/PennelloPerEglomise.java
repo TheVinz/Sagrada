@@ -19,6 +19,11 @@ public class PennelloPerEglomise extends ToolCard {
     }
 
     @Override
+    public int getNumber() {
+        return 1;
+    }
+
+    @Override
     public void start(Player player) {
         expectedParameters = new ArrayDeque<>(4);
         parameters = new ArrayList<>(4);

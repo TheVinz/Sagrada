@@ -1,8 +1,5 @@
 package common.viewchangement;
 
-import common.ChangementVisitor;
-
-import java.rmi.RemoteException;
 
 public class RefilledDraftPool implements Changement {
     private final int[] values;
@@ -21,12 +18,4 @@ public class RefilledDraftPool implements Changement {
         return colors;
     }
 
-    @Override
-    public void change(ChangementVisitor changementVisitor) {
-        try{
-            changementVisitor.change(this);
-        }catch(RemoteException e){
-
-        }
-    }
 }

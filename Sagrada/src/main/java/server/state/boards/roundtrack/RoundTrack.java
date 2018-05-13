@@ -28,10 +28,12 @@ public class RoundTrack{
 	public void endRound(DraftPool pool) throws Exception {
 		if(round == 11)
 			throw new Exception("Game is finished");
-		for(int i=pool.getSize()-1; i>=0; i--){
+		int index=0;
+		for(int i=0; i<pool.getSize(); i++){
 			if(pool.getCell(i).getDice()!=null){
-				roundTrackSpaces.get(round).add(0, new RoundTrackCell());
+				roundTrackSpaces.get(round).add(0, new RoundTrackCell(round, index));
 				roundTrackSpaces.get(round).get(0).put(pool.getCell(i).removeDice());
+				index++;
 			}
 		}
 		round++;

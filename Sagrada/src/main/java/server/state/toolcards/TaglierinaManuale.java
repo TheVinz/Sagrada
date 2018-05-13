@@ -25,6 +25,11 @@ public class TaglierinaManuale extends ToolCard {
     }
 
     @Override
+    public int getNumber() {
+        return 12;
+    }
+
+    @Override
     public void start(Player player) throws InvalidMoveException {
         expectedParameters=new ArrayDeque<>(10);
         parameters=new ArrayList<>(10);

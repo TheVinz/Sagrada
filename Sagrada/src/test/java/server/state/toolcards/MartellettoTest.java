@@ -29,7 +29,7 @@ public class MartellettoTest {
     public void setUp() throws Exception {
         model=new Model();
         player=mock(Player.class);
-        Mockito.when(player.isFirstMoveDone()).thenReturn(true);
+        Mockito.when(player.isSecondTurn()).thenReturn(true);
         model.addPlayer("TheVinz");
         model.addPlayer("Strenuus");
         model.addPlayer("GabStuc");

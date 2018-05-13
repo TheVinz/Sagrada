@@ -9,23 +9,13 @@ import server.state.boards.windowframe.WindowFrameCell;
 import server.state.player.Player;
 import server.state.toolcards.ToolCard;
 
-public class StateController {
+public class Controller {
 	private Model model;
 	private Player player;
 
 	private PlayerState currentState;
 
-<<<<<<< HEAD:Sagrada/src/main/java/server/controller/StateController.java
-/*	private boolean moveDone;
-	private boolean toolCardUsed;
-
-	private ToolCard activeToolCard;
-	private DraftPoolCell picked;*/
-
-	public StateController(Model model, Player player){
-=======
 	public Controller(Model model, Player player){
->>>>>>> 1fec6cf48718e7abd567f081ad211c86594442c1:Sagrada/src/main/java/server/controller/Controller.java
 		this.player=player;
 		this.model=model;
 		currentState=new WaitingState(player, model);
@@ -40,6 +30,10 @@ public class StateController {
 				throw e;
 			}
 		}
+	}
+
+	public PlayerState getCurrentState(){
+		return this.currentState;
 	}
 
 }

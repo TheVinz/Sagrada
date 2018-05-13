@@ -5,13 +5,12 @@ import server.observer.Observable;
 import server.observer.Observer;
 import server.state.State;
 import server.state.boards.Cell;
-import server.state.boards.draftpool.DraftPoolCell;
 import server.state.dice.Dice;
-import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.player.Player;
 import server.state.toolcards.ToolCard;
 import server.state.utilities.Util;
+import server.viewproxy.ViewProxy;
 
 import java.util.ArrayList;
 import java.util.List;

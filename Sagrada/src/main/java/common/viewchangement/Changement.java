@@ -1,7 +1,5 @@
 package common.viewchangement;
 
-import common.ChangementVisitor;
-
 import java.io.Serializable;
 
 public interface Changement extends Serializable {
@@ -15,5 +13,4 @@ public interface Changement extends Serializable {
 	però così il codice è più leggibile. 
 	*/
 
-    void change(ChangementVisitor changementVisitor);
 }

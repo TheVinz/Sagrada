@@ -17,6 +17,11 @@ public class RigaInSughero extends ToolCard {
     }
 
     @Override
+    public int getNumber() {
+        return 9;
+    }
+
+    @Override
     public void start(Player player) throws InvalidMoveException {
         parameters=new ArrayList<>(3);
         expectedParameters=new ArrayDeque<>(3);

@@ -13,13 +13,14 @@ public class DraftPool{
 	private List<DraftPoolCell> draftPoolCells = new ArrayList<>();
 
 	public DraftPool(){
-		draftPoolCells.add(new DraftPoolCell());
+		draftPoolCells.add(new DraftPoolCell(0));
     }
     public void increaseSize() throws Exception{ //limite superiore?
 		if(draftPoolCells.size() == 9)
 			throw new Exception("The game is full");
-		draftPoolCells.add(new DraftPoolCell());
-		draftPoolCells.add(new DraftPoolCell());
+		int size=draftPoolCells.size();
+		draftPoolCells.add(new DraftPoolCell(size));
+		draftPoolCells.add(new DraftPoolCell(size+1));
 	}
 	public List<DraftPoolCell> getDraftPool(){
 	    return this.draftPoolCells;

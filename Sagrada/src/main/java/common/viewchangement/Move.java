@@ -1,8 +1,5 @@
 package common.viewchangement;
 
-import common.ChangementVisitor;
-
-import java.rmi.RemoteException;
 
 public class Move implements Changement{
 
@@ -10,7 +7,7 @@ public class Move implements Changement{
     public static final int WINDOW_FRAME=1;
     public static final int ROUND_TRACK=2;
 
-    private final String player;
+    private final int player;
     private final int sourceType;
     private final int sourceX;
     private final int sourceY;
@@ -18,7 +15,7 @@ public class Move implements Changement{
     private final int targetX;
     private final int targetY;
 
-    public Move(String player, int sourceType, int sourceX, int sourceY,int targetType, int targetX, int targetY){
+    public Move(int player, int sourceType, int sourceX, int sourceY,int targetType, int targetX, int targetY){
         this.player = player;
         this.sourceType=sourceType;
         this.sourceX=sourceX;
@@ -53,18 +50,10 @@ public class Move implements Changement{
         return this.targetType;
     }
 
-    public String getPlayer() {
+    public int getPlayer() {
         return player;
     }
 
-    @Override
-    public void change(ChangementVisitor changementVisitor) {
-        try{
-            changementVisitor.change(this);
-        }catch(RemoteException e){
-
-        }
-    }
 
 
 }

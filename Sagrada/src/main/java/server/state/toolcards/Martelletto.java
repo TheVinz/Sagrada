@@ -12,9 +12,14 @@ public class Martelletto extends ToolCard {
     }
 
     @Override
+    public int getNumber() {
+        return 7;
+    }
+
+    @Override
     public void start(Player player) throws InvalidMoveException {
         this.player=player;
-        if(!player.isFirstMoveDone()) throw new InvalidMoveException("Can be used only on second move");
+        if(!player.isSecondTurn()) throw new InvalidMoveException("Can be used only on second move");
         else doAbility();
     }
 

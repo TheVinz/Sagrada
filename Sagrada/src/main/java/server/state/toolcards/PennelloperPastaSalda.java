@@ -24,6 +24,11 @@ public class PennelloperPastaSalda extends ToolCard {
     }
 
     @Override
+    public int getNumber() {
+        return 6;
+    }
+
+    @Override
     public void start(Player player) {
         expectedParameters=new ArrayDeque<>(3);
         parameters=new ArrayList<>(3);

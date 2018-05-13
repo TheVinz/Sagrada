@@ -15,6 +15,11 @@ public class TaglierinaCircolare extends ToolCard{
     }
 
     @Override
+    public int getNumber() {
+        return 5;
+    }
+
+    @Override
     public void start(Player player) {
         expectedParameters=new ArrayDeque<>(2);
         parameters=new ArrayList<>(2);
