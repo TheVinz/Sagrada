@@ -4,7 +4,8 @@ package server.state.boards.draftpool;
 import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
-import server.state.bag.Bag;
+import server.model.state.bag.Bag;
+import server.model.state.boards.draftpool.DraftPool;
 
 import static org.junit.Assert.*;
 

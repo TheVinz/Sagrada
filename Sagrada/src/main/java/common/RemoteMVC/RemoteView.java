@@ -1,6 +1,6 @@
 package common.RemoteMVC;
 
-import server.observer.Observer;
+import server.model.state.utilities.Color;
 
 import java.rmi.Remote;
 
@@ -22,6 +22,17 @@ public interface RemoteView extends Remote {
 
     void refilledDraftPool(int[] values, char[] colors);
 
-    void startTurn(int player);
+    void loadPublicObjectiveCards(int[] cards);
 
+    void loadWindowFrameChoice(String[] reps, int[] favorTokens);
+
+    void loadPlayers(String[] names, int[] ids, String[] windowFrameReps, int[] windowFrameFavorTokens);
+
+    void toolCardUsed(int player, int index);
+
+    void loadPrivateObjectiveCard(Color color);
+
+    void newTurn(int player);
+
+    void notifyDiceDraw(int player, char color);
 }

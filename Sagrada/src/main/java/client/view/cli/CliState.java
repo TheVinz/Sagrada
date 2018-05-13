@@ -1,9 +1,5 @@
 package client.view.cli;
 
-
-import common.viewchangement.StartTurn;
-import server.state.boards.draftpool.DraftPool;
-
 import java.util.ArrayList;
 import java.util.List;
 

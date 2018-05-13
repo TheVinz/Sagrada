@@ -6,17 +6,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import server.state.boards.draftpool.DraftPool;
-import server.state.boards.draftpool.DraftPoolCell;
-import server.state.dice.Dice;
-import server.state.player.Player;
-import server.Model;
+import server.model.state.boards.draftpool.DraftPoolCell;
+import server.model.state.player.Player;
+import server.model.Model;
+import server.model.state.toolcards.Martelletto;
+import server.model.state.toolcards.ToolCard;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 
 public class MartellettoTest {
 

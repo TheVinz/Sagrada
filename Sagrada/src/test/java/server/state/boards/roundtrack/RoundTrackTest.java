@@ -3,10 +3,10 @@ package server.state.boards.roundtrack;
 import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import server.state.boards.draftpool.DraftPool;
-import server.state.boards.draftpool.DraftPoolCell;
-import server.state.dice.Dice;
+import server.model.state.boards.draftpool.DraftPool;
+import server.model.state.boards.draftpool.DraftPoolCell;
+import server.model.state.boards.roundtrack.RoundTrack;
+import server.model.state.dice.Dice;
 
 import static org.mockito.Mockito.*;
 

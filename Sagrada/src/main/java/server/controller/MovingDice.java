@@ -1,13 +1,13 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
-import server.state.ModelObject;
-import server.state.boards.draftpool.DraftPoolCell;
-import server.state.boards.windowframe.WindowFrame;
-import server.state.boards.windowframe.WindowFrameCell;
-import server.state.player.Player;
-import server.Model;
-import server.state.utilities.GameRules;
+import server.model.state.ModelObject;
+import server.model.state.boards.draftpool.DraftPoolCell;
+import server.model.state.boards.windowframe.WindowFrame;
+import server.model.state.boards.windowframe.WindowFrameCell;
+import server.model.state.player.Player;
+import server.model.Model;
+import server.model.state.utilities.GameRules;
 
 public class MovingDice implements PlayerState {
 

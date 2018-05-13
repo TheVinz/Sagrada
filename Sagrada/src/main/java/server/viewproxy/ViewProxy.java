@@ -1,20 +1,20 @@
 package server.viewproxy;
 
-import common.RemoteMVC.RemoteView;
-import server.Model;
+import server.model.Model;
 import server.controller.Controller;
 import server.observer.Observer;
-import server.state.State;
+import server.model.state.State;
+import server.model.state.player.Player;
 
 public abstract class ViewProxy implements Observer {
-    private Controller controller;
-    private State state;
-    private int id;
+    protected Controller controller;
+    protected State state;
+    protected Player player;
 
-    public ViewProxy(Model model, int id){
+    public ViewProxy(Model model, Player player){
         model.addObserver(this);
         state=model.getState();
-        controller=new Controller(model, model.getState().getPlayer(id));
-        this.id=id;
+        controller=new Controller(model, player);
+        this.player=player;
     }
 }

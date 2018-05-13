@@ -8,20 +8,16 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
-import server.Model;
-import server.state.boards.draftpool.DraftPool;
-import server.state.boards.draftpool.DraftPoolCell;
-import server.state.boards.windowframe.WindowFrame;
-import server.state.boards.windowframe.WindowFrameCell;
-import server.state.dice.Dice;
-import server.state.player.Player;
-import server.state.utilities.Color;
+import server.model.Model;
+import server.model.state.boards.draftpool.DraftPool;
+import server.model.state.dice.Dice;
+import server.model.state.player.Player;
+import server.model.state.toolcards.TamponeDiamantato;
+import server.model.state.toolcards.ToolCard;
+import server.model.state.utilities.Color;
 
 
-import static org.junit.Assert.*;
-
-
-    public class TamponeDiamantatoTest {
+public class TamponeDiamantatoTest {
 
 
         private Model model;

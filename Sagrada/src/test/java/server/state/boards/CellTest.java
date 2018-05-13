@@ -3,9 +3,9 @@ package server.state.boards;
 import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
-import server.state.boards.draftpool.DraftPoolCell;
-import server.state.dice.Dice;
-import server.state.utilities.Color;
+import server.model.state.boards.draftpool.DraftPoolCell;
+import server.model.state.dice.Dice;
+import server.model.state.utilities.Color;
 
 import static org.junit.Assert.*;
 
