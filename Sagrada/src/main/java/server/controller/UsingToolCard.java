@@ -1,12 +1,10 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
-import server.Model;
-import server.controller.PlayerState;
-import server.state.ModelObject;
-import server.state.boards.windowframe.WindowFrame;
-import server.state.player.Player;
-import server.state.toolcards.ToolCard;
+import server.model.Model;
+import server.model.state.ModelObject;
+import server.model.state.player.Player;
+import server.model.state.toolcards.ToolCard;
 
 public class UsingToolCard implements PlayerState {
 

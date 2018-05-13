@@ -5,8 +5,10 @@ import static org.junit.Assert.*;
 import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
-import server.state.dice.Dice;
-import server.state.utilities.Color;
+import server.model.state.boards.windowframe.WindowFrame;
+import server.model.state.boards.windowframe.WindowFrameList;
+import server.model.state.dice.Dice;
+import server.model.state.utilities.Color;
 
 public class WindowFrameTest {
     private WindowFrame windowFrame;

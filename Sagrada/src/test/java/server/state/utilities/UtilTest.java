@@ -1,12 +1,12 @@
 package server.state.utilities;
 
 import org.junit.Test;
-import server.Model;
-import server.state.boards.windowframe.WindowFrame;
-import server.state.boards.windowframe.WindowFrameList;
-import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
-import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
-import server.state.toolcards.ToolCard;
+import server.model.Model;
+import server.model.state.boards.windowframe.WindowFrameList;
+import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
+import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
+import server.model.state.toolcards.ToolCard;
+import server.model.state.utilities.Util;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;

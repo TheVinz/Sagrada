@@ -1,10 +1,10 @@
 package server.observer;
 
-import server.state.dice.Dice;
-import server.state.player.Player;
-import server.state.boards.Cell;
-import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
-import server.state.toolcards.ToolCard;
+import server.model.state.dice.Dice;
+import server.model.state.player.Player;
+import server.model.state.boards.Cell;
+import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
+import server.model.state.toolcards.ToolCard;
 
 public interface Observable {
     void addObserver(Observer o);

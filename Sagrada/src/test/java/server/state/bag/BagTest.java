@@ -1,10 +1,10 @@
 package server.state.bag;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import server.state.dice.Dice;
-import server.state.utilities.Color;
+import server.model.state.bag.Bag;
+import server.model.state.dice.Dice;
+import server.model.state.utilities.Color;
 
 import java.util.ArrayList;
 

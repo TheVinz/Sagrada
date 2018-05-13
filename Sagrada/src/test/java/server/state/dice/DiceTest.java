@@ -1,7 +1,8 @@
 package server.state.dice;
 
 import common.exceptions.InvalidMoveException;
-import server.state.utilities.Color;
+import server.model.state.dice.Dice;
+import server.model.state.utilities.Color;
 
 import static org.junit.Assert.*;
 import org.junit.Before;

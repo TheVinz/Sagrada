@@ -1,13 +1,8 @@
 package server.controller;
 import common.exceptions.InvalidMoveException;
-import server.Model;
-import server.state.ModelObject;
-import server.state.boards.draftpool.DraftPoolCell;
-import server.state.boards.roundtrack.RoundTrackCell;
-import server.state.boards.windowframe.WindowFrame;
-import server.state.boards.windowframe.WindowFrameCell;
-import server.state.player.Player;
-import server.state.toolcards.ToolCard;
+import server.model.Model;
+import server.model.state.ModelObject;
+import server.model.state.player.Player;
 
 public class Controller {
 	private Model model;
@@ -29,6 +24,7 @@ public class Controller {
 				currentState=new WaitingState(player, model);
 				throw e;
 			}
+			if(player.isDiceMoved() && player.isToolCardUsed()) endTurn();
 		}
 	}
 
@@ -36,4 +32,8 @@ public class Controller {
 		return this.currentState;
 	}
 
+	public void endTurn(){
+		currentState=new WaitingState(player, model);
+		model.endTurn(player);
+	}
 }

@@ -1,19 +1,9 @@
 package client.view.cli;
 
-import common.exceptions.InvalidMoveException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import server.state.boards.draftpool.DraftPool;
-import server.state.boards.windowframe.WindowFrame;
-import server.state.boards.windowframe.WindowFrameList;
-import server.state.dice.Dice;
-import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
-import server.state.player.Player;
-import server.state.utilities.Color;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.spy;
+
 import static org.mockito.Mockito.when;
 import java.io.*;
 import java.util.ArrayList;

@@ -1,13 +1,12 @@
 package server.observer;
 
-import server.state.dice.Dice;
-import server.state.player.Player;
-import server.state.boards.Cell;
-import server.state.boards.windowframe.WindowFrameList;
-import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
-import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
-import server.state.toolcards.ToolCard;
-import server.state.utilities.Color;
+import server.model.state.player.Player;
+import server.model.state.boards.Cell;
+import server.model.state.boards.windowframe.WindowFrameList;
+import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
+import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
+import server.model.state.toolcards.ToolCard;
+import server.model.state.utilities.Color;
 
 public interface Observer {
     void updateMove(Player player, Cell source, Cell target);

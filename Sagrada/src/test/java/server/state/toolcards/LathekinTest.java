@@ -1,17 +1,16 @@
 package server.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import server.state.boards.windowframe.WindowFrame;
-import server.state.boards.windowframe.WindowFrameList;
-import server.state.dice.Dice;
-import server.state.player.Player;
-import server.Model;
-import server.state.utilities.Color;
-
-import javax.tools.Tool;
+import server.model.state.boards.windowframe.WindowFrame;
+import server.model.state.boards.windowframe.WindowFrameList;
+import server.model.state.dice.Dice;
+import server.model.state.player.Player;
+import server.model.Model;
+import server.model.state.toolcards.Lathekin;
+import server.model.state.toolcards.ToolCard;
+import server.model.state.utilities.Color;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;

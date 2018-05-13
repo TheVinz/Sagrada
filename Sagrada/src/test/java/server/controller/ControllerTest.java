@@ -4,14 +4,14 @@ import common.exceptions.InvalidMoveException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import server.Model;
-import server.state.boards.windowframe.WindowFrame;
-import server.state.boards.windowframe.WindowFrameList;
-import server.state.dice.Dice;
-import server.state.player.Player;
-import server.state.toolcards.PinzaSgrossatrice;
-import server.state.utilities.Choice;
-import server.state.utilities.Color;
+import server.model.Model;
+import server.model.state.boards.windowframe.WindowFrame;
+import server.model.state.boards.windowframe.WindowFrameList;
+import server.model.state.dice.Dice;
+import server.model.state.player.Player;
+import server.model.state.toolcards.PinzaSgrossatrice;
+import server.model.state.utilities.Choice;
+import server.model.state.utilities.Color;
 
 import static org.junit.Assert.*;
 

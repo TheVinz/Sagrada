@@ -1,7 +1,7 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
-import server.state.ModelObject;
+import server.model.state.ModelObject;
 
 public interface PlayerState {
 
