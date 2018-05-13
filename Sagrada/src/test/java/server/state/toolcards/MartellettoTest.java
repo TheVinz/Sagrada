@@ -30,9 +30,9 @@ public class MartellettoTest {
         model=new Model();
         player=mock(Player.class);
         Mockito.when(player.isSecondTurn()).thenReturn(true);
-        model.addPlayer("TheVinz");
-        model.addPlayer("Strenuus");
-        model.addPlayer("GabStuc");
+        model.addRMIPlayer("TheVinz");
+        model.addRMIPlayer("Strenuus");
+        model.addRMIPlayer("GabStuc");
         model.getState().getDraftPool().draw(model.getState().getBag());
         model.getState().getDraftPool().getCell(2).removeDice();
         draftPool=model.getState().getDraftPool().getDraftPool();

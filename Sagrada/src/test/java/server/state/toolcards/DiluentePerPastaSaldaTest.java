@@ -39,7 +39,7 @@ public class DiluentePerPastaSaldaTest {
     public void doAbility() throws InvalidMoveException {
 
 
-        DraftPoolCell draftPoolCell=new DraftPoolCell();
+        DraftPoolCell draftPoolCell=new DraftPoolCell(0);
         draftPoolCell.put(new Dice(Color.BLUE, 3));
         player.getWindowFrame().getCell(0,0).put(new Dice(YELLOW, 6));
         player.getWindowFrame().getCell(2,1).put(new Dice(RED, 6));

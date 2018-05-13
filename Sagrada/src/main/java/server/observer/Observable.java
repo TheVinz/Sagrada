@@ -19,5 +19,5 @@ public interface Observable {
     void notifyToolCardUsed(Player player, ToolCard toolCard);
     void notifyDraw(Player player, Dice dice);
     void notifyPrivateObjectiveCard();
-    void notifyStartTurn(Observer o);
+    void notifyStartTurn(Player player);
 }

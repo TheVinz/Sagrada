@@ -10,6 +10,7 @@ import server.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.state.player.Player;
 import server.state.toolcards.ToolCard;
 import server.state.utilities.Util;
+import server.viewproxy.RMIViewProxy;
 import server.viewproxy.ViewProxy;
 
 import java.util.ArrayList;
@@ -34,12 +35,12 @@ public class Model implements Observable {
     /*
     Il ritorno della view proxy ignoratelo, servirà poi quando introdurremo la rete
     */
-    public ViewProxy addPlayer(String name) throws Exception {
+    public ViewProxy addRMIPlayer(String name) throws Exception {
         if(state.getPlayers().size()==4) throw new Exception("The game is full");
         else {
             int id=state.getPlayers().size();
             state.addPlayer(name, id, this);
-            ViewProxy o=new ViewProxy(this, id);
+            ViewProxy o=new RMIViewProxy(this, id);
             addObserver(o);
             return o;
         }
@@ -115,12 +116,12 @@ public class Model implements Observable {
 
     @Override
     public void notifyMove(Player player, Cell source, Cell target) {
-        for(Observer o:observers) o.updateMove(source, target);
+        for(Observer o:observers) o.updateMove(player, source, target);
     }
 
     @Override
     public void notifyCellChangement(Player player, Cell cell) {
-        for(Observer o:observers) o.updateCellChangement(cell);
+        for(Observer o:observers) o.updateCellChangement(player, cell);
     }
 
     @Override
@@ -164,7 +165,8 @@ public class Model implements Observable {
     }
 
     @Override
-    public void notifyStartTurn(Observer o) {
-        o.updateStartTurn();
+    public void notifyStartTurn(Player player) {
+        for(Observer o : observers)
+            o.updateStartTurn(player);
     }
 }

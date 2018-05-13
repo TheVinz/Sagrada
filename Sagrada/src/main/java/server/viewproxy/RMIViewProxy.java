@@ -5,7 +5,6 @@ import server.Model;
 import server.state.boards.Cell;
 import server.state.boards.draftpool.DraftPoolCell;
 import server.state.boards.roundtrack.RoundTrackCell;
-import server.state.boards.windowframe.WindowFrame;
 import server.state.boards.windowframe.WindowFrameCell;
 import server.state.boards.windowframe.WindowFrameList;
 import server.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;

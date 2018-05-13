@@ -7,7 +7,7 @@ public class Move implements Changement{
     public static final int WINDOW_FRAME=1;
     public static final int ROUND_TRACK=2;
 
-    private final int player;
+    private final String player;
     private final int sourceType;
     private final int sourceX;
     private final int sourceY;
@@ -15,7 +15,7 @@ public class Move implements Changement{
     private final int targetX;
     private final int targetY;
 
-    public Move(int player, int sourceType, int sourceX, int sourceY,int targetType, int targetX, int targetY){
+    public Move(String player, int sourceType, int sourceX, int sourceY,int targetType, int targetX, int targetY){
         this.player = player;
         this.sourceType=sourceType;
         this.sourceX=sourceX;
@@ -50,7 +50,7 @@ public class Move implements Changement{
         return this.targetType;
     }
 
-    public int getPlayer() {
+    public String getPlayer() {
         return player;
     }
 

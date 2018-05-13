@@ -7,6 +7,7 @@ import common.response.Response;
 
 import java.rmi.RemoteException;
 
+import static common.command.GameCommand.WINDOW_FRAME_CLICK;
 import static common.response.Response.*;
 
 public class MovingDicePhase implements CliPhaseSate {
@@ -71,7 +72,7 @@ public class MovingDicePhase implements CliPhaseSate {
             }
             else{
                 if (input.length() == 0 && input.charAt(0) >= 0 && input.charAt(0) <= 9) {
-                    response = commandVisitor.handle(new GameCommand(GameCommand.WINDOW_FRAME_CLICK, firstCoordinate, input.charAt(0)-'0'));
+                    response = commandVisitor.handle(new GameCommand(WINDOW_FRAME_CLICK, firstCoordinate, input.charAt(0)-'0'));
                     switch (response.getType()){
                         case WRONG_PARAMETER:
                             cliDisplayer.displayText(response.getMessage());

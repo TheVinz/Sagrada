@@ -15,7 +15,7 @@ public class CellTest {
         @Before
         public void initClass()
         {
-            draftPoolCell = new DraftPoolCell();
+            draftPoolCell = new DraftPoolCell(0);
         }
 
         @Test
@@ -65,7 +65,7 @@ public class CellTest {
         public void shouldMove()
         {
             try{
-                draftPoolCell.move(new DraftPoolCell());
+                draftPoolCell.move(new DraftPoolCell(0));
                 fail("Should be exception");
             }
             catch (InvalidMoveException e)
@@ -79,7 +79,7 @@ public class CellTest {
                 catch (InvalidMoveException e){
                 }
                 try {
-                    draftPoolCell.move(new DraftPoolCell());
+                    draftPoolCell.move(new DraftPoolCell(0));
                 } catch (InvalidMoveException e) {
                 }
                 assertEquals(true, draftPoolCell.isEmpty());

@@ -2,7 +2,6 @@ package client.view.cli;
 
 import common.ChangementVisitor;
 import common.viewchangement.*;
-import server.state.dice.Dice;
 
 public class CliChangementVisitor implements ChangementVisitor {
     CliDisplayer cliDisplayer;
