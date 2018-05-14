@@ -1,6 +1,6 @@
 package server.model.state.boards.windowframe;
 
-import server.model.state.ModelObject;
+import common.ModelObject;
 import server.model.state.utilities.Color;
 
 public class WindowFrame implements ModelObject {

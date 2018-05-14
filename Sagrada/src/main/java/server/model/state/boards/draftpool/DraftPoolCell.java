@@ -1,6 +1,6 @@
 package server.model.state.boards.draftpool;
 
-import server.model.state.ModelObject;
+import common.ModelObject;
 import server.model.state.boards.Cell;
 
 public class DraftPoolCell extends Cell implements ModelObject {

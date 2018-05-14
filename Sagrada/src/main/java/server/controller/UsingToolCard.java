@@ -2,19 +2,17 @@ package server.controller;
 
 import common.exceptions.InvalidMoveException;
 import server.model.Model;
-import server.model.state.ModelObject;
+import common.ModelObject;
 import server.model.state.player.Player;
 import server.model.state.toolcards.ToolCard;
 
-public class UsingToolCard implements PlayerState {
 
-    private Player player;
-    private Model model;
+public class UsingToolCard extends PlayerState {
+
     private ToolCard card;
 
     public UsingToolCard(Player player, Model model){
-        this.model=model;
-        this.player=player;
+        super(player, model);
     }
 
     @Override
@@ -30,5 +28,10 @@ public class UsingToolCard implements PlayerState {
                 return this;
             else return new WaitingState(player, model);
         }
+    }
+
+    @Override
+    public int nextParam() {
+        return card.next();
     }
 }

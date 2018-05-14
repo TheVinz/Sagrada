@@ -2,16 +2,17 @@ package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import server.model.Model;
-import server.model.state.ModelObject;
+import common.ModelObject;
 import server.model.state.player.Player;
 
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Queue;
 
 public abstract class ToolCard implements ModelObject {
 	protected final Model model;
-	List<ModelObject> parameters;
-	Queue<Integer> expectedParameters;
+	protected List<ModelObject> parameters;
+	protected Queue<Integer> expectedParameters;
 	protected Player player;
 
 	private boolean used;
@@ -26,7 +27,7 @@ public abstract class ToolCard implements ModelObject {
 	public void setUsed(){ used=false; }
 
 	public abstract void start(Player player) throws InvalidMoveException;
-	public void setParameter(ModelObject o) throws InvalidMoveException{
+	public void setParameter(ModelObject o) throws InvalidMoveException {
 		if(o.getType()!=expectedParameters.poll()) throw new InvalidMoveException("Wrong parameter");
 		else {
 			parameters.add(o);
@@ -39,6 +40,10 @@ public abstract class ToolCard implements ModelObject {
 	}
 
 	abstract void doAbility() throws InvalidMoveException;
+
+	public int next(){
+		return expectedParameters.peek();
+	}
 
 	@Override
 	public int getType() {

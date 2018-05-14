@@ -1,4 +1,4 @@
-package server.model.state;
+package common;
 
 public interface ModelObject {
     public static final int DRAFT_POOL_CELL=0;

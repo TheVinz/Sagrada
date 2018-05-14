@@ -1,7 +1,9 @@
 package server.controller;
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 import server.model.Model;
-import server.model.state.ModelObject;
+import common.ModelObject;
+import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.player.Player;
 
 public class Controller {
@@ -16,7 +18,7 @@ public class Controller {
 		currentState=new WaitingState(player, model);
 	}
 
-	public void selectObject(ModelObject o) throws InvalidMoveException {
+	public int selectObject(ModelObject o) throws InvalidMoveException {
 		if(player.isActive()) {
 			try {
 				currentState = currentState.selectObject(o);
@@ -24,16 +26,27 @@ public class Controller {
 				currentState=new WaitingState(player, model);
 				throw e;
 			}
-			if(player.isDiceMoved() && player.isToolCardUsed()) endTurn();
+			if(player.isDiceMoved() && player.isToolCardUsed())
+			{
+				endTurn();
+				return Response.END_TURN;
+			}
+			else return currentState.nextParam();
 		}
+		return Response.SUCCESS;
 	}
 
 	public PlayerState getCurrentState(){
 		return this.currentState;
 	}
 
-	public void endTurn(){
+	public int endTurn() {
 		currentState=new WaitingState(player, model);
 		model.endTurn(player);
+		return Response.SUCCESS;
 	}
+
+    public void windowFrameChoice(WindowFrameList[] windowFrameLists) {
+		currentState=new SelectingWindowFrame(player, model, windowFrameLists);
+    }
 }

@@ -4,23 +4,28 @@ import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
 import common.login.RemoteLoginManager;
 import server.model.Model;
+import server.viewproxy.RMIViewProxy;
 
-public class LoginManager implements RemoteLoginManager {
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
-    private Model model;
+public class LoginManager extends UnicastRemoteObject implements RemoteLoginManager {
 
-    public LoginManager(){
-        this.model= new Model();
+    private Model model = new Model();
+
+    public LoginManager() throws RemoteException {
+        super();
     }
 
     @Override
     public RemoteController connect(String name, RemoteView remoteView) throws Exception {
         RemoteController remoteController = model.addRMIPlayer(name);
+        ((RMIViewProxy) remoteController).bindRemoteView(remoteView);
+        System.out.print(name + " connected\n>>>");
         return remoteController;
     }
 
-    @Override
-    public void start() {
+    public void startGame() throws RemoteException {
         model.startGame();
     }
 

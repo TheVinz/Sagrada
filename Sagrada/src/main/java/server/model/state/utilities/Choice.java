@@ -1,6 +1,6 @@
 package server.model.state.utilities;
 
-import server.model.state.ModelObject;
+import common.ModelObject;
 
 public class Choice implements ModelObject {
     private Integer choiceInt;

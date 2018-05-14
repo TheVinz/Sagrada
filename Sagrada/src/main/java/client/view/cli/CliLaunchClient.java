@@ -1,44 +1,47 @@
 package client.view.cli;
 
-import client.view.cli.cliphasestate.CliPhaseSate;
-import client.view.cli.cliphasestate.MenuPhase;
-import client.view.cli.cliphasestate.MovingDicePhase;
-import client.view.cli.cliphasestate.UsingToolCardPhase;
-import client.view.network.ClientConnection;
-import client.view.network.ClientConnectionFactory;
+import common.RemoteMVC.RemoteController;
+import common.login.RemoteLoginManager;
+import server.login.LoginManager;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 public class CliLaunchClient {
     public static void main(String[] args){
 
-        int connectionChoice = 0;
-        ClientConnection clientConnection;
-        Scanner scanner = new Scanner(System.in);
-        CliDisplayer cliDisplayer = new CliDisplayer();
-        CliState cliState = new CliState();
+        RemoteLoginManager loginManager;
+        CliModel model;
+        RemoteController remoteController;
+        CliApp app;
 
-        do{
-            connectionChoice = scanner.nextInt();
-        }while(connectionChoice!=0 || connectionChoice!=1);
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Username>>> ");
+        String name = sc.nextLine();
 
-        clientConnection = new ClientConnectionFactory().getClientConnection(0, new CliChangementVisitor(cliDisplayer, cliState));
 
-        CliPhaseSate currentPhase = new MenuPhase(cliDisplayer, clientConnection.getCommandVisitor());
-        cliDisplayer.printMenu();
-
-        while(true){
-            cliDisplayer.displayText("(insert M to undo the operation and see the menu)");
-            String input = scanner.nextLine();
-            try{
-                currentPhase = currentPhase.handle(input);
-            }catch (RemoteException e){
-                cliDisplayer.displayText("Network problem, try again\n");
-            }
-
+        try {
+            model= new CliModel();
+            Registry reg = LocateRegistry.getRegistry();
+            loginManager=(RemoteLoginManager) reg.lookup("LoginManager");
+            remoteController = loginManager.connect(name, model);
+            app= new CliApp(remoteController);
+            app.setId(remoteController.getId());
+            model.bindApp(app);
+            app.mainLoop();
+        } catch (RemoteException e) {
+            System.err.println("Connection error");
+            e.printStackTrace();
+            System.exit(1);
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
         }
-
 
     }
 }

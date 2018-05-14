@@ -1,6 +1,7 @@
 package server.model;
 
 import common.exceptions.InvalidMoveException;
+import server.model.state.boards.windowframe.WindowFrameList;
 import server.observer.Observable;
 import server.observer.Observer;
 import server.model.state.RoundManager;
@@ -13,7 +14,6 @@ import server.model.state.player.Player;
 import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Util;
 import server.viewproxy.RMIViewProxy;
-import server.viewproxy.ViewProxy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +54,15 @@ public class Model implements Observable {
     * =================================================================================================================
     * Game routine
     */
-    public void startGame(){
+    public void startGame() {
+        notifyObjectiveCards();
+        notifyPrivateObjectiveCard();
+        notifyToolCards();
+        for(Player p : state.getPlayers()) p.setActive();
+        notifyWindowFrameChoices();
         roundManager=new RoundManager(state.getPlayers());
-        startRound();
     }
+
     private void startRound() {
         try {
             state.getDraftPool().draw(state.getBag());
@@ -102,6 +107,15 @@ public class Model implements Observable {
     * Changement
     * */
 
+    public void windowFrameChoice(Player player, WindowFrameList windowFrameList){
+        player.setWindowFrame(windowFrameList);
+        player.endTurn();
+        for(Player p : state.getPlayers()){
+            if (p.getWindowFrame() == null) return;
+        }
+        notifyPlayers(state.getPlayers().toArray(new Player[0]));
+        startRound();
+    }
     public void move(Player player, Cell source, Cell target) throws InvalidMoveException {
         source.move(target);
         player.setDiceMoved();
@@ -140,14 +154,16 @@ public class Model implements Observable {
         notifyCellChangement(player, cell);
     }
 
-    public void toolCardUsed(Player player, ToolCard toolCard){
+    public void toolCardUsed(Player player, ToolCard toolCard) {
+        int tokens;
         if(!toolCard.isUsed()){
-            player.removeFaforTokens(1);
+            tokens=1;
             toolCard.setUsed();
         }
-        else player.removeFaforTokens(2);
+        else tokens=2;
+        player.removeFaforTokens(tokens);
         player.setToolCardUsed();
-        notifyToolCardUsed(player, toolCard);
+        notifyToolCardUsed(player, toolCard, tokens);
     }
 
     /*=================================================================================================================
@@ -181,17 +197,22 @@ public class Model implements Observable {
 
     @Override
     public void notifyToolCards() {
-        for(Observer o:observers) o.updateToolCards(state.getToolCards());
+
+        for(Observer o:observers)
+            o.updateToolCards(state.getToolCards());
     }
 
     @Override
-    public void notifyObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
-        for(Observer o:observers) o.updateObjectiveCards(publicObjectiveCards);
+    public void notifyObjectiveCards() {
+        for(Observer o:observers)
+            o.updateObjectiveCards(state.getPublicObjectiveCards());
     }
 
     @Override
     public void notifyWindowFrameChoices() {
-        for(Observer o:observers) o.updateWindowFrameChoices(Util.getWindowFrameChoiche());
+        for(Observer o:observers) {
+            o.updateWindowFrameChoices(Util.getWindowFrameChoiche());
+        }
     }
 
     @Override
@@ -200,18 +221,19 @@ public class Model implements Observable {
     }
 
     @Override
-    public void notifyToolCardUsed(Player player, ToolCard toolCard) {
-        for(Observer o:observers) o.updateToolCardUsed(player, toolCard);
+    public void notifyToolCardUsed(Player player, ToolCard toolCard, int tokens) {
+        for(Observer o:observers) o.updateToolCardUsed(player, toolCard, tokens);
     }
 
     @Override
-    public void notifyDraw(Player player, Dice dice){
+    public void notifyDraw(Player player, Dice dice) {
         for(Observer o : observers) o.updateDiceDraw(player, dice.getColor());
     }
 
     @Override
-    public void notifyPrivateObjectiveCard(){
-        for(Observer o:observers) o.updatePrivateObjectiveCard(Util.getCard());
+    public void notifyPrivateObjectiveCard() {
+        for(Observer o:observers)
+            o.updatePrivateObjectiveCard(Util.getCard());
     }
 
     @Override
