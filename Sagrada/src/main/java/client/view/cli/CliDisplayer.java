@@ -6,6 +6,7 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 public class CliDisplayer {
     private CliState cliState;
     private static CliDisplayer singleton;
+    private ToolCardsEffects toolCardsEffects;
 
     public static CliDisplayer getDisplayer(){
         if(singleton==null) singleton=new CliDisplayer();
@@ -60,7 +61,7 @@ public class CliDisplayer {
     public void printToolCard(){
         displayText("Puoi usare queste Toolcard:\n");
         for(int i=0;i<3;i++){
-            displayText("La ToolCard numero " +i+" è la ToolCard "+cliState.getToolCardIds()[i]+"\n");     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
+            displayText("La ToolCard numero " +i+" è la ToolCard "+toolCardsEffects.returnEffects(cliState.getToolCardIds()[i]));     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
                                                                        //per ora un numero a cui dovremo associare la vera e propria ToolCard.
         }
     }
