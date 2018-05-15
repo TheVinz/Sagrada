@@ -15,33 +15,24 @@ public class CliDisplayer {
     public void setCliState(CliState state){ this.cliState = state; }
 
 
-    public void displayText(String text){
-
-        System.out.print(text);
-
-    }
+    public void displayText(String text){ System.out.print(text); }
 
     public void printMenu(){
         displayText("\t\t\t\tTOCCA A TE\nCosa vuoi vedere?\n");
         displayText("-Per vedere la DraftPool premi\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
-        displayText("-Per vedere la tua vetrata premi\t\t\t\t V\n");
+        displayText("-Per vedere il tuo stato premi\t\t\t\t\t V\n");
         displayText("-Per vedere le ToolCard premi\t\t\t\t\t T\n");
-        displayText("-Per vedere i tuoi FavorToken premi\t\t\t\t F\n");
-        displayText("-Per vedere la tua PrivateObjectiveCard premi\t C\n");
         displayText("-Per vedere le PublicObjectiveCard premi\t\t O\n");
         displayText("-Per vedere la RoundTrack premi\t\t\t\t\t R\n");
-        displayText("-Per vedere la WindowFrame di altri premi\t\t A\n\n ");
+        displayText("-Per vedere lo stato di altri premi\t\t\t\t S\n\n ");
         displayText("Cosa vuoi fare?\n");
         displayText("-Per posizionare un dado premi\t\t\t D\n");
         displayText("-Per usare una ToolCard premi\t\t\t U\n");
         displayText("-Per passare il turno premi\t\t\t\t N\n");
-
-
-
     }
 
     public void printWindowFrame(CliPlayerState cliPlayerState){
-        displayText("La tua windowframe:\n");
+        displayText("La windowframe è:\n");
         for(int i=0;i<4;i++){
             for(int j=0;j<5;j++) {
                 displayText(cliPlayerState.getWindowFrame()[i][j]+" ");
@@ -51,6 +42,7 @@ public class CliDisplayer {
            displayText("\n");
         }
     }
+
     public void printWindowFrame(){
         printWindowFrame(cliState.getActivePlayer());
     }
@@ -63,7 +55,6 @@ public class CliDisplayer {
                 displayText(j + "_" + cliState.getRoundTrack().get(i).get(j) + " | ");
             displayText("\n");
         }
-
     }
 
     public void printToolCard(){
@@ -73,6 +64,7 @@ public class CliDisplayer {
                                                                        //per ora un numero a cui dovremo associare la vera e propria ToolCard.
         }
     }
+
     public void printDraftPool(){
         displayText("Nella DraftPool ci sono questi dadi: ");
         for(int i=0; i<cliState.getDraftPool().size();i++){
@@ -94,12 +86,25 @@ public class CliDisplayer {
         displayText(cliState.getPrivateObjectiveCard()+"\n");
     }
 
-    public void printFavorTokens(CliPlayerState cliPlayerState){
-        displayText("I tuoi FavorTokens sono "+cliPlayerState.getFavorTokens()+"\n");
+    public void printFavorTokens(){
+        printFavorTokens(cliState.getActivePlayer());
         }
 
+    public void printFavorTokens(CliPlayerState cliPlayerState){
+       displayText("I FavorTokens sono "+cliPlayerState.getFavorTokens()+"\n");
+        }
 
-    public void printPlayerWindowFrame(String name) {
+    public void printState(){
+        displayText("Il tuo stato è:\n");
+        printFavorTokens();
+        printWindowFrame();
+        printPrivateObjectiveCard();
+    }
+
+    public void printState(String name){
+        displayText("Lo stato di "+name+" è:\n");
+        printFavorTokens(cliState.getCliPlayerState(name));
         printWindowFrame(cliState.getCliPlayerState(name));
     }
+
 }

@@ -28,8 +28,14 @@ public class MenuPhase implements CliPhaseState {
             case "P":
                 CliDisplayer.getDisplayer().printDraftPool();
                 return this;
+            case "C":
+                CliDisplayer.getDisplayer().printPrivateObjectiveCard();
+                return this;
+            case "F":
+                CliDisplayer.getDisplayer().printFavorTokens();
+                return  this;
             case "V":
-                CliDisplayer.getDisplayer().printWindowFrame();
+                CliDisplayer.getDisplayer().printState();
                 return this;
             case "T":
                 CliDisplayer.getDisplayer().printToolCard();
@@ -37,7 +43,10 @@ public class MenuPhase implements CliPhaseState {
             case "O":
                 CliDisplayer.getDisplayer().printPublicObjectiveCards();
                 return this;
-            case "A":
+            case "R":
+                CliDisplayer.getDisplayer().printRoundTrack();
+                return this;
+            case "S":
                 CliDisplayer.getDisplayer().displayText("Put the name of the player:\n");
                 return new PrintingWindowFramePhase(remoteController);
             case "D":
@@ -45,14 +54,7 @@ public class MenuPhase implements CliPhaseState {
             case "U":
                 CliDisplayer.getDisplayer().printToolCard();
                 return new SelectingToolCard(remoteController);
-            case "W":
-                CliDisplayer.getDisplayer().printWindowFrame();
-                CliDisplayer.getDisplayer().displayText("Select a dice from the window frame: \n");
-                return new SelectingWindowFrameCell(remoteController);
-            case "R":
-                CliDisplayer.getDisplayer().printRoundTrack();
-                CliDisplayer.getDisplayer().displayText("Select a dice from the round track:\n");
-                return new SelectingRoundTrackCell(remoteController);
+
             case "N":
                 try {
                     remoteController.command(END_TURN);
