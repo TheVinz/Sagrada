@@ -49,10 +49,10 @@ public class CliDisplayer {
 
     public void printRoundTrack(){
         displayText("RoundTrack:\n");
-        for(int i=0;i<cliState.getRoundTrack().size();i++){
+        for(int i=0;i<cliState.getRoundTrack().length; i++){
             displayText(((int) i+1) + ">>> ");
-            for(int j=0; j<cliState.getRoundTrack().get(i).size(); i++)
-                displayText(j + "_" + cliState.getRoundTrack().get(i).get(j) + " | ");
+            for(int j=0; j<cliState.getRoundTrack()[i].length; i++)
+                displayText(j + "_" + cliState.getRoundTrack()[i][j] + " | ");
             displayText("\n");
         }
     }
@@ -67,8 +67,8 @@ public class CliDisplayer {
 
     public void printDraftPool(){
         displayText("Nella DraftPool ci sono questi dadi: ");
-        for(int i=0; i<cliState.getDraftPool().size();i++){
-            displayText(cliState.getDraftPool().get(i)+" ");
+        for(int i=0; i<cliState.getDraftPool().length;i++){
+            displayText(cliState.getDraftPool()[i]+" ");
         }
         displayText("\n");
     }

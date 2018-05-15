@@ -1,29 +1,31 @@
 package client.view.cli;
 
+import client.view.cli.cliphasestate.CliPhaseState;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CliState {
     private CliPlayerState activePlayer;
-    private List<CliPlayerState> cliPlayerStates = new ArrayList<>();
+    private CliPlayerState[] cliPlayerStates;
     private Integer[] toolCardIds = new Integer[3];
     private Integer[] publicObjectiveCardIds = new Integer[3];
-    private List<String> draftPool = new ArrayList<>();
-    private List<List <String>> roundTrack = new ArrayList<>();
+    private String[] draftPool;
+    private String[][] roundTrack = new String[10][];
     private String privateObjectiveCard;
 
     public void setActivePlayer(int id){
         activePlayer=getCliPlayerState(id);
     }
-    public void addPlayer(CliPlayerState player){
-        cliPlayerStates.add(player);
-    }
     public void setPrivateObjectiveCard(String color){
         this.privateObjectiveCard=color;
     }
+    public void setCliPlayerStates(CliPlayerState[] players) {
+        this.cliPlayerStates=players;
+    }
     public void setDraftPool(String[] dices) {
-        this.draftPool=new ArrayList<>(Arrays.asList(dices));
+        this.draftPool=dices;
     }
 
     public Integer[] getToolCardIds() {
@@ -32,22 +34,22 @@ public class CliState {
     public Integer[] getPublicObjectiveCardIds() {
         return publicObjectiveCardIds;
     }
-    public List<String> getDraftPool() {
+    public String[] getDraftPool() {
         return draftPool;
     }
-    public List<List <String>> getRoundTrack() {
+    public String[][] getRoundTrack() {
         return roundTrack;
     }
     public CliPlayerState getCliPlayerState(int id) {
-        for(int i=0; i<cliPlayerStates.size(); i++)
-            if(cliPlayerStates.get(i).getId() == id)
-                return cliPlayerStates.get(i);
+        for(CliPlayerState cps : this.cliPlayerStates)
+            if(cps.getId() == id)
+                return cps;
         return null; //da togliere
     }
-    public CliPlayerState getCliPlayerState(String name){
-        for(int i=0; i<cliPlayerStates.size(); i++)
-            if(cliPlayerStates.get(i).getName().equals(name))
-                return cliPlayerStates.get(i);
+    public CliPlayerState getCliPlayerState(String name) {
+        for(CliPlayerState cps : this.cliPlayerStates)
+            if(cps.getName() == name)
+                return cps;
         return null; //da togliere
     }
     public CliPlayerState getActivePlayer() {

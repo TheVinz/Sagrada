@@ -30,8 +30,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         String dice;
         if(sourceType == DRAFT_POOL_CELL) {
             source = "draft pool";
-            dice = cliState.getDraftPool().get(param1);
-            cliState.getDraftPool().set(param1, null);
+            dice = cliState.getDraftPool()[param1];
+            cliState.getDraftPool()[param1] = "X";
         }
         else if(sourceType == WINDOW_FRAME_CELL) {
             dice = cliPlayerState.getWindowFrame()[param1][param2];
@@ -40,11 +40,11 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         }
         else {
             source = "round track";
-            dice=cliState.getRoundTrack().get(param1).get(param2);
-            cliState.getRoundTrack().get(param1).set(param2, null);
+            dice=cliState.getRoundTrack()[param1][param2];
+            cliState.getRoundTrack()[param1][param2]="X";
         }
         if(destType == DRAFT_POOL_CELL) {
-            cliState.getDraftPool().add(param3, dice);
+            cliState.getDraftPool()[param3]=dice;
             target = "draft pool";
         }
         else if(destType == WINDOW_FRAME_CELL){
@@ -53,7 +53,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         }
         else{
             target = "round track";
-            cliState.getRoundTrack().get(param2).set(param3, dice);
+            cliState.getRoundTrack()[param2][param3]=dice;
         }
 
         CliDisplayer.getDisplayer().displayText(cliPlayerState.getName().concat(" moved dice from ").concat(source).concat(" to ").concat(target)+"\n");
@@ -72,8 +72,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         }
         else {
             source = "round track";
-            dice=cliState.getRoundTrack().get(param1).get(param2);
-            cliState.getRoundTrack().get(param1).set(param2, null);
+            dice=cliState.getRoundTrack()[param1][param2];
+            cliState.getRoundTrack()[param1][param2]="X";
         }
         if(destType == WINDOW_FRAME_CELL){
             cliPlayerState.getWindowFrame()[param3][param4] = dice;
@@ -81,7 +81,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         }
         else{
             target = "round track";
-            cliState.getRoundTrack().get(param3).set(param4, dice);
+            cliState.getRoundTrack()[param3][param4]=dice;
         }
 
         CliDisplayer.getDisplayer().displayText(cliPlayerState.getName() + (" moved dice from ") + (source) + (" to ") + (target)+"\n");
@@ -90,7 +90,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
     @Override
     public void updateCell(int player, int type, int index, int value, char color) {
         String s= ""+value+color;
-        cliState.getDraftPool().set(index,s);
+        cliState.getDraftPool()[index]=s;
         CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + ">>> "+s);
     }
 
@@ -104,7 +104,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
             CliDisplayer.getDisplayer().displayText("Updated Window Frame Cell "+ param1 + " "+param2+ ">>> "+s);
         }
         else if(type == ROUND_TRACK_CELL){
-            cliState.getRoundTrack().get(param1).set(param2, s);
+            cliState.getRoundTrack()[param1][param2]=s;
             CliDisplayer.getDisplayer().displayText("Updated Round Track Cell "+ param1 + " "+param2+ ">>> "+s);
         }
     }
@@ -146,11 +146,11 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void loadPlayers(String[] names, int[] ids, String[] windowFrameReps, int[] windowFrameFavorTokens) {
-        CliPlayerState player;
+        CliPlayerState[] players =new CliPlayerState[names.length];
         for(int i=0; i<names.length; i++){
-            player = new CliPlayerState(names[i],ids[i], windowFrameReps[i], windowFrameFavorTokens[i]);
-            cliState.addPlayer(player);
+            players[i]=new CliPlayerState(names[i], ids[i], windowFrameReps[i], windowFrameFavorTokens[i]);
         }
+        cliState.setCliPlayerStates(players);
     }
 
     @Override

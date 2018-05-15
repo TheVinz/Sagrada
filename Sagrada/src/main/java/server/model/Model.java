@@ -9,7 +9,6 @@ import server.model.state.State;
 import server.model.state.boards.Cell;
 import server.model.state.boards.roundtrack.RoundTrack;
 import server.model.state.dice.Dice;
-import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.model.state.player.Player;
 import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Util;
@@ -94,6 +93,7 @@ public class Model implements Observable {
             System.exit(1);
         }
         for(Player player : state.getPlayers()) player.endRound();
+        notifyRoundTrackUpdate(state.getRoundTrack().getRound(), state.);
         if(state.getRoundTrack().getRound() > RoundTrack.MAX_ROUND)
             endGame();
         else startRound();
@@ -241,5 +241,8 @@ public class Model implements Observable {
         for(Observer o : observers)
             o.updateStartTurn(player);
     }
-
+    @Override
+    public void notifyRoundTrackUpdate(int round, Cell[] cells){
+        for(Observer o : observers) o.updateRoundTrack(round, cells);
+    }
 }
