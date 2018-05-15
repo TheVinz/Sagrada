@@ -6,8 +6,7 @@ import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.model.state.toolcards.*;
-import server.state.toolcards.*;
-import server.state.objectivecards.publicobjectivecards.*;
+
 
 import java.util.*;
 
@@ -15,7 +14,7 @@ import static server.model.state.boards.windowframe.WindowFrameList.*;
 import static server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard.*;
 
 public class Util {
-    private static List<Integer> avalaiblePatterns=new LinkedList<>(Arrays.asList(new Integer[]{0,1,2,3,4,5,6,7,8,9,10,11,12}));
+    private static List<Integer> avalaiblePatterns=new LinkedList<>(Arrays.asList(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12}));
     private static List<PrivateObjectiveCard> availableCards=new LinkedList<>( Arrays.asList(new PrivateObjectiveCard[]{YELLOW_SHAPES, PURPLE_SHAPES, BLUE_SHAPES, GREEN_SHAPES, RED_SHAPES}));
 
     public static WindowFrameList[] getWindowFrameChoiche(){

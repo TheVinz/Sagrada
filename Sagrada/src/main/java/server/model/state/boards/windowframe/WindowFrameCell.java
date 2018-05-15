@@ -1,8 +1,7 @@
 package server.model.state.boards.windowframe;
-import server.model.state.ModelObject;
+import common.ModelObject;
 import server.model.state.boards.Cell;
 import server.model.state.utilities.Color;
-import server.state.boards.*;
 
 public class WindowFrameCell extends Cell implements ModelObject {
 
@@ -11,21 +10,21 @@ public class WindowFrameCell extends Cell implements ModelObject {
     private  final int columnn;
     private int shade;
 
-    WindowFrameCell(int row, int col){
+    public WindowFrameCell(int row, int col){
         this.color=null;
         this.shade=0;
         this.row=row;
         this.columnn=col;
     }
 
-    WindowFrameCell(Color color, int row, int columnn){
+    public WindowFrameCell(Color color, int row, int columnn){
         this.color=color;
         this.shade=0;
         this.row=row;
         this.columnn=columnn;
     }
 
-    WindowFrameCell(int shade, int row, int columnn){
+    public WindowFrameCell(int shade, int row, int columnn){
         this.color=null;
         this.shade=shade;
         this.row=row;

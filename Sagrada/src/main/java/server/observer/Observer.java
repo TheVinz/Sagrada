@@ -8,6 +8,7 @@ import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCar
 import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Color;
 
+
 public interface Observer {
     void updateMove(Player player, Cell source, Cell target);
     void updateCellChangement(Player player, Cell cell);
@@ -16,7 +17,7 @@ public interface Observer {
     void updateObjectiveCards(PublicObjectiveCard[] publicObjectiveCards);
     void updateWindowFrameChoices(WindowFrameList[] windowFrameLists);
     void updatePlayers(Player[] players);
-    void updateToolCardUsed(Player player, ToolCard toolCard);
+    void updateToolCardUsed(Player player, ToolCard toolCard, int tokens);
     void updatePrivateObjectiveCard(PrivateObjectiveCard card);
     void updateStartTurn(Player player);
     void updateDiceDraw(Player player, Color color);

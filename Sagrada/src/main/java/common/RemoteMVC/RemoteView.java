@@ -1,8 +1,7 @@
 package common.RemoteMVC;
 
-import server.model.state.utilities.Color;
-
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /*I vari param rappresentano le coordinate:
 *   DraftPoolCell  ( index )
@@ -12,27 +11,27 @@ import java.rmi.Remote;
 *   */
 
 public interface RemoteView extends Remote {
-    void move(int player, int sourceType, int destType, int param1, int param2, int param3); // DP to WF
-    void move(int player, int sourceType, int destType, int param1, int param2, int param3, int param4); // RT/WF to WF/RT
+    void move(int player, int sourceType, int destType, int param1, int param2, int param3) throws RemoteException; // DP to WF
+    void move(int player, int sourceType, int destType, int param1, int param2, int param3, int param4) throws RemoteException; // RT/WF to WF/RT
 
-    void updateCell(int player, int type, int index, int value, char color); //DraftPoolCell
-    void updateCell(int player, int type, int param1,int param2, int value, char color); //RoundTrackCell/DraftPoolCell
+    void updateCell(int player, int type, int index, int value, char color) throws RemoteException; //DraftPoolCell
+    void updateCell(int player, int type, int param1,int param2, int value, char color) throws RemoteException; //RoundTrackCell/DraftPoolCell
 
-    void loadToolCards(int[] toolCards);
+    void loadToolCards(int[] toolCards) throws RemoteException;
 
-    void refilledDraftPool(int[] values, char[] colors);
+    void refilledDraftPool(int[] values, char[] colors) throws RemoteException;
 
-    void loadPublicObjectiveCards(int[] cards);
+    void loadPublicObjectiveCards(int[] cards) throws RemoteException;
 
-    void loadWindowFrameChoice(String[] reps, int[] favorTokens);
+    void loadWindowFrameChoice(String[] reps, int[] favorTokens) throws RemoteException;
 
-    void loadPlayers(String[] names, int[] ids, String[] windowFrameReps, int[] windowFrameFavorTokens);
+    void loadPlayers(String[] names, int[] ids, String[] windowFrameReps, int[] windowFrameFavorTokens) throws RemoteException;
 
-    void toolCardUsed(int player, int index);
+    void toolCardUsed(int player, int index, int tokens) throws RemoteException;
 
-    void loadPrivateObjectiveCard(Color color);
+    void loadPrivateObjectiveCard(char color) throws RemoteException;
 
-    void newTurn(int player);
+    void newTurn(int player) throws RemoteException;
 
-    void notifyDiceDraw(int player, char color);
+    void notifyDiceDraw(int player, char color) throws RemoteException;
 }

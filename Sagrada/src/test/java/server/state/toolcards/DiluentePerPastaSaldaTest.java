@@ -14,6 +14,8 @@ import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Choice;
 import server.model.state.utilities.Color;
 
+import java.rmi.RemoteException;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static server.model.state.utilities.Color.*;
@@ -24,7 +26,7 @@ public class DiluentePerPastaSaldaTest {
     private ToolCard toolCard;
 
     @Before
-    public void setUp(){
+    public void setUp() throws RemoteException {
         player=mock(Player.class);
         WindowFrame frame= new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
         Model model= spy(new Model());
@@ -35,7 +37,7 @@ public class DiluentePerPastaSaldaTest {
 
     @SuppressWarnings("Duplicates")
     @Test
-    public void doAbility() throws InvalidMoveException {
+    public void doAbility() throws InvalidMoveException, RemoteException {
 
 
         DraftPoolCell draftPoolCell=new DraftPoolCell(0);

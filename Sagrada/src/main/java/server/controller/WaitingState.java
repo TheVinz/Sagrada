@@ -2,19 +2,15 @@ package server.controller;
 
 import common.exceptions.InvalidMoveException;
 import server.model.Model;
-import server.model.state.ModelObject;
+import common.ModelObject;
 import server.model.state.player.Player;
 
-
-public class WaitingState implements PlayerState {
-    private Model model;
-    private Player player;
+public class WaitingState extends PlayerState {
 
     private PlayerState nextState;
 
     public WaitingState(Player player, Model model){
-        this.model = model;
-        this.player = player;
+        super(player, model);
     }
 
     @Override
@@ -35,6 +31,11 @@ public class WaitingState implements PlayerState {
             default:
                 return this;
         }
+    }
+
+    @Override
+    public int nextParam() {
+        return -1;
     }
 
 

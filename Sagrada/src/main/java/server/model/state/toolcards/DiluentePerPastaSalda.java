@@ -2,7 +2,7 @@ package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import server.model.Model;
-import server.model.state.ModelObject;
+import common.ModelObject;
 import server.model.state.utilities.Choice;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.draftpool.DraftPoolCell;

@@ -1,6 +1,7 @@
 package server.model.state.player;
 
 import server.model.state.boards.windowframe.WindowFrame;
+import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 
 public class Player {
@@ -28,9 +29,9 @@ public class Player {
         this.firstMoveDone=false;
     }
 
-    public void setWindowFrame(WindowFrame windowFrame){
+    public void setWindowFrame(WindowFrameList windowFrameList){
+        this.windowFrame=new WindowFrame(windowFrameList);
         this.favorTokens=windowFrame.getFavorToken();
-        this.windowFrame=windowFrame;
     }
 
     public void setPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {

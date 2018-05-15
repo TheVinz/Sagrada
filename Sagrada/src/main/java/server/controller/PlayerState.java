@@ -1,9 +1,20 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
-import server.model.state.ModelObject;
+import common.ModelObject;
+import server.model.Model;
+import server.model.state.player.Player;
 
-public interface PlayerState {
+public abstract class PlayerState {
 
-    PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException;
+    protected Model model;
+    protected Player player;
+
+    public PlayerState(Player player, Model model){
+        this.player=player;
+        this.model=model;
+    }
+
+    abstract PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException;
+    abstract int nextParam();
 }

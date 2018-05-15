@@ -24,7 +24,7 @@ public class ControllerTest {
     @Before
     public void setUp() throws Exception {
         model = Mockito.spy(new Model());
-        player= Mockito.spy(new Player("Scotti", 1, model));
+        player= Mockito.spy(new Player("Scotti", 1));
         controller= new Controller(model, player);
         WindowFrame frame = new WindowFrame(WindowFrameList.SUN_CATCHER);
         Mockito.when(player.getWindowFrame()).thenReturn(frame);

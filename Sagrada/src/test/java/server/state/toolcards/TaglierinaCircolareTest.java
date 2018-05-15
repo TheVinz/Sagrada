@@ -13,6 +13,8 @@ import server.model.state.toolcards.TaglierinaCircolare;
 import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Color;
 
+import java.rmi.RemoteException;
+
 public class TaglierinaCircolareTest {
     private Model model;
     private ToolCard toolCard;
@@ -35,7 +37,7 @@ public class TaglierinaCircolareTest {
         draftPool.getCell(1).put(new Dice(Color.BLUE,5));
            }
     @Test
-    public void start() throws InvalidMoveException {
+    public void start() throws InvalidMoveException, RemoteException {
         toolCard.start(player);
     }
 

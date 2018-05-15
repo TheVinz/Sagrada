@@ -1,8 +1,19 @@
 package client.view.cli;
 
 
+import org.omg.CORBA.PRIVATE_MEMBER;
+
 public class CliDisplayer {
     private CliState cliState;
+    private static CliDisplayer singleton;
+
+    public static CliDisplayer getDisplayer(){
+        if(singleton==null) singleton=new CliDisplayer();
+        return singleton;
+    }
+
+    public void setCliState(CliState state){ this.cliState = state; }
+
 
     public void displayText(String text){
 
@@ -40,14 +51,16 @@ public class CliDisplayer {
            displayText("\n");
         }
     }
+    public void printWindowFrame(){
+        printWindowFrame(cliState.getActivePlayer());
+    }
 
     public void printRoundTrack(){
         displayText("RoundTrack:\n");
         for(int i=0;i<cliState.getRoundTrack().size();i++){
-            displayText(i+": ");
-            for(int j=0;j<cliState.getRoundTrack().get(i).length();j=j+2){
-                displayText(cliState.getRoundTrack().get(i).substring(j,j+2)+" ");
-            }
+            displayText(((int) i+1) + ">>> ");
+            for(int j=0; j<cliState.getRoundTrack().get(i).size(); i++)
+                displayText(j + "_" + cliState.getRoundTrack().get(i).get(j) + " | ");
             displayText("\n");
         }
 
@@ -76,9 +89,9 @@ public class CliDisplayer {
         }
     }
 
-    public void printPrivateObjectiveCard(CliPlayerState cliPlayerState){
+    public void printPrivateObjectiveCard(){
         displayText("La tua carta privata: ");
-        displayText(cliPlayerState.getPrivateObjectiveCard()+"\n");
+        displayText(cliState.getPrivateObjectiveCard()+"\n");
     }
 
     public void printFavorTokens(CliPlayerState cliPlayerState){
@@ -86,8 +99,7 @@ public class CliDisplayer {
         }
 
 
-    public void printPlayerWindowFrame() {
-      //  displayText("Questa è la vetrata di "+name+":\n");
-        //this.printWindowFrame(cliState.getCliPlayerState(name));
+    public void printPlayerWindowFrame(String name) {
+        printWindowFrame(cliState.getCliPlayerState(name));
     }
 }

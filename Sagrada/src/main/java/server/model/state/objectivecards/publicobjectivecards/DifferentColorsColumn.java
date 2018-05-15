@@ -1,7 +1,6 @@
 package server.model.state.objectivecards.publicobjectivecards;
 
 import server.model.state.boards.windowframe.WindowFrame;
-import server.model.state.utilities.Color;
 
 @SuppressWarnings("Duplicates")
 public class DifferentColorsColumn extends PublicObjectiveCard {
@@ -12,23 +11,21 @@ public class DifferentColorsColumn extends PublicObjectiveCard {
             for(int j=0; j<WindowFrame.ROWS; j++) {
                 if(!windowFrame.getCell(j,i).isEmpty()){
                     switch(windowFrame.getCell(j,i).getDice().getColor()){
-                        case Color.RED:
+                        case RED:
                             colors[0]++;
                             break;
-                        case Color.BLUE:
+                        case BLUE:
                             colors[1]++;
                             break;
-                        case Color.GREEN:
+                        case GREEN:
                             colors[2]++;
                             break;
-                        case Color.PURPLE:
+                        case PURPLE:
                             colors[3]++;
                             break;
-                        case Color.YELLOW:
+                        case YELLOW:
                             colors[4]++;
                             break;
-/*                        default:
-                            break;*/
                     }
                 }
                 else colors[0]+=2;

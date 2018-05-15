@@ -12,6 +12,7 @@ import server.model.Model;
 import server.model.state.toolcards.Martelletto;
 import server.model.state.toolcards.ToolCard;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import static org.junit.Assert.*;

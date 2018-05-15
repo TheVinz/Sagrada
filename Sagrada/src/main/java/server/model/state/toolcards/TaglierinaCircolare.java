@@ -2,11 +2,12 @@ package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import server.model.Model;
-import server.model.state.ModelObject;
+import common.ModelObject;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.roundtrack.RoundTrackCell;
 import server.model.state.player.Player;
 
+import java.rmi.RemoteException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 

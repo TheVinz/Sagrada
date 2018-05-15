@@ -15,24 +15,16 @@ public class UtilTest {
 
     @Test
     public void getWindowFrameChoiche() {
-        WindowFrameList[] frames= Util.getWindowFrameChoiche();
-        assertNotEquals(frames[0], frames[2]);
-        assertNotEquals(frames[1], frames[3]);
-        frames= Util.getWindowFrameChoiche();
-        assertNotEquals(frames[0], frames[2]);
-        assertNotEquals(frames[1], frames[3]);
-        frames= Util.getWindowFrameChoiche();
-        assertNotEquals(frames[0], frames[2]);
-        assertNotEquals(frames[1], frames[3]);
-        frames= Util.getWindowFrameChoiche();
-        assertNotEquals(frames[0], frames[2]);
-        assertNotEquals(frames[1], frames[3]);
-        frames= Util.getWindowFrameChoiche();
-        assertNotEquals(frames[0], frames[2]);
-        assertNotEquals(frames[1], frames[3]);
-        frames= Util.getWindowFrameChoiche();
-        assertNotEquals(frames[0], frames[2]);
-        assertNotEquals(frames[1], frames[3]);
+        WindowFrameList[] frames;
+        for(int i=0; i<5; i++) {
+            frames = Util.getWindowFrameChoiche();
+            assertNotEquals(frames[0], frames[2]);
+            assertNotEquals(frames[1], frames[3]);
+            assertNotNull(frames[0]);
+            assertNotNull(frames[1]);
+            assertNotNull(frames[2]);
+            assertNotNull(frames[3]);
+        }
     }
 
     @Test

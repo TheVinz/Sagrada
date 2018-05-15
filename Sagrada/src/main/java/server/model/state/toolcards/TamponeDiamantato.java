@@ -2,7 +2,6 @@ package server.model.state.toolcards;
 
 import server.model.Model;
 import server.model.state.boards.draftpool.DraftPoolCell;
-import common.exceptions.InvalidMoveException;
 import server.model.state.player.Player;
 
 import java.util.*;
@@ -19,7 +18,7 @@ public class TamponeDiamantato extends ToolCard {
     }
 
     @Override
-    public void start(Player player) throws InvalidMoveException {
+    public void start(Player player) {
         expectedParameters = new ArrayDeque<>(1);
         parameters = new ArrayList<>(1);
         expectedParameters.add(DRAFT_POOL_CELL);
@@ -27,7 +26,7 @@ public class TamponeDiamantato extends ToolCard {
     }
 
     @Override
-    public void doAbility() throws InvalidMoveException {
+    public void doAbility() {
         DraftPoolCell cell= (DraftPoolCell) parameters.get(0);
         model.flipDice(player, cell);
         model.toolCardUsed(player, this);

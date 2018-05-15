@@ -1,7 +1,7 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
-import server.model.state.ModelObject;
+import common.ModelObject;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameCell;
@@ -9,20 +9,15 @@ import server.model.state.player.Player;
 import server.model.Model;
 import server.model.state.utilities.GameRules;
 
-public class MovingDice implements PlayerState {
+public class MovingDice extends PlayerState {
 
-    private Player player;
-    private Model model;
+    private DraftPoolCell source = null;
+    private WindowFrameCell target = null;
 
-    private DraftPoolCell source;
-    private WindowFrameCell target;
-
-    public MovingDice(Player player, Model model){
-        this.player=player;
-        this.model=model;
-        source=null;
-        target=null;
+    public MovingDice(Player player, Model model) {
+        super(player, model);
     }
+
 
     private boolean firstMove() {
         return model.getState().getRoundTrack().getRound()==1 && !player.isFirstMoveDone();
@@ -58,5 +53,10 @@ public class MovingDice implements PlayerState {
             default:
                 return this;
         }
+    }
+
+    @Override
+    public int nextParam() {
+        return ModelObject.WINDOW_FRAME_CELL;
     }
 }

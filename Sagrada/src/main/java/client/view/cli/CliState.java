@@ -1,74 +1,60 @@
 package client.view.cli;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CliState {
-    private CliPlayerState cliCurrentPlayerState;
-    private List<CliPlayerState> cliPlayerStates = new ArrayList<CliPlayerState>();
+    private CliPlayerState activePlayer;
+    private List<CliPlayerState> cliPlayerStates = new ArrayList<>();
     private Integer[] toolCardIds = new Integer[3];
     private Integer[] publicObjectiveCardIds = new Integer[3];
-    private List<String> draftPool = new ArrayList<String>();
-    private List<String> roundTrack = new ArrayList<String>();
-    public CliState(){
+    private List<String> draftPool = new ArrayList<>();
+    private List<List <String>> roundTrack = new ArrayList<>();
+    private String privateObjectiveCard;
 
+    public void setActivePlayer(int id){
+        activePlayer=getCliPlayerState(id);
     }
-
-    public CliState(List<String> draftPool,List<String> roundTrack,Integer[] toolCardIds,Integer[] publicObjectiveCardIds,List<CliPlayerState> cliPlayerStates){
-        this.draftPool=draftPool;
-        this.roundTrack=roundTrack;
-        this.toolCardIds=toolCardIds;
-        this.publicObjectiveCardIds=publicObjectiveCardIds;
-        this.cliPlayerStates=cliPlayerStates;
+    public void addPlayer(CliPlayerState player){
+        cliPlayerStates.add(player);
     }
-
-
-
-
+    public void setPrivateObjectiveCard(String color){
+        this.privateObjectiveCard=color;
+    }
+    public void setDraftPool(String[] dices) {
+        this.draftPool=new ArrayList<>(Arrays.asList(dices));
+    }
 
     public Integer[] getToolCardIds() {
         return toolCardIds;
     }
-
     public Integer[] getPublicObjectiveCardIds() {
         return publicObjectiveCardIds;
     }
-
     public List<String> getDraftPool() {
         return draftPool;
     }
-
-    public List<String> getRoundTrack() {
+    public List<List <String>> getRoundTrack() {
         return roundTrack;
     }
-
-    public CliPlayerState getCliPlayerState(String name) {
+    public CliPlayerState getCliPlayerState(int id) {
+        for(int i=0; i<cliPlayerStates.size(); i++)
+            if(cliPlayerStates.get(i).getId() == id)
+                return cliPlayerStates.get(i);
+        return null; //da togliere
+    }
+    public CliPlayerState getCliPlayerState(String name){
         for(int i=0; i<cliPlayerStates.size(); i++)
             if(cliPlayerStates.get(i).getName().equals(name))
                 return cliPlayerStates.get(i);
-        return cliPlayerStates.get(0); //da togliere
+        return null; //da togliere
+    }
+    public CliPlayerState getActivePlayer() {
+        return activePlayer;
+    }
+    public String getPrivateObjectiveCard(){
+        return this.privateObjectiveCard;
     }
 
-    //public void setDraftPool(List<String> draftPool) {
-  //      this.draftPool = draftPool;
-//    }
-
-    //public void setCliPlayerStates(List<CliPlayerState> cliPlayerStates) {
-  //      this.cliPlayerStates=cliPlayerStates;
-//    }
-
-    //public void setPublicObjectiveCardIds(Integer[] publicObjectiveCardIds) {
-  //      this.publicObjectiveCardIds = publicObjectiveCardIds;
-//    }
-
-//    public void setToolCardIds(Integer[] toolCardIds) {
-      //  this.toolCardIds = toolCardIds;
-    //}
-    //public void setRoundTrack(List<String> roundTrack){
-   //     this.roundTrack=roundTrack;
-   // }
-
-    public CliPlayerState getCliCurrentPlayerState() {
-        return cliCurrentPlayerState;
-    }
 }

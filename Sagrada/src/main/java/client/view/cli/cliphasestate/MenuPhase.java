@@ -1,54 +1,67 @@
 package client.view.cli.cliphasestate;
 
 import client.view.cli.CliDisplayer;
-import common.CommandVisitor;
-import common.command.GameCommand;
-import common.response.Response;
+import common.RemoteMVC.RemoteController;
+import common.exceptions.InvalidMoveException;
+import server.controller.MovingDice;
 
 import java.rmi.RemoteException;
 
-public class MenuPhase implements CliPhaseSate {
-    private CliDisplayer cliDisplayer;
-    private CommandVisitor commandVisitor;
+import static common.command.GameCommand.END_TURN;
 
-    public MenuPhase(CliDisplayer cliDisplayer, CommandVisitor commandVisitor){
-        this.cliDisplayer = cliDisplayer;
-        this.commandVisitor = commandVisitor;
-    }
+public class MenuPhase implements CliPhaseState {
+
+    private RemoteController remoteController;
+
+    public MenuPhase(RemoteController remoteController){
+        this.remoteController = remoteController;
+        }
 
     @Override
-    public CliPhaseSate handle(String input) throws RemoteException {
+    public CliPhaseState handle(String input) throws RemoteException {
+
         switch (input){
 
             case "M":
-                cliDisplayer.printMenu();
+                CliDisplayer.getDisplayer().printMenu();
                 return this;
             case "P":
-                cliDisplayer.printDraftPool();
+                CliDisplayer.getDisplayer().printDraftPool();
                 return this;
             case "V":
-               // cliDisplayer.printWindowFrame();     //mi serve il giocatore
+                CliDisplayer.getDisplayer().printWindowFrame();
+                return this;
             case "T":
-                cliDisplayer.printToolCard();
+                CliDisplayer.getDisplayer().printToolCard();
+                return this;
             case "O":
-                cliDisplayer.printPublicObjectiveCards();
+                CliDisplayer.getDisplayer().printPublicObjectiveCards();
+                return this;
             case "A":
-                cliDisplayer.displayText("Put the name of the player:\n");
+                CliDisplayer.getDisplayer().displayText("Put the name of the player:\n");
+                return new PrintingWindowFramePhase(remoteController);
             case "D":
-                cliDisplayer.printDraftPool();
-                cliDisplayer.displayText("Select a draft pool cell:\n ");
-                return new MovingDicePhase(cliDisplayer, commandVisitor);
+                return new MovingDicePhase(remoteController);
             case "U":
-                cliDisplayer.printToolCard();
-                cliDisplayer.displayText("Select a tool card: ");
-                return  new UsingToolCardPhase(cliDisplayer, commandVisitor);
+                CliDisplayer.getDisplayer().printToolCard();
+                return new SelectingToolCard(remoteController);
+            case "W":
+                CliDisplayer.getDisplayer().printWindowFrame();
+                CliDisplayer.getDisplayer().displayText("Select a dice from the window frame: \n");
+                return new SelectingWindowFrameCell(remoteController);
+            case "R":
+                CliDisplayer.getDisplayer().printRoundTrack();
+                CliDisplayer.getDisplayer().displayText("Select a dice from the round track:\n");
+                return new SelectingRoundTrackCell(remoteController);
             case "N":
-                Response response = commandVisitor.handle(new GameCommand(GameCommand.END_TURN));
-                if(response.getType() != Response.SUCCESS)
-                    cliDisplayer.displayText("Something wrong!\n");
+                try {
+                    remoteController.command(END_TURN);
+                } catch (InvalidMoveException e) {
+                    CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
+                }
                 return this;
             default:
-                cliDisplayer.displayText("Input error\n");
+                CliDisplayer.getDisplayer().displayText("Input error\n");
                 return this;
 
         }
