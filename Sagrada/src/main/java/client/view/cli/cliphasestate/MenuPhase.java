@@ -2,6 +2,9 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliDisplayer;
 import common.RemoteMVC.RemoteController;
+import common.exceptions.InvalidMoveException;
+import server.controller.MovingDice;
+
 import java.rmi.RemoteException;
 
 import static common.command.GameCommand.END_TURN;
@@ -12,7 +15,7 @@ public class MenuPhase implements CliPhaseState {
 
     public MenuPhase(RemoteController remoteController){
         this.remoteController = remoteController;
-    }
+        }
 
     @Override
     public CliPhaseState handle(String input) throws RemoteException {
@@ -26,7 +29,8 @@ public class MenuPhase implements CliPhaseState {
                 CliDisplayer.getDisplayer().printDraftPool();
                 return this;
             case "V":
-               // CliDisplayer.getDisplayer().printWindowFrame();     //mi serve il giocatore
+                CliDisplayer.getDisplayer().printWindowFrame();
+                return this;
             case "T":
                 CliDisplayer.getDisplayer().printToolCard();
                 return this;
@@ -35,14 +39,11 @@ public class MenuPhase implements CliPhaseState {
                 return this;
             case "A":
                 CliDisplayer.getDisplayer().displayText("Put the name of the player:\n");
-                return this;
+                return new PrintingWindowFramePhase(remoteController);
             case "D":
-                CliDisplayer.getDisplayer().printDraftPool();
-                CliDisplayer.getDisplayer().displayText("Select a draft pool dice:\n ");
-                return new SelectingDraftPoolCell(remoteController);
+                return new MovingDicePhase(remoteController);
             case "U":
                 CliDisplayer.getDisplayer().printToolCard();
-                CliDisplayer.getDisplayer().displayText("Select a tool card: \n");
                 return new SelectingToolCard(remoteController);
             case "W":
                 CliDisplayer.getDisplayer().printWindowFrame();
@@ -53,7 +54,11 @@ public class MenuPhase implements CliPhaseState {
                 CliDisplayer.getDisplayer().displayText("Select a dice from the round track:\n");
                 return new SelectingRoundTrackCell(remoteController);
             case "N":
-                remoteController.command(END_TURN);
+                try {
+                    remoteController.command(END_TURN);
+                } catch (InvalidMoveException e) {
+                    CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
+                }
                 return this;
             default:
                 CliDisplayer.getDisplayer().displayText("Input error\n");

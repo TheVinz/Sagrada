@@ -1,6 +1,7 @@
 package client.view.cli;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CliState {
@@ -21,6 +22,9 @@ public class CliState {
     public void setPrivateObjectiveCard(String color){
         this.privateObjectiveCard=color;
     }
+    public void setDraftPool(String[] dices) {
+        this.draftPool=new ArrayList<>(Arrays.asList(dices));
+    }
 
     public Integer[] getToolCardIds() {
         return toolCardIds;
@@ -38,7 +42,13 @@ public class CliState {
         for(int i=0; i<cliPlayerStates.size(); i++)
             if(cliPlayerStates.get(i).getId() == id)
                 return cliPlayerStates.get(i);
-        return cliPlayerStates.get(0); //da togliere
+        return null; //da togliere
+    }
+    public CliPlayerState getCliPlayerState(String name){
+        for(int i=0; i<cliPlayerStates.size(); i++)
+            if(cliPlayerStates.get(i).getName().equals(name))
+                return cliPlayerStates.get(i);
+        return null; //da togliere
     }
     public CliPlayerState getActivePlayer() {
         return activePlayer;
@@ -46,4 +56,5 @@ public class CliState {
     public String getPrivateObjectiveCard(){
         return this.privateObjectiveCard;
     }
+
 }

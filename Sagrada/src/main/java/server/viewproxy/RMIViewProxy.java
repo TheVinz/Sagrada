@@ -1,5 +1,6 @@
 package server.viewproxy;
 
+import common.ModelObject;
 import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
 import common.exceptions.InvalidMoveException;
@@ -236,11 +237,11 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     @Override
     public int command(int type, int index) throws InvalidMoveException, RemoteException {
         switch(type){
-            case DRAFTPOOL_CLICK:
+            case ModelObject.DRAFT_POOL_CELL:
                 return controller.selectObject(state.getDraftPool().getCell(index));
-            case USE_TOOL_CARD:
+            case ModelObject.TOOL_CARD:
                 return controller.selectObject(state.getToolCard(index));
-            case CHOICE:
+            case ModelObject.CHOICE:
                 return controller.selectObject(new Choice(index));
             default:
                 return Response.WRONG_PARAMETER;
@@ -250,9 +251,9 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     @Override
     public int command(int type, int param1, int param2) throws InvalidMoveException, RemoteException {
         switch(type){
-            case WINDOW_FRAME_CLICK:
+            case WINDOW_FRAME_CELL:
                 return controller.selectObject(player.getWindowFrame().getCell(param1, param2));
-            case ROUND_TRACK_CLICK:
+            case ROUND_TRACK_CELL:
                 return controller.selectObject(state.getRoundTrack().getRoundSet(param1).get(param2));
             default:
                 return Response.WRONG_PARAMETER;

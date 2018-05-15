@@ -23,7 +23,8 @@ public class SelectingDraftPoolCell implements CliPhaseState {
             index=sc.nextInt();
             remoteController.command(ModelObject.DRAFT_POOL_CELL, index);
         } catch (InvalidMoveException e) {
-            CliDisplayer.getDisplayer().displayText(e.getMessage());
+            CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
+            return new MenuPhase(remoteController);
         }
         return new MenuPhase(remoteController);
     }

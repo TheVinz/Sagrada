@@ -25,7 +25,8 @@ public class SelectingWindowFrameCell implements CliPhaseState {
             remoteController.command(ModelObject.WINDOW_FRAME_CELL, row, column);
         }
         catch (InvalidMoveException e){
-            CliDisplayer.getDisplayer().displayText(e.getMessage());
+            CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
+            return new MenuPhase(remoteController);
         }
         return new MenuPhase(remoteController);
     }

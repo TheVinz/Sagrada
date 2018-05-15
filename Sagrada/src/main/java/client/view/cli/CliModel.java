@@ -31,7 +31,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         if(sourceType == DRAFT_POOL_CELL) {
             source = "draft pool";
             dice = cliState.getDraftPool().get(param1);
-            cliState.getDraftPool().add(param1, null);
+            cliState.getDraftPool().set(param1, null);
         }
         else if(sourceType == WINDOW_FRAME_CELL) {
             dice = cliPlayerState.getWindowFrame()[param1][param2];
@@ -84,13 +84,13 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
             cliState.getRoundTrack().get(param3).set(param4, dice);
         }
 
-        CliDisplayer.getDisplayer().displayText(cliPlayerState.getName().concat(" moved dice from ").concat(source).concat(" to ").concat(target)+"\n");
+        CliDisplayer.getDisplayer().displayText(cliPlayerState.getName() + (" moved dice from ") + (source) + (" to ") + (target)+"\n");
     }
 
     @Override
     public void updateCell(int player, int type, int index, int value, char color) {
         String s= ""+value+color;
-        cliState.getDraftPool().add(index,s);
+        cliState.getDraftPool().set(index,s);
         CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + ">>> "+s);
     }
 
@@ -119,12 +119,13 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void refilledDraftPool(int[] values, char[] colors) {
-        String s;
+        String[] s= new String[values.length];
         for(int i=0;i<colors.length;i++){
-            s=""+values[i]+colors[i];
-            cliState.getDraftPool().add(i,s);
+            s[i]=""+values[i]+colors[i];
         }
-        CliDisplayer.getDisplayer().displayText("La DraftPool è stata riempita:\n");
+        cliState.setDraftPool(s);
+        CliDisplayer.getDisplayer().displayText("La DraftPool è stata riempita\n");
+        CliDisplayer.getDisplayer().printDraftPool();
     }
 
     @Override
@@ -140,7 +141,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         for(int i=0; i<reps.length; i++){
             CliDisplayer.getDisplayer().displayText(i + ">>> rep: " + reps[i] + " | tokens: "+ favorTokens[i] + ";\n");
         }
-        cliApp.windowFrameChoice();
+        new Thread( () -> cliApp.windowFrameChoice()).start();
     }
 
     @Override
@@ -191,8 +192,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         CliPlayerState cliPlayerState=cliState.getCliPlayerState(player);
         CliDisplayer.getDisplayer().displayText("Is your turn " + cliPlayerState.getName() + "!\n");
         cliState.setActivePlayer(player);
-        if(player == cliApp.getId()) cliApp.startTurn();
-        else cliApp.waitTurn();
+        if(player == cliApp.getId()) new Thread( () -> cliApp.startTurn()).start();
+        else new Thread( () -> cliApp.waitTurn()).start();
     }
 
     @Override

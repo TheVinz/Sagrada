@@ -1,6 +1,7 @@
 package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 import server.model.Model;
 import common.ModelObject;
 import server.model.state.player.Player;
@@ -42,7 +43,12 @@ public abstract class ToolCard implements ModelObject {
 	abstract void doAbility() throws InvalidMoveException;
 
 	public int next(){
-		return expectedParameters.peek();
+		try {
+			return expectedParameters.peek();
+		}
+		catch(NullPointerException e){
+			return Response.END;
+		}
 	}
 
 	@Override

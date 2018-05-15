@@ -29,7 +29,7 @@ public class Controller {
 			if(player.isDiceMoved() && player.isToolCardUsed())
 			{
 				endTurn();
-				return Response.END_TURN;
+				return Response.END;
 			}
 			else return currentState.nextParam();
 		}
@@ -49,4 +49,5 @@ public class Controller {
     public void windowFrameChoice(WindowFrameList[] windowFrameLists) {
 		currentState=new SelectingWindowFrame(player, model, windowFrameLists);
     }
+
 }

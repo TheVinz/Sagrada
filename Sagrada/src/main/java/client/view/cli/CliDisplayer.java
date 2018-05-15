@@ -99,8 +99,7 @@ public class CliDisplayer {
         }
 
 
-    public void printPlayerWindowFrame() {
-      //  displayText("Questa è la vetrata di "+name+":\n");
-        //this.printWindowFrame(cliState.getCliPlayerState(name));
+    public void printPlayerWindowFrame(String name) {
+        printWindowFrame(cliState.getCliPlayerState(name));
     }
 }

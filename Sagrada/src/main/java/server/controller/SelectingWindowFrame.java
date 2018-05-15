@@ -22,6 +22,7 @@ public class SelectingWindowFrame extends PlayerState {
             try {
                 model.windowFrameChoice(player, windowFrameLists[((Choice) modelObject).getChoice()]);
             } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
                 throw new InvalidMoveException("Index out of bound");
             }
             return new WaitingState(player, model);

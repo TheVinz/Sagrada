@@ -31,14 +31,20 @@ public class CliApp {
 
     public void windowFrameChoice(){
         System.out.print("\nSelect a window frame\n>>>");
-        this.currentState=new WindowFrameChoiceState(remoteController);
+        synchronized (this) {
+            this.currentState = new WindowFrameChoiceState(remoteController);
+        }
     }
     public void startTurn(){
-        this.currentState= new MenuPhase(remoteController);
+        synchronized (this) {
+            this.currentState = new MenuPhase(remoteController);
+        }
         CliDisplayer.getDisplayer().displayText("(insert M to undo the operation and see the menu)\n");
     }
     public void waitTurn() {
-        this.currentState=new WaitingPhase();
+        synchronized (this) {
+            this.currentState = new WaitingPhase();
+        }
     }
 
     public void mainLoop(){
@@ -46,7 +52,9 @@ public class CliApp {
         while(!input.equals("quit")){
             input = scanner.nextLine();
             try{
-                currentState.handle(input);
+                synchronized (this) {
+                    currentState = currentState.handle(input);
+                }
             }catch (RemoteException e){
                 CliDisplayer.getDisplayer().displayText("Network problem\n");
                 System.exit(1);
