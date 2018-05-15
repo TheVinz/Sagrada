@@ -15,7 +15,7 @@ public class PrintingWindowFramePhase implements CliPhaseState {
 
     @Override
     public CliPhaseState handle(String input) {
-        CliDisplayer.getDisplayer().printPlayerWindowFrame(input);
+        CliDisplayer.getDisplayer().printState(input);
         return new MenuPhase(remoteController);
     }
 }
