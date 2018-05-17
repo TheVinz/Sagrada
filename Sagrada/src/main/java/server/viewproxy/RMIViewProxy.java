@@ -214,6 +214,17 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
             e.printStackTrace();
         }
     }
+    @Override
+    public void updateRoundTrack(int round, Cell[] cells) {
+        int[] values = new int[cells.length];
+        char[] colors=new char[cells.length];
+        for(int i=0; i<cells.length; i++){
+            values[i]=cells[i].getDice().getValue();
+            colors[i]=cells[i].getDice().getColor().asChar();
+        }
+        try{
+        }
+    }
 
 
 /*

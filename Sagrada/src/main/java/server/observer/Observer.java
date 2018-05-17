@@ -21,4 +21,5 @@ public interface Observer {
     void updatePrivateObjectiveCard(PrivateObjectiveCard card);
     void updateStartTurn(Player player);
     void updateDiceDraw(Player player, Color color);
+    void updateRoundTrack(int round, Cell[] cells);
 }

@@ -93,7 +93,7 @@ public class Model implements Observable {
             System.exit(1);
         }
         for(Player player : state.getPlayers()) player.endRound();
-        notifyRoundTrackUpdate(state.getRoundTrack().getRound(), state.);
+        notifyRoundTrackUpdate(state.getRoundTrack().getRound()-1, state.getRoundTrack().getRoundSet(state.getRoundTrack().getRound()-1).toArray(new Cell[0]));
         if(state.getRoundTrack().getRound() > RoundTrack.MAX_ROUND)
             endGame();
         else startRound();
