@@ -1,5 +1,6 @@
 package client.view.cli.cliphasestate;
 
+import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
 import common.ModelObject;
 import common.RemoteMVC.RemoteController;
@@ -11,9 +12,11 @@ import java.util.Scanner;
 public class SelectingWindowFrameCell implements CliPhaseState {
 
     RemoteController remoteController;
+    private CliApp cliApp;
 
-    public SelectingWindowFrameCell(RemoteController remoteController) {
+    public SelectingWindowFrameCell(RemoteController remoteController, CliApp cliApp) {
         this.remoteController=remoteController;
+        this.cliApp = cliApp;
     }
 
     @Override
@@ -22,7 +25,7 @@ public class SelectingWindowFrameCell implements CliPhaseState {
             int row, column;
             row=sc.nextInt();
             column=sc.nextInt();
-            remoteController.command(ModelObject.WINDOW_FRAME_CELL, row, column);
+            cliApp.setNextParam(remoteController.command(ModelObject.WINDOW_FRAME_CELL, row, column));
         }
         catch (InvalidMoveException e){
             CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");

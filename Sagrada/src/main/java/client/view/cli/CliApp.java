@@ -14,6 +14,7 @@ public class CliApp {
     private RemoteController remoteController;
     private CliPhaseState currentState;
     private int id;
+    private int nextParam;
     Scanner scanner = new Scanner(System.in);
 
 
@@ -60,5 +61,13 @@ public class CliApp {
                 System.exit(1);
             }
         }
+    }
+
+    public int getNextParam() {
+        return nextParam;
+    }
+
+    public void setNextParam(int nextParam) {
+        this.nextParam = nextParam;
     }
 }

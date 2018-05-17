@@ -1,5 +1,6 @@
 package client.view.cli.cliphasestate;
 
+import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
 import common.ModelObject;
 import common.RemoteMVC.RemoteController;
@@ -11,9 +12,11 @@ import java.util.Scanner;
 public class SelectingDraftPoolCell implements CliPhaseState {
 
     RemoteController remoteController;
+    private CliApp cliApp;
 
-    public SelectingDraftPoolCell(RemoteController remoteController) {
+    public SelectingDraftPoolCell(RemoteController remoteController, CliApp cliApp) {
         this.remoteController=remoteController;
+        this.cliApp = cliApp;
     }
 
     @Override
@@ -21,7 +24,7 @@ public class SelectingDraftPoolCell implements CliPhaseState {
         try(Scanner sc = new Scanner(input)){
             int index;
             index=sc.nextInt();
-            remoteController.command(ModelObject.DRAFT_POOL_CELL, index);
+            cliApp.setNextParam(remoteController.command(ModelObject.DRAFT_POOL_CELL, index));
         } catch (InvalidMoveException e) {
             CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
             return new MenuPhase(remoteController);
