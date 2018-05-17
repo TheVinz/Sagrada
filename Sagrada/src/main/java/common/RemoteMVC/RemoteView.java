@@ -34,4 +34,6 @@ public interface RemoteView extends Remote {
     void newTurn(int player) throws RemoteException;
 
     void notifyDiceDraw(int player, char color) throws RemoteException;
+
+    void updateRoundTrack(int round, int[] values, char[] colors) throws RemoteException;
 }

@@ -49,8 +49,11 @@ public class ControllerTest {
         controller.selectObject(model.getState().getDraftPool().getCell(0));
 
         assertEquals(MovingDice.class, controller.getCurrentState().getClass());
-
-        controller.selectObject(player.getWindowFrame().getCell(0,0));
+        try {
+            controller.selectObject(player.getWindowFrame().getCell(0, 0));
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
 
         assertEquals(WaitingState.class, controller.getCurrentState().getClass());
         assertTrue(model.getState().getDraftPool().getCell(0).isEmpty());

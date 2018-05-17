@@ -223,4 +223,13 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         }
         CliDisplayer.getDisplayer().displayText(cliPlayerState.getName() + " drawn out a " + diceColor + "dice;\n");
     }
+
+    @Override
+    public void updateRoundTrack(int round, int[] values, char[] colors) {
+        String[] roundDices=new String[values.length];
+        for (int i=0; i<roundDices.length; i++){
+            roundDices[i]=""+colors[i]+values[i];
+        }
+        cliState.setRoundDices(round, roundDices);
+    }
 }

@@ -46,8 +46,8 @@ public class RoundTrackTest {
         when(draftPoolCell3.removeDice()).thenReturn(dice2);
         roundTrack.endRound(draftPool);
         assertEquals(2, roundTrack.getRoundSet(2).size());
-        assertEquals(dice1, roundTrack.getRoundSet(2).get(0).getDice());
-        assertEquals(dice2, roundTrack.getRoundSet(2).get(1).getDice());
+        assertEquals(dice1, roundTrack.getRoundSet(2).get(1).getDice());
+        assertEquals(dice2, roundTrack.getRoundSet(2).get(0).getDice());
     }
 
     @Test

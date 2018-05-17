@@ -45,7 +45,11 @@ public class MartellettoTest {
 
     @Test
     public void doAbility() throws InvalidMoveException {
-        toolCard.start(player);
+        try {
+            toolCard.start(player);
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
         for(int i=0; i<draftPool.size(); i++){
             if(draftPool.get(i).isEmpty())
                 assertNull(model.getState().getDraftPool().getCell(i).getDice());

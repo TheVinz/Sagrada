@@ -223,6 +223,9 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
             colors[i]=cells[i].getDice().getColor().asChar();
         }
         try{
+            remoteView.updateRoundTrack(round, values, colors);
+        }catch(RemoteException e){
+            e.printStackTrace();
         }
     }
 

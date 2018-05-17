@@ -52,11 +52,14 @@ public class CliState {
                 return cps;
         return null; //da togliere
     }
-    public CliPlayerState getActivePlayer() {
-        return activePlayer;
-    }
     public String getPrivateObjectiveCard(){
         return this.privateObjectiveCard;
     }
 
+    public CliPlayerState getActivePlayer() {
+        return activePlayer;
+    }
+    public void setRoundDices(int round, String[] roundDices) {
+        roundTrack[round]=roundDices;
+    }
 }
