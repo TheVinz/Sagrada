@@ -165,19 +165,19 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         String card;
         switch(color){
             case 'b':
-                card="One point for each blue dice on your frame";
+                card="Sum the values of every BLU dice on your WindowFrame";
                 break;
             case 'r':
-                card="One point for each red dice on your frame";
+                card="Sum the values of every RED dice on your WindowFrame";
                 break;
             case 'y':
-                card="One point for each yellow dice on your frame";
+                card="Sum the values of every YELLOW dice on your WindowFrame";
                 break;
             case 'p':
-                card="One point for each purple dice on your frame";
+                card="Sum the values of every PURPLE dice on your WindowFrame";
                 break;
             case 'g':
-                card="One point for each green dice on your frame";
+                card="Sum the values of every GREEN dice on your WindowFrame";
                 break;
             default:
                 card="Compiler wants me to add a default case";
