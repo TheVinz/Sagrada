@@ -15,17 +15,20 @@ import java.util.Scanner;
 public class SelectingDraftPoolCell implements CliPhaseState {
 
 
+
     public SelectingDraftPoolCell() {
         CliDisplayer.getDisplayer().displayText("Select the number of the cell: ");
     }
 
     @Override
     public void handle(String input) throws InvalidInput {
+
         try (Scanner sc = new Scanner(input)) {
             int nextInt = -1;
             try {
                 nextInt = sc.nextInt();
             } catch (InputMismatchException e) {
+
                 throw new InvalidInput("Wrong Input\n");
             }
             if(nextInt < 0 || nextInt >= CliState.getCliState().getDraftPool().length)
@@ -39,5 +42,6 @@ public class SelectingDraftPoolCell implements CliPhaseState {
     @Override
     public CliPhaseState reset() {
         return new SelectingDraftPoolCell();
+
     }
 }

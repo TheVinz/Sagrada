@@ -42,6 +42,7 @@ public class SelectingWindowFrameCell implements CliPhaseState {
                     throw new InvalidInput("Wrong Input\n");
                 } else {
                     CliApp.getCliApp().addCommandToBuffer(new GameCommand(ModelObject.WINDOW_FRAME_CELL, row, nextInt));
+
                 }
             }
 

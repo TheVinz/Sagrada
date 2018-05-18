@@ -18,6 +18,7 @@ public class SelectingRoundTrackCell implements CliPhaseState {
 
     @Override
     public void handle(String input) throws InvalidInput {
+
         try (Scanner sc = new Scanner(input)) {
             int nextInt = -1;
             try {
@@ -38,6 +39,7 @@ public class SelectingRoundTrackCell implements CliPhaseState {
                     throw new InvalidInput("Wrong Input\n");
                 } else
                     CliApp.getCliApp().addCommandToBuffer( new GameCommand(ModelObject.ROUND_TRACK_CELL, round, nextInt));
+
                 }
             }
 

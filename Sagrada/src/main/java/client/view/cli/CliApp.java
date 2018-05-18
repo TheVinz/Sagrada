@@ -11,16 +11,15 @@ import client.view.cli.cliphasestate.MenuPhase;
 import common.RemoteMVC.RemoteController;
 import common.command.GameCommand;
 
-
 public class CliApp {
 
     private RemoteController remoteController;
     private CliPhaseState currentState;
+    private CliState cliState;
     private int id;
     private boolean waitingPhase;
     private ArrayDeque<GameCommand> commandBuffer = new ArrayDeque<GameCommand>();
     private SynchronizedObserver synchronizedObserver;
-
     Scanner scanner = new Scanner(System.in);
 
     private static CliApp cliApp;
@@ -41,6 +40,7 @@ public class CliApp {
     public void setCurrentState(CliPhaseState currentState){
         this.currentState = currentState;
         CliApp.getCliApp().setWaitingPhase(false);
+
 
     }
 
@@ -105,4 +105,5 @@ public class CliApp {
     public void setRemoteController(RemoteController remoteController) {
         this.remoteController = remoteController;
     }
+
 }

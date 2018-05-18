@@ -8,12 +8,14 @@ import common.command.GameCommand;
 import static common.command.GameCommand.END_TURN;
 
 
+
 public class MenuPhase implements CliPhaseState, SynchronizedObserver {
 
 
     public MenuPhase(){
         CliDisplayer.getDisplayer().printMenu();
         CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
+
     }
 
     @Override
@@ -67,6 +69,7 @@ public class MenuPhase implements CliPhaseState, SynchronizedObserver {
                 CliDisplayer.getDisplayer().printToolCard();
                 CliApp.getCliApp().setCurrentState(new SelectingSendingToolCard());
                 break;
+
             case "N":
                 CliApp.getCliApp().addCommandToBuffer(new GameCommand(END_TURN));
                 CliApp.getCliApp().sendCommand();
