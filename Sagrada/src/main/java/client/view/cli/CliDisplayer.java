@@ -6,7 +6,8 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 public class CliDisplayer {
     private CliState cliState;
     private static CliDisplayer singleton;
-    private ToolCardsEffects toolCardsEffects;
+    private ToolCardsEffects toolCardsEffects = new ToolCardsEffects();
+    private ObjectiveCardsEffects objectiveCardsEffects= new ObjectiveCardsEffects();
 
     public static CliDisplayer getDisplayer(){
         if(singleton==null) singleton=new CliDisplayer();
@@ -78,7 +79,7 @@ public class CliDisplayer {
         displayText("There are these PublicObjectiveCard:\n");
         for(int i=0;i<3;i++){
             Integer j=cliState.getPublicObjectiveCardIds()[i];
-            displayText("The ObjectiveCard number "+ i+" is "+ j);
+            displayText("The ObjectiveCard number "+ i+" is "+ objectiveCardsEffects.returnEffects(j));
         }
     }
 
