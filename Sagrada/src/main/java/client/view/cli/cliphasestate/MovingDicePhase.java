@@ -31,7 +31,7 @@ public class MovingDicePhase implements CliPhaseState {
         }
         else{
             new SelectingWindowFrameCell(remoteController, cliApp).handle(input);
-            return new MenuPhase(remoteController);
+            return new MenuPhase(remoteController, cliApp);
         }
     }
 }

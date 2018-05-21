@@ -23,7 +23,7 @@ import server.model.state.utilities.Color;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import static common.command.GameCommand.*;
+
 import static common.ModelObject.*;
 
 public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,RemoteController {
@@ -222,11 +222,13 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
             values[i]=cells[i].getDice().getValue();
             colors[i]=cells[i].getDice().getColor().asChar();
         }
+
         try{
             remoteView.updateRoundTrack(round, values, colors);
         }catch(RemoteException e){
             e.printStackTrace();
         }
+
     }
 
 

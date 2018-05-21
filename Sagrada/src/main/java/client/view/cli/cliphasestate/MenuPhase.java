@@ -1,5 +1,6 @@
 package client.view.cli.cliphasestate;
 
+import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
 import common.RemoteMVC.RemoteController;
 import common.exceptions.InvalidMoveException;
@@ -8,14 +9,17 @@ import server.controller.MovingDice;
 import java.rmi.RemoteException;
 
 import static common.command.GameCommand.END_TURN;
+import static common.command.GameCommand.USE_TOOL_CARD;
 
 public class MenuPhase implements CliPhaseState {
 
     private RemoteController remoteController;
+    private CliApp cliApp;
 
-    public MenuPhase(RemoteController remoteController){
+    public MenuPhase(RemoteController remoteController, CliApp cliApp){
         this.remoteController = remoteController;
-        }
+        this.cliApp = cliApp;
+    }
 
     @Override
     public CliPhaseState handle(String input) throws RemoteException {
@@ -50,10 +54,11 @@ public class MenuPhase implements CliPhaseState {
                 CliDisplayer.getDisplayer().displayText("Put the name of the player:\n");
                 return new PrintingWindowFramePhase(remoteController);
             case "D":
-                return new MovingDicePhase(remoteController);
+                return new MovingDicePhase(remoteController, cliApp);
             case "U":
                 CliDisplayer.getDisplayer().printToolCard();
-                return new SelectingToolCard(remoteController);
+                cliApp.setNextParam(USE_TOOL_CARD);
+                return new SelectingToolCard(remoteController, cliApp);
 
             case "N":
                 try {

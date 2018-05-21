@@ -11,6 +11,7 @@ public class CliState {
     private CliPlayerState[] cliPlayerStates;
     private Integer[] toolCardIds = new Integer[3];
     private Integer[] publicObjectiveCardIds = new Integer[3];
+    private Integer currentRound;
     private String[] draftPool;
     private String[][] roundTrack = new String[10][];
     private String privateObjectiveCard;

@@ -7,20 +7,24 @@ import client.view.cli.cliphasestate.MenuPhase;
 import client.view.cli.cliphasestate.WaitingPhase;
 import client.view.cli.cliphasestate.WindowFrameChoiceState;
 import common.RemoteMVC.RemoteController;
+import static  common.command.GameCommand.*;
 
 
 public class CliApp {
 
     private RemoteController remoteController;
     private CliPhaseState currentState;
+    private CliState cliState;
     private int id;
     private int nextParam;
     Scanner scanner = new Scanner(System.in);
 
 
-    public CliApp(RemoteController remoteController){
-        this.remoteController=remoteController;
-        this.currentState=new WaitingPhase();
+    public CliApp(RemoteController remoteController) {
+        this.remoteController = remoteController;
+        this.currentState = new WaitingPhase();
+        this.cliState = new CliState();
+        CliDisplayer.getDisplayer().setCliState(cliState);
     }
 
     public int getId(){
@@ -38,7 +42,7 @@ public class CliApp {
     }
     public void startTurn(){
         synchronized (this) {
-            this.currentState = new MenuPhase(remoteController);
+            this.currentState = new MenuPhase(remoteController, this);
         }
         CliDisplayer.getDisplayer().displayText("(insert M to undo the operation and see the menu)\n");
     }
@@ -69,5 +73,23 @@ public class CliApp {
 
     public void setNextParam(int nextParam) {
         this.nextParam = nextParam;
+        printNextParam();
     }
+
+    private void printNextParam(){
+        switch (nextParam){
+            case WINDOW_FRAME_CELL:
+                CliDisplayer.getDisplayer().displayText("Select the row of a Window Frame Cell: ");
+                break;
+            case DRAFT_POOL_CELL:
+                CliDisplayer.getDisplayer().displayText("Select a Draft Pool Cell: ");
+                break;
+            case ROUND_TRACK_CELL:
+                CliDisplayer.getDisplayer().displayText("Selec a Round Track Cell: ");
+                break;
+            default:
+                return;
+        }
+    }
+
 }

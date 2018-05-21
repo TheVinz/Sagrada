@@ -2,11 +2,9 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
-import common.ModelObject;
 import common.RemoteMVC.RemoteController;
 import common.exceptions.InvalidMoveException;
-import common.response.Response;
-import server.model.state.boards.roundtrack.RoundTrackCell;
+
 
 import static common.ModelObject.*;
 
@@ -17,7 +15,6 @@ public class SelectingToolCard implements CliPhaseState {
 
     RemoteController remoteController;
     private CliApp cliApp;
-    int nextParameter = -1;
 
     public SelectingToolCard(RemoteController remoteController, CliApp cliApp) {
         this.remoteController=remoteController;
@@ -30,16 +27,15 @@ public class SelectingToolCard implements CliPhaseState {
         try (Scanner sc = new Scanner(input)) {
             choice = sc.nextInt();
         }
-        switch (nextParameter){
+        switch (cliApp.getNextParam()){
             case TOOL_CARD:
                 try{
-                    nextParameter = remoteController.command(nextParameter, choice);
-                    return this;
-                    //stampo il prossimo parametro
+                    cliApp.setNextParam(remoteController.command(cliApp.getNextParam(), choice));
+                    break;
                 }
                 catch (InvalidMoveException e){
                     CliDisplayer.getDisplayer().displayText(e.getMessage());
-                    return  new MenuPhase(remoteController);
+                    return  new MenuPhase(remoteController, cliApp);
                 }
             case WINDOW_FRAME_CELL:
                 new SelectingWindowFrameCell(remoteController, cliApp).handle(input);
@@ -52,18 +48,8 @@ public class SelectingToolCard implements CliPhaseState {
                 break;
             default:
                 CliDisplayer.getDisplayer().displayText("Tool card successfully used!");
-                return new MenuPhase(remoteController);
+                return new MenuPhase(remoteController, cliApp);
         }
-        nextParameter = cliApp.getNextParam();
         return this;
-
-
-
     }
-
-
-
-
-
-
 }
