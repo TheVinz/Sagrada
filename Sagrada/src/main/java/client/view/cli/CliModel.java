@@ -11,6 +11,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
 
     private CliState cliState;
     private CliApp cliApp;
+    private int id;
 
     public CliModel() throws RemoteException {
         super();
@@ -231,5 +232,10 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
             roundDices[i]=""+colors[i]+values[i];
         }
         cliState.setRoundDices(round, roundDices);
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id=id;
     }
 }

@@ -1,0 +1,17 @@
+.cell{
+    -fx-background-color: black;
+}
+.cell:hover{
+    -fx-background-color: rgba(75, 255, 75, 0.8);
+    -fx-cursor: hand;
+}
+.cell.selected{
+    -fx-background-color: rgba(255,75,75,0.8);
+}
+.endButton{
+    -fx-background-color: radial-gradient(radius 180%, red, black);
+}
+.endButton:hover{
+    -fx-cursor: hand;
+    -fx-background-color: black;
+}

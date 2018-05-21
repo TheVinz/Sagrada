@@ -42,6 +42,11 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 
     public void bindRemoteView(RemoteView remoteView){
         this.remoteView=remoteView;
+        try {
+            remoteView.setId(player.getId());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 

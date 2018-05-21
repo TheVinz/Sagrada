@@ -57,7 +57,4 @@ public class WindowFrameChoiceController {
         this.viewController=viewController;
     }
 
-    public GridPane getFrame(int index){
-        return frames[index];
-    }
 }

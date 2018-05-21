@@ -6,14 +6,17 @@ import client.view.gui.util.Util;
 import common.ModelObject;
 import common.RemoteMVC.RemoteController;
 import common.exceptions.InvalidMoveException;
+import common.command.GameCommand;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+
 
 public class ViewController {
 
@@ -22,6 +25,7 @@ public class ViewController {
     private AnchorPane gamePane;
     private AnchorPane windowFrameChoicesPane;
     private WindowFrameChoiceController windowFrameChoiceController;
+    private int id;
 
     @FXML
     private BorderPane rootLayout;
@@ -65,14 +69,17 @@ public class ViewController {
         rootLayout.setCenter(gamePane);
     }
 
-    public void loadPlayers(String[] names, int[] ids, String[] windowFrameReps, int[] windowFrameFavorTokens) {
+    public void loadPlayers(String[] names, int[] ids, String[] windowFrameReps, int[] windowFrameFavorTokens, int id) {
+        this.id=id;
         for(int i=0; i<names.length; i++){
-            gameController.loadPlayer(names[i], ids[i], Util.getWindowFrame(windowFrameReps[i]), windowFrameFavorTokens[i]);
+            GridPane frame = Util.getWindowFrame(windowFrameReps[i]);
+            gameController.loadPlayer(names[i], ids[i], windowFrameReps[i], windowFrameFavorTokens[i]);
+            if(ids[i]==id)
+                gameController.setActiveFrame(frame, id);
         }
     }
 
     public void notifyChoice(int index) {
-        gameController.setActiveFrame(windowFrameChoiceController.getFrame(index));
         try {
             remoteController.command(ModelObject.CHOICE, index);
         } catch (InvalidMoveException e) {
@@ -105,6 +112,7 @@ public class ViewController {
     }
 
     public void setDraftPool(int[] values, char[] colors) {
+        gameController.cleanDraftPool();
         for(int i=0; i<values.length; i++)
             gameController.setDraftPoolDice(i, values[i], colors[i]);
     }
@@ -117,7 +125,7 @@ public class ViewController {
         try {
             remoteController.command(ModelObject.DRAFT_POOL_CELL, index);
         } catch (InvalidMoveException e) {
-            gameController.log(e.getMessage());
+            gameController.log(e.getMessage()+"\n");
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -135,7 +143,7 @@ public class ViewController {
 
     public void move(int player, int sourceType, int destType, int param1, int param2, int param3) {
         ImageView source;
-        String message = gameController.getPlayerName(player) + "has moved a dice from ";
+        String message = gameController.getPlayerName(player) + " moved a dice from ";
         if(sourceType==ModelObject.DRAFT_POOL_CELL) {
             source = gameController.getFromDraftPool(param1);
             message = message + "draft pool to";
@@ -147,5 +155,26 @@ public class ViewController {
         }
         else return;
         gameController.log(message);
+    }
+
+    public void endTurn() {
+        try {
+            remoteController.command(GameCommand.END_TURN);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startTurn(int id) {
+        if(id==this.id)
+            gameController.log("Is your turn!!\n");
+        else
+            gameController.log("Is " + gameController.getPlayerName(id) + " turn!!\n");
+    }
+
+    public void updateRoundTrack(int round, int[] values, char[] colors) {
+        gameController.addRoundTrackBox(round, values, colors);
     }
 }

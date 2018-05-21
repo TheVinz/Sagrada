@@ -29,11 +29,9 @@ public class Controller {
 			if(player.isDiceMoved() && player.isToolCardUsed())
 			{
 				endTurn();
-				return Response.END;
 			}
-			else return currentState.nextParam();
 		}
-		return Response.SUCCESS;
+		return 0;
 	}
 
 	public PlayerState getCurrentState(){
@@ -41,9 +39,11 @@ public class Controller {
 	}
 
 	public int endTurn() {
-		currentState=new WaitingState(player, model);
-		model.endTurn(player);
-		return Response.SUCCESS;
+		if(player.isActive()) {
+			currentState = new WaitingState(player, model);
+			model.endTurn(player);
+		}
+		return 0;
 	}
 
     public void windowFrameChoice(WindowFrameList[] windowFrameLists) {

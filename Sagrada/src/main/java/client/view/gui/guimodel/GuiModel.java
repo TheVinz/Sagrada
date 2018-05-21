@@ -11,6 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     private ViewController view;
+    private int id;
 
     public GuiModel(ViewController view) throws RemoteException {
         super();
@@ -60,7 +61,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void loadPlayers(String[] names, int[] ids, String[] windowFrameReps, int[] windowFrameFavorTokens) throws RemoteException {
-        Platform.runLater(() -> view.loadPlayers(names, ids, windowFrameReps, windowFrameFavorTokens));
+        Platform.runLater(() -> view.loadPlayers(names, ids, windowFrameReps, windowFrameFavorTokens, id));
     }
 
     @Override
@@ -75,7 +76,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void newTurn(int player) throws RemoteException {
-
+        Platform.runLater(() -> view.startTurn(player));
     }
 
     @Override
@@ -85,6 +86,11 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void updateRoundTrack(int round, int[] values, char[] colors) throws RemoteException {
+        Platform.runLater(() -> view.updateRoundTrack(round, values, colors));
+    }
 
+    @Override
+    public void setId(int id) throws RemoteException{
+        this.id=id;
     }
 }

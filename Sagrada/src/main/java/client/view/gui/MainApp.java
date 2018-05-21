@@ -1,16 +1,12 @@
 package client.view.gui;
 
-import client.view.gui.guicontroller.LoginController;
 import client.view.gui.guicontroller.ViewController;
 import client.view.gui.guimodel.GuiModel;
-import common.RemoteMVC.RemoteController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import server.controller.Controller;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -49,6 +45,7 @@ public class MainApp extends Application {
             rootLayout = (BorderPane) loader.load();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+            scene.getStylesheets().add(this.getClass().getResource("resources/style/main.css").toExternalForm());
             primaryStage.show();
             primaryStage.setFullScreen(true);
             controller=loader.getController();

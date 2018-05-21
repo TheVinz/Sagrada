@@ -179,7 +179,6 @@ public class Util {
             image.setX(2);
             image.setY(2);
             Pane cell = new Pane();
-            cell.setStyle("-fx-background-color: black");
             cell.getChildren().add(image);
             pane.add(cell, col, row);
         }
