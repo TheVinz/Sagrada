@@ -51,7 +51,6 @@ public class CliApp {
     synchronized public void mainLoop(){
         String input = "";
         while(!input.equals("quit")){
-            System.out.println("error0\n");
             while(waitingPhase){
                 try {
                     wait();
@@ -59,9 +58,9 @@ public class CliApp {
                     e.printStackTrace();
                 }
             }
-            System.out.println("error1\n");
+            System.out.println("before\n");
             input = scanner.nextLine();
-            System.out.println("error2\n");
+
             try {
                 currentState.handle(input);
             } catch (InvalidInput e) {

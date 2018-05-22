@@ -51,8 +51,8 @@ public class MenuPhase implements CliPhaseState, SynchronizedObserver {
                 CliApp.getCliApp().setCurrentState(new SelectingSendingPlayerWindowFrame());
                 break;
             case "D":
-                CliApp.getCliApp().setCurrentState(new SelectingDraftPoolCell());
                 CliApp.getCliApp().setSynchronizedObserver(this);
+                CliApp.getCliApp().setCurrentState(new SelectingDraftPoolCell());
                 while(CliApp.getCliApp().getCommandBufferSize() == 0) {
                     try {
                         wait();
@@ -60,6 +60,7 @@ public class MenuPhase implements CliPhaseState, SynchronizedObserver {
                         e.printStackTrace();
                     }
                 }
+                System.out.println("error\n");
                 CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setCurrentState(new SelectingWindowFrameCell());
                 CliApp.getCliApp().sendCommand();
