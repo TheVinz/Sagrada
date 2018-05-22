@@ -1,7 +1,6 @@
 package client.view.cli;
 
-import client.view.cli.cliphasestate.MenuPhase;
-import client.view.cli.cliphasestate.WindowFrameChoice;
+import client.view.cli.cliphasestate.*;
 import common.RemoteMVC.RemoteView;
 import common.response.Response;
 
@@ -11,7 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import static common.response.Response.*;
 
 
-public class CliModel extends UnicastRemoteObject implements RemoteView, SynchronizedObserver {
+public class CliModel extends UnicastRemoteObject implements RemoteView{
 
 
     public CliModel() throws RemoteException {
@@ -242,13 +241,49 @@ public class CliModel extends UnicastRemoteObject implements RemoteView, Synchro
 
     @Override
     public void nextParameter(Response response) {
+        new Thread( () -> {
+        switch (response){
+            case WINDOW_FRAME_CELL:
+                CliApp.getCliApp().setCurrentState(new SelectingWindowFrameCell());
+                CliApp.getCliApp().sendCommand();
+                CliApp.getCliApp().setWaitingPhase(true);
+                break;
+            case DRAFT_POOL_CELL:
+                CliApp.getCliApp().setCurrentState(new SelectingDraftPoolCell());
+                CliApp.getCliApp().sendCommand();
+                CliApp.getCliApp().setWaitingPhase(true);
+                break;
+            case ROUND_TRACK_CELL:
+                CliApp.getCliApp().setCurrentState(new SelectingRoundTrackCell());
+                CliApp.getCliApp().sendCommand();
+                CliApp.getCliApp().setWaitingPhase(true);
+                break;
+            case END_TURN:
+                CliApp.getCliApp().setWaitingPhase(true);
+                break;
+            case TOOL_CARD:
+                CliApp.getCliApp().setCurrentState(new SelectingSendingToolCard());
+                break;
+            case WINDOW_FRAME_MOVE:
+                CliApp.getCliApp().moveFromWindowFrame();
+                break;
+            case DRAFT_POOL_MOVE:
+                CliApp.getCliApp().moveFromDraftPool();
+                break;
+            case SUCCESS:
+                CliApp.getCliApp().setWaitingPhase(false);
+                CliApp.getCliApp().setCurrentState(new MenuPhase());
+                break;
+            case ERROR:
+                CliDisplayer.getDisplayer().displayText(response.getMessage());
+                CliApp.getCliApp().setWaitingPhase(false);
+                CliApp.getCliApp().setCurrentState(new MenuPhase());
+                break;
+            default:
+                return;
 
+        }}).start();
     }
 
-    @Override
-    synchronized public void notifyThis() {
-        System.out.println("not");
-        this.notifyAll();
-    }
 
 }
