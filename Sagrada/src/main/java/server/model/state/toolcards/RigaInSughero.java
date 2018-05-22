@@ -1,6 +1,7 @@
 package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 import server.model.Model;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.draftpool.DraftPoolCell;
@@ -48,4 +49,8 @@ public class RigaInSughero extends ToolCard {
         }
     }
 
+    @Override
+    public Response next() {  //trascinamento da draftpool
+        return super.next();
+    }
 }
