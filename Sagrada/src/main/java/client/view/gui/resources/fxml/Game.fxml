@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="650.0" minWidth="1200.0" prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: linear;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.guicontroller.GameController">
+   <children>
+      <TabPane prefHeight="700.0" prefWidth="1200.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Game">
+               <content>
+                  <VBox alignment="TOP_CENTER" minHeight="650.0" minWidth="1200.0" prefHeight="650.0" prefWidth="1200.0">
+                     <children>
+                        <HBox fx:id="draftPoolBox" alignment="CENTER" minHeight="60.0" minWidth="1200.0" prefHeight="70.0" prefWidth="1200.0" spacing="10.0" />
+                        <HBox fx:id="toolCardBox" alignment="CENTER" minHeight="350.0" minWidth="1200.0" prefHeight="350.0" prefWidth="1200.0" spacing="40.0" />
+                        <HBox alignment="CENTER" minHeight="250.0" minWidth="1200.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="250.0" prefWidth="1200.0" spacing="50.0">
+                           <children>
+                              <VBox fx:id="frameBox" alignment="CENTER" minHeight="250.0" minWidth="300.0" prefHeight="250.0" prefWidth="300.0" />
+                               <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#endTurn" prefHeight="100.0" prefWidth="100.0" styleClass="endButton" text="End Turn" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Button>
+                               <TextArea fx:id="textArea" editable="false" minHeight="250.0" minWidth="500.0" prefHeight="250.0" prefWidth="500.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+          <Tab text="Frames">
+               <content>
+                  <GridPane fx:id="framesGrid" disable="true">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </content>
+            </Tab>
+            <Tab text="Objective Cards">
+               <content>
+                  <GridPane fx:id="objectiveGrid">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </content>
+            </Tab>
+            <Tab text="Round Track">
+               <content>
+                  <VBox fx:id="roundTrackBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" />
+               </content></Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

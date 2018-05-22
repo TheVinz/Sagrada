@@ -4,7 +4,7 @@ package client.view.cli;
 import org.omg.CORBA.PRIVATE_MEMBER;
 
 public class CliDisplayer {
-    private CliState cliState;
+    private CliState cliState = CliState.getCliState();
     private static CliDisplayer singleton;
     private ToolCardsEffects toolCardsEffects = new ToolCardsEffects();
     private ObjectiveCardsEffects objectiveCardsEffects= new ObjectiveCardsEffects();
@@ -14,7 +14,6 @@ public class CliDisplayer {
         return singleton;
     }
 
-    public void setCliState(CliState state){ this.cliState = state; }
 
 
     public void displayText(String text){ System.out.print(text); }

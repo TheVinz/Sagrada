@@ -54,12 +54,11 @@ public class Model implements Observable {
     * Game routine
     */
     public void startGame() {
-        notifyObjectiveCards();
         notifyPrivateObjectiveCard();
-        notifyToolCards();
         for(Player p : state.getPlayers()) p.setActive();
-        notifyWindowFrameChoices();
         roundManager=new RoundManager(state.getPlayers());
+        notifyWindowFrameChoices();
+
     }
 
     private void startRound() {
@@ -113,6 +112,8 @@ public class Model implements Observable {
         for(Player p : state.getPlayers()){
             if (p.getWindowFrame() == null) return;
         }
+        notifyToolCards();
+        notifyObjectiveCards();
         notifyPlayers(state.getPlayers().toArray(new Player[0]));
         startRound();
     }

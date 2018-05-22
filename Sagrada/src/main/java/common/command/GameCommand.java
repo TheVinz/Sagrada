@@ -10,11 +10,13 @@ public class GameCommand implements Serializable {
 	traduzione viene fatto dal RemoteController che invia il GameCommand alla RemoteView, questa traduce in elementi dello state e chiama metodi
 	del StateController.
 	*/
-    public static final int DRAFTPOOL_CLICK=1;
-    public static final int WINDOW_FRAME_CLICK=2;
-    public static final int ROUND_TRACK_CLICK=3;
-    public static final int USE_TOOL_CARD=4;
-    public static final int END_TURN=5;
+    public static final int DRAFT_POOL_CELL=0;
+    public static final int WINDOW_FRAME_CELL=1;
+    public static final int ROUND_TRACK_CELL=2;
+    public static final int CHOICE=5;
+    public static final int WINDOW_FRAME=3;
+    public static final int TOOL_CARD = 4;
+    public static final int END_TURN = 6;
 
     private int x;
     private int y;

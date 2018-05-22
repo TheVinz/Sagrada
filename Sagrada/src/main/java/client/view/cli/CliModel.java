@@ -1,5 +1,7 @@
 package client.view.cli;
 
+import client.view.cli.cliphasestate.MenuPhase;
+import client.view.cli.cliphasestate.WindowFrameChoice;
 import common.RemoteMVC.RemoteView;
 
 import java.rmi.RemoteException;
@@ -7,31 +9,31 @@ import java.rmi.server.UnicastRemoteObject;
 
 import static common.ModelObject.*;
 
-public class CliModel extends UnicastRemoteObject implements RemoteView {
 
-    private CliState cliState;
-    private CliApp cliApp;
+public class CliModel extends UnicastRemoteObject implements RemoteView, SynchronizedObserver {
+
 
     public CliModel() throws RemoteException {
-        super();
-        this.cliState=new CliState();
-        CliDisplayer.getDisplayer().setCliState(cliState);
+        super(); ///???????
     }
 
-    public void bindApp(CliApp app){
-        this.cliApp=app;
+
+
+    @Override
+    public void setId(int id) {
+        CliApp.getCliApp().setId(id);
     }
 
     @Override @SuppressWarnings("Duplicates")
     public void move(int player, int sourceType, int destType, int param1, int param2, int param3) {
         CliPlayerState cliPlayerState = null;
-        cliPlayerState = cliState.getCliPlayerState(player);
+        cliPlayerState = CliState.getCliState().getCliPlayerState(player);
         String source, target;
         String dice;
         if(sourceType == DRAFT_POOL_CELL) {
             source = "draft pool";
-            dice = cliState.getDraftPool()[param1];
-            cliState.getDraftPool()[param1] = "X";
+            dice = CliState.getCliState().getDraftPool()[param1];
+            CliState.getCliState().getDraftPool()[param1] = "X";
         }
         else if(sourceType == WINDOW_FRAME_CELL) {
             dice = cliPlayerState.getWindowFrame()[param1][param2];
@@ -40,11 +42,11 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         }
         else {
             source = "round track";
-            dice=cliState.getRoundTrack()[param1][param2];
-            cliState.getRoundTrack()[param1][param2]="X";
+            dice=CliState.getCliState().getRoundTrack()[param1][param2];
+            CliState.getCliState().getRoundTrack()[param1][param2]="X";
         }
         if(destType == DRAFT_POOL_CELL) {
-            cliState.getDraftPool()[param3]=dice;
+            CliState.getCliState().getDraftPool()[param3]=dice;
             target = "draft pool";
         }
         else if(destType == WINDOW_FRAME_CELL){
@@ -53,7 +55,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         }
         else{
             target = "round track";
-            cliState.getRoundTrack()[param2][param3]=dice;
+            CliState.getCliState().getRoundTrack()[param2][param3]=dice;
         }
 
         CliDisplayer.getDisplayer().displayText(cliPlayerState.getName().concat(" moved dice from ").concat(source).concat(" to ").concat(target)+"\n");
@@ -62,7 +64,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
     @Override @SuppressWarnings("Duplicates")
     public void move(int player, int sourceType, int destType, int param1, int param2, int param3, int param4) {
         CliPlayerState cliPlayerState = null;
-        cliPlayerState = cliState.getCliPlayerState(player);
+        cliPlayerState = CliState.getCliState().getCliPlayerState(player);
         String source, target;
         String dice;
         if(sourceType == WINDOW_FRAME_CELL) {
@@ -72,8 +74,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         }
         else {
             source = "round track";
-            dice=cliState.getRoundTrack()[param1][param2];
-            cliState.getRoundTrack()[param1][param2]="X";
+            dice=CliState.getCliState().getRoundTrack()[param1][param2];
+            CliState.getCliState().getRoundTrack()[param1][param2]="X";
         }
         if(destType == WINDOW_FRAME_CELL){
             cliPlayerState.getWindowFrame()[param3][param4] = dice;
@@ -81,7 +83,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         }
         else{
             target = "round track";
-            cliState.getRoundTrack()[param3][param4]=dice;
+            CliState.getCliState().getRoundTrack()[param3][param4]=dice;
         }
 
         CliDisplayer.getDisplayer().displayText(cliPlayerState.getName() + (" moved dice from ") + (source) + (" to ") + (target)+"\n");
@@ -90,7 +92,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
     @Override
     public void updateCell(int player, int type, int index, int value, char color) {
         String s= ""+value+color;
-        cliState.getDraftPool()[index]=s;
+        CliState.getCliState().getDraftPool()[index]=s;
         CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + ">>> "+s);
     }
 
@@ -99,12 +101,12 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         CliPlayerState cliPlayerState;
         String s= ""+value+color;
         if(type==WINDOW_FRAME_CELL){
-            cliPlayerState = cliState.getCliPlayerState(player);
+            cliPlayerState = CliState.getCliState().getCliPlayerState(player);
             cliPlayerState.getWindowFrame()[param1][param2]=s;
             CliDisplayer.getDisplayer().displayText("Updated Window Frame Cell "+ param1 + " "+param2+ ">>> "+s);
         }
         else if(type == ROUND_TRACK_CELL){
-            cliState.getRoundTrack()[param1][param2]=s;
+            CliState.getCliState().getRoundTrack()[param1][param2]=s;
             CliDisplayer.getDisplayer().displayText("Updated Round Track Cell "+ param1 + " "+param2+ ">>> "+s);
         }
     }
@@ -112,7 +114,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
     @Override
     public void loadToolCards(int[] toolCards) {
         for(int i=0; i<3;i++){
-            cliState.getToolCardIds()[i]=toolCards[i];
+            CliState.getCliState().getToolCardIds()[i]=toolCards[i];
             CliDisplayer.getDisplayer().displayText("Selected tool card No. " + toolCards[i] + ";\n");
         }
     }
@@ -123,7 +125,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         for(int i=0;i<colors.length;i++){
             s[i]=""+values[i]+colors[i];
         }
-        cliState.setDraftPool(s);
+        CliState.getCliState().setDraftPool(s);
         CliDisplayer.getDisplayer().displayText("The DraftPool si full\n");
         CliDisplayer.getDisplayer().printDraftPool();
     }
@@ -132,16 +134,17 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
     public void loadPublicObjectiveCards(int[] cards) {
         for(int i=0; i<cards.length; i++){
             CliDisplayer.getDisplayer().displayText("Selected public objective card No. "+cards[i]+";\n");
-            cliState.getPublicObjectiveCardIds()[i]=cards[i];
+            CliState.getCliState().getPublicObjectiveCardIds()[i]=cards[i];
         }
     }
 
     @Override
-    public void loadWindowFrameChoice(String[] reps, int[] favorTokens) {
+    synchronized public void loadWindowFrameChoice(String[] reps, int[] favorTokens) {
         for(int i=0; i<reps.length; i++){
             CliDisplayer.getDisplayer().displayText(i + ">>> rep: " + reps[i] + " | tokens: "+ favorTokens[i] + ";\n");
         }
-        new Thread( () -> cliApp.windowFrameChoice()).start();
+        CliApp.getCliApp().setCurrentState(new WindowFrameChoice());
+
     }
 
     @Override
@@ -150,13 +153,13 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         for(int i=0; i<names.length; i++){
             players[i]=new CliPlayerState(names[i], ids[i], windowFrameReps[i], windowFrameFavorTokens[i]);
         }
-        cliState.setCliPlayerStates(players);
+        CliState.getCliState().setCliPlayerStates(players);
     }
 
     @Override
     public void toolCardUsed(int player, int index, int tokens) {
-        CliPlayerState playerState=cliState.getCliPlayerState(player);
-        CliDisplayer.getDisplayer().displayText(playerState.getName() + " used tool card No. " + cliState.getToolCardIds()[index] + ";\n -" + tokens + " favor tokens;\n");
+        CliPlayerState playerState=CliState.getCliState().getCliPlayerState(player);
+        CliDisplayer.getDisplayer().displayText(playerState.getName() + " used tool card No. " + CliState.getCliState().getToolCardIds()[index] + ";\n -" + tokens + " favor tokens;\n");
         playerState.removeFavorTokens(tokens);
     }
 
@@ -183,22 +186,25 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
                 card="Compiler wants me to add a default case";
                 break;
         }
-        cliState.setPrivateObjectiveCard(card);
+        CliState.getCliState().setPrivateObjectiveCard(card);
         CliDisplayer.getDisplayer().displayText("Your private objective :\n>>> " + card + ";\n");
     }
 
     @Override
     public void newTurn(int player) {
-        CliPlayerState cliPlayerState=cliState.getCliPlayerState(player);
-        CliDisplayer.getDisplayer().displayText("Is your turn " + cliPlayerState.getName() + "!\n");
-        cliState.setActivePlayer(player);
-        if(player == cliApp.getId()) new Thread( () -> cliApp.startTurn()).start();
-        else new Thread( () -> cliApp.waitTurn()).start();
+        CliPlayerState cliPlayerState=CliState.getCliState().getCliPlayerState(player);
+        CliDisplayer.getDisplayer().displayText("Is the turn of " + cliPlayerState.getName() + "!\n");
+        CliState.getCliState().setActivePlayer(player);
+        if(player == CliApp.getCliApp().getId()) {
+            CliApp.getCliApp().setCurrentState(new MenuPhase());
+        }
+        else
+            CliApp.getCliApp().setWaitingPhase(true);
     }
 
     @Override
     public void notifyDiceDraw(int player, char color) {
-        CliPlayerState cliPlayerState=cliState.getCliPlayerState(player);
+        CliPlayerState cliPlayerState=CliState.getCliState().getCliPlayerState(player);
         String diceColor;
 
         switch(color){
@@ -230,6 +236,13 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
         for (int i=0; i<roundDices.length; i++){
             roundDices[i]=""+colors[i]+values[i];
         }
-        cliState.setRoundDices(round, roundDices);
+        CliState.getCliState().setRoundDices(round, roundDices);
     }
+
+    @Override
+    synchronized public void notifyThis() {
+        System.out.println("not");
+        this.notifyAll();
+    }
+
 }
