@@ -1,5 +1,7 @@
 package common.command;
 
+import common.response.Response;
+
 import java.io.Serializable;
 
 public class GameCommand implements Serializable {
@@ -10,34 +12,27 @@ public class GameCommand implements Serializable {
 	traduzione viene fatto dal RemoteController che invia il GameCommand alla RemoteView, questa traduce in elementi dello state e chiama metodi
 	del StateController.
 	*/
-    public static final int DRAFT_POOL_CELL=0;
-    public static final int WINDOW_FRAME_CELL=1;
-    public static final int ROUND_TRACK_CELL=2;
-    public static final int CHOICE=5;
-    public static final int WINDOW_FRAME=3;
-    public static final int TOOL_CARD = 4;
-    public static final int END_TURN = 6;
 
     private int x;
     private int y;
-    private final int type;
+    private final Response type;
 
-    public GameCommand(int type, int row, int column){
+    public GameCommand(Response type, int row, int column){
         this.x=row;
         this.y=column;
         this.type=type;
     }
 
-    public GameCommand(int type, int index){
+    public GameCommand(Response type, int index){
         this.x=index;
         this.type=type;
     }
 
-    public GameCommand(int type){
+    public GameCommand(Response type){
         this.type=type;
     }
 
-    public int getType() {
+    public Response getType() {
         return type;
     }
 

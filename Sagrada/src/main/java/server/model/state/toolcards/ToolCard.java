@@ -45,7 +45,6 @@ public abstract class ToolCard implements ModelObject {
 	abstract void doAbility() throws InvalidMoveException;
 
 	public Response next(){
-<<<<<<< HEAD
 		 switch(expectedParameters.peek()){
 			 case WINDOW_FRAME_CELL:
 			 	return Response.WINDOW_FRAME_MOVE;
@@ -56,14 +55,6 @@ public abstract class ToolCard implements ModelObject {
 			default:
 				return null;
 		 }
-=======
-		try {
-			return expectedParameters.peek();
-		}
-		catch(NullPointerException e){
-			return Response.END;
-		}
->>>>>>> 2c7dab538083ec4475f1370256f5bf8635536588
 	}
 
 	@Override

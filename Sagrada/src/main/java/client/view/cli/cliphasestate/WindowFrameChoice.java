@@ -2,6 +2,7 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
 import common.command.GameCommand;
+import common.response.Response;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -25,7 +26,7 @@ public class WindowFrameChoice implements CliPhaseState {
             if(nextInt < 0 || nextInt > 3){
                 throw new InvalidInput("Wrong Input\n");
             }
-            CliApp.getCliApp().addCommandToBuffer(new GameCommand(ModelObject.CHOICE, nextInt));
+            CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.CHOICE, nextInt));
             CliApp.getCliApp().sendCommand();
         }
     }

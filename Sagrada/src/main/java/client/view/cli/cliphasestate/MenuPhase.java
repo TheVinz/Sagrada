@@ -2,20 +2,10 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
-<<<<<<< HEAD
-import common.RemoteMVC.RemoteController;
-import common.exceptions.InvalidMoveException;
-import common.response.Response;
-import server.controller.MovingDice;
 
-import java.rmi.RemoteException;
-=======
 import client.view.cli.SynchronizedObserver;
 import common.command.GameCommand;
->>>>>>> 2c7dab538083ec4475f1370256f5bf8635536588
-
-import static common.command.GameCommand.END_TURN;
-
+import common.response.Response;
 
 
 public class MenuPhase implements CliPhaseState, SynchronizedObserver {
@@ -80,19 +70,11 @@ public class MenuPhase implements CliPhaseState, SynchronizedObserver {
                 break;
 
             case "N":
-<<<<<<< HEAD
-                try {
-                    remoteController.command(Response.END_TURN);
-                } catch (InvalidMoveException e) {
-                    CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
-                }
-                return this;
-=======
-                CliApp.getCliApp().addCommandToBuffer(new GameCommand(END_TURN));
+
+                CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.END_TURN));
                 CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;
->>>>>>> 2c7dab538083ec4475f1370256f5bf8635536588
             default:
                 CliDisplayer.getDisplayer().displayText("Input error\n");
         }

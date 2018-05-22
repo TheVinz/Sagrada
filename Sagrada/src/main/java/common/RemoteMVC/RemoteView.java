@@ -42,6 +42,6 @@ public interface RemoteView extends Remote {
 
     void updateRoundTrack(int round, int[] values, char[] colors) throws RemoteException;
 
-    void nextParameter(Response response);
+    void nextParameter(Response response) throws RemoteException;
 
 }

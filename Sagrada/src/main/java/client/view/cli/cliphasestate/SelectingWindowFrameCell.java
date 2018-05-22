@@ -24,16 +24,7 @@ public class SelectingWindowFrameCell implements CliPhaseState {
     @Override
     public void handle(String input) throws InvalidInput {
         try (Scanner sc = new Scanner(input)) {
-<<<<<<< HEAD
-            int row, column;
-            row=sc.nextInt();
-            column=sc.nextInt();
-            remoteController.command(Response.WINDOW_FRAME_CELL, row, column);
-        }
-        catch (InvalidMoveException e){
-            CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
-            return new MenuPhase(remoteController);
-=======
+
             int nextInt = -1;
             try {
                 nextInt = sc.nextInt();
@@ -52,12 +43,11 @@ public class SelectingWindowFrameCell implements CliPhaseState {
                 if (nextInt < 0 || nextInt > 4) {
                     throw new InvalidInput("Wrong Input\n");
                 } else {
-                    CliApp.getCliApp().addCommandToBuffer(new GameCommand(ModelObject.WINDOW_FRAME_CELL, row, nextInt));
+                    CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME_CELL, row, nextInt));
 
                 }
             }
 
->>>>>>> 2c7dab538083ec4475f1370256f5bf8635536588
         }
     }
 

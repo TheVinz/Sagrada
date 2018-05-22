@@ -4,6 +4,10 @@
 .cell:hover{
     -fx-background-color: rgba(75, 255, 75, 0.8);
     -fx-cursor: hand;
+    -fx-max-height: 54px;
+    -fx-max-width: 54px;
+    -fx-min-width: 54px;
+    -fx-min-height: 54px;
 }
 .cell.selected{
     -fx-background-color: rgba(255,75,75,0.8);
