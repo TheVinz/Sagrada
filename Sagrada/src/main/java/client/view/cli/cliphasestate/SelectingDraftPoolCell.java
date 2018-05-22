@@ -1,7 +1,7 @@
 package client.view.cli.cliphasestate;
 
 import client.view.cli.CliDisplayer;
-import common.ModelObject;
+import common.response.Response;
 import common.RemoteMVC.RemoteController;
 import common.exceptions.InvalidMoveException;
 
@@ -21,7 +21,7 @@ public class SelectingDraftPoolCell implements CliPhaseState {
         try(Scanner sc = new Scanner(input)){
             int index;
             index=sc.nextInt();
-            remoteController.command(ModelObject.DRAFT_POOL_CELL, index);
+            remoteController.command(Response.DRAFT_POOL_CELL, index);
         } catch (InvalidMoveException e) {
             CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
             return new MenuPhase(remoteController);

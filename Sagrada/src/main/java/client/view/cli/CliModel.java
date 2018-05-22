@@ -1,11 +1,12 @@
 package client.view.cli;
 
 import common.RemoteMVC.RemoteView;
+import common.response.Response;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import static common.ModelObject.*;
+import static common.response.Response.*;
 
 public class CliModel extends UnicastRemoteObject implements RemoteView {
 
@@ -24,7 +25,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
     }
 
     @Override @SuppressWarnings("Duplicates")
-    public void move(int player, int sourceType, int destType, int param1, int param2, int param3) {
+    public void move(int player, Response sourceType, Response destType, int param1, int param2, int param3) {
         CliPlayerState cliPlayerState = null;
         cliPlayerState = cliState.getCliPlayerState(player);
         String source, target;
@@ -61,7 +62,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
     }
 
     @Override @SuppressWarnings("Duplicates")
-    public void move(int player, int sourceType, int destType, int param1, int param2, int param3, int param4) {
+    public void move(int player, Response sourceType, Response destType, int param1, int param2, int param3, int param4) {
         CliPlayerState cliPlayerState = null;
         cliPlayerState = cliState.getCliPlayerState(player);
         String source, target;
@@ -89,14 +90,14 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
     }
 
     @Override
-    public void updateCell(int player, int type, int index, int value, char color) {
+    public void updateCell(int player, Response type, int index, int value, char color) {
         String s= ""+value+color;
         cliState.getDraftPool()[index]=s;
         CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + ">>> "+s);
     }
 
     @Override
-    public void updateCell(int player, int type, int param1, int param2, int value, char color) {
+    public void updateCell(int player, Response type, int param1, int param2, int value, char color) {
         CliPlayerState cliPlayerState;
         String s= ""+value+color;
         if(type==WINDOW_FRAME_CELL){
@@ -237,5 +238,10 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
     @Override
     public void setId(int id) {
         this.id=id;
+    }
+
+    @Override
+    public void nextParameter(Response response) {
+
     }
 }

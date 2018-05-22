@@ -11,6 +11,8 @@ import server.model.state.player.Player;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
+import static server.model.state.ModelObject.ModelType.*;
+
 public class RigaInSughero extends ToolCard {
     public RigaInSughero(Model model) {
         super(model);

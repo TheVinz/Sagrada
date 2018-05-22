@@ -1,7 +1,8 @@
 package client.view.cli.cliphasestate;
 
 import client.view.cli.CliDisplayer;
-import common.ModelObject;
+import common.response.Response;
+import server.model.state.ModelObject.ModelObject;
 import common.RemoteMVC.RemoteController;
 import common.exceptions.InvalidMoveException;
 
@@ -22,7 +23,7 @@ public class SelectingRoundTrackCell implements CliPhaseState {
             int round, index;
             round=sc.nextInt();
             index=sc.nextInt();
-            remoteController.command(ModelObject.ROUND_TRACK_CELL, round, index);
+            remoteController.command(Response.ROUND_TRACK_CELL, round, index);
         }catch(InvalidMoveException e){
             CliDisplayer.getDisplayer().displayText(e.getMessage());
         }

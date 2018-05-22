@@ -14,6 +14,8 @@ import server.model.state.player.Player;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
+import static server.model.state.ModelObject.ModelType.*;
+
 @SuppressWarnings("Duplicates")
 public class TaglierinaManuale extends ToolCard {
 

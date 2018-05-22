@@ -1,8 +1,10 @@
 package server.controller;
 
-import common.ModelObject;
+import common.response.Response;
+import server.model.state.ModelObject.ModelObject;
 import common.exceptions.InvalidMoveException;
 import server.model.Model;
+import server.model.state.ModelObject.ModelType;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.player.Player;
 import server.model.state.utilities.Choice;
@@ -18,7 +20,7 @@ public class SelectingWindowFrame extends PlayerState {
 
     @Override
     public PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException {
-        if(modelObject.getType()==ModelObject.CHOICE) {
+        if(modelObject.getType()==ModelType.CHOICE) {
             try {
                 model.windowFrameChoice(player, windowFrameLists[((Choice) modelObject).getChoice()]);
             } catch (IndexOutOfBoundsException e) {
@@ -30,8 +32,4 @@ public class SelectingWindowFrame extends PlayerState {
         else return this;
     }
 
-    @Override
-    public int nextParam() {
-        return ModelObject.CHOICE;
-    }
 }

@@ -12,6 +12,8 @@ import server.model.state.player.Player;
 
 import java.util.*;
 
+import static server.model.state.ModelObject.ModelType.*;
+
 public class PennelloPerEglomise extends ToolCard {
 
     public PennelloPerEglomise(Model model){

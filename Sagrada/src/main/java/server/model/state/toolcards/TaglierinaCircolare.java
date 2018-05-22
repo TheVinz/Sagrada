@@ -2,14 +2,14 @@ package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import server.model.Model;
-import common.ModelObject;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.roundtrack.RoundTrackCell;
 import server.model.state.player.Player;
 
-import java.rmi.RemoteException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+
+import static server.model.state.ModelObject.ModelType.*;
 
 public class TaglierinaCircolare extends ToolCard{
     public TaglierinaCircolare(Model model) {
@@ -25,8 +25,8 @@ public class TaglierinaCircolare extends ToolCard{
     public void start(Player player) {
         expectedParameters=new ArrayDeque<>(2);
         parameters=new ArrayList<>(2);
-        expectedParameters.add(ModelObject.DRAFT_POOL_CELL);
-        expectedParameters.add(ModelObject.ROUND_TRACK_CELL);
+        expectedParameters.add(DRAFT_POOL_CELL);
+        expectedParameters.add(ROUND_TRACK_CELL);
         this.player=player;
     }
 

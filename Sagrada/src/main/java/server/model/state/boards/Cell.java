@@ -1,5 +1,5 @@
 package server.model.state.boards;
-import common.ModelObject;
+import server.model.state.ModelObject.ModelObject;
 import server.model.state.dice.Dice;
 import common.exceptions.InvalidMoveException;
 

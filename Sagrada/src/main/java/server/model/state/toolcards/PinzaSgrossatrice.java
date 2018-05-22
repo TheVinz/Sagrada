@@ -9,6 +9,9 @@ import server.model.Model;
 import server.model.state.player.Player;
 
 import java.util.*;
+
+import static server.model.state.ModelObject.ModelType.*;
+
 public class PinzaSgrossatrice extends ToolCard {
     public static final int INCREASE=0;
     public static final int DECREASE=1;

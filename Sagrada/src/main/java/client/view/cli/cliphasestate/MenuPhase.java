@@ -3,6 +3,7 @@ package client.view.cli.cliphasestate;
 import client.view.cli.CliDisplayer;
 import common.RemoteMVC.RemoteController;
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 import server.controller.MovingDice;
 
 import java.rmi.RemoteException;
@@ -57,7 +58,7 @@ public class MenuPhase implements CliPhaseState {
 
             case "N":
                 try {
-                    remoteController.command(END_TURN);
+                    remoteController.command(Response.END_TURN);
                 } catch (InvalidMoveException e) {
                     CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
                 }

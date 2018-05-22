@@ -1,7 +1,11 @@
 package server.model.state.boards.windowframe;
-import common.ModelObject;
+import server.model.Model;
+import server.model.state.ModelObject.ModelObject;
+import server.model.state.ModelObject.ModelType;
 import server.model.state.boards.Cell;
 import server.model.state.utilities.Color;
+
+import static server.model.state.ModelObject.ModelType.WINDOW_FRAME_CELL;
 
 public class WindowFrameCell extends Cell implements ModelObject {
 
@@ -49,7 +53,7 @@ public class WindowFrameCell extends Cell implements ModelObject {
 
 
     @Override
-    public int getType() {
+    public ModelType getType() {
         return WINDOW_FRAME_CELL;
     }
 }

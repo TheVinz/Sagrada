@@ -3,17 +3,19 @@ package server.model.state.toolcards;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 import server.model.Model;
-import common.ModelObject;
+import server.model.state.ModelObject.ModelObject;
+import server.model.state.ModelObject.ModelType;
 import server.model.state.player.Player;
 
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Queue;
+
+import static server.model.state.ModelObject.ModelType.TOOL_CARD;
 
 public abstract class ToolCard implements ModelObject {
 	protected final Model model;
 	protected List<ModelObject> parameters;
-	protected Queue<Integer> expectedParameters;
+	protected Queue<ModelType> expectedParameters;
 	protected Player player;
 
 	private boolean used;
@@ -42,17 +44,21 @@ public abstract class ToolCard implements ModelObject {
 
 	abstract void doAbility() throws InvalidMoveException;
 
-	public int next(){
-		try {
-			return expectedParameters.peek();
-		}
-		catch(NullPointerException e){
-			return Response.END;
-		}
+	public Response next(){
+		 switch(expectedParameters.peek()){
+			 case WINDOW_FRAME_CELL:
+			 	return Response.WINDOW_FRAME_MOVE;
+			 case ROUND_TRACK_CELL:
+			 	return Response.ROUND_TRACK_CELL;
+			 case DRAFT_POOL_CELL:
+			 	return Response.DRAFT_POOL_CELL;
+			default:
+				return null;
+		 }
 	}
 
 	@Override
-	public int getType() {
+	public ModelType getType() {
 		return TOOL_CARD;
 	}
 }
