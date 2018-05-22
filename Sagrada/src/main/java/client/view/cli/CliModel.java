@@ -9,7 +9,9 @@ import java.rmi.server.UnicastRemoteObject;
 
 import static common.ModelObject.*;
 
+
 public class CliModel extends UnicastRemoteObject implements RemoteView, SynchronizedObserver {
+
 
     public CliModel() throws RemoteException {
         super(); ///???????
@@ -242,4 +244,5 @@ public class CliModel extends UnicastRemoteObject implements RemoteView, Synchro
         System.out.println("not");
         this.notifyAll();
     }
+
 }

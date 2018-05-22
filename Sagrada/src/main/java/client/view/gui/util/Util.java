@@ -1,7 +1,6 @@
 package client.view.gui.util;
 
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -180,7 +179,6 @@ public class Util {
             image.setX(2);
             image.setY(2);
             Pane cell = new Pane();
-            cell.setStyle("-fx-background-color: black;");
             cell.getChildren().add(image);
             pane.add(cell, col, row);
         }
@@ -191,4 +189,124 @@ public class Util {
         return pane;
     }
 
+    public static ImageView getToolCard(int index){
+        Image image;
+        String path="../resources/toolcards/";
+        switch(index){
+            case 1:
+                path=path+"1-pinzasgrossatrice.png";
+                break;
+            case 2:
+                path=path+"2-pennellopereglomise.png";
+                break;
+            case 3:
+                path=path+"3-alesatoreperlaminadirame.png";
+                break;
+            case 4:
+                path=path+"4-lathekin.png";
+                break;
+            case 5:
+                path=path+"5-taglierinacircolare.png";
+                break;
+            case 6:
+                path=path+"6-pennelloperpastasalda.png";
+                break;
+            case 7:
+                path=path+"7-martelletto.png";
+                break;
+            case 8:
+                path=path+"8-tenagliaarotelle.png";
+                break;
+            case 9:
+                path=path+"9-rigainsughero.png";
+                break;
+            case 10:
+                path=path+"10-tamponediamantato.png";
+                break;
+            case 11:
+                path=path+"11-diluenteperpastasalda.png";
+                break;
+            case 12:
+                path=path+"12-taglierinamanuale.png";
+                break;
+            default:
+                return null;
+        }
+        image=new Image(Util.class.getResource(path).toString());
+        ImageView toolCard=new ImageView(image);
+        toolCard.setFitHeight(297);
+        toolCard.setFitWidth(201);
+        return toolCard;
+    }
+
+    public static ImageView getPrivateObjectiveCard(char color){
+        String path = "../resources/objectivecards/privateobjectivecards/";
+        switch(color){
+            case 'b':
+                path=path+"blueprivateobjective.png";
+                break;
+            case 'r':
+                path=path+"redprivateobjective.png";
+                break;
+            case 'y':
+                path=path+"yellowprivateobjective.png";
+                break;
+            case 'g':
+                path=path+"greenprivateobjective.png";
+                break;
+            case 'p':
+                path=path+"purpleprivateobjective.png";
+                break;
+            default:
+                return null;
+        }
+        Image image = new Image(Util.class.getResource(path).toString());
+        ImageView card = new ImageView(image);
+        card.setFitWidth(201);
+        card.setFitHeight(297);
+        return card;
+    }
+
+    public static ImageView getPublicObjectiveCard(int card){
+        String path = "../resources/objectivecards/publicobjectivecards/";
+        switch(card){
+            case 0:
+                path=path+"coloreddiagonal.png";
+                break;
+            case 1:
+                path=path+"darkshades.png";
+                break;
+            case 2:
+                path=path+"differentcolors.png";
+                break;
+            case 3:
+                path=path+"differentcolorscolumn.png";
+                break;
+            case 4:
+                path=path+"differentcolorsrow.png";
+                break;
+            case 5:
+                path=path+"differentshades.png";
+                break;
+            case 6:
+                path=path+"differentshadescolumn.png";
+                break;
+            case 7:
+                path=path+"differentshadesrow.png";
+                break;
+            case 8:
+                path=path+"mediumshades.png";
+                break;
+            case 9:
+                path=path+"paleshades.png";
+                break;
+            default:
+                return null;
+        }
+        Image image = new Image(Util.class.getResource(path).toString());
+        ImageView publicObjectiveCard = new ImageView(image);
+        publicObjectiveCard.setFitHeight(297);
+        publicObjectiveCard.setFitWidth(201);
+        return publicObjectiveCard;
+    }
 }

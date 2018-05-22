@@ -1,6 +1,7 @@
 package client.view.gui.guimodel;
 
 import client.view.gui.guicontroller.ViewController;
+import common.ModelObject;
 import common.RemoteMVC.RemoteView;
 import javafx.application.Platform;
 
@@ -10,6 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     private ViewController view;
+    private int id;
 
     public GuiModel(ViewController view) throws RemoteException {
         super();
@@ -18,7 +20,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void move(int player, int sourceType, int destType, int param1, int param2, int param3) throws RemoteException {
-
+        Platform.runLater(() -> view.move(player, sourceType, destType, param1, param2, param3));
     }
 
     @Override
@@ -38,17 +40,17 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void loadToolCards(int[] toolCards) throws RemoteException {
-
+        Platform.runLater(() -> view.loadToolCard(toolCards));
     }
 
     @Override
     public void refilledDraftPool(int[] values, char[] colors) throws RemoteException {
-
+        Platform.runLater(() -> view.setDraftPool(values, colors));
     }
 
     @Override
     public void loadPublicObjectiveCards(int[] cards) throws RemoteException {
-
+        Platform.runLater(() -> view.setPublicObjectiveCards(cards));
     }
 
     @Override
@@ -59,7 +61,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void loadPlayers(String[] names, int[] ids, String[] windowFrameReps, int[] windowFrameFavorTokens) throws RemoteException {
-
+        Platform.runLater(() -> view.loadPlayers(names, ids, windowFrameReps, windowFrameFavorTokens, id));
     }
 
     @Override
@@ -69,12 +71,12 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void loadPrivateObjectiveCard(char color) throws RemoteException {
-
+        Platform.runLater(() -> view.loadPrivateObjectiveCard(color));
     }
 
     @Override
     public void newTurn(int player) throws RemoteException {
-
+        Platform.runLater(() -> view.startTurn(player));
     }
 
     @Override
@@ -84,6 +86,11 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void updateRoundTrack(int round, int[] values, char[] colors) throws RemoteException {
+        Platform.runLater(() -> view.updateRoundTrack(round, values, colors));
+    }
 
+    @Override
+    public void setId(int id) throws RemoteException{
+        this.id=id;
     }
 }
