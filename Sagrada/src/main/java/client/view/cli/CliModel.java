@@ -3,11 +3,12 @@ package client.view.cli;
 import client.view.cli.cliphasestate.MenuPhase;
 import client.view.cli.cliphasestate.WindowFrameChoice;
 import common.RemoteMVC.RemoteView;
+import common.response.Response;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import static common.ModelObject.*;
+import static common.response.Response.*;
 
 
 public class CliModel extends UnicastRemoteObject implements RemoteView, SynchronizedObserver {
@@ -25,7 +26,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView, Synchro
     }
 
     @Override @SuppressWarnings("Duplicates")
-    public void move(int player, int sourceType, int destType, int param1, int param2, int param3) {
+    public void move(int player, Response sourceType, Response destType, int param1, int param2, int param3) {
         CliPlayerState cliPlayerState = null;
         cliPlayerState = CliState.getCliState().getCliPlayerState(player);
         String source, target;
@@ -62,7 +63,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView, Synchro
     }
 
     @Override @SuppressWarnings("Duplicates")
-    public void move(int player, int sourceType, int destType, int param1, int param2, int param3, int param4) {
+    public void move(int player, Response sourceType, Response destType, int param1, int param2, int param3, int param4) {
         CliPlayerState cliPlayerState = null;
         cliPlayerState = CliState.getCliState().getCliPlayerState(player);
         String source, target;
@@ -90,14 +91,14 @@ public class CliModel extends UnicastRemoteObject implements RemoteView, Synchro
     }
 
     @Override
-    public void updateCell(int player, int type, int index, int value, char color) {
+    public void updateCell(int player, Response type, int index, int value, char color) {
         String s= ""+value+color;
         CliState.getCliState().getDraftPool()[index]=s;
         CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + ">>> "+s);
     }
 
     @Override
-    public void updateCell(int player, int type, int param1, int param2, int value, char color) {
+    public void updateCell(int player, Response type, int param1, int param2, int value, char color) {
         CliPlayerState cliPlayerState;
         String s= ""+value+color;
         if(type==WINDOW_FRAME_CELL){
@@ -126,7 +127,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView, Synchro
             s[i]=""+values[i]+colors[i];
         }
         CliState.getCliState().setDraftPool(s);
-        CliDisplayer.getDisplayer().displayText("La DraftPool è stata riempita\n");
+        CliDisplayer.getDisplayer().displayText("The DraftPool si full\n");
         CliDisplayer.getDisplayer().printDraftPool();
     }
 
@@ -237,6 +238,11 @@ public class CliModel extends UnicastRemoteObject implements RemoteView, Synchro
             roundDices[i]=""+colors[i]+values[i];
         }
         CliState.getCliState().setRoundDices(round, roundDices);
+    }
+
+    @Override
+    public void nextParameter(Response response) {
+
     }
 
     @Override

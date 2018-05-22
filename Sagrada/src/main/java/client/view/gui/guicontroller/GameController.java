@@ -74,7 +74,12 @@ public class GameController {
 
     public void setDraftPoolDice(final int i, int value, char color) {
         ImageView dice = Util.getImage(color, value);
-        draftPoolBox.getChildren().add(i, dice);
+        Pane pane = new Pane();
+        dice.setX(2);
+        dice.setY(2);
+        pane.getStyleClass().add("cell");
+        pane.getChildren().add(dice);
+        draftPoolBox.getChildren().add(i, pane);
         dice.setOnDragDetected((event) -> handleStartDrag(event, i));
     }
 

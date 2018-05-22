@@ -1,8 +1,9 @@
 package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 import server.model.Model;
-import common.ModelObject;
+import server.model.state.ModelObject.ModelObject;
 import server.model.state.utilities.Choice;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.draftpool.DraftPoolCell;
@@ -13,6 +14,8 @@ import server.model.state.player.Player;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+
+import static server.model.state.ModelObject.ModelType.*;
 
 @SuppressWarnings("Duplicates")
 public class DiluentePerPastaSalda extends ToolCard {
@@ -123,5 +126,10 @@ public class DiluentePerPastaSalda extends ToolCard {
             }
         }
         return false;
+    }
+
+    @Override
+    public Response next() {  //scelta
+        return super.next();
     }
 }

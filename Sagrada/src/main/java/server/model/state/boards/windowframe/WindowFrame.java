@@ -1,6 +1,7 @@
 package server.model.state.boards.windowframe;
 
-import common.ModelObject;
+import server.model.state.ModelObject.ModelObject;
+import server.model.state.ModelObject.ModelType;
 import server.model.state.utilities.Color;
 
 public class WindowFrame implements ModelObject {
@@ -72,7 +73,7 @@ public class WindowFrame implements ModelObject {
 	public String getRep(){return windowFrameList.getRep();}
 
 	@Override
-	public int getType() {
-		return WINDOW_FRAME;
+	public ModelType getType() {
+		return ModelType.WINDOW_FRAME;
 	}
 }

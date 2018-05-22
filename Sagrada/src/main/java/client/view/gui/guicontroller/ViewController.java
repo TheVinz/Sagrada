@@ -3,10 +3,9 @@ package client.view.gui.guicontroller;
 import client.view.gui.MainApp;
 import client.view.gui.guimodel.GuiModel;
 import client.view.gui.util.Util;
-import common.ModelObject;
+import common.response.Response;
 import common.RemoteMVC.RemoteController;
 import common.exceptions.InvalidMoveException;
-import common.command.GameCommand;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
@@ -81,7 +80,7 @@ public class ViewController {
 
     public void notifyChoice(int index) {
         try {
-            remoteController.command(ModelObject.CHOICE, index);
+            remoteController.command(Response.CHOICE, index);
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
@@ -98,7 +97,7 @@ public class ViewController {
 
     public void notifyToolCardClicked(int index) {
         try {
-            remoteController.command(ModelObject.TOOL_CARD, index);
+            remoteController.command(Response.TOOL_CARD, index);
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
@@ -123,7 +122,7 @@ public class ViewController {
 
     public void draftPoolClick(int index){
         try {
-            remoteController.command(ModelObject.DRAFT_POOL_CELL, index);
+            remoteController.command(Response.DRAFT_POOL_CELL, index);
         } catch (InvalidMoveException e) {
             gameController.log(e.getMessage()+"\n");
         } catch (RemoteException e) {
@@ -133,7 +132,7 @@ public class ViewController {
 
     public void windowFrameClick(int row, int col){
         try {
-            remoteController.command(ModelObject.WINDOW_FRAME_CELL, row, col);
+            remoteController.command(Response.WINDOW_FRAME_CELL, row, col);
         } catch (InvalidMoveException e) {
             gameController.log(e.getMessage());
         } catch (RemoteException e) {
@@ -141,15 +140,15 @@ public class ViewController {
         }
     }
 
-    public void move(int player, int sourceType, int destType, int param1, int param2, int param3) {
+    public void move(int player, Response sourceType, Response destType, int param1, int param2, int param3) {
         ImageView source;
         String message = gameController.getPlayerName(player) + " moved a dice from ";
-        if(sourceType==ModelObject.DRAFT_POOL_CELL) {
+        if(sourceType==Response.DRAFT_POOL_CELL) {
             source = gameController.getFromDraftPool(param1);
             message = message + "draft pool to";
         }
         else return;
-        if(destType == ModelObject.WINDOW_FRAME_CELL) {
+        if(destType == Response.WINDOW_FRAME_CELL) {
             gameController.setFromWindowFrame(player, param2, param3, source);
             message = message + "window frame.\n";
         }
@@ -159,7 +158,7 @@ public class ViewController {
 
     public void endTurn() {
         try {
-            remoteController.command(GameCommand.END_TURN);
+            remoteController.command(Response.END_TURN);
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (RemoteException e) {

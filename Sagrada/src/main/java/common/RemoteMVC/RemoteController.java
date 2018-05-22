@@ -2,15 +2,17 @@ package common.RemoteMVC;
 
 import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface RemoteController extends Remote {
-   // void getId() throws RemoteException;
+    int getId() throws RemoteException;
+    void command(Response type) throws InvalidMoveException, RemoteException; //command generici
+    void command(Response type, int index) throws InvalidMoveException, RemoteException; //draftpool/toolCard
+    void command(Response type, int x, int y) throws InvalidMoveException, RemoteException; //windowframecell/roundtrackcell
+
     void command(GameCommand gameCommand) throws  RemoteException;
-   /* void command(int type) throws InvalidMoveException, RemoteException; //command generici
-    void command(int type, int index) throws InvalidMoveException, RemoteException; //draftpool/toolCard
-    void command(int type, int x, int y) throws InvalidMoveException, RemoteException; //windowframecell/roundtrackcell
-    */
+
 }

@@ -1,8 +1,7 @@
 package common.response;
 
-public class Response {
-    public static final int SUCCESS = 100;
-    public static final int END = 101;
-    public static final int WRONG_PARAMETER = 102;
-
+public enum Response {
+    WINDOW_FRAME_CELL, DRAFT_POOL_CELL, ROUND_TRACK_CELL,
+    PINZA_SGROSSATRICE_CHOICE, DILUENTE_PER_PASTA_SALDA_CHOICE, CHOICE,
+    END_TURN, TOOL_CARD, DRAFT_POOL_MOVE, WINDOW_FRAME_MOVE
 }

@@ -1,7 +1,7 @@
 package server.model.state.toolcards;
 
 import server.model.Model;
-import common.ModelObject;
+import server.model.state.ModelObject.ModelObject;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -9,6 +9,8 @@ import server.model.state.boards.windowframe.WindowFrameCell;
 import server.model.state.dice.Dice;
 import common.exceptions.InvalidMoveException;
 import server.model.state.player.Player;
+
+import static server.model.state.ModelObject.ModelType.*;
 
 import java.util.*;
 

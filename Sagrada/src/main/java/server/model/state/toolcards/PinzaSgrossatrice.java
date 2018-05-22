@@ -2,6 +2,7 @@ package server.model.state.toolcards;
 
 
 
+import common.response.Response;
 import server.model.state.utilities.Choice;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import common.exceptions.InvalidMoveException;
@@ -9,6 +10,9 @@ import server.model.Model;
 import server.model.state.player.Player;
 
 import java.util.*;
+
+import static server.model.state.ModelObject.ModelType.*;
+
 public class PinzaSgrossatrice extends ToolCard {
     public static final int INCREASE=0;
     public static final int DECREASE=1;
@@ -41,5 +45,10 @@ public class PinzaSgrossatrice extends ToolCard {
         if(choice.getChoice()==INCREASE) model.increase(player, cell);
         else model.decrease(player, cell);
         model.toolCardUsed(player, this);
+    }
+
+    @Override
+    public Response next() {   //scelta
+        return super.next();
     }
 }

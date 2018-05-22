@@ -1,6 +1,7 @@
 package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 import server.model.Model;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -8,9 +9,10 @@ import server.model.state.boards.windowframe.WindowFrameCell;
 import server.model.state.dice.Dice;
 import server.model.state.player.Player;
 
-import java.rmi.RemoteException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+
+import static server.model.state.ModelObject.ModelType.*;
 
 public class AlesatorePerLaminaDiRame extends ToolCard {
 
@@ -62,5 +64,8 @@ public class AlesatorePerLaminaDiRame extends ToolCard {
         }
     }
 
-
+    @Override
+    public Response next() {   //trascinamento
+        return super.next();
+    }
 }

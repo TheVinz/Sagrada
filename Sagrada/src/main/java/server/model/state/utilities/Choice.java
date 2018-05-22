@@ -1,6 +1,7 @@
 package server.model.state.utilities;
 
-import common.ModelObject;
+import server.model.state.ModelObject.ModelObject;
+import server.model.state.ModelObject.ModelType;
 
 public class Choice implements ModelObject {
     private Integer choiceInt;
@@ -13,7 +14,7 @@ public class Choice implements ModelObject {
     }
 
     @Override
-    public int getType() {
-        return CHOICE;
+    public ModelType getType() {
+        return ModelType.CHOICE;
     }
 }

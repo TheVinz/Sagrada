@@ -1,7 +1,10 @@
 package server.model.state.boards.draftpool;
 
-import common.ModelObject;
+import server.model.state.ModelObject.ModelObject;
+import server.model.state.ModelObject.ModelType;
 import server.model.state.boards.Cell;
+
+import static server.model.state.ModelObject.ModelType.DRAFT_POOL_CELL;
 
 public class DraftPoolCell extends Cell implements ModelObject {
 
@@ -15,7 +18,7 @@ public class DraftPoolCell extends Cell implements ModelObject {
         return this.index;
     }
     @Override
-    public int getType() {
+    public ModelType getType() {
         return DRAFT_POOL_CELL;
     }
 }

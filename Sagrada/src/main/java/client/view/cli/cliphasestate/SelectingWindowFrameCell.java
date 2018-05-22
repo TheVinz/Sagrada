@@ -2,7 +2,8 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
-import common.ModelObject;
+import common.response.Response;
+import server.model.state.ModelObject.ModelObject;
 import common.RemoteMVC.RemoteController;
 import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
@@ -23,6 +24,7 @@ public class SelectingWindowFrameCell implements CliPhaseState {
     @Override
     public void handle(String input) throws InvalidInput {
         try (Scanner sc = new Scanner(input)) {
+
             int nextInt = -1;
             try {
                 nextInt = sc.nextInt();
@@ -41,7 +43,7 @@ public class SelectingWindowFrameCell implements CliPhaseState {
                 if (nextInt < 0 || nextInt > 4) {
                     throw new InvalidInput("Wrong Input\n");
                 } else {
-                    CliApp.getCliApp().addCommandToBuffer(new GameCommand(ModelObject.WINDOW_FRAME_CELL, row, nextInt));
+                    CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME_CELL, row, nextInt));
 
                 }
             }

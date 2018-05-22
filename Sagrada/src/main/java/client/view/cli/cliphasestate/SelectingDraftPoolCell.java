@@ -2,13 +2,11 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
-import client.view.cli.CliState;
-import common.ModelObject;
-import common.RemoteMVC.RemoteController;
-import common.command.GameCommand;
-import common.exceptions.InvalidMoveException;
 
-import java.rmi.RemoteException;
+import client.view.cli.CliState;
+import common.command.GameCommand;
+import common.response.Response;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -34,7 +32,7 @@ public class SelectingDraftPoolCell implements CliPhaseState {
             if(nextInt < 0 || nextInt >= CliState.getCliState().getDraftPool().length)
                 throw new InvalidInput("Wrong Input\n");
 
-                CliApp.getCliApp().addCommandToBuffer(new GameCommand(ModelObject.DRAFT_POOL_CELL, nextInt));
+                CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.DRAFT_POOL_CELL, nextInt));
         }
 
     }

@@ -1,20 +1,22 @@
 package server.controller;
 import common.exceptions.InvalidMoveException;
-import common.response.Response;
 import server.model.Model;
-import common.ModelObject;
+import server.model.state.ModelObject.ModelObject;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.player.Player;
+import server.viewproxy.ViewProxy;
 
 public class Controller {
 	private Model model;
 	private Player player;
+	private ViewProxy view;
 
 	private PlayerState currentState;
 
-	public Controller(Model model, Player player){
+	public Controller(Model model, Player player, ViewProxy view){
 		this.player=player;
 		this.model=model;
+		this.view=view;
 		currentState=new WaitingState(player, model);
 	}
 
@@ -30,6 +32,8 @@ public class Controller {
 			{
 				endTurn();
 			}
+			if(currentState.nextParam() != null)
+			    view.notifyNextParameter(currentState.nextParam());
 		}
 		return 0;
 	}
@@ -38,12 +42,11 @@ public class Controller {
 		return this.currentState;
 	}
 
-	public int endTurn() {
+	public void endTurn() {
 		if(player.isActive()) {
 			currentState = new WaitingState(player, model);
 			model.endTurn(player);
 		}
-		return 0;
 	}
 
     public void windowFrameChoice(WindowFrameList[] windowFrameLists) {

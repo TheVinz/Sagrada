@@ -2,6 +2,7 @@ package server.model.state.toolcards;
 
 
 
+import common.response.Response;
 import server.model.Model;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -11,6 +12,8 @@ import server.model.state.dice.Dice;
 import server.model.state.player.Player;
 
 import java.util.*;
+
+import static server.model.state.ModelObject.ModelType.*;
 
 public class PennelloPerEglomise extends ToolCard {
 
@@ -59,6 +62,11 @@ public class PennelloPerEglomise extends ToolCard {
                 model.toolCardUsed(player, this);
             }
         }
+    }
+
+    @Override
+    public Response next(){   //trascinamento
+        return null;
     }
 
 }

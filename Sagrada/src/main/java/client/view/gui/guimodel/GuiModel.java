@@ -1,8 +1,8 @@
 package client.view.gui.guimodel;
 
 import client.view.gui.guicontroller.ViewController;
-import common.ModelObject;
 import common.RemoteMVC.RemoteView;
+import common.response.Response;
 import javafx.application.Platform;
 
 import java.rmi.RemoteException;
@@ -19,22 +19,22 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
     }
 
     @Override
-    public void move(int player, int sourceType, int destType, int param1, int param2, int param3) throws RemoteException {
+    public void move(int player, Response sourceType, Response destType, int param1, int param2, int param3) throws RemoteException {
         Platform.runLater(() -> view.move(player, sourceType, destType, param1, param2, param3));
     }
 
     @Override
-    public void move(int player, int sourceType, int destType, int param1, int param2, int param3, int param4) throws RemoteException {
+    public void move(int player, Response sourceType, Response destType, int param1, int param2, int param3, int param4) throws RemoteException {
 
     }
 
     @Override
-    public void updateCell(int player, int type, int index, int value, char color) throws RemoteException {
+    public void updateCell(int player, Response type, int index, int value, char color) throws RemoteException {
 
     }
 
     @Override
-    public void updateCell(int player, int type, int param1, int param2, int value, char color) throws RemoteException {
+    public void updateCell(int player, Response type, int param1, int param2, int value, char color) throws RemoteException {
 
     }
 
@@ -92,5 +92,10 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
     @Override
     public void setId(int id) throws RemoteException{
         this.id=id;
+    }
+
+    @Override
+    public void nextParameter(Response response) {
+
     }
 }

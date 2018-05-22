@@ -1,5 +1,8 @@
 package common.RemoteMVC;
 
+import common.response.Response;
+import server.model.state.ModelObject.ModelType;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -11,11 +14,11 @@ import java.rmi.RemoteException;
 *   */
 
 public interface RemoteView extends Remote {
-    void move(int player, int sourceType, int destType, int param1, int param2, int param3) throws RemoteException; // DP to WF
-    void move(int player, int sourceType, int destType, int param1, int param2, int param3, int param4) throws RemoteException; // RT/WF to WF/RT
+    void move(int player, Response sourceType, Response destType, int param1, int param2, int param3) throws RemoteException; // DP to WF
+    void move(int player, Response sourceType, Response destType, int param1, int param2, int param3, int param4) throws RemoteException; // RT/WF to WF/RT
 
-    void updateCell(int player, int type, int index, int value, char color) throws RemoteException; //DraftPoolCell
-    void updateCell(int player, int type, int param1,int param2, int value, char color) throws RemoteException; //RoundTrackCell/DraftPoolCell
+    void updateCell(int player, Response type, int index, int value, char color) throws RemoteException; //DraftPoolCell
+    void updateCell(int player, Response type, int param1,int param2, int value, char color) throws RemoteException; //RoundTrackCell/DraftPoolCell
 
     void setId(int id) throws RemoteException;
 
@@ -38,5 +41,7 @@ public interface RemoteView extends Remote {
     void notifyDiceDraw(int player, char color) throws RemoteException;
 
     void updateRoundTrack(int round, int[] values, char[] colors) throws RemoteException;
+
+    void nextParameter(Response response) throws RemoteException;
 
 }

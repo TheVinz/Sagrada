@@ -2,11 +2,10 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
+
 import client.view.cli.SynchronizedObserver;
 import common.command.GameCommand;
-
-import static common.command.GameCommand.END_TURN;
-
+import common.response.Response;
 
 
 public class MenuPhase implements CliPhaseState, SynchronizedObserver {
@@ -72,7 +71,8 @@ public class MenuPhase implements CliPhaseState, SynchronizedObserver {
                 break;
 
             case "N":
-                CliApp.getCliApp().addCommandToBuffer(new GameCommand(END_TURN));
+
+                CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.END_TURN));
                 CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;

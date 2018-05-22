@@ -1,7 +1,9 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
-import common.ModelObject;
+import common.response.Response;
+import server.model.state.ModelObject.ModelObject;
+import server.model.state.ModelObject.ModelType;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameCell;
@@ -26,12 +28,12 @@ public class MovingDice extends PlayerState {
     @Override
     public PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException {
         switch(modelObject.getType()){
-            case ModelObject.WINDOW_FRAME:
+            case WINDOW_FRAME:
                 if(player.getWindowFrame()!=((WindowFrame) modelObject))
                     throw new InvalidMoveException("Invalid frame");
                 else return this;
 
-            case ModelObject.WINDOW_FRAME_CELL:
+            case WINDOW_FRAME_CELL:
                 target=(WindowFrameCell) modelObject;
                 if(firstMove())
                     if(GameRules.validFirstMove(player.getWindowFrame(), target)){
@@ -46,7 +48,7 @@ public class MovingDice extends PlayerState {
                 }
                 else throw new InvalidMoveException("Invalid move");
 
-            case ModelObject.DRAFT_POOL_CELL:
+            case DRAFT_POOL_CELL:
                 source=(DraftPoolCell) modelObject;
                 return this;
 
@@ -55,8 +57,4 @@ public class MovingDice extends PlayerState {
         }
     }
 
-    @Override
-    public int nextParam() {
-        return ModelObject.WINDOW_FRAME_CELL;
-    }
 }

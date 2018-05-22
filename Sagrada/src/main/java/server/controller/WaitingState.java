@@ -1,8 +1,9 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 import server.model.Model;
-import common.ModelObject;
+import server.model.state.ModelObject.ModelObject;
 import server.model.state.player.Player;
 
 public class WaitingState extends PlayerState {
@@ -16,13 +17,13 @@ public class WaitingState extends PlayerState {
     @Override
     public PlayerState selectObject(ModelObject  modelObject) throws InvalidMoveException {
         switch (modelObject.getType()){
-            case ModelObject.DRAFT_POOL_CELL:
+            case DRAFT_POOL_CELL:
                 if(!player.isDiceMoved()) {
                     nextState = new MovingDice(player, model);
                     return nextState.selectObject(modelObject);
                 }
                 else return this;
-            case ModelObject.TOOL_CARD:
+            case TOOL_CARD:
                 if(!player.isToolCardUsed()) {
                     nextState = new UsingToolCard(player, model);
                     return nextState.selectObject(modelObject);
@@ -33,10 +34,6 @@ public class WaitingState extends PlayerState {
         }
     }
 
-    @Override
-    public int nextParam() {
-        return -1;
-    }
 
 
 }

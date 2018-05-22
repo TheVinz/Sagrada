@@ -2,9 +2,11 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
+
 import client.view.cli.CliState;
-import common.ModelObject;
 import common.command.GameCommand;
+import common.response.Response;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -38,7 +40,7 @@ public class SelectingRoundTrackCell implements CliPhaseState {
                 if (nextInt < 0 || nextInt >= CliState.getCliState().getRoundTrack()[round].length) {
                     throw new InvalidInput("Wrong Input\n");
                 } else
-                    CliApp.getCliApp().addCommandToBuffer( new GameCommand(ModelObject.ROUND_TRACK_CELL, round, nextInt));
+                    CliApp.getCliApp().addCommandToBuffer( new GameCommand(Response.ROUND_TRACK_CELL, round, nextInt));
 
                 }
             }
