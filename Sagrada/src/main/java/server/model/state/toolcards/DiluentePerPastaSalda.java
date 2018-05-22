@@ -1,6 +1,7 @@
 package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 import server.model.Model;
 import common.ModelObject;
 import server.model.state.utilities.Choice;
@@ -123,5 +124,10 @@ public class DiluentePerPastaSalda extends ToolCard {
             }
         }
         return false;
+    }
+
+    @Override
+    public Response next() {  //scelta
+        return super.next();
     }
 }

@@ -1,6 +1,7 @@
 package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 import server.model.Model;
 import server.model.state.utilities.Choice;
 import server.model.state.utilities.Color;
@@ -109,5 +110,10 @@ public class TaglierinaManuale extends ToolCard {
         }
         else throw new InvalidMoveException("Already filled cell");
         model.toolCardUsed(player, this);
+    }
+
+    @Override
+    public Response next() {    //scelta e trascinamento
+        return super.next();
     }
 }

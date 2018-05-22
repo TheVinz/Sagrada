@@ -24,12 +24,12 @@ public class CliDisplayer {
         displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
         displayText("-Your State press\t\t\t\t\t V\n");
         displayText("-ToolCards press\t\t\t\t\t T\n");
-        displayText("-PublicObjectiveCard press\t\t O\n");
+        displayText("-PublicObjectiveCard press\t\t\t O\n");
         displayText("-RoundTrack press\t\t\t\t\t R\n");
         displayText("-Other's State press\t\t\t\t S\n\n ");
         displayText("What you wanna do?\n");
-        displayText("-Place a dice press\t\t\t D\n");
-        displayText("-Use a ToolCard press\t\t\t U\n");
+        displayText("-Place a dice press\t\t\t\t\t D\n");
+        displayText("-Use a ToolCard press\t\t\t\t U\n");
         displayText("-In order to skip the turn press\t N\n");
     }
 
@@ -51,9 +51,9 @@ public class CliDisplayer {
 
     public void printRoundTrack(){
         displayText("The RoundTrack is:\n");
-        for(int i=0;i<cliState.getRoundTrack().length; i++){
+        for(int i=0;i<cliState.getRoundTrack().length && cliState.getRoundTrack()[i]!=null; i++){
             displayText(((int) i+1) + ">>> ");
-            for(int j=0; j<cliState.getRoundTrack()[i].length; i++)
+            for(int j=0; j<cliState.getRoundTrack()[i].length; j++)
                 displayText(j + "_" + cliState.getRoundTrack()[i][j] + " | ");
             displayText("\n");
         }
@@ -70,7 +70,7 @@ public class CliDisplayer {
     public void printDraftPool(){
         displayText("In the DraftPool there are those Dices ");
         for(int i=0; i<cliState.getDraftPool().length;i++){
-            displayText(cliState.getDraftPool()[i]+" ");
+            displayText(i+"_"+cliState.getDraftPool()[i]+" | ");
         }
         displayText("\n");
     }

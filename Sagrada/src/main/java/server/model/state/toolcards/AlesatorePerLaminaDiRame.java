@@ -1,6 +1,7 @@
 package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
+import common.response.Response;
 import server.model.Model;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -62,5 +63,8 @@ public class AlesatorePerLaminaDiRame extends ToolCard {
         }
     }
 
-
+    @Override
+    public Response next() {   //trascinamento
+        return super.next();
+    }
 }

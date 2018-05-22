@@ -124,7 +124,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView {
             s[i]=""+values[i]+colors[i];
         }
         cliState.setDraftPool(s);
-        CliDisplayer.getDisplayer().displayText("La DraftPool è stata riempita\n");
+        CliDisplayer.getDisplayer().displayText("The DraftPool si full\n");
         CliDisplayer.getDisplayer().printDraftPool();
     }
 

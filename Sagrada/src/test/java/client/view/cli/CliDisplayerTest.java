@@ -17,7 +17,6 @@ public class CliDisplayerTest {
     private ObjectiveCardsEffects objectiveCardsEffects = new ObjectiveCardsEffects();
     private String[][] stringFrame = new String[4][5];
     private CliPlayerState cliPlayerState;
-    private List<CliPlayerState> cliPlayerStates;
     private CliDisplayer cliDisplayer;
     private CliState cliState;
     private String privateObjectiveCard;
@@ -28,7 +27,6 @@ public class CliDisplayerTest {
     private Integer favorTokens;
     private String[] roundTrack = new String[3];
     private String[] roundTrack1 = new String[1];
-    private String[] roundTrack2 = new String[2];
 
 
 
@@ -61,15 +59,15 @@ public class CliDisplayerTest {
         toolCard[1]=5;
         toolCard[2]=12;
         publicObjectiveCardIds[0]=1;
-        publicObjectiveCardIds[1]=12;
+        publicObjectiveCardIds[1]=9;
         publicObjectiveCardIds[2]=5;
-
         draftPool[0]="3B";
         draftPool[1]="X";
-        draftPool[2]="5";
+        draftPool[2]="5Y";
         privateObjectiveCard = "RED";
+        favorTokens=3;
         when(cliPlayerState.getName()).thenReturn("Gabriele");
-        cliPlayerState.setWindowFrame(stringFrame);
+        when(cliPlayerState.getWindowFrame()).thenReturn(stringFrame);
         cliPlayerState.setFavorTokens(favorTokens);
         when(cliState.getActivePlayer()).thenReturn(cliPlayerState);
         cliState.setPrivateObjectiveCard(privateObjectiveCard);
@@ -77,6 +75,7 @@ public class CliDisplayerTest {
         roundTrack[0]="3B";
         roundTrack[1]="4G";
         roundTrack[2]="2P";
+        roundTrack1[0]="4Y";
         cliState.setRoundDices(0,roundTrack);
         cliState.getToolCardIds()[0]=toolCard[0];
         cliState.getToolCardIds()[1]=toolCard[1];
@@ -85,6 +84,7 @@ public class CliDisplayerTest {
         cliState.getPublicObjectiveCardIds()[1]=publicObjectiveCardIds[1];
         cliState.getPublicObjectiveCardIds()[2]=publicObjectiveCardIds[2];
         cliState.setRoundDices(0,roundTrack);
+        cliState.setRoundDices(1,roundTrack1);
         cliDisplayer.setCliState(cliState);
     }
 

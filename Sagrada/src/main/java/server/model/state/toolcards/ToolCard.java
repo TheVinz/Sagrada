@@ -42,7 +42,7 @@ public abstract class ToolCard implements ModelObject {
 
 	abstract void doAbility() throws InvalidMoveException;
 
-	public int next(){
+	public Response next(){
 		try {
 			return expectedParameters.peek();
 		}
