@@ -28,10 +28,8 @@ public class CliLaunchClient {
             Registry reg = LocateRegistry.getRegistry();
             loginManager=(RemoteLoginManager) reg.lookup("LoginManager");
             remoteController = loginManager.connect(name, model);
-            app= new CliApp(remoteController);
-            app.setId(remoteController.getId());
-            model.bindApp(app);
-            app.mainLoop();
+            CliApp.getCliApp().setRemoteController(remoteController);
+            CliApp.getCliApp().mainLoop();
         } catch (RemoteException e) {
             System.err.println("Connection error");
             e.printStackTrace();

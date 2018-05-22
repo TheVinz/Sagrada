@@ -4,6 +4,7 @@ import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
 import common.ModelObject;
 import common.RemoteMVC.RemoteController;
+import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 
 import java.rmi.RemoteException;
@@ -12,49 +13,43 @@ import java.util.Scanner;
 
 public class SelectingWindowFrameCell implements CliPhaseState {
 
-    RemoteController remoteController;
-    private CliApp cliApp;
     private int row;
 
-    public SelectingWindowFrameCell(RemoteController remoteController, CliApp cliApp) {
-
-        this.remoteController = remoteController;
-        this.cliApp = cliApp;
+    public SelectingWindowFrameCell() {
         this.row = -1;
+        CliDisplayer.getDisplayer().displayText("Select the first coordinate of the WindowFrame: ");
     }
 
     @Override
-    public CliPhaseState handle(String input) throws RemoteException {
+    public void handle(String input) throws InvalidInput {
         try (Scanner sc = new Scanner(input)) {
             int nextInt = -1;
             try {
                 nextInt = sc.nextInt();
             } catch (InputMismatchException e) {
-                CliDisplayer.getDisplayer().displayText("Wrong Input, try again: ");
-                return this;
+                throw new InvalidInput("Wrong Input\n");
             }
 
             if (row == -1) {
                 if (nextInt < 0 || nextInt > 3)
-                    CliDisplayer.getDisplayer().displayText("Wrong Input, try again: ");
-                else
+                    throw new InvalidInput("Wrong Input\n");
+                else{
                     row = nextInt;
-                return this;
+                    CliDisplayer.getDisplayer().displayText("Select the second coordinate of the WindowFrame: ");
+                }
             } else {
                 if (nextInt < 0 || nextInt > 4) {
-                    CliDisplayer.getDisplayer().displayText("Wrong Input, try again: ");
-                    return this;
+                    throw new InvalidInput("Wrong Input\n");
                 } else {
-                    try {
-                        cliApp.setNextParam(remoteController.command(ModelObject.WINDOW_FRAME_CELL, row, nextInt));
-                        return null;
-                    } catch (InvalidMoveException e) {
-                        CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
-                        return new MenuPhase(remoteController, cliApp);
-                    }
+                    CliApp.getCliApp().addCommandToBuffer(new GameCommand(ModelObject.WINDOW_FRAME_CELL, row, nextInt));
                 }
             }
 
         }
+    }
+
+    @Override
+    public CliPhaseState reset() {
+        return new SelectingWindowFrameCell();
     }
 }

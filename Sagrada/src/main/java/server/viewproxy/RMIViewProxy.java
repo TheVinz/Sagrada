@@ -3,6 +3,7 @@ package server.viewproxy;
 import common.ModelObject;
 import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
+import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 import server.controller.Controller;
@@ -25,6 +26,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 
 import static common.ModelObject.*;
+import static common.command.GameCommand.END_TURN;
 
 public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,RemoteController {
 
@@ -42,8 +44,13 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 
     public void bindRemoteView(RemoteView remoteView){
         this.remoteView=remoteView;
-    }
+        try{
+            remoteView.setId(player.getId());
+        }catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
+    }
 
     //da ViewProxy
     @Override
@@ -238,11 +245,41 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 */
 
     @Override
-    public int getId(){
+    public void command(GameCommand gameCommand) throws RemoteException{
+        new Thread( () -> {
+        try {
+            switch (gameCommand.getType()) {
+                case ModelObject.DRAFT_POOL_CELL:
+                    controller.selectObject(state.getDraftPool().getCell(gameCommand.getX()));
+                    break;
+                case ModelObject.TOOL_CARD:
+                    controller.selectObject(state.getToolCard(gameCommand.getX()));
+                    break;
+                case ModelObject.CHOICE:
+                    controller.selectObject(new Choice(gameCommand.getX()));
+                    break;
+                case END_TURN:
+                    controller.endTurn();
+                    break;
+                case WINDOW_FRAME_CELL:
+                    controller.selectObject(player.getWindowFrame().getCell(gameCommand.getX(), gameCommand.getY()));
+                    break;
+                case ROUND_TRACK_CELL:
+                    controller.selectObject(state.getRoundTrack().getRoundSet(gameCommand.getX()).get(gameCommand.getY()));
+                    break;
+                default:
+                    return;
+            }
+        }catch (InvalidMoveException e){
+            System.out.println("error");
+        }}).start();
+    }
+   /* @Override
+    public void getId(){
         return player.getId();
     }
     @Override
-    public int command(int type) throws RemoteException {
+    public void command(int type) throws RemoteException {
         switch(type){
             case END_TURN:
                 return controller.endTurn();
@@ -251,7 +288,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
         }
     }
     @Override
-    public int command(int type, int index) throws InvalidMoveException, RemoteException {
+    public void command(int type, int index) throws InvalidMoveException, RemoteException {
         switch(type){
             case ModelObject.DRAFT_POOL_CELL:
                 return controller.selectObject(state.getDraftPool().getCell(index));
@@ -265,7 +302,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 
     }
     @Override
-    public int command(int type, int param1, int param2) throws InvalidMoveException, RemoteException {
+    public void command(int type, int param1, int param2) throws InvalidMoveException, RemoteException {
         switch(type){
             case WINDOW_FRAME_CELL:
                 return controller.selectObject(player.getWindowFrame().getCell(param1, param2));
@@ -274,5 +311,5 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
             default:
                 return Response.WRONG_PARAMETER;
         }
-    }
+    }*/
 }

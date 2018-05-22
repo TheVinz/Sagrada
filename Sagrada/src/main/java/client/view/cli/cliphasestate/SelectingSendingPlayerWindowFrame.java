@@ -3,22 +3,15 @@ package client.view.cli.cliphasestate;
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
 import client.view.cli.CliState;
-import common.ModelObject;
-import common.RemoteMVC.RemoteController;
-import common.command.GameCommand;
-import common.exceptions.InvalidMoveException;
 
-import java.rmi.RemoteException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class SelectingDraftPoolCell implements CliPhaseState {
+public class SelectingSendingPlayerWindowFrame implements CliPhaseState {
 
-
-    public SelectingDraftPoolCell() {
-        CliDisplayer.getDisplayer().displayText("Select the number of the cell: ");
+    public SelectingSendingPlayerWindowFrame(){
+        CliDisplayer.getDisplayer().displayText("Put the name of the player:\n");
     }
-
     @Override
     public void handle(String input) throws InvalidInput {
         try (Scanner sc = new Scanner(input)) {
@@ -28,16 +21,15 @@ public class SelectingDraftPoolCell implements CliPhaseState {
             } catch (InputMismatchException e) {
                 throw new InvalidInput("Wrong Input\n");
             }
-            if(nextInt < 0 || nextInt >= CliState.getCliState().getDraftPool().length)
+            if(nextInt < 0 || nextInt > 4){
                 throw new InvalidInput("Wrong Input\n");
-
-                CliApp.getCliApp().addCommandToBuffer(new GameCommand(ModelObject.DRAFT_POOL_CELL, nextInt));
+            }
+            CliDisplayer.getDisplayer().printWindowFrame(CliState.getCliState().getCliPlayerState(nextInt));
+            CliApp.getCliApp().sendCommand();
         }
-
     }
-
     @Override
     public CliPhaseState reset() {
-        return new SelectingDraftPoolCell();
+        return new SelectingSendingPlayerWindowFrame();
     }
 }

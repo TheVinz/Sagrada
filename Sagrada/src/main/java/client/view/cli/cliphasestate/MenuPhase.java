@@ -2,75 +2,88 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
-import common.RemoteMVC.RemoteController;
-import common.exceptions.InvalidMoveException;
-import server.controller.MovingDice;
-
-import java.rmi.RemoteException;
+import client.view.cli.SynchronizedObserver;
+import common.command.GameCommand;
 
 import static common.command.GameCommand.END_TURN;
-import static common.command.GameCommand.USE_TOOL_CARD;
 
-public class MenuPhase implements CliPhaseState {
 
-    private RemoteController remoteController;
-    private CliApp cliApp;
+public class MenuPhase implements CliPhaseState, SynchronizedObserver {
 
-    public MenuPhase(RemoteController remoteController, CliApp cliApp){
-        this.remoteController = remoteController;
-        this.cliApp = cliApp;
+
+    public MenuPhase(){
+        CliDisplayer.getDisplayer().printMenu();
+        CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
     }
 
     @Override
-    public CliPhaseState handle(String input) throws RemoteException {
+    synchronized public void handle(String input) throws InvalidInput {
 
         switch (input){
 
             case "M":
                 CliDisplayer.getDisplayer().printMenu();
-                return this;
+                break;
             case "P":
                 CliDisplayer.getDisplayer().printDraftPool();
-                return this;
+                break;
             case "C":
                 CliDisplayer.getDisplayer().printPrivateObjectiveCard();
-                return this;
+                break;
             case "F":
                 CliDisplayer.getDisplayer().printFavorTokens();
-                return  this;
+                break;
             case "V":
                 CliDisplayer.getDisplayer().printState();
-                return this;
+                break;
             case "T":
                 CliDisplayer.getDisplayer().printToolCard();
-                return this;
+                break;
             case "O":
                 CliDisplayer.getDisplayer().printPublicObjectiveCards();
-                return this;
+                break;
             case "R":
                 CliDisplayer.getDisplayer().printRoundTrack();
-                return this;
+                break;
             case "S":
-                CliDisplayer.getDisplayer().displayText("Put the name of the player:\n");
-                return new PrintingWindowFramePhase(remoteController);
+                CliApp.getCliApp().setCurrentState(new SelectingSendingPlayerWindowFrame());
+                break;
             case "D":
-                return new MovingDicePhase(remoteController, cliApp);
+                CliApp.getCliApp().setCurrentState(new SelectingDraftPoolCell());
+                CliApp.getCliApp().setSynchronizedObserver(this);
+                while(CliApp.getCliApp().getCommandBufferSize() == 0) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                CliApp.getCliApp().sendCommand();
+                CliApp.getCliApp().setCurrentState(new SelectingWindowFrameCell());
+                CliApp.getCliApp().sendCommand();
+                break;
+
             case "U":
                 CliDisplayer.getDisplayer().printToolCard();
-                cliApp.setNextParam(USE_TOOL_CARD);
-                return new SelectingToolCard(remoteController, cliApp);
-
+                CliApp.getCliApp().setCurrentState(new SelectingSendingToolCard());
+                break;
             case "N":
-                try {
-                    remoteController.command(END_TURN);
-                } catch (InvalidMoveException e) {
-                    CliDisplayer.getDisplayer().displayText(e.getMessage() + "\n>>>");
-                }
-                return this;
+                CliApp.getCliApp().addCommandToBuffer(new GameCommand(END_TURN));
+                CliApp.getCliApp().sendCommand();
+                CliApp.getCliApp().setWaitingPhase(true);
+                break;
             default:
                 CliDisplayer.getDisplayer().displayText("Input error\n");
-                return this;
-
         }
+    }
+
+    @Override
+    public CliPhaseState reset() {
+        return new MenuPhase();
+    }
+
+    @Override
+    synchronized public void notifyThis() {
+        this.notifyAll();
     }
 }

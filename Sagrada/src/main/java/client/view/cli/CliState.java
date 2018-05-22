@@ -16,6 +16,16 @@ public class CliState {
     private String[][] roundTrack = new String[10][];
     private String privateObjectiveCard;
 
+    private static CliState cliState;
+
+    private CliState(){};
+
+    public static CliState getCliState(){
+        if(cliState == null)
+            cliState = new CliState();
+        return cliState;
+    }
+
     public void setActivePlayer(int id){
         activePlayer=getCliPlayerState(id);
     }
@@ -62,5 +72,10 @@ public class CliState {
     }
     public void setRoundDices(int round, String[] roundDices) {
         roundTrack[round]=roundDices;
+        currentRound = round;
+    }
+
+    public Integer getCurrentRound() {
+        return currentRound;
     }
 }

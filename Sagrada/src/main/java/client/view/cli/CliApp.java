@@ -1,30 +1,34 @@
 package client.view.cli;
 
 import java.rmi.RemoteException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import client.view.cli.cliphasestate.CliPhaseState;
+import client.view.cli.cliphasestate.InvalidInput;
 import client.view.cli.cliphasestate.MenuPhase;
-import client.view.cli.cliphasestate.WaitingPhase;
-import client.view.cli.cliphasestate.WindowFrameChoiceState;
 import common.RemoteMVC.RemoteController;
-import static  common.command.GameCommand.*;
+import common.command.GameCommand;
 
 
 public class CliApp {
 
     private RemoteController remoteController;
     private CliPhaseState currentState;
-    private CliState cliState;
     private int id;
-    private int nextParam;
+    private boolean waitingPhase;
+    private ArrayDeque<GameCommand> commandBuffer = new ArrayDeque<GameCommand>();
+    private SynchronizedObserver synchronizedObserver;
+
     Scanner scanner = new Scanner(System.in);
 
+    private static CliApp cliApp;
 
-    public CliApp(RemoteController remoteController) {
-        this.remoteController = remoteController;
-        this.currentState = new WaitingPhase();
-        this.cliState = new CliState();
-        CliDisplayer.getDisplayer().setCliState(cliState);
+    public static CliApp getCliApp(){
+        if(cliApp == null)
+            cliApp = new CliApp();
+        return cliApp;
     }
 
     public int getId(){
@@ -34,62 +38,71 @@ public class CliApp {
         this.id=id;
     }
 
-    public void windowFrameChoice(){
-        System.out.print("\nSelect a window frame\n>>>");
-        synchronized (this) {
-            this.currentState = new WindowFrameChoiceState(remoteController);
-        }
-    }
-    public void startTurn(){
-        synchronized (this) {
-            this.currentState = new MenuPhase(remoteController, this);
-        }
-        CliDisplayer.getDisplayer().displayText("(insert M to undo the operation and see the menu)\n");
-    }
-    public void waitTurn() {
-        synchronized (this) {
-            this.currentState = new WaitingPhase();
-        }
+    public void setCurrentState(CliPhaseState currentState){
+        this.currentState = currentState;
+        CliApp.getCliApp().setWaitingPhase(false);
+
     }
 
-    public void mainLoop(){
+    public void setSynchronizedObserver(SynchronizedObserver synchronizedObserver){
+        this.synchronizedObserver = synchronizedObserver;
+    }
+
+    synchronized public void mainLoop(){
         String input = "";
         while(!input.equals("quit")){
-            input = scanner.nextLine();
-            try{
-                synchronized (this) {
-                    currentState = currentState.handle(input);
+            System.out.println("error0\n");
+            while(waitingPhase){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            }catch (RemoteException e){
-                CliDisplayer.getDisplayer().displayText("Network problem\n");
-                System.exit(1);
             }
+            System.out.println("error1\n");
+            input = scanner.nextLine();
+            System.out.println("error2\n");
+            try {
+                currentState.handle(input);
+            } catch (InvalidInput e) {
+                CliDisplayer.getDisplayer().displayText(e.getMessage());
+                currentState = currentState.reset();
+            }
+            if(synchronizedObserver!=null)
+                synchronizedObserver.notifyThis();
+
+
         }
     }
 
-    public int getNextParam() {
-        return nextParam;
+
+    synchronized public void setWaitingPhase(boolean waitingPhase) {
+        this.waitingPhase = waitingPhase;
+        if(waitingPhase)
+            CliDisplayer.getDisplayer().displayText("You can't insert anything now\n");
+        else
+            notifyAll();
     }
 
-    public void setNextParam(int nextParam) {
-        this.nextParam = nextParam;
-        printNextParam();
+    public void addCommandToBuffer(GameCommand gameCommand){
+        commandBuffer.add(gameCommand);
     }
 
-    private void printNextParam(){
-        switch (nextParam){
-            case WINDOW_FRAME_CELL:
-                CliDisplayer.getDisplayer().displayText("Select the row of a Window Frame Cell: ");
-                break;
-            case DRAFT_POOL_CELL:
-                CliDisplayer.getDisplayer().displayText("Select a Draft Pool Cell: ");
-                break;
-            case ROUND_TRACK_CELL:
-                CliDisplayer.getDisplayer().displayText("Selec a Round Track Cell: ");
-                break;
-            default:
-                return;
+    public int getCommandBufferSize(){
+        return commandBuffer.size();
+    }
+
+    public void sendCommand() {
+        try {
+            remoteController.command(commandBuffer.poll());
+        }catch (RemoteException e){
+            CliDisplayer.getDisplayer().displayText(e.getMessage());
+            currentState = new MenuPhase();
         }
+
     }
 
+    public void setRemoteController(RemoteController remoteController) {
+        this.remoteController = remoteController;
+    }
 }

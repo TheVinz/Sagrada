@@ -17,6 +17,8 @@ public interface RemoteView extends Remote {
     void updateCell(int player, int type, int index, int value, char color) throws RemoteException; //DraftPoolCell
     void updateCell(int player, int type, int param1,int param2, int value, char color) throws RemoteException; //RoundTrackCell/DraftPoolCell
 
+    void setId(int id) throws RemoteException;
+
     void loadToolCards(int[] toolCards) throws RemoteException;
 
     void refilledDraftPool(int[] values, char[] colors) throws RemoteException;

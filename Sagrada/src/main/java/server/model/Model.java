@@ -58,8 +58,9 @@ public class Model implements Observable {
         notifyPrivateObjectiveCard();
         notifyToolCards();
         for(Player p : state.getPlayers()) p.setActive();
-        notifyWindowFrameChoices();
         roundManager=new RoundManager(state.getPlayers());
+        notifyWindowFrameChoices();
+
     }
 
     private void startRound() {

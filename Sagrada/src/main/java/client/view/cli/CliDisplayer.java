@@ -4,7 +4,7 @@ package client.view.cli;
 import org.omg.CORBA.PRIVATE_MEMBER;
 
 public class CliDisplayer {
-    private CliState cliState;
+    private CliState cliState = CliState.getCliState();
     private static CliDisplayer singleton;
     private ToolCardsEffects toolCardsEffects;
 
@@ -13,7 +13,6 @@ public class CliDisplayer {
         return singleton;
     }
 
-    public void setCliState(CliState state){ this.cliState = state; }
 
 
     public void displayText(String text){ System.out.print(text); }
@@ -69,7 +68,7 @@ public class CliDisplayer {
     public void printDraftPool(){
         displayText("In the DraftPool there are those Dices ");
         for(int i=0; i<cliState.getDraftPool().length;i++){
-            displayText(cliState.getDraftPool()[i]+" ");
+                displayText(cliState.getDraftPool()[i]+" ");
         }
         displayText("\n");
     }
