@@ -9,6 +9,7 @@ import server.model.state.player.Player;
 public class WaitingState extends PlayerState {
 
     private PlayerState nextState;
+    private Response nextParameter = null;
 
     public WaitingState(Player player, Model model){
         super(player, model);
@@ -22,16 +23,32 @@ public class WaitingState extends PlayerState {
                     nextState = new MovingDice(player, model);
                     return nextState.selectObject(modelObject);
                 }
-                else return this;
+                else{
+                    Response.ERROR.setMessage("You have already moved a dice!\n");
+                    nextParameter = Response.ERROR;
+                    return this;
+                }
             case TOOL_CARD:
                 if(!player.isToolCardUsed()) {
                     nextState = new UsingToolCard(player, model);
-                    return nextState.selectObject(modelObject);
+                    PlayerState temp = nextState.selectObject(modelObject);
+                    nextParameter = nextState.nextParam();
+                    return temp;
                 }
-                else return this;
+                else{
+                        Response.ERROR.setMessage("You have already moved a dice!\n");
+                        nextParameter = Response.ERROR;
+                        return this;
+                    }
+
             default:
                 return this;
         }
+    }
+
+    @Override
+    public Response nextParam(){
+        return nextParameter;
     }
 
 

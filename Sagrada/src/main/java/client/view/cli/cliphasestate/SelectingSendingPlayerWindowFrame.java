@@ -26,6 +26,7 @@ public class SelectingSendingPlayerWindowFrame implements CliPhaseState {
             }
             CliDisplayer.getDisplayer().printWindowFrame(CliState.getCliState().getCliPlayerState(nextInt));
             CliApp.getCliApp().sendCommand();
+            CliApp.getCliApp().setWaitingPhase(true);
         }
     }
     @Override

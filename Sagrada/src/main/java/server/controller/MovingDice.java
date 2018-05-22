@@ -15,6 +15,7 @@ public class MovingDice extends PlayerState {
 
     private DraftPoolCell source = null;
     private WindowFrameCell target = null;
+    private Response nextParameter = null;
 
     public MovingDice(Player player, Model model) {
         super(player, model);
@@ -38,12 +39,14 @@ public class MovingDice extends PlayerState {
                 if(firstMove())
                     if(GameRules.validFirstMove(player.getWindowFrame(), target)){
                         model.move(player, source, target);
+                        nextParameter = Response.SUCCESS;
                         return new WaitingState(player, model);
                     }
                     else throw new InvalidMoveException("Select a cell near borders");
                 else if(GameRules.validAllDiceRestriction(player.getWindowFrame(), source.getDice(), target) &&
                     GameRules.validAllCellRestriction(source.getDice(), target)) {
                     model.move(player, source, target);
+                    nextParameter = Response.SUCCESS;
                     return new WaitingState(player, model);
                 }
                 else throw new InvalidMoveException("Invalid move");
@@ -55,6 +58,11 @@ public class MovingDice extends PlayerState {
             default:
                 return this;
         }
+    }
+
+    @Override
+    public Response nextParam(){
+        return nextParameter;
     }
 
 }

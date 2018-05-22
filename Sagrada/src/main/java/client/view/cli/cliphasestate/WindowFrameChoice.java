@@ -26,6 +26,7 @@ public class WindowFrameChoice implements CliPhaseState {
             if(nextInt < 0 || nextInt > 3){
                 throw new InvalidInput("Wrong Input\n");
             }
+
             CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.CHOICE, nextInt));
             CliApp.getCliApp().sendCommand();
         }

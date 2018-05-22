@@ -3,12 +3,11 @@ package client.view.cli.cliphasestate;
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
 
-import client.view.cli.SynchronizedObserver;
 import common.command.GameCommand;
 import common.response.Response;
 
 
-public class MenuPhase implements CliPhaseState, SynchronizedObserver {
+public class MenuPhase implements CliPhaseState{
 
 
     public MenuPhase(){
@@ -50,19 +49,7 @@ public class MenuPhase implements CliPhaseState, SynchronizedObserver {
                 CliApp.getCliApp().setCurrentState(new SelectingSendingPlayerWindowFrame());
                 break;
             case "D":
-                CliApp.getCliApp().setSynchronizedObserver(this);
-                CliApp.getCliApp().setCurrentState(new SelectingDraftPoolCell());
-                while(CliApp.getCliApp().getCommandBufferSize() == 0) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                System.out.println("error\n");
-                CliApp.getCliApp().sendCommand();
-                CliApp.getCliApp().setCurrentState(new SelectingWindowFrameCell());
-                CliApp.getCliApp().sendCommand();
+                new Thread( () -> CliApp.getCliApp().moveFromDraftPool()).start();
                 break;
 
             case "U":
@@ -86,8 +73,5 @@ public class MenuPhase implements CliPhaseState, SynchronizedObserver {
         return new MenuPhase();
     }
 
-    @Override
-    synchronized public void notifyThis() {
-        this.notifyAll();
-    }
+
 }
