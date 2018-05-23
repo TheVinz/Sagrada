@@ -4,14 +4,15 @@ import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
 import common.command.GameCommand;
 import common.response.Response;
+import server.model.state.toolcards.PinzaSgrossatrice;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class SelectingSendingToolCard implements CliPhaseState{
+public class PinzaSgrossatriceChoice implements CliPhaseState {
 
-    public SelectingSendingToolCard(){
-        CliDisplayer.getDisplayer().displayText("Choose a toolcard: ");
+    public PinzaSgrossatriceChoice(){
+        CliDisplayer.getDisplayer().displayText("Insert 0 to increase or 1 to decrease:\n>>>");
     }
     @Override
     public void handle(String input) throws InvalidInput {
@@ -22,16 +23,18 @@ public class SelectingSendingToolCard implements CliPhaseState{
             } catch (InputMismatchException e) {
                 throw new InvalidInput("Wrong Input\n");
             }
-            if(nextInt < 0 || nextInt > 2){
+            if(nextInt != 0 && nextInt != 1){
                 throw new InvalidInput("Wrong Input\n");
             }
-            CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.TOOL_CARD, nextInt));
+
+            CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.CHOICE, nextInt));
             CliApp.getCliApp().sendCommand();
             CliApp.getCliApp().setWaitingPhase(true);
         }
     }
+
     @Override
     public CliPhaseState reset() {
-        return new SelectingSendingToolCard();
+        return new PinzaSgrossatriceChoice();
     }
 }

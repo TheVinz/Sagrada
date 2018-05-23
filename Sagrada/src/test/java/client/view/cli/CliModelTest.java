@@ -1,5 +1,6 @@
 package client.view.cli;
 
+import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -34,7 +35,7 @@ public class CliModelTest {
     @Before
     public void initClass() throws RemoteException {
         cliDisplayer = Mockito.spy(new CliDisplayer());
-        cliState=Mockito.spy(new CliState());
+      //  cliState=Mockito.spy(new CliState());
         cliModel= new CliModel();
         color='r';
         stringFrame[0][0] = "X";
@@ -100,7 +101,7 @@ public class CliModelTest {
         cliState.setDraftPool(draftPool);
         when(cliState.getCliPlayerState(1)).thenReturn(cliPlayerState1);
         //cliModel.setCliState(cliState);
-        cliDisplayer.setCliState(cliState);
+      //  cliDisplayer.setCliState(cliState);
     }
 
     @Test
@@ -116,7 +117,7 @@ public class CliModelTest {
 
     @Test
     public void shouldUpdateCell(){
-        cliModel.updateCell(1,1,0,0,2,'B');
+        cliModel.updateCell(1,Response.WINDOW_FRAME_CELL    ,0,0,2,'B');
         assertEquals("2B",cliPlayerState[0].getWindowFrame()[0][0]);
 
     }

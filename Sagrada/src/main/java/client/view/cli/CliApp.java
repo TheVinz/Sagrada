@@ -11,6 +11,38 @@ import common.RemoteMVC.RemoteController;
 import common.command.GameCommand;
 import common.response.Response;
 
+/*
+Se dopo aver tolto un dado da una cella della draftpool richiedo quella cella mi ritorna questo, direi di bloccarlo
+prima di chiedere la coordinata della windowframe ( saremmo nello stato SelectingWindowFrameCell
+Select the number of the cell: 0
+Select the first coordinate of the WindowFrame: null
+*/
+/*
+Alla fine del round c'è da aggiornare la RoundTrack, non si rempie
+ */
+/*
+se per caso schiaccio S per vedere lo stato di un altro giocatore resto bloccato se non so il nome, direi di dover
+stampare i nomi degli altri e magari anche la possibilità di tornare indietro
+ */
+/*
+Ho mosso un dado dove non potevo e me l'ha fatto mettere, non bene..o non abbiamo ancora messo il controllo sulla Cli?
+Inoltre perchè mi stampa questa frase nel farlo?
+You can't insert anything now
+ */
+/*
+tool card sembra come non entri nello stato, me le stampa ma non mi chiede di sceglierne una
+ */
+/*
+Una volta mosso usato e usato una toolcard il mio turno finisce ma posso comunque mettere un input..per sbaglio ho schiacciato V
+e mi ha stampato lo stato dell'altro active player. dall'altra parte se schiaccio S mi stampa lo stato dell'altro ma poi si ferma.
+ */
+/*
+aggiungere un input che mi permetta di uscire da uno stato e tornare allo stato di menu
+ */
+/*
+wrong input nella toolcard e mi si ferma tutto
+ */
+
 public class CliApp {
 
     private RemoteController remoteController;

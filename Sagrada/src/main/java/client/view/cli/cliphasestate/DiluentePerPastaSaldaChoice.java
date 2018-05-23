@@ -8,10 +8,9 @@ import common.response.Response;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class SelectingSendingToolCard implements CliPhaseState{
-
-    public SelectingSendingToolCard(){
-        CliDisplayer.getDisplayer().displayText("Choose a toolcard: ");
+public class DiluentePerPastaSaldaChoice implements CliPhaseState {
+    public DiluentePerPastaSaldaChoice(){
+        CliDisplayer.getDisplayer().displayText("Insert the new value:\n>>>");
     }
     @Override
     public void handle(String input) throws InvalidInput {
@@ -22,16 +21,18 @@ public class SelectingSendingToolCard implements CliPhaseState{
             } catch (InputMismatchException e) {
                 throw new InvalidInput("Wrong Input\n");
             }
-            if(nextInt < 0 || nextInt > 2){
+            if(nextInt < 1 || nextInt > 6){
                 throw new InvalidInput("Wrong Input\n");
             }
-            CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.TOOL_CARD, nextInt));
+
+            CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.CHOICE, nextInt));
             CliApp.getCliApp().sendCommand();
             CliApp.getCliApp().setWaitingPhase(true);
         }
     }
+
     @Override
     public CliPhaseState reset() {
-        return new SelectingSendingToolCard();
+        return new DiluentePerPastaSaldaChoice();
     }
 }

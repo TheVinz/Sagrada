@@ -47,7 +47,7 @@ public abstract class ToolCard implements ModelObject {
 	public Response next(){
 		 switch(expectedParameters.peek()){
 			 case WINDOW_FRAME:
-			 	return Response.WINDOW_FRAME_MOVE;
+			 	return Response.WINDOW_FRAME;
 			 case ROUND_TRACK_CELL:
 			 	return Response.ROUND_TRACK_CELL;
 			 case DRAFT_POOL_CELL:
