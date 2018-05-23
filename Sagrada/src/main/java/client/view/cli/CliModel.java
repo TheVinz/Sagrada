@@ -2,6 +2,7 @@ package client.view.cli;
 
 import client.view.cli.cliphasestate.*;
 import common.RemoteMVC.RemoteView;
+import common.command.GameCommand;
 import common.response.Response;
 
 import java.rmi.RemoteException;
@@ -243,7 +244,9 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     public void nextParameter(Response response) {
         new Thread( () -> {
         switch (response){
-            case WINDOW_FRAME_CELL:
+            case WINDOW_FRAME:
+                CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME, CliState.getCliState().getActivePlayer().getId()));
+                CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setCurrentState(new SelectingWindowFrameCell());
                 CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setWaitingPhase(true);
@@ -259,6 +262,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;
             case END_TURN:
+                CliDisplayer.getDisplayer().displayText("Your turn is finished!");
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;
             case TOOL_CARD:
