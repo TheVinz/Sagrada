@@ -20,9 +20,7 @@ public class RoundTrackTest {
     public void setUp() throws Exception {
         draftPool = mock(DraftPool.class);
         roundTrack = new RoundTrack();
-
     }
-
     @Test
     public void shouldEndRound() throws InvalidMoveException, Exception {
         when(draftPool.getSize()).thenReturn(0);
@@ -49,15 +47,6 @@ public class RoundTrackTest {
         assertEquals(dice1, roundTrack.getRoundSet(2).get(1).getDice());
         assertEquals(dice2, roundTrack.getRoundSet(2).get(0).getDice());
     }
-
-    @Test
-    public void shouldGetRoundSet() {
-    }
-
-    @Test
-    public void shouldGetColors() {
-    }
-
     @Test
     public void shouldGetRound() throws InvalidMoveException{
         for(int i=1; i<=10; i++)
@@ -69,7 +58,6 @@ public class RoundTrackTest {
             catch (Exception e){
                 fail("Should not be exception");
             }
-
         }
         assertEquals(11, roundTrack.getRound());
         try{
@@ -80,6 +68,5 @@ public class RoundTrackTest {
         {
             assertEquals("Game is finished", e.getMessage());
         }
-
     }
 }

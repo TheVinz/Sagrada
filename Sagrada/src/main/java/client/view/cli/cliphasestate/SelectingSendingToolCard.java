@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class SelectingSendingToolCard implements CliPhaseState{
 
-    public void SelectingToolCard(){
+    public SelectingSendingToolCard(){
         CliDisplayer.getDisplayer().displayText("Choose a toolcard: ");
     }
     @Override
