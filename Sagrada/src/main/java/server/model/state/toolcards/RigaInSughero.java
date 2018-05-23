@@ -54,6 +54,6 @@ public class RigaInSughero extends ToolCard {
         if(expectedParameters.peek().equals(DRAFT_POOL_CELL))
             return Response.DRAFT_POOL_MOVE;
         else
-            return super.next();
+            return null;
     }
 }

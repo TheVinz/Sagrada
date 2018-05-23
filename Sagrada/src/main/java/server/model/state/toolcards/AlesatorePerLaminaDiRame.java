@@ -66,9 +66,9 @@ public class AlesatorePerLaminaDiRame extends ToolCard {
 
     @Override
     public Response next() {   //trascinamento
-        if(expectedParameters.peek().equals(WINDOW_FRAME))
+        if(expectedParameters.peek().equals(WINDOW_FRAME)&&expectedParameters.size()==4)
             return Response.WINDOW_FRAME_MOVE;
         else
-            return super.next();
+            return null;
     }
 }
