@@ -2,6 +2,7 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
+import client.view.cli.CliState;
 import common.response.Response;
 import server.model.state.ModelObject.ModelObject;
 import common.RemoteMVC.RemoteController;
@@ -44,7 +45,6 @@ public class SelectingWindowFrameCell implements CliPhaseState {
                     throw new InvalidInput("Wrong Input\n");
                 } else {
                     CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME_CELL, row, nextInt));
-
                 }
             }
 

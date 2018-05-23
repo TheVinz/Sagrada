@@ -65,8 +65,11 @@ public class PennelloPerEglomise extends ToolCard {
     }
 
     @Override
-    public Response next(){   //trascinamento
-        return null;
+    public Response next() {   //trascinamento
+        if(expectedParameters.peek().equals(WINDOW_FRAME)&&expectedParameters.size()==4)
+            return Response.WINDOW_FRAME_MOVE;
+        else
+            return null;
     }
 
 }

@@ -53,6 +53,9 @@ public class TenagliaARotelle extends ToolCard {
 
     @Override
     public Response next() {   //doppio trascinamento dalla draftpool
-        return super.next();
+        if(expectedParameters.equals(DRAFT_POOL_CELL))
+            return Response.DRAFT_POOL_MOVE;
+        else
+            return null;
     }
 }

@@ -12,6 +12,7 @@ import server.model.state.toolcards.ToolCard;
 public class UsingToolCard extends PlayerState {
 
     private ToolCard card;
+    private Response nextParameter = null;
 
     public UsingToolCard(Player player, Model model){
         super(player, model);
@@ -25,17 +26,27 @@ public class UsingToolCard extends PlayerState {
             card.start(player);
             return this;
         } else {
+            System.out.println(modelObject.getType().toString());
             card.setParameter(modelObject);
             if (card.hasNext())
                 return this;
-            else return new WaitingState(player, model);
+            else
+            {
+                nextParameter = Response.SUCCESS;
+                return new WaitingState(player, model);
+            }
         }
     }
 
     @Override
     public Response nextParam() {
-        if(card.hasNext())
-            return card.next();
-        else return null;
+        if(nextParameter == null){
+            if(card.hasNext())
+                return card.next();
+            else return null;
+        }else{
+            return nextParameter;
+        }
+
     }
 }
