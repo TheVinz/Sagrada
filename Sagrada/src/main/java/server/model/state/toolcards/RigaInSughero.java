@@ -51,6 +51,9 @@ public class RigaInSughero extends ToolCard {
 
     @Override
     public Response next() {  //trascinamento da draftpool
-        return super.next();
+        if(expectedParameters.peek().equals(DRAFT_POOL_CELL))
+            return Response.DRAFT_POOL_MOVE;
+        else
+            return super.next();
     }
 }

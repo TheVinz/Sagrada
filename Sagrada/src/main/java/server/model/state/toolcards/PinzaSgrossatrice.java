@@ -49,6 +49,8 @@ public class PinzaSgrossatrice extends ToolCard {
 
     @Override
     public Response next() {   //scelta
+        if(expectedParameters.peek().equals(CHOICE))
+            return Response.PINZA_SGROSSATRICE_CHOICE;
         return super.next();
     }
 }

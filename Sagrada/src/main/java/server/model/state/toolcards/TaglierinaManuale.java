@@ -115,7 +115,12 @@ public class TaglierinaManuale extends ToolCard {
     }
 
     @Override
-    public Response next() {    //scelta e trascinamento
-        return super.next();
+    public Response next() {   //trascinamento
+        if(expectedParameters.peek().equals(WINDOW_FRAME))
+            return Response.WINDOW_FRAME_MOVE;
+        else if(expectedParameters.peek().equals(CHOICE))
+            return Response.TAGLIERINA_MANUALE_CHOICE;
+        else
+            return super.next();
     }
 }

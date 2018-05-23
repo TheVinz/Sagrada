@@ -49,11 +49,13 @@ public class MenuPhase implements CliPhaseState{
                 CliApp.getCliApp().setCurrentState(new SelectingSendingPlayerWindowFrame());
                 break;
             case "D":
+                CliApp.getCliApp().setMovingDice(true);
                 new Thread( () -> CliApp.getCliApp().moveFromDraftPool()).start();
                 break;
 
             case "U":
                 CliDisplayer.getDisplayer().printToolCard();
+                CliDisplayer.getDisplayer().displayText("Select a toolcard:\n>>>");
                 CliApp.getCliApp().setCurrentState(new SelectingSendingToolCard());
                 break;
 

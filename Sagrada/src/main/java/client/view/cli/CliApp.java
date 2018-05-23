@@ -9,6 +9,7 @@ import java.util.Scanner;
 import client.view.cli.cliphasestate.*;
 import common.RemoteMVC.RemoteController;
 import common.command.GameCommand;
+import common.response.Response;
 
 public class CliApp {
 
@@ -16,7 +17,8 @@ public class CliApp {
     private CliPhaseState currentState;
     private CliState cliState;
     private int id;
-    private boolean waitingPhase;
+    private boolean waitingPhase=true;
+    private boolean movingDice=false;
     private ArrayDeque<GameCommand> commandBuffer = new ArrayDeque<GameCommand>();
     Scanner scanner = new Scanner(System.in);
 
@@ -47,10 +49,15 @@ public class CliApp {
                 }
             }
         }
+        sendCommand();
+        if(!movingDice){
+            addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME, CliState.getCliState().getActivePlayer().getId()));
+            sendCommand();
+        }
         setCurrentState(new SelectingWindowFrameCell());
         sendCommand();
-        sendCommand();
         setWaitingPhase(true);
+        movingDice =false;
     }
 
     public void setCurrentState(CliPhaseState currentState){
@@ -131,6 +138,9 @@ public class CliApp {
     }
 
     public void moveFromWindowFrame() {
+
+        addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME, CliState.getCliState().getActivePlayer().getId()));
+        sendCommand();
         setCurrentState(new SelectingWindowFrameCell());
         synchronized (this){
             while(getCommandBufferSize() == 0) {
@@ -142,8 +152,15 @@ public class CliApp {
             }
         }
         sendCommand();
+        addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME, CliState.getCliState().getActivePlayer().getId()));
+        sendCommand();
         setCurrentState(new SelectingWindowFrameCell());
         sendCommand();
 
+    }
+
+
+    public void setMovingDice(boolean movingDice) {
+        this.movingDice = movingDice;
     }
 }

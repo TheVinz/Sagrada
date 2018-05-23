@@ -130,6 +130,8 @@ public class DiluentePerPastaSalda extends ToolCard {
 
     @Override
     public Response next() {  //scelta
+        if(expectedParameters.peek().equals(CHOICE))
+            return Response.DILUENTE_PER_PASTA_SALDA_CHOICE;
         return super.next();
     }
 }

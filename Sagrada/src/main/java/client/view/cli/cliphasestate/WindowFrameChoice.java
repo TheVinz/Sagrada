@@ -29,6 +29,7 @@ public class WindowFrameChoice implements CliPhaseState {
 
             CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.CHOICE, nextInt));
             CliApp.getCliApp().sendCommand();
+            CliApp.getCliApp().setWaitingPhase(true);
         }
     }
 

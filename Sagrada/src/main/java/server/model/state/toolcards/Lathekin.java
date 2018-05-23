@@ -95,7 +95,10 @@ public class Lathekin extends ToolCard {
     }
 
     @Override
-    public Response next() {   //doppio trascinamento
-        return super.next();
+    public Response next() {   //trascinamento
+        if(expectedParameters.peek().equals(WINDOW_FRAME))
+            return Response.WINDOW_FRAME_MOVE;
+        else
+            return super.next();
     }
 }
