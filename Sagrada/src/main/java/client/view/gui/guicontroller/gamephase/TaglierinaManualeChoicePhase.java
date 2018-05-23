@@ -33,8 +33,6 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
             dialog.close();
             try {
                 controller.command(Response.CHOICE, Response.TAGLIERINA_MANUALE_ONE_MOVE);
-            } catch (InvalidMoveException e) {
-                gameController.log(e.getMessage()+"\n");
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -44,8 +42,6 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
             dialog.close();
             try {
                 controller.command(Response.CHOICE, Response.TAGLIERINA_MANUALE_TWO_MOVES);
-            } catch (InvalidMoveException e) {
-                gameController.log(e.getMessage() + "\n");
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

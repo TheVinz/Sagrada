@@ -19,9 +19,6 @@ public class DraftPoolPhase extends GamePhase{
     public GamePhase handleDraftPool(int index){
         try {
             controller.command(Response.DRAFT_POOL_CELL, index);
-        } catch (InvalidMoveException e) {
-            gameController.log(e.getMessage()+"\n");
-            return new MainPhase(controller, gameController);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

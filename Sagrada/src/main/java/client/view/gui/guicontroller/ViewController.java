@@ -81,8 +81,6 @@ public class ViewController {
     public void notifyChoice(int index) {
         try {
             remoteController.command(Response.CHOICE, index);
-        } catch (InvalidMoveException e) {
-            e.printStackTrace();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -151,7 +149,7 @@ public class ViewController {
         gameController.addRoundTrackBox(round, values, colors);
     }
 
-    public void startTurn(int id) {
+    public synchronized void startTurn(int id) {
         if(id==this.id) {
             gameController.log("Is your turn!!\n");
             GamePhase.diceMoved=false;
@@ -162,7 +160,8 @@ public class ViewController {
             gameController.log("Is " + gameController.getPlayerName(id) + " turn!!\n");
     }
 
-    public void handleResponse(Response response) {
+    public synchronized void handleResponse(Response response) {
+        gameController.log("handle response\n");
         switch(response){
             case DRAFT_POOL_MOVE:
                 currentPhase=new MovingDraftPoolPhase(remoteController, gameController);
@@ -195,7 +194,8 @@ public class ViewController {
                 currentPhase=new MainPhase(remoteController,gameController);
                 break;
             case ERROR:
-                gameController.log("Something went wrong...\n");
+                gameController.log("Invalid Move...\n");
+                currentPhase=new MainPhase(remoteController, gameController);
                 break;
             default:
                 currentPhase=new MainPhase(remoteController, gameController);
@@ -203,19 +203,19 @@ public class ViewController {
         }
     }
 
-    public void roundTrackClick(int round, int index) {
+    public synchronized void roundTrackClick(int round, int index) {
         currentPhase=currentPhase.handleRoundTrack(round, index);
     }
 
-    public void toolCardClick(int index) {
+    public synchronized void toolCardClick(int index) {
         currentPhase=currentPhase.handleToolCard(index);
     }
 
-    public void draftPoolClick(int index){
+    public synchronized void draftPoolClick(int index){
         currentPhase=currentPhase.handleDraftPool(index);
     }
 
-    public void windowFrameClick(int row, int col){
+    public synchronized void windowFrameClick(int row, int col){
         currentPhase=currentPhase.handleWindowFrame(row,col);
     }
 
@@ -224,11 +224,13 @@ public class ViewController {
         try {
             remoteController.command(Response.END_TURN);
             gameController.unableAll();
-        } catch (InvalidMoveException e) {
-            e.printStackTrace();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
         currentPhase=new MainPhase(remoteController, gameController);
+    }
+
+    public void debug(String message) {
+        gameController.log(message);
     }
 }

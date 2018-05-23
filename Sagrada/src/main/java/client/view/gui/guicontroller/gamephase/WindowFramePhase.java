@@ -17,9 +17,6 @@ public class WindowFramePhase extends GamePhase {
     public GamePhase handleWindowFrame(int row, int index){
         try {
             controller.command(Response.WINDOW_FRAME_CELL, row, index);
-        } catch (InvalidMoveException e) {
-            gameController.log(e.getMessage()+"\n");
-            return new GamePhase(controller, gameController);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

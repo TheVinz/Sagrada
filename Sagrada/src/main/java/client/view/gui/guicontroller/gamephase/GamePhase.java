@@ -18,6 +18,8 @@ public class GamePhase {
     public GamePhase(RemoteController controller, GameController gameController){
         this.controller=controller;
         this.gameController=gameController;
+        gameController.unableAll();
+        gameController.log("waiting\n");
     }
 
     public GamePhase handleToolCard(int index){

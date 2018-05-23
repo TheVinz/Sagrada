@@ -46,8 +46,6 @@ public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
                 stage.close();
                 try {
                     controller.command(Response.CHOICE, index);
-                } catch (InvalidMoveException e) {
-                    gameController.log(e.getMessage()+"\n");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }

@@ -54,6 +54,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     //da ViewProxy
     @Override
     public void notifyNextParameter(Response response) {
+        System.out.println(response);
         try {
             remoteView.nextParameter(response);
         } catch (RemoteException e) {
@@ -253,7 +254,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 */
 
     @Override
-    public void command(GameCommand gameCommand) throws RemoteException{
+    public void command(GameCommand gameCommand) {
         new Thread( () -> {
         try {
             switch (gameCommand.getType()) {
@@ -289,45 +290,63 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     public int getId(){
         return player.getId();
     }
+
     @Override
-    public void command(Response type) throws RemoteException {
-        switch(type){
-            case END_TURN:
-                controller.endTurn();
-                break;
-            default:
-                break;
-        }
+    public void command(Response type) {
+        new Thread( () -> {
+            switch (type) {
+                case END_TURN:
+                    controller.endTurn();
+                    break;
+                default:
+                    break;
+            }
+        }).start();
     }
     @Override
-    public void command(Response type, int index) throws InvalidMoveException, RemoteException {
-        switch(type){
-            case DRAFT_POOL_CELL:
-                controller.selectObject(state.getDraftPool().getCell(index));
-                break;
-            case TOOL_CARD:
-                controller.selectObject(state.getToolCard(index));
-                break;
-            case CHOICE:
-                controller.selectObject(new Choice(index));
-                break;
-            default:
-                break;
-        }
+    public void command(Response type, int index) {
+        System.out.println(type+" "+index);
+        new Thread( () -> {
+            try {
+                switch (type) {
+                    case DRAFT_POOL_CELL:
+                        controller.selectObject(state.getDraftPool().getCell(index));
+                        break;
+                    case TOOL_CARD:
+                        controller.selectObject(state.getToolCard(index));
+                        break;
+                    case CHOICE:
+                        controller.selectObject(new Choice(index));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (InvalidMoveException e){
+                notifyNextParameter(Response.ERROR);
+            }
+        }).start();
 
     }
     @Override
-    public void command(Response type, int param1, int param2) throws InvalidMoveException, RemoteException {
-        switch(type){
-            case WINDOW_FRAME_CELL:
-                controller.selectObject(player.getWindowFrame().getCell(param1, param2));
-                break;
-            case ROUND_TRACK_CELL:
-                controller.selectObject(state.getRoundTrack().getRoundSet(param1).get(param2));
-                break;
-            default:
-                break;
-        }
+    public void command(Response type, int param1, int param2) {
+        new Thread( () -> {
+            try {
+                switch (type) {
+                    case WINDOW_FRAME_CELL:
+                        controller.selectObject(player.getWindowFrame().getCell(param1, param2));
+                        break;
+                    case ROUND_TRACK_CELL:
+                        controller.selectObject(state.getRoundTrack().getRoundSet(param1).get(param2));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (InvalidMoveException e){
+                notifyNextParameter(Response.ERROR);
+            }
+        }).start();
     }
 
 }

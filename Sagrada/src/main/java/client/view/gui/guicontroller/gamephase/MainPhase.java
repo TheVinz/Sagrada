@@ -22,9 +22,6 @@ public class MainPhase extends GamePhase {
     public GamePhase handleDraftPool(int index){
         try {
             controller.command(Response.DRAFT_POOL_CELL, index);
-        } catch (InvalidMoveException e) {
-            gameController.log(e.getMessage()+"\n");
-            return new GamePhase(controller, gameController);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -40,21 +37,22 @@ public class MainPhase extends GamePhase {
             try {
                 controller.command(Response.DRAFT_POOL_CELL, sourceIndex);
                 controller.command(Response.WINDOW_FRAME_CELL, destRow, destCol);
-            } catch (InvalidMoveException e) {
-                gameController.log(e.getMessage()+"\n");
-                return new GamePhase(controller, gameController);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
             diceMoved=true;
         }
-        return new MainPhase(controller, gameController);
+        return new GamePhase(controller, gameController);
     }
 
     @Override
     public GamePhase handleToolCard(int index){
+        try {
+            controller.command(Response.TOOL_CARD, index);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         GamePhase phase = new GamePhase(controller, gameController);
-        phase=phase.handleToolCard(index);
         return phase;
     }
 

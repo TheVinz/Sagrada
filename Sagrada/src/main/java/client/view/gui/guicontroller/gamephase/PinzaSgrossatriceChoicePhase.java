@@ -30,9 +30,6 @@ public class PinzaSgrossatriceChoicePhase extends GamePhase {
         increase.setOnAction((event) -> {
             try {
                 controller.command(Response.CHOICE, Response.PINZA_SGROSSATRICE_INCREASE);
-            } catch (InvalidMoveException e) {
-                gameController.log(e.getMessage()+"\n");
-                dialog.close();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -42,9 +39,6 @@ public class PinzaSgrossatriceChoicePhase extends GamePhase {
         decrease.setOnAction((event) -> {
             try {
                 controller.command(Response.CHOICE, Response.PINZA_SGROSSATRICE_DECREASE);
-            } catch (InvalidMoveException e) {
-                gameController.log(e.getMessage()+"\n");
-                dialog.close();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

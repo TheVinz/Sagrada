@@ -34,9 +34,6 @@ public class MovingWindowFramePhase extends GamePhase {
             try {
                 controller.command(Response.DRAFT_POOL_CELL, sourceRow, sourceCol);
                 controller.command(Response.DRAFT_POOL_CELL, targetRow, targetCol);
-            } catch (InvalidMoveException e) {
-                gameController.log(e.getMessage()+"\n");
-                return new MainPhase(controller, gameController);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

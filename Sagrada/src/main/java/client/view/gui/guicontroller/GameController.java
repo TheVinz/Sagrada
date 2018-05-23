@@ -112,7 +112,7 @@ public class GameController {
         for(Node n : frame.getChildren()){
             n.setOnDragDropped(event -> handleDrop(event, n));
             n.setOnDragOver(event -> handleDragOver(event));
-            n.setOnMouseDragged((event) -> handleFrameDrag(event, n));
+            n.setOnDragDetected((event) -> handleFrameDrag(event, n));
             n.setOnMouseClicked((event) -> handleFrameClick(n));
             n.getStyleClass().add("cell");
         }
@@ -326,4 +326,5 @@ public class GameController {
     private void endTurn(){
         controller.endTurn();
     }
+
 }
