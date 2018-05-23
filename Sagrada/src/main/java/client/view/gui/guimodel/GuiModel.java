@@ -66,6 +66,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void toolCardUsed(int player, int index, int tokens) throws RemoteException {
+        Platform.runLater(() -> view.toolCardUsed(player, index, tokens));
 
     }
 
@@ -81,7 +82,28 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void notifyDiceDraw(int player, char color) throws RemoteException {
-
+        String diceColor;
+        switch(color){
+            case 'b':
+                diceColor="blue";
+                break;
+            case 'r':
+                diceColor= "red";
+                break;
+            case 'y':
+                diceColor="yellow";
+                break;
+            case 'p':
+                diceColor="purple";
+                break;
+            case 'g':
+                diceColor="green";
+                break;
+            default:
+                diceColor=null;
+                break;
+        }
+        Platform.runLater(() -> view.notifyDiceDraw(player, diceColor));
     }
 
     @Override
@@ -96,6 +118,6 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void nextParameter(Response response) {
-
+        Platform.runLater(() -> view.handleResponse(response));
     }
 }

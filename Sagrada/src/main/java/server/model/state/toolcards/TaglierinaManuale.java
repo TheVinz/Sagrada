@@ -20,8 +20,8 @@ import static server.model.state.ModelObject.ModelType.*;
 @SuppressWarnings("Duplicates")
 public class TaglierinaManuale extends ToolCard {
 
-    public static final int TWO_MOVES=0;
-    public static final int ONE_MOVE=1;
+    public static final int TWO_MOVES=3;
+    public static final int ONE_MOVE=2;
 
     public TaglierinaManuale(Model model) {
         super(model);

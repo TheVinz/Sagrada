@@ -1,21 +1,27 @@
 .cell{
     -fx-background-color: black;
-}
-.cell:hover{
-    -fx-background-color: rgba(75, 255, 75, 0.8);
-    -fx-cursor: hand;
     -fx-max-height: 54px;
     -fx-max-width: 54px;
     -fx-min-width: 54px;
     -fx-min-height: 54px;
 }
-.cell.selected{
+.toolcard{
+    -fx-min-height: 301px;
+    -fx-max-height: 301px;
+    -fx-min-width: 205px;
+    -fx-max-width: 205px;
+}
+.clickable .cell:hover,.clickable .toolcard:hover, .draggable .cell:hover{
+    -fx-background-color: rgba(75, 255, 75, 0.8);
+    -fx-cursor: hand;
+}
+.selected{
     -fx-background-color: rgba(255,75,75,0.8);
 }
 .endButton{
     -fx-background-color: radial-gradient(radius 180%, red, black);
 }
-.endButton:hover{
+.endButton:hover, .button:hover{
     -fx-cursor: hand;
     -fx-background-color: black;
 }

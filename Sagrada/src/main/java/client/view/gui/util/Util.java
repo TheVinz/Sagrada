@@ -11,6 +11,43 @@ import javafx.scene.layout.RowConstraints;
 
 public class Util {
 
+    public static Pane getEmptyDice(int value){
+        ImageView result = new ImageView();
+        Image image;
+        switch(value){
+            case 1:
+                image=new Image(Util.class.getResource("../resources/frame/one.png").toString());
+                break;
+            case 2:
+                image=new Image(Util.class.getResource("../resources/frame/two.png").toString());
+                break;
+            case 3:
+                image=new Image(Util.class.getResource("../resources/frame/three.png").toString());
+                break;
+            case 4:
+                image=new Image(Util.class.getResource("../resources/frame/four.png").toString());
+                break;
+            case 5:
+                image=new Image(Util.class.getResource("../resources/frame/five.png").toString());
+                break;
+            case 6:
+                image=new Image(Util.class.getResource("../resources/frame/six.png").toString());
+                break;
+            default:
+                image=new Image(Util.class.getResource("../resources/frame/empty.png").toString());
+                break;
+        }
+        result.setImage(image);
+        result.setFitWidth(50);
+        result.setFitHeight(50);
+        result.setX(2);
+        result.setY(2);
+        Pane pane = new Pane();
+        pane.getStyleClass().add("cell");
+        pane.getChildren().add(result);
+        return pane;
+    }
+
     public static ImageView getImage(int value){
         ImageView result = new ImageView();
         Image image;
@@ -189,45 +226,58 @@ public class Util {
         return pane;
     }
 
-    public static ImageView getToolCard(int index){
+    public static Pane getToolCard(int index){
+        String name;
         Image image;
         String path="../resources/toolcards/";
         switch(index){
             case 1:
                 path=path+"1-pinzasgrossatrice.png";
+                name = "Pinza Sgrossatrice";
                 break;
             case 2:
                 path=path+"2-pennellopereglomise.png";
+                name = "Pennello Per Eglomise";
                 break;
             case 3:
                 path=path+"3-alesatoreperlaminadirame.png";
+                name = "Alesatore Per Lamina Di Rame";
                 break;
             case 4:
                 path=path+"4-lathekin.png";
+                name = "Lathekin";
                 break;
             case 5:
                 path=path+"5-taglierinacircolare.png";
+                name = "Taglierina Circolare";
                 break;
             case 6:
                 path=path+"6-pennelloperpastasalda.png";
+                name = "Pennello Per Pasta Salda";
                 break;
             case 7:
                 path=path+"7-martelletto.png";
+                name = "Martelletto";
                 break;
             case 8:
                 path=path+"8-tenagliaarotelle.png";
+                name = "Tenaglia A Rotelle";
                 break;
             case 9:
                 path=path+"9-rigainsughero.png";
+                name = "Riga in Sughero";
                 break;
             case 10:
                 path=path+"10-tamponediamantato.png";
+                name = "Tampone Diamantato";
                 break;
             case 11:
                 path=path+"11-diluenteperpastasalda.png";
+                name = "Diluente Per Pasta Salda";
                 break;
             case 12:
                 path=path+"12-taglierinamanuale.png";
+                name = "Taglierina Manuale";
                 break;
             default:
                 return null;
@@ -236,7 +286,13 @@ public class Util {
         ImageView toolCard=new ImageView(image);
         toolCard.setFitHeight(297);
         toolCard.setFitWidth(201);
-        return toolCard;
+        toolCard.setX(2);
+        toolCard.setY(2);
+        Pane pane = new Pane();
+        pane.getStyleClass().add("toolcard");
+        pane.getChildren().add(toolCard);
+        pane.setAccessibleText(name);
+        return pane;
     }
 
     public static ImageView getPrivateObjectiveCard(char color){
