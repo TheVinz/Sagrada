@@ -32,6 +32,16 @@ You can't insert anything now
 /*
 tool card sembra come non entri nello stato, me le stampa ma non mi chiede di sceglierne una
  */
+/*
+Una volta mosso usato e usato una toolcard il mio turno finisce ma posso comunque mettere un input..per sbaglio ho schiacciato V
+e mi ha stampato lo stato dell'altro active player. dall'altra parte se schiaccio S mi stampa lo stato dell'altro ma poi si ferma.
+ */
+/*
+aggiungere un input che mi permetta di uscire da uno stato e tornare allo stato di menu
+ */
+/*
+wrong input nella toolcard e mi si ferma tutto
+ */
 
 public class CliApp {
 

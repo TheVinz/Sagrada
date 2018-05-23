@@ -55,7 +55,6 @@ public class MenuPhase implements CliPhaseState{
 
             case "U":
                 CliDisplayer.getDisplayer().printToolCard();
-                CliDisplayer.getDisplayer().displayText("Select a toolcard:\n>>>");
                 CliApp.getCliApp().setCurrentState(new SelectingSendingToolCard());
                 break;
 

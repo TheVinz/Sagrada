@@ -20,16 +20,16 @@ public class CliDisplayer {
 
     public void printMenu(){
         displayText("\t\t\t\tIT'S YOUR TURN\nWhat would you like to see?\n");
-        displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
-        displayText("-Your State press\t\t\t\t\t V\n");
-        displayText("-ToolCards press\t\t\t\t\t T\n");
-        displayText("-PublicObjectiveCard press\t\t\t O\n");
-        displayText("-RoundTrack press\t\t\t\t\t R\n");
-        displayText("-Other's State press\t\t\t\t S\n\n ");
+        displayText(">>> DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
+        displayText(">>> Your State press\t\t\t\t\t V\n");
+        displayText(">>> ToolCards press\t\t\t\t\t T\n");
+        displayText(">>> PublicObjectiveCard press\t\t\t O\n");
+        displayText(">>> RoundTrack press\t\t\t\t\t R\n");
+        displayText(">>> Other's State press\t\t\t\t S\n\n ");
         displayText("What you wanna do?\n");
-        displayText("-Place a dice press\t\t\t\t\t D\n");
-        displayText("-Use a ToolCard press\t\t\t\t U\n");
-        displayText("-In order to skip the turn press\t N\n");
+        displayText(">>> Place a dice press\t\t\t\t\t D\n");
+        displayText(">>> Use a ToolCard press\t\t\t\t U\n");
+        displayText(">>> In order to skip the turn press\t N\n");
     }
 
     public void printWindowFrame(CliPlayerState cliPlayerState){

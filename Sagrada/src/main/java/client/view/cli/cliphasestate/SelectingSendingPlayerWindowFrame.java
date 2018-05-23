@@ -10,12 +10,12 @@ import java.util.Scanner;
 public class SelectingSendingPlayerWindowFrame implements CliPhaseState {
 
     public SelectingSendingPlayerWindowFrame(){
-        CliDisplayer.getDisplayer().displayText("Other Players are:");
+        CliDisplayer.getDisplayer().displayText("Other Players are: ");
         for(int i=0;i<4;i++){
             if(CliState.getCliState().getCliPlayerState(i)!=null)
-                CliDisplayer.getDisplayer().displayText(CliState.getCliState().getCliPlayerState(i).getId()+"_"+CliState.getCliState().getCliPlayerState(i).getName()+" | ");
+                CliDisplayer.getDisplayer().displayText("Id: "+CliState.getCliState().getCliPlayerState(i).getId()+"_Name: "+CliState.getCliState().getCliPlayerState(i).getName()+" | ");
         }
-        CliDisplayer.getDisplayer().displayText("\n Press e to exit or Put the id of the player:\n");
+        CliDisplayer.getDisplayer().displayText("\nPress e to exit or Put the id of the player:\n");
     }
     @Override
     public void handle(String input) throws InvalidInput {
