@@ -279,6 +279,21 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 CliApp.getCliApp().setWaitingPhase(false);
                 CliApp.getCliApp().setCurrentState(new MenuPhase());
                 break;
+            case PINZA_SGROSSATRICE_CHOICE:
+                CliApp.getCliApp().setCurrentState(new PinzaSgrossatriceChoice());
+                CliApp.getCliApp().sendCommand();
+                CliApp.getCliApp().setWaitingPhase(true);
+                break;
+            case TAGLIERINA_MANUALE_CHOICE:
+                CliApp.getCliApp().setCurrentState(new TaglierinaManualeChoice());
+                CliApp.getCliApp().sendCommand();
+                CliApp.getCliApp().setWaitingPhase(true);
+                break;
+            case DILUENTE_PER_PASTA_SALDA_CHOICE:
+                CliApp.getCliApp().setCurrentState(new DiluentePerPastaSaldaChoice());
+                CliApp.getCliApp().sendCommand();
+                CliApp.getCliApp().setWaitingPhase(true);
+                break;
             default:
                 return;
 
