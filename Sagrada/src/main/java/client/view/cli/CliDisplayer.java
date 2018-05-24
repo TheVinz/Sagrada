@@ -45,62 +45,62 @@ public class CliDisplayer {
         for (int i = 0; i < 4; i++) {
             displayText(i + " |");
             for (int j = 0; j < 5; j++) {
-                displayText("| ");
+                displayText("|");
                 if (cliPlayerState.getWindowFrame()[i][j].length() == 2) {
                     switch (cliPlayerState.getWindowFrame()[i][j].charAt(1)) {
                         case 'g':
-                            displayText((char) 27 + "[102m" + cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");   //caso green
+                            displayText((char) 27 + "[1;30;48;5;102m" +" "+cliPlayerState.getWindowFrame()[i][j].charAt(0)+"  " + (char) 27 + "[0m");   //caso green
                             break;
                         case 'b':
-                            displayText((char) 27 + "[106m" + cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[1;30;106m" +" "+ cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
                             break;
                         case 'y':
-                            displayText((char) 27 + "[103m" + cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[1;30;103m" +" "+ cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
                             break;
                         case 'r':
-                            displayText((char) 27 + "[101m" + cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[1;30;41m" +" "+ cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
                             break;
                         case 'p':
-                            displayText((char) 27 + "[105m" + cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[1;30;105m" +" "+ cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
                             break;
                     }
                 } else {
                     switch (cliPlayerState.getWindowFrame()[i][j].charAt(0)) {
                         case '1':
-                            displayText(cliPlayerState.getWindowFrame()[i][j] + "  ");
+                            displayText(" "+(char)27+"[1;30m"+cliPlayerState.getWindowFrame()[i][j]+(char)27+"[0m" + "  ");
                             break;
                         case '2':
-                            displayText(cliPlayerState.getWindowFrame()[i][j] + "  ");
+                            displayText(" "+(char)27+"[1;30m"+cliPlayerState.getWindowFrame()[i][j]+(char)27+"[0m" + "  ");
                             break;
                         case '3':
-                            displayText(cliPlayerState.getWindowFrame()[i][j] + "  ");
+                            displayText(" "+(char)27+"[1;30m"+cliPlayerState.getWindowFrame()[i][j]+(char)27+"[0m" + "  ");
                             break;
                         case '4':
-                            displayText(cliPlayerState.getWindowFrame()[i][j] + "  ");
+                            displayText(" "+(char)27+"[1;30m"+cliPlayerState.getWindowFrame()[i][j]+(char)27+"[0m" + "  ");
                             break;
                         case '5':
-                            displayText(cliPlayerState.getWindowFrame()[i][j] + "  ");
+                            displayText(" "+(char)27+"[1;30m"+cliPlayerState.getWindowFrame()[i][j]+(char)27+"[0m" + "  ");
                             break;
                         case '6':
-                            displayText(cliPlayerState.getWindowFrame()[i][j] + "  ");
+                            displayText(" "+(char)27+"[1;30m"+cliPlayerState.getWindowFrame()[i][j]+(char)27+"[0m" + "  ");
                             break;
                         case 'X':
-                            displayText("   ");
+                            displayText("    ");
                             break;
                         case 'g':
-                            displayText((char) 27 + "[102m" + "   " + (char) 27 + "[0m");   //caso green
+                            displayText((char) 27 + "[102m" + "    " + (char) 27 + "[0m");   //caso green
                             break;
                         case 'b':
-                            displayText((char) 27 + "[106m" + "   " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[106m" + "    " + (char) 27 + "[0m");
                             break;
                         case 'y':
-                            displayText((char) 27 + "[103m" + "   " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[103m" + "    " + (char) 27 + "[0m");
                             break;
                         case 'r':
-                            displayText((char) 27 + "[101m" + "   " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[101m" + "    " + (char) 27 + "[0m");
                             break;
                         case 'p':
-                            displayText((char) 27 + "[105m" + "   " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[105m" + "    " + (char) 27 + "[0m");
                             break;
                     }
                 }
@@ -119,6 +119,9 @@ public class CliDisplayer {
                 displayText("\n");
             }
         }
+    }
+    public String displayCharBlack(char c){
+       return new String((char)27+"[30m"+c+(char)27+"[0m");
     }
 
     public void printWindowFrame() {
@@ -252,44 +255,44 @@ public class CliDisplayer {
         for(int i=0;i<4;i++) {
             displayText(i + " |");
             for (int j = 0; j < 5; j++) {
-                displayText("| ");
+                displayText("|");
                 char c = rep.charAt(index);
                 switch (c) {
                     case '1':
-                        displayText(c + "  ");
+                        displayText(c + "   ");
                         break;
                     case '2':
-                        displayText(c + "  ");
+                        displayText(c + "   ");
                         break;
                     case '3':
-                        displayText(c + "  ");
+                        displayText(c + "   ");
                         break;
                     case '4':
-                        displayText(c + "  ");
+                        displayText(c + "   ");
                         break;
                     case '5':
-                        displayText(c + "  ");
+                        displayText(c + "   ");
                         break;
                     case '6':
-                        displayText(c + "  ");
+                        displayText(c + "   ");
                         break;
                     case '0':
-                        displayText("   ");
+                        displayText("    ");
                         break;
                     case 'g':
-                        displayText((char) 27 + "[102m" + "   " + (char) 27 + "[0m");   //caso green
+                        displayText((char) 27 + "[102m" + "    " + (char) 27 + "[0m");   //caso green
                         break;
                     case 'b':
-                        displayText((char) 27 + "[106m" + "   " + (char) 27 + "[0m");
+                        displayText((char) 27 + "[106m" + "    " + (char) 27 + "[0m");
                         break;
                     case 'y':
-                        displayText((char) 27 + "[103m" + "   " + (char) 27 + "[0m");
+                        displayText((char) 27 + "[103m" + "    " + (char) 27 + "[0m");
                         break;
                     case 'r':
-                        displayText((char) 27 + "[101m" + "   " + (char) 27 + "[0m");
+                        displayText((char) 27 + "[101m" + "    " + (char) 27 + "[0m");
                         break;
                     case 'p':
-                        displayText((char) 27 + "[105m" + "   " + (char) 27 + "[0m");
+                        displayText((char) 27 + "[105m" + "    " + (char) 27 + "[0m");
                         break;
                 }
                 index++;
