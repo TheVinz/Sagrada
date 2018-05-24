@@ -1,5 +1,6 @@
 package client.view.gui.guicontroller;
 
+import client.view.gui.guicontroller.gamephase.GamePhase;
 import client.view.gui.util.Util;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -34,10 +35,29 @@ public class GameController {
     private GridPane[] frames = new GridPane[4];
     private String[] reps = new String[4];
     private String[] playerNames = new String[4];
+    private int[] tokens = new int[4];
+    private Label[] labels = new Label[4];
     private GridPane activeFrame;
     private int id;
+    private final String draggable = "draggable";
+    private final String droppable = "droppable";
+    private final String clickable = "clickable";
 
     private ViewController controller;
+
+    /*Init phase*/
+    public void addListener(ViewController controller){
+        this.controller=controller;
+    }
+
+    public String getPlayerName(int id){
+        return playerNames[id];
+    }
+
+    public String getToolCardName(int index){
+        Node card = toolCardBox.getChildren().get(index);
+        return card.getAccessibleText();
+    }
 
     public void loadPlayer(String name, int id, String rep, int windowFrameFavorToken) {
         int row=id/2;
@@ -55,14 +75,16 @@ public class GameController {
         frames[id]=windowFrame;
         reps[id]= rep;
         playerNames[id]=name;
+        tokens[id]=windowFrameFavorToken;
+        labels[id]=tokensLabel;
         textArea.appendText(name + " joined the game!!\n");
 
     }
 
     public void loadToolCard(int toolCard, final int i) {
-        ImageView card=Util.getToolCard(toolCard);
-        card.setOnMouseClicked((event) -> controller.notifyToolCardClicked(i));
+        Pane card=Util.getToolCard(toolCard);
         toolCardBox.getChildren().add(card);
+        card.setOnMouseClicked((event) -> handleToolCardClick(i));
     }
 
     public void setPrivateObjectiveCard(char color) {
@@ -70,27 +92,6 @@ public class GameController {
         box.setAlignment(Pos.CENTER);
         box.getChildren().add(Util.getPrivateObjectiveCard(color));
         objectiveGrid.add(box, 0, 0);
-    }
-
-    public void setDraftPoolDice(final int i, int value, char color) {
-        ImageView dice = Util.getImage(color, value);
-        Pane pane = new Pane();
-        dice.setX(2);
-        dice.setY(2);
-        pane.getStyleClass().add("cell");
-        pane.getChildren().add(dice);
-        draftPoolBox.getChildren().add(i, pane);
-        dice.setOnDragDetected((event) -> handleStartDrag(event, i));
-    }
-
-    private void handleStartDrag(MouseEvent event, int index) {
-        controller.draftPoolClick(index);
-        ImageView source = (ImageView) event.getSource();
-        Dragboard db = source.startDragAndDrop(TransferMode.ANY);
-        ClipboardContent content = new ClipboardContent();
-        content.putImage(source.getImage());
-        db.setContent(content);
-        event.consume();
     }
 
     public void setPublicObjectiveCards(int[] cards) {
@@ -104,10 +105,6 @@ public class GameController {
         }
     }
 
-    public void log(String message){
-        textArea.appendText(message);
-    }
-
     public void setActiveFrame(GridPane frame, int id) {
         this.id=id;
         frameBox.getChildren().add(frame);
@@ -115,35 +112,115 @@ public class GameController {
         for(Node n : frame.getChildren()){
             n.setOnDragDropped(event -> handleDrop(event, n));
             n.setOnDragOver(event -> handleDragOver(event));
+            n.setOnDragDetected((event) -> handleFrameDrag(event, n));
+            n.setOnMouseClicked((event) -> handleFrameClick(n));
             n.getStyleClass().add("cell");
         }
     }
 
-    private void handleDragOver(DragEvent event) {
-        Node target = (Node) event.getTarget();
-        if(event.getGestureSource() != target && event.getDragboard().hasImage())
-            event.acceptTransferModes(TransferMode.MOVE);
-        event.consume();
-    }
+    /*==========================================================================================*/
+    /*Round routine*/
 
-    private void handleDrop(DragEvent event, Node n) {
-        Dragboard db = event.getDragboard();
-        boolean success = false;
-        if (db.hasImage()) {
-            controller.windowFrameClick(GridPane.getRowIndex(n), GridPane.getColumnIndex(n));
-            success = true;
+    public void unableAll(){
+        draftPoolBox.getStyleClass().remove(draggable);
+        draftPoolBox.getStyleClass().remove(clickable);
+        activeFrame.getStyleClass().remove(clickable);
+        activeFrame.getStyleClass().remove(draggable);
+        activeFrame.getStyleClass().remove(droppable);
+        roundTrackBox.getStyleClass().remove(clickable);
+        toolCardBox.getStyleClass().remove(clickable);
+    }
+    public void mainPhase(){
+        unableAll();
+        if(!GamePhase.diceMoved) {
+            draftPoolBox.getStyleClass().add(draggable);
+            activeFrame.getStyleClass().add(droppable);
         }
-        event.setDropCompleted(success);
-        event.consume();
+        if(!GamePhase.toolCardUsed)
+            toolCardBox.getStyleClass().add(clickable);
+        log("What do you want to do?\n");
+    }
+    public void movingDraftPoolPhase(){
+        unableAll();
+        draftPoolBox.getStyleClass().add(draggable);
+        activeFrame.getStyleClass().add(droppable);
+        log("Move a dice from the draft pool to your window frame\n");
+    }
+    public void movingWindowFrame(){
+        unableAll();
+        activeFrame.getStyleClass().add(droppable);
+        activeFrame.getStyleClass().add(draggable);
+        log("Move a dice in your window frame\n");
+    }
+    public void roundTrackPhase(){
+        unableAll();
+        roundTrackBox.getStyleClass().add(clickable);
+        log("Select a dice from the draft pool\n");
+    }
+    public void windowFramePhase(){
+        unableAll();
+        activeFrame.getStyleClass().add(clickable);
+        log("Select a dice from your window frame");
+    }
+    public void draftPoolPhase(){
+        unableAll();
+        draftPoolBox.getStyleClass().add(clickable);
+        log("Select a dice from the draft pool");
     }
 
-    private void handleFrameClick(Node n) {
-        controller.windowFrameClick(GridPane.getRowIndex(n), GridPane.getColumnIndex(n));
+    public void cleanDraftPool() {
+        draftPoolBox.getChildren().clear();
+    }
+
+    public void addRoundTrackBox(int round, int[] values, char[] colors) {
+        HBox box = new HBox();
+        box.setAlignment(Pos.CENTER_LEFT);
+        box.setSpacing(10);
+        box.setPadding(new Insets(0, 10 , 0 , 50));
+        box.setMinHeight(75);
+        box.setPrefHeight(75);
+        Pane pane;
+        ImageView image;
+        roundTrackBox.getChildren().add(round-1, box);
+        for(int i=0; i<values.length; i++) {
+            int index=i;
+            pane = new Pane();
+            image = Util.getImage(colors[i], values[i]);
+            image.setX(2);
+            image.setY(2);
+            pane.getChildren().add(0, image);
+            pane.getStyleClass().add("cell");
+            box.getChildren().add(i, pane);
+            pane.setOnMouseClicked((event) -> handleRoundTrackClick(round, index));
+        }
+    }
+
+    public void setDraftPoolDice(final int i, int value, char color) {
+        ImageView dice = Util.getImage(color, value);
+        Pane pane = new Pane();
+        dice.setX(2);
+        dice.setY(2);
+        pane.getStyleClass().add("cell");
+        pane.getChildren().add(dice);
+        draftPoolBox.getChildren().add(i, pane);
+        pane.setOnDragDetected((event) -> handleStartDrag(event, i, dice));
+        pane.setOnMouseClicked((event) -> draftPoolCkick(event, i));
+    }
+
+    public void log(String message){
+        textArea.appendText(message);
+    }
+    /*======================================================================================*/
+    /*Modifiers*/
+
+    public void decreaseFavorTokens(int id, int tokens){
+        this.tokens[id]=this.tokens[id]-tokens;
+        labels[id].setText("Favor tokens : "+this.tokens[id]);
     }
 
     public ImageView getFromDraftPool(int index) {
-        ImageView image = (ImageView) draftPoolBox.getChildren().get(index);
-        draftPoolBox.getChildren().set(index,new ImageView());
+        ImageView image = (ImageView) ((Pane) draftPoolBox.getChildren().get(index)).getChildren().get(0);
+        draftPoolBox.getChildren().set(index,new Pane());
         return image;
     }
 
@@ -172,37 +249,78 @@ public class GameController {
         }
     }
 
-    public String getPlayerName(int id){
-        return playerNames[id];
+    /*===========================================================================================================*/
+    /*Event handler*/
+
+    private void handleToolCardClick(int i) {
+        if(toolCardBox.getStyleClass().contains(clickable))
+            controller.toolCardClick(i);
     }
 
-    public void addListener(ViewController viewController) {
-        this.controller=viewController;
-    }
-
-    public void cleanDraftPool() {
-        draftPoolBox.getChildren().clear();
-    }
-
-    public void addRoundTrackBox(int round, int[] values, char[] colors) {
-        HBox box = new HBox();
-        box.setAlignment(Pos.CENTER_LEFT);
-        box.setSpacing(10);
-        box.setPadding(new Insets(0, 10 , 0 , 50));
-        box.setMinHeight(75);
-        box.setPrefHeight(75);
-        Pane pane;
-        ImageView image;
-        roundTrackBox.getChildren().add(round-1, box);
-        for(int i=0; i<values.length; i++) {
-            pane = new Pane();
-            image = Util.getImage(colors[i], values[i]);
-            image.setX(2);
-            image.setY(2);
-            pane.getChildren().add(0, image);
-            box.getChildren().add(i, pane);
+    private void draftPoolCkick(MouseEvent event, int index) {
+        if(draftPoolBox.getStyleClass().contains(clickable)){
+            controller.draftPoolClick(index);
         }
     }
+
+    private void handleStartDrag(MouseEvent event, int index, ImageView image) {
+        Node source = (Node) event.getSource();
+        if(draftPoolBox.getStyleClass().contains(draggable)) {
+            controller.draftPoolClick(index);
+            Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(image.getImage());
+            db.setContent(content);
+            event.consume();
+        }
+    }
+    private void handleFrameDrag(MouseEvent event, Node n) {
+        ImageView image = (ImageView) ((Pane) n).getChildren().get(0);
+        if(activeFrame.getStyleClass().contains(draggable)) {
+            controller.windowFrameClick(GridPane.getRowIndex(n), GridPane.getColumnIndex(n));
+            Dragboard db = n.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            content.putImage(image.getImage());
+            db.setContent(content);
+            event.consume();
+        }
+    }
+
+    private void handleDragOver(DragEvent event) {
+        Node target = (Node) event.getTarget();
+        if(activeFrame.getStyleClass().contains(droppable)) {
+            if (event.getGestureSource() != target && event.getDragboard().hasImage())
+                event.acceptTransferModes(TransferMode.MOVE);
+            event.consume();
+        }
+    }
+
+    private void handleDrop(DragEvent event, Node n) {
+        if(activeFrame.getStyleClass().contains(droppable)) {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasImage()) {
+                controller.windowFrameClick(GridPane.getRowIndex(n), GridPane.getColumnIndex(n));
+                success = true;
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        }
+    }
+
+    private void handleFrameClick(Node n) {
+        if(activeFrame.getStyleClass().contains(clickable)) {
+            controller.windowFrameClick(GridPane.getRowIndex(n), GridPane.getColumnIndex(n));
+        }
+    }
+
+
+    private void handleRoundTrackClick(int round, int index) {
+        if(roundTrackBox.getStyleClass().contains(clickable)){
+            controller.roundTrackClick(round, index);
+        }
+    }
+
 
     @FXML
     private void endTurn(){

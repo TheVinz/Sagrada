@@ -1,5 +1,6 @@
 package server.model.state.toolcards;
 
+import common.response.Response;
 import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
 import server.model.state.utilities.GameRules;
@@ -109,6 +110,13 @@ public class PennelloperPastaSalda extends ToolCard {
             }
         }
         return false;
+    }
+    @Override
+    public Response next(){
+        if(!rerollDone)
+            return Response.DRAFT_POOL_CELL;
+        else
+            return super.next();
     }
 
 

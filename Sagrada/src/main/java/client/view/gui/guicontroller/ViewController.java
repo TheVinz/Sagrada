@@ -1,6 +1,7 @@
 package client.view.gui.guicontroller;
 
 import client.view.gui.MainApp;
+import client.view.gui.guicontroller.gamephase.*;
 import client.view.gui.guimodel.GuiModel;
 import client.view.gui.util.Util;
 import common.response.Response;
@@ -9,9 +10,7 @@ import common.exceptions.InvalidMoveException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -25,6 +24,7 @@ public class ViewController {
     private AnchorPane windowFrameChoicesPane;
     private WindowFrameChoiceController windowFrameChoiceController;
     private int id;
+    private GamePhase currentPhase;
 
     @FXML
     private BorderPane rootLayout;
@@ -81,8 +81,6 @@ public class ViewController {
     public void notifyChoice(int index) {
         try {
             remoteController.command(Response.CHOICE, index);
-        } catch (InvalidMoveException e) {
-            e.printStackTrace();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -92,16 +90,6 @@ public class ViewController {
     public void loadToolCard(int[] toolCards) {
         for(int i=0; i<toolCards.length; i++){
             gameController.loadToolCard(toolCards[i], i);
-        }
-    }
-
-    public void notifyToolCardClicked(int index) {
-        try {
-            remoteController.command(Response.TOOL_CARD, index);
-        } catch (InvalidMoveException e) {
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            e.printStackTrace();
         }
     }
 
@@ -120,26 +108,6 @@ public class ViewController {
         gameController.setPublicObjectiveCards(cards);
     }
 
-    public void draftPoolClick(int index){
-        try {
-            remoteController.command(Response.DRAFT_POOL_CELL, index);
-        } catch (InvalidMoveException e) {
-            gameController.log(e.getMessage()+"\n");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void windowFrameClick(int row, int col){
-        try {
-            remoteController.command(Response.WINDOW_FRAME_CELL, row, col);
-        } catch (InvalidMoveException e) {
-            gameController.log(e.getMessage());
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void move(int player, Response sourceType, Response destType, int param1, int param2, int param3) {
         ImageView source;
         String message = gameController.getPlayerName(player) + " moved a dice from ";
@@ -156,24 +124,113 @@ public class ViewController {
         gameController.log(message);
     }
 
-    public void endTurn() {
-        try {
-            remoteController.command(Response.END_TURN);
-        } catch (InvalidMoveException e) {
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+
+    public void toolCardUsed(int player, int index, int tokens) {
+        String message;
+        if(player == id)
+            message = "You ";
+        else
+            message = gameController.getPlayerName(player) + " ";
+        message = message + "used "+gameController.getToolCardName(index) +  "\n";
+        gameController.log(message);
+        gameController.decreaseFavorTokens(player, tokens);
     }
 
-    public void startTurn(int id) {
-        if(id==this.id)
-            gameController.log("Is your turn!!\n");
+    public void notifyDiceDraw(int player, String color) {
+        String message;
+        if(player==id)
+            message="You drawed a " + color + " dice\n";
         else
-            gameController.log("Is " + gameController.getPlayerName(id) + " turn!!\n");
+            message = gameController.getPlayerName(player) + " drawed a " + color + " dice\n";
+        gameController.log(message);
     }
 
     public void updateRoundTrack(int round, int[] values, char[] colors) {
         gameController.addRoundTrackBox(round, values, colors);
+    }
+
+    public synchronized void startTurn(int id) {
+        if(id==this.id) {
+            gameController.log("Is your turn!!\n");
+            GamePhase.diceMoved=false;
+            GamePhase.toolCardUsed=false;
+            this.currentPhase=new MainPhase(remoteController, gameController);
+        }
+        else
+            gameController.log("Is " + gameController.getPlayerName(id) + " turn!!\n");
+    }
+
+    public synchronized void handleResponse(Response response) {
+        gameController.log("handle response\n");
+        switch(response){
+            case DRAFT_POOL_MOVE:
+                currentPhase=new MovingDraftPoolPhase(remoteController, gameController);
+                break;
+            case WINDOW_FRAME_MOVE:
+                currentPhase=new MovingWindowFramePhase(remoteController, gameController);
+                break;
+            case DRAFT_POOL_CELL:
+                currentPhase=new DraftPoolPhase(remoteController, gameController);
+                break;
+            case WINDOW_FRAME_CELL:
+                currentPhase=new WindowFramePhase(remoteController, gameController);
+                break;
+            case ROUND_TRACK_CELL:
+                currentPhase=new RoundTrackPhase(remoteController, gameController);
+                break;
+            case PINZA_SGROSSATRICE_CHOICE:
+                currentPhase = new PinzaSgrossatriceChoicePhase(remoteController, gameController);
+                currentPhase = currentPhase.handleChoice();
+                break;
+            case TAGLIERINA_MANUALE_CHOICE:
+                currentPhase = new TaglierinaManualeChoicePhase(remoteController, gameController);
+                currentPhase = currentPhase.handleChoice();
+                break;
+            case DILUENTE_PER_PASTA_SALDA_CHOICE:
+                currentPhase = new DiluentePerPastaSaldaChoicePhase(remoteController, gameController);
+                currentPhase = currentPhase.handleChoice();
+                break;
+            case SUCCESS:
+                currentPhase=new MainPhase(remoteController,gameController);
+                break;
+            case ERROR:
+                gameController.log("Invalid Move...\n");
+                currentPhase=new MainPhase(remoteController, gameController);
+                break;
+            default:
+                currentPhase=new MainPhase(remoteController, gameController);
+                break;
+        }
+    }
+
+    public synchronized void roundTrackClick(int round, int index) {
+        currentPhase=currentPhase.handleRoundTrack(round, index);
+    }
+
+    public synchronized void toolCardClick(int index) {
+        currentPhase=currentPhase.handleToolCard(index);
+    }
+
+    public synchronized void draftPoolClick(int index){
+        currentPhase=currentPhase.handleDraftPool(index);
+    }
+
+    public synchronized void windowFrameClick(int row, int col){
+        currentPhase=currentPhase.handleWindowFrame(row,col);
+    }
+
+
+    public void endTurn() {
+        try {
+            remoteController.command(Response.END_TURN);
+            gameController.unableAll();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        currentPhase=new MainPhase(remoteController, gameController);
+    }
+
+    public void debug(String message) {
+        gameController.log(message);
     }
 }

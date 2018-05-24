@@ -22,6 +22,7 @@ public class Controller {
 	}
 
 	public int selectObject(ModelObject o) throws InvalidMoveException {
+		System.out.println(o.getType());
 		PlayerState temp = null;
 		if(player.isActive()) {
 			try {
