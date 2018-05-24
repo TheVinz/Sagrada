@@ -63,6 +63,16 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
+    public void notifyError(String message) {
+        System.out.println(message);
+        try {
+            remoteView.error(message);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void updateMove(Player player, Cell source, Cell target) {
         try {
             switch (source.getType()) {
@@ -323,7 +333,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                 }
             }
             catch (InvalidMoveException e){
-                notifyNextParameter(Response.ERROR);
+                notifyError(e.getMessage());
             }
         }).start();
 
@@ -344,7 +354,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                 }
             }
             catch (InvalidMoveException e){
-                notifyNextParameter(Response.ERROR);
+                notifyError(e.getMessage());
             }
         }).start();
     }

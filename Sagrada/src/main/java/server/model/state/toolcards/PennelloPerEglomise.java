@@ -23,7 +23,7 @@ public class PennelloPerEglomise extends ToolCard {
 
     @Override
     public int getNumber() {
-        return 1;
+        return 2;
     }
 
     @Override
