@@ -116,7 +116,7 @@ public class PennelloperPastaSalda extends ToolCard {
         if(!rerollDone)
             return Response.DRAFT_POOL_CELL;
         else
-            return super.next();
+            return Response.WINDOW_FRAME;
     }
 
 
