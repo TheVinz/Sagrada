@@ -34,7 +34,7 @@ public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
         box.getChildren().addAll(new Text("Select dice Value"), buttons);
         Scene scene= new Scene(box, 300, 200);
         dialog.setScene(scene);
-        dialog.showAndWait();
+        dialog.show();
         return new GamePhase(controller, gameController);
     }
 

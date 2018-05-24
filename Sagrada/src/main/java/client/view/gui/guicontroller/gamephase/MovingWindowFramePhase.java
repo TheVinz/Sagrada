@@ -32,8 +32,8 @@ public class MovingWindowFramePhase extends GamePhase {
             targetRow=row;
             targetCol=col;
             try {
-                controller.command(Response.DRAFT_POOL_CELL, sourceRow, sourceCol);
-                controller.command(Response.DRAFT_POOL_CELL, targetRow, targetCol);
+                controller.command(Response.WINDOW_FRAME_CELL, sourceRow, sourceCol);
+                controller.command(Response.WINDOW_FRAME_CELL, targetRow, targetCol);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

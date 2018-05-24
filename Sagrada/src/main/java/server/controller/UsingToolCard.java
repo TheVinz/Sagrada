@@ -26,7 +26,6 @@ public class UsingToolCard extends PlayerState {
             card.start(player);
             return this;
         } else {
-            System.out.println(modelObject.getType().toString());
             card.setParameter(modelObject);
             if (card.hasNext())
                 return this;

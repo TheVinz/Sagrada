@@ -120,4 +120,9 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
     public void nextParameter(Response response) {
         Platform.runLater(() -> view.handleResponse(response));
     }
+
+    @Override
+    public void error(String message) throws RemoteException {
+        Platform.runLater(() -> view.error(message));
+    }
 }

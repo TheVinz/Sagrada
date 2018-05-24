@@ -302,6 +302,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 
     @Override
     public void command(Response type) {
+        System.out.println(type);
         new Thread( () -> {
             switch (type) {
                 case END_TURN:
@@ -314,6 +315,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
     @Override
     public void command(Response type, int index) {
+        System.out.println(type);
         new Thread( () -> {
             try {
                 switch (type) {
@@ -338,10 +340,12 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
     @Override
     public void command(Response type, int param1, int param2) {
+        System.out.println(type);
         new Thread( () -> {
             try {
                 switch (type) {
                     case WINDOW_FRAME_CELL:
+                        controller.selectObject(player.getWindowFrame());
                         controller.selectObject(player.getWindowFrame().getCell(param1, param2));
                         break;
                     case ROUND_TRACK_CELL:

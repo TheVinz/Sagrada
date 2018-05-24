@@ -24,22 +24,17 @@ public class WaitingState extends PlayerState {
                     return nextState.selectObject(modelObject);
                 }
                 else{
-                    Response.ERROR.setMessage("You have already moved a dice!\n");
-                    nextParameter = Response.ERROR;
-                    return this;
+                    throw new InvalidMoveException("You have already moved a dice!\n");
                 }
             case TOOL_CARD:
                 if(!player.isToolCardUsed()) {
                     nextState = new UsingToolCard(player, model);
                     PlayerState temp = nextState.selectObject(modelObject);
                     nextParameter = nextState.nextParam();
-                    System.out.println(nextParameter);
                     return temp;
                 }
                 else{
-                        Response.ERROR.setMessage("You have already moved a dice!\n");
-                        nextParameter = Response.ERROR;
-                        return this;
+                        throw new InvalidMoveException("You have already moved a dice!\n");
                     }
 
             default:

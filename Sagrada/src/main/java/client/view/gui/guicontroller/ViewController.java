@@ -141,8 +141,10 @@ public class ViewController {
 
     public void toolCardUsed(int player, int index, int tokens) {
         String message;
-        if(player == id)
+        if(player == id) {
             message = "You ";
+            GamePhase.toolCardUsed=false;
+        }
         else
             message = gameController.getPlayerName(player) + " ";
         message = message + "used "+gameController.getToolCardName(index) +  "\n";
@@ -227,10 +229,6 @@ public class ViewController {
                 gameController.log(response+"\n");
                 currentPhase=new MainPhase(remoteController,gameController);
                 break;
-            case ERROR:
-                gameController.log("Invalid Move...\n");
-                currentPhase=new MainPhase(remoteController, gameController);
-                break;
             default:
                 gameController.log(response+"\n");
                 currentPhase=new MainPhase(remoteController, gameController);
@@ -269,4 +267,8 @@ public class ViewController {
         gameController.log(message);
     }
 
+    public void error(String message) {
+        gameController.log(message + "\n");
+        currentPhase = new MainPhase(remoteController, gameController);
+    }
 }

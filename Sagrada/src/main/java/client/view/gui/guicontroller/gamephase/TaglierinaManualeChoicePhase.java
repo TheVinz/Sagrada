@@ -52,7 +52,7 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
         box.getChildren().addAll(new Text("How many dices do you want to move?"), buttons);
         Scene scene = new Scene(box, 300, 200);
         dialog.setScene(scene);
-        dialog.showAndWait();
+        dialog.show();
         return new GamePhase(controller, gameController);
     }
 }

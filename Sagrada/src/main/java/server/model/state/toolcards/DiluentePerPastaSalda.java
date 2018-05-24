@@ -114,7 +114,7 @@ public class DiluentePerPastaSalda extends ToolCard {
 
     @Override
     public boolean hasNext(){
-        return !drawDone || playable;
+        return !drawDone || !valueSetted || playable;
     }
 
     private boolean verify(Dice dice) {
