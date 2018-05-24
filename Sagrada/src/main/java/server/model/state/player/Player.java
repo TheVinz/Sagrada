@@ -86,4 +86,8 @@ public class Player {
         secondTurn=false;
     }
 
+    public void setInactive(){
+        this.active =false;
+    }
+
 }
