@@ -108,7 +108,7 @@ public class Model implements Observable {
 
     public void windowFrameChoice(Player player, WindowFrameList windowFrameList){
         player.setWindowFrame(windowFrameList);
-        player.endTurn();
+        player.setInactive();
         for(Player p : state.getPlayers()){
             if (p.getWindowFrame() == null) return;
         }
