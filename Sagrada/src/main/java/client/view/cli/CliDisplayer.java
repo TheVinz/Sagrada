@@ -17,7 +17,7 @@ public class CliDisplayer {
 
 
     public void displayText(String text){ System.out.print(text); }
-
+//(char)27+"[0m]"
     public void printMenu(){
         displayText("\t\t\t\tIT'S YOUR TURN\nWhat would you like to see?\n");
         displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
@@ -35,16 +35,73 @@ public class CliDisplayer {
     public void printWindowFrame(CliPlayerState cliPlayerState){
         displayText("The WindowFrame is:\n");
         displayText("");
-        displayText("   || 0  | 1  | 2  | 3  | 4  |\n- -  ");
+        displayText("  || 0  | 1  | 2  | 3  | 4  |\n- - ");
         for(int k=0;k<8;k++)
         {displayText("===");}
         displayText("\n");
         for(int i=0;i<4;i++){
-            displayText(""+i+"->|");
+            displayText(i+" |");
             for(int j=0;j<5;j++) {
-                displayText("| "+cliPlayerState.getWindowFrame()[i][j]+" ");
-                if(cliPlayerState.getWindowFrame()[i][j].length()==1)
-                    displayText(" ");
+                displayText("| ");
+                if(cliPlayerState.getWindowFrame()[i][j].length()==2) {
+                    switch (cliPlayerState.getWindowFrame()[i][j].charAt(1)) {
+                        case 'G':
+                            displayText((char) 27 + "[102m" + cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");   //caso green
+                            break;
+                        case 'B':
+                            displayText((char) 27 + "[106m" + cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
+                            break;
+                        case 'Y':
+                            displayText((char) 27 + "[103m" + cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
+                            break;
+                        case 'R':
+                            displayText((char) 27 + "[101m" + cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
+                            break;
+                        case 'P':
+                            displayText((char) 27 + "[105m" + cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
+                            break;
+                    }
+                }
+                else{
+                    switch (cliPlayerState.getWindowFrame()[i][j].charAt(0)) {
+                        case '1':
+                            displayText(cliPlayerState.getWindowFrame()[i][j]+"  ");
+                            break;
+                        case '2':
+                            displayText(cliPlayerState.getWindowFrame()[i][j]+"  ");
+                            break;
+                        case '3':
+                            displayText(cliPlayerState.getWindowFrame()[i][j]+"  ");
+                            break;
+                        case '4':
+                            displayText(cliPlayerState.getWindowFrame()[i][j]+"  ");
+                            break;
+                        case '5':
+                            displayText(cliPlayerState.getWindowFrame()[i][j]+"  ");
+                            break;
+                        case '6':
+                            displayText(cliPlayerState.getWindowFrame()[i][j]+"  ");
+                            break;
+                        case 'X':
+                            displayText("   ");
+                            break;
+                        case 'G':
+                            displayText((char) 27 + "[102m" +"   " + (char) 27 + "[0m");   //caso green
+                            break;
+                        case 'B':
+                            displayText((char) 27 + "[106m" + "   " + (char) 27 + "[0m");
+                            break;
+                        case 'Y':
+                            displayText((char) 27 + "[103m" + "   " + (char) 27 + "[0m");
+                            break;
+                        case 'R':
+                            displayText((char) 27 + "[101m" + "   " + (char) 27 + "[0m");
+                            break;
+                        case 'P':
+                            displayText((char) 27 + "[105m" + "    " + (char) 27 + "[0m");
+                            break;
+                    }
+                }
             }
             displayText("|\n");
             if(i!=3){
@@ -73,7 +130,6 @@ public class CliDisplayer {
                 displayText("index: "+j + "_Die: " + cliState.getRoundTrack()[i][j] + " | ");
             displayText("\n");
         }
-        displayText("\n>>>");
     }
 
     public void printToolCard(){
@@ -90,7 +146,6 @@ public class CliDisplayer {
             displayText("Index: "+i+"_Die"+cliState.getDraftPool()[i]+" | ");
         }
         displayText("\n");
-        displayText("\n>>>");
     }
 
     public void printPublicObjectiveCards(){
@@ -99,7 +154,6 @@ public class CliDisplayer {
             Integer j=cliState.getPublicObjectiveCardIds()[i];
             displayText(i+")"+ objectiveCardsEffects.returnEffects(j));
         }
-        displayText("\n>>>");
     }
 
     public void printPrivateObjectiveCard(){
@@ -120,14 +174,12 @@ public class CliDisplayer {
         printFavorTokens();
         printWindowFrame();
         printPrivateObjectiveCard();
-        displayText("\n>>>");
     }
 
     public void printState(String name){
         displayText("The state of "+name+" is:\n");
         printFavorTokens(cliState.getCliPlayerState(name));
         printWindowFrame(cliState.getCliPlayerState(name));
-        displayText("\n>>>");
     }
 
 }

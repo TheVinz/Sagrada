@@ -19,6 +19,7 @@ public class CliLaunchClient {
         CliApp app;
 
         Scanner sc = new Scanner(System.in);
+        System.out.println("\t\t\t\tWelcome to SAGRADA\n");
         System.out.print("Username>>> ");
         String name = sc.nextLine();
 
