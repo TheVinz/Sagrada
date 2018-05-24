@@ -22,7 +22,6 @@ public class Controller {
 	}
 
 	public int selectObject(ModelObject o) throws InvalidMoveException {
-		System.out.println(o.getType());
 		PlayerState temp = null;
 		if(player.isActive()) {
 			try {
@@ -38,8 +37,9 @@ public class Controller {
 			{
 				endTurn();
 			}
-			if(temp.nextParam() != null)
-			    view.notifyNextParameter(temp.nextParam());
+			if(temp.nextParam() != null) {
+				view.notifyNextParameter(temp.nextParam());
+			}
 		}
 		return 0;
 	}

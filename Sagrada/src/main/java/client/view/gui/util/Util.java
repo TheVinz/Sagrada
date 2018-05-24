@@ -48,40 +48,28 @@ public class Util {
         return pane;
     }
 
-    public static ImageView getImage(int value){
+    public static ImageView getImage(char rep){
         ImageView result = new ImageView();
         Image image;
-        switch(value){
-            case 1:
+        switch(rep){
+            case '1':
                 image=new Image(Util.class.getResource("../resources/frame/empty1.png").toString());
                 break;
-            case 2:
+            case '2':
                 image=new Image(Util.class.getResource("../resources/frame/empty2.png").toString());
                 break;
-            case 3:
+            case '3':
                 image=new Image(Util.class.getResource("../resources/frame/empty3.png").toString());
                 break;
-            case 4:
+            case '4':
                 image=new Image(Util.class.getResource("../resources/frame/empty4.png").toString());
                 break;
-            case 5:
+            case '5':
                 image=new Image(Util.class.getResource("../resources/frame/empty5.png").toString());
                 break;
-            case 6:
+            case '6':
                 image=new Image(Util.class.getResource("../resources/frame/empty6.png").toString());
                 break;
-            default:
-                image=new Image(Util.class.getResource("../resources/frame/empty.png").toString());
-                break;
-        }
-        result.setImage(image);
-        return result;
-    }
-
-    public static ImageView getImage(char color){
-        ImageView result = new ImageView();
-        Image image;
-        switch(color){
             case 'b':
                 image=new Image(Util.class.getResource("../resources/frame/emptyblue.png").toString());
                 break;
@@ -104,6 +92,8 @@ public class Util {
         result.setImage(image);
         result.setFitHeight(50);
         result.setFitWidth(50);
+        result.setY(2);
+        result.setX(2);
         return result;
     }
 
@@ -154,6 +144,8 @@ public class Util {
         ImageView result = new ImageView( new Image(Util.class.getResource("../resources/dices/"+diceColor+dicevalue+".png").toString()));
         result.setFitWidth(50);
         result.setFitHeight(50);
+        result.setX(2);
+        result.setY(2);
         return result;
     }
 
@@ -173,48 +165,7 @@ public class Util {
         for(int i=0; i<rep.length(); i++){
             int row = i/5;
             int col= i%5;
-            switch(rep.charAt(i)){
-                case '0':
-                    image = getImage(0);
-                    break;
-                case '1':
-                    image = getImage(1);
-                    break;
-                case '2':
-                    image = getImage(2);
-                    break;
-                case '3':
-                    image = getImage(3);
-                    break;
-                case '4':
-                    image = getImage(4);
-                    break;
-                case '5':
-                    image = getImage(5);
-                    break;
-                case '6':
-                    image = getImage(6);
-                    break;
-                case 'b':
-                    image = getImage('b');
-                    break;
-                case 'r':
-                    image = getImage('r');
-                    break;
-                case 'p':
-                    image = getImage('p');
-                    break;
-                case 'y':
-                    image = getImage('y');
-                    break;
-                case 'g':
-                    image = getImage('g');
-                    break;
-                default:
-                    return null;
-            }
-            image.setX(2);
-            image.setY(2);
+            image = getImage(rep.charAt(i));
             Pane cell = new Pane();
             cell.getChildren().add(image);
             pane.add(cell, col, row);

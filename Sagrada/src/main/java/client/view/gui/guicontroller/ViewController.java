@@ -6,7 +6,6 @@ import client.view.gui.guimodel.GuiModel;
 import client.view.gui.util.Util;
 import common.response.Response;
 import common.RemoteMVC.RemoteController;
-import common.exceptions.InvalidMoveException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
@@ -124,6 +123,21 @@ public class ViewController {
         gameController.log(message);
     }
 
+    public void move(int player, Response sourceType, Response destType, int param1, int param2, int param3, int param4) {
+        ImageView source;
+        String message = gameController.getPlayerName(player) + " moved a dice from ";
+        if(sourceType == Response.WINDOW_FRAME_CELL){
+            source = gameController.getFromWindowFrame(player, param1, param2);
+            message = message + "his window frame\n";
+        }
+        else return;
+        if(destType == Response.WINDOW_FRAME_CELL){
+            gameController.setFromWindowFrame(player, param3, param4, source);
+        }
+        else return;
+        gameController.log(message);
+    }
+
 
     public void toolCardUsed(int player, int index, int tokens) {
         String message;
@@ -149,6 +163,17 @@ public class ViewController {
         gameController.addRoundTrackBox(round, values, colors);
     }
 
+    public void updateCell(int player, Response type, int index, int value, char color) {
+        String message;
+        if(type == Response.DRAFT_POOL_CELL){
+            message = gameController.getPlayerName(player) + " modified a dice in the draft pool\n";
+            gameController.updateDraftPool(index, value, color);
+        }
+    }
+
+    public void updateCell(int player, Response type, int param1, int param2, int value, char color) {
+    }
+
     public synchronized void startTurn(int id) {
         if(id==this.id) {
             gameController.log("Is your turn!!\n");
@@ -164,33 +189,42 @@ public class ViewController {
         gameController.log("handle response\n");
         switch(response){
             case DRAFT_POOL_MOVE:
+                gameController.log(response+"\n");
                 currentPhase=new MovingDraftPoolPhase(remoteController, gameController);
                 break;
             case WINDOW_FRAME_MOVE:
+                gameController.log(response+"\n");
                 currentPhase=new MovingWindowFramePhase(remoteController, gameController);
                 break;
             case DRAFT_POOL_CELL:
+                gameController.log(response+"\n");
                 currentPhase=new DraftPoolPhase(remoteController, gameController);
                 break;
-            case WINDOW_FRAME_CELL:
+            case WINDOW_FRAME:
+                gameController.log(response+"\n");
                 currentPhase=new WindowFramePhase(remoteController, gameController);
                 break;
             case ROUND_TRACK_CELL:
+                gameController.log(response+"\n");
                 currentPhase=new RoundTrackPhase(remoteController, gameController);
                 break;
             case PINZA_SGROSSATRICE_CHOICE:
+                gameController.log(response+"\n");
                 currentPhase = new PinzaSgrossatriceChoicePhase(remoteController, gameController);
                 currentPhase = currentPhase.handleChoice();
                 break;
             case TAGLIERINA_MANUALE_CHOICE:
+                gameController.log(response+"\n");
                 currentPhase = new TaglierinaManualeChoicePhase(remoteController, gameController);
                 currentPhase = currentPhase.handleChoice();
                 break;
             case DILUENTE_PER_PASTA_SALDA_CHOICE:
+                gameController.log(response+"\n");
                 currentPhase = new DiluentePerPastaSaldaChoicePhase(remoteController, gameController);
                 currentPhase = currentPhase.handleChoice();
                 break;
             case SUCCESS:
+                gameController.log(response+"\n");
                 currentPhase=new MainPhase(remoteController,gameController);
                 break;
             case ERROR:
@@ -198,6 +232,7 @@ public class ViewController {
                 currentPhase=new MainPhase(remoteController, gameController);
                 break;
             default:
+                gameController.log(response+"\n");
                 currentPhase=new MainPhase(remoteController, gameController);
                 break;
         }
@@ -233,4 +268,5 @@ public class ViewController {
     public void debug(String message) {
         gameController.log(message);
     }
+
 }

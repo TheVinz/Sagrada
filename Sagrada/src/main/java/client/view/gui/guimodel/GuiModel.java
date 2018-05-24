@@ -25,17 +25,17 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void move(int player, Response sourceType, Response destType, int param1, int param2, int param3, int param4) throws RemoteException {
-
+        Platform.runLater(() -> view.move(player, sourceType, destType, param1, param2, param3, param4));
     }
 
     @Override
     public void updateCell(int player, Response type, int index, int value, char color) throws RemoteException {
-
+        Platform.runLater(() -> view.updateCell(player, type, index, value, color));
     }
 
     @Override
     public void updateCell(int player, Response type, int param1, int param2, int value, char color) throws RemoteException {
-
+        Platform.runLater(() -> view.updateCell(player, type, param1, param2, value, color));
     }
 
     @Override
@@ -118,7 +118,6 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void nextParameter(Response response) {
-        view.debug("Response received\n");
         Platform.runLater(() -> view.handleResponse(response));
     }
 }

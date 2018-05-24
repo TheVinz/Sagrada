@@ -33,6 +33,7 @@ public class WaitingState extends PlayerState {
                     nextState = new UsingToolCard(player, model);
                     PlayerState temp = nextState.selectObject(modelObject);
                     nextParameter = nextState.nextParam();
+                    System.out.println(nextParameter);
                     return temp;
                 }
                 else{

@@ -98,7 +98,7 @@ public class PennelloperPastaSalda extends ToolCard {
 
     @Override
     public boolean hasNext(){
-        return rerollDone && playable;
+        return !rerollDone || playable;
     }
 
     private boolean verify(Dice dice) {
@@ -111,13 +111,12 @@ public class PennelloperPastaSalda extends ToolCard {
         }
         return false;
     }
+
     @Override
     public Response next(){
         if(!rerollDone)
             return Response.DRAFT_POOL_CELL;
-        else
-            return super.next();
+        else return Response.WINDOW_FRAME;
     }
-
 
 }

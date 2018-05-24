@@ -207,7 +207,7 @@ public class GameController {
         pane.setOnMouseClicked((event) -> draftPoolCkick(event, i));
     }
 
-    public void log(String message){
+    public synchronized void log(String message){
         textArea.appendText(message);
     }
     /*======================================================================================*/
@@ -218,9 +218,28 @@ public class GameController {
         labels[id].setText("Favor tokens : "+this.tokens[id]);
     }
 
+    public void updateDraftPool(int index, int value, char color) {
+        Pane cell = (Pane) draftPoolBox.getChildren().get(index);
+        ImageView image = Util.getImage(color, value);
+        cell.getChildren().set(0, image);
+    }
+
     public ImageView getFromDraftPool(int index) {
         ImageView image = (ImageView) ((Pane) draftPoolBox.getChildren().get(index)).getChildren().get(0);
         draftPoolBox.getChildren().set(index,new Pane());
+        return image;
+    }
+
+    public ImageView getFromWindowFrame(int player, int param1, int param2) {
+        GridPane frame = frames[player];
+        Pane pane = null;
+        for (Node n : frame.getChildren())
+            if(GridPane.getColumnIndex(n)==param2 && GridPane.getRowIndex(n)==param1)
+                pane = (Pane) n;
+        ImageView image = (ImageView) pane.getChildren().get(0);
+        int index = param1*5 + param2;
+        char emptyImage = reps[player].charAt(index);
+        pane.getChildren().set(0, Util.getImage(emptyImage));
         return image;
     }
 

@@ -54,7 +54,6 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     //da ViewProxy
     @Override
     public void notifyNextParameter(Response response) {
-        System.out.println(response);
         try {
             remoteView.nextParameter(response);
         } catch (RemoteException e) {
@@ -305,7 +304,6 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
     @Override
     public void command(Response type, int index) {
-        System.out.println(type+" "+index);
         new Thread( () -> {
             try {
                 switch (type) {
