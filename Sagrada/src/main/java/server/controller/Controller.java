@@ -29,8 +29,7 @@ public class Controller {
 				currentState = currentState.selectObject(o);
 			} catch(InvalidMoveException e){
 				currentState=new WaitingState(player, model);
-				Response.ERROR.setMessage(e.getMessage());
-				view.notifyNextParameter(Response.ERROR);
+				view.notifyError(e.getMessage());
 				throw e;
 			}
 			if(player.isDiceMoved() && player.isToolCardUsed())

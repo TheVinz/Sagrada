@@ -112,6 +112,7 @@ public class CliApp {
                 }
             }
             //System.out.println("error1\n");
+            CliDisplayer.getDisplayer().displayText(">>>");
             input = scanner.nextLine();
             //System.out.println("error2\n");
             try {

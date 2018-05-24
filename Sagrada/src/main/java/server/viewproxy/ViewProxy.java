@@ -10,4 +10,5 @@ import server.model.state.player.Player;
 public interface ViewProxy extends Observer {
 
     void notifyNextParameter(Response response);
+    void notifyError(String message);
 }
