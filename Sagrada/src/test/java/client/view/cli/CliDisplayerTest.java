@@ -55,9 +55,9 @@ public class CliDisplayerTest {
         publicObjectiveCardIds[0]=1;
         publicObjectiveCardIds[1]=9;
         publicObjectiveCardIds[2]=5;
-        draftPool[0]="3B";
+        draftPool[0]="3b";
         draftPool[1]="X";
-        draftPool[2]="5Y";
+        draftPool[2]="5y";
         privateObjectiveCard = "RED";
         favorTokens=3;
         when(cliPlayerState.getId()).thenReturn(1);
@@ -69,10 +69,10 @@ public class CliDisplayerTest {
         cliState.setCliPlayerStates(cliPlayerStates);
         cliState.setActivePlayer(cliPlayerStates[0].getId());
         cliState.setDraftPool(draftPool);
-        roundTrack[0]="3B";
-        roundTrack[1]="4G";
-        roundTrack[2]="2P";
-        roundTrack1[0]="4Y";
+        roundTrack[0]="3b";
+        roundTrack[1]="4g";
+        roundTrack[2]="2p";
+        roundTrack1[0]="4y";
         cliState.setRoundDices(0,roundTrack);
         cliState.getToolCardIds()[0]=toolCard[0];
         cliState.getToolCardIds()[1]=toolCard[1];
@@ -123,6 +123,8 @@ public class CliDisplayerTest {
     public void shouldPrintOtherState(){
         cliDisplayer.printState("Gabriele");
     }
+    @Test
+    public void shouldPrintRep(){cliDisplayer.printRep("yb001g050430r0g200by",4);}
 
 
 

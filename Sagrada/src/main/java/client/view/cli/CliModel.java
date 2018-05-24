@@ -141,11 +141,13 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     @Override
     synchronized public void loadWindowFrameChoice(String[] reps, int[] favorTokens) {
+        CliDisplayer.getDisplayer().displayText("Choose a WindowFrame:\n");
         for(int i=0; i<reps.length; i++){
-            CliDisplayer.getDisplayer().displayText(i + ">>> rep: " + reps[i] + " | tokens: "+ favorTokens[i] + ";\n");
+            CliDisplayer.getDisplayer().displayText(i+")"+LoadWindowFrame.getLoadWindowFrame().returnName(reps[i]));
+            CliDisplayer.getDisplayer().printRep(reps[i],favorTokens[i]);
+            if(i==2){CliDisplayer.getDisplayer().displayText("\n");}
         }
         CliApp.getCliApp().setCurrentState(new WindowFrameChoice());
-
     }
 
     @Override
