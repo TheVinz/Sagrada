@@ -44,4 +44,6 @@ public interface RemoteView extends Remote {
 
     void nextParameter(Response response) throws RemoteException;
 
+    void error(String message) throws RemoteException;
+
 }

@@ -278,11 +278,6 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 CliApp.getCliApp().setWaitingPhase(false);
                 CliApp.getCliApp().setCurrentState(new MenuPhase());
                 break;
-            case ERROR:
-                CliDisplayer.getDisplayer().displayText(response.getMessage());
-                CliApp.getCliApp().setWaitingPhase(false);
-                CliApp.getCliApp().setCurrentState(new MenuPhase());
-                break;
             case PINZA_SGROSSATRICE_CHOICE:
                 CliApp.getCliApp().setCurrentState(new PinzaSgrossatriceChoice());
                 CliApp.getCliApp().sendCommand();
@@ -302,6 +297,13 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 return;
 
         }}).start();
+    }
+
+    @Override
+    public void error(String message){
+        CliDisplayer.getDisplayer().displayText(message);
+        CliApp.getCliApp().setWaitingPhase(false);
+        CliApp.getCliApp().setCurrentState(new MenuPhase());
     }
 
 
