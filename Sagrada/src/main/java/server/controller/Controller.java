@@ -32,12 +32,12 @@ public class Controller {
 				view.notifyError(e.getMessage());
 				throw e;
 			}
+			if(temp.nextParam() != null) {
+				view.notifyNextParameter(temp.nextParam());
+			}
 			if(player.isDiceMoved() && player.isToolCardUsed())
 			{
 				endTurn();
-			}
-			if(temp.nextParam() != null) {
-				view.notifyNextParameter(temp.nextParam());
 			}
 		}
 		return 0;

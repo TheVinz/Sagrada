@@ -1,5 +1,6 @@
 package client.view.gui.guicontroller;
 
+import client.view.gui.guicontroller.gamephase.DiluentePerPastaSaldaChoicePhase;
 import client.view.gui.MainApp;
 import client.view.gui.guicontroller.gamephase.*;
 import client.view.gui.guimodel.GuiModel;
@@ -119,6 +120,9 @@ public class ViewController {
             gameController.setFromWindowFrame(player, param2, param3, source);
             message = message + "window frame.\n";
         }
+        else if(destType == Response.ROUND_TRACK_CELL){
+            gameController.setFromRoundTrack(param2, param3, source);
+        }
         else return;
         gameController.log(message);
     }
@@ -143,7 +147,7 @@ public class ViewController {
         String message;
         if(player == id) {
             message = "You ";
-            GamePhase.toolCardUsed=false;
+            GamePhase.toolCardUsed=true;
         }
         else
             message = gameController.getPlayerName(player) + " ";
@@ -152,13 +156,33 @@ public class ViewController {
         gameController.decreaseFavorTokens(player, tokens);
     }
 
-    public void notifyDiceDraw(int player, String color) {
-        String message;
-        if(player==id)
-            message="You drawed a " + color + " dice\n";
-        else
-            message = gameController.getPlayerName(player) + " drawed a " + color + " dice\n";
-        gameController.log(message);
+    public void notifyDiceDraw(int player, char color) {
+        if(this.id==player)
+            DiluentePerPastaSaldaChoicePhase.color=color;
+        else{
+            String message = gameController.getPlayerName(player) + " drawed a ";
+            switch(color){
+                case 'b':
+                    message = message + "blue ";
+                    break;
+                case 'r':
+                    message = message + "red ";
+                    break;
+                case 'y':
+                    message = message + "yellow ";
+                    break;
+                case 'p':
+                    message = message + "purple ";
+                    break;
+                case 'g':
+                    message = message + "green ";
+                    break;
+                default:
+                    return;
+            }
+            message = message + "dice\n";
+            gameController.log(message);
+        }
     }
 
     public void updateRoundTrack(int round, int[] values, char[] colors) {
@@ -183,8 +207,10 @@ public class ViewController {
             GamePhase.toolCardUsed=false;
             this.currentPhase=new MainPhase(remoteController, gameController);
         }
-        else
+        else {
             gameController.log("Is " + gameController.getPlayerName(id) + " turn!!\n");
+            currentPhase= new GamePhase(remoteController, gameController);
+        }
     }
 
     public synchronized void handleResponse(Response response) {
@@ -227,7 +253,7 @@ public class ViewController {
                 break;
             case SUCCESS:
                 gameController.log(response+"\n");
-                currentPhase=new MainPhase(remoteController,gameController);
+                currentPhase = currentPhase.success();
                 break;
             default:
                 gameController.log(response+"\n");

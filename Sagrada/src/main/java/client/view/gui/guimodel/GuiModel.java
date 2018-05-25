@@ -82,28 +82,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void notifyDiceDraw(int player, char color) throws RemoteException {
-        String diceColor;
-        switch(color){
-            case 'b':
-                diceColor="blue";
-                break;
-            case 'r':
-                diceColor= "red";
-                break;
-            case 'y':
-                diceColor="yellow";
-                break;
-            case 'p':
-                diceColor="purple";
-                break;
-            case 'g':
-                diceColor="green";
-                break;
-            default:
-                diceColor=null;
-                break;
-        }
-        Platform.runLater(() -> view.notifyDiceDraw(player, diceColor));
+        Platform.runLater(() -> view.notifyDiceDraw(player, color));
     }
 
     @Override

@@ -1,8 +1,12 @@
 package server.model.state.toolcards;
 
+import client.view.cli.cliphasestate.WindowFrameChoice;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
+import javafx.scene.layout.Pane;
 import server.model.Model;
+import server.model.state.ModelObject.ModelObject;
+import server.model.state.boards.Cell;
 import server.model.state.utilities.Choice;
 import server.model.state.utilities.Color;
 import server.model.state.utilities.GameRules;
@@ -22,6 +26,9 @@ public class TaglierinaManuale extends ToolCard {
 
     public static final int TWO_MOVES=3;
     public static final int ONE_MOVE=2;
+
+    private boolean firstMoveDone;
+    private boolean playable;
 
     public TaglierinaManuale(Model model) {
         super(model);
@@ -43,86 +50,138 @@ public class TaglierinaManuale extends ToolCard {
         expectedParameters.add(WINDOW_FRAME_CELL);
         expectedParameters.add(CHOICE);
         this.player=player;
+        playable=true;
+        firstMoveDone=false;
     }
 
     @Override
     public boolean hasNext(){
-        if(parameters.size()==6 && ((Choice) parameters.get(5)).getChoice()==TWO_MOVES){
-            expectedParameters.add(WINDOW_FRAME);
-            expectedParameters.add(WINDOW_FRAME_CELL);
-            expectedParameters.add(WINDOW_FRAME);
-            expectedParameters.add(WINDOW_FRAME_CELL);
-        }
-        return !expectedParameters.isEmpty();
+        if(!firstMoveDone) return true;
+        else if(parameters.size() < 6) return playable;
+        else if(parameters.size() == 6)
+            if (((Choice) parameters.get(5)).getChoice() == TWO_MOVES){
+                expectedParameters.add(WINDOW_FRAME);
+                expectedParameters.add(WINDOW_FRAME_CELL);
+                expectedParameters.add(WINDOW_FRAME);
+                expectedParameters.add(WINDOW_FRAME_CELL);
+                return playable;
+            }
+            else return false;
+        else if(parameters.size()<10)
+            return playable;
+        else return false;
+    }
+
+    @Override
+    public void setParameter(ModelObject o) throws InvalidMoveException {
+        if(o.getType() != expectedParameters.poll())
+            throw new InvalidMoveException("Wrong parameter");
+        else parameters.add(o);
+        if(o.getType()==ROUND_TRACK_CELL && !isPlayable())
+            throw new InvalidMoveException("No available moves");
+        if(expectedParameters.peek() == CHOICE)
+            doAbility();
+        if(parameters.size() == 6 && ((Choice) parameters.get(5)).getChoice() == ONE_MOVE)
+            model.toolCardUsed(player, this);
+        if(parameters.size() == 10)
+            doAbility();
     }
 
     @Override
     void doAbility() throws InvalidMoveException {
         RoundTrackCell roundTrackCell= (RoundTrackCell) parameters.get(0);
-        WindowFrame firstSourceFrame= (WindowFrame) parameters.get(1);
-        WindowFrameCell firstSource= (WindowFrameCell) parameters.get(2);
-        WindowFrame firstTargetFrame= (WindowFrame) parameters.get(3);
-        WindowFrameCell firstTarget= (WindowFrameCell) parameters.get(4);
-        Integer secondMove=((Choice) parameters.get(5)).getChoice();
-        WindowFrame secondSourceFrame;
-        WindowFrameCell secondSource = null;
-        WindowFrame secondTargetFrame;
-        WindowFrameCell secondTarget= null;
-        Color color=roundTrackCell.getDice().getColor();
-        if(firstSourceFrame!=player.getWindowFrame() || firstTargetFrame!=player.getWindowFrame())
-            throw new InvalidMoveException("Invalid frame");
-        else if(firstSource.getDice().getColor()!=color)
-            throw new InvalidMoveException("Dice colors error");
-        else {
-            Dice dice=firstSource.removeDice();
-            if(!GameRules.validAllCellRestriction(dice, firstTarget)
-                    || !GameRules.validAllDiceRestriction(firstTargetFrame, dice, firstSource)) {
-                firstSource.put(dice);
-                throw new InvalidMoveException("Move must respect all placement restrictions");
+        if(!firstMoveDone) {
+            WindowFrame sourceFrme = (WindowFrame) parameters.get(1);
+            WindowFrameCell source = (WindowFrameCell) parameters.get(2);
+            WindowFrame targetFrame = (WindowFrame) parameters.get(3);
+            WindowFrameCell target = (WindowFrameCell) parameters.get(4);
+            Dice dice = source.removeDice();
+            if(roundTrackCell.getDice().getColor() != dice.getColor()){
+                source.put(dice);
+                throw new InvalidMoveException("Selected color and dice color must be equals");
             }
-            firstSource.put(dice);
-        }
-        if(secondMove==TWO_MOVES){
-            secondSourceFrame= (WindowFrame) parameters.get(6);
-            secondSource= (WindowFrameCell) parameters.get(7);
-            secondTargetFrame= (WindowFrame) parameters.get(8);
-            secondTarget= (WindowFrameCell) parameters.get(9);
-            if(secondSourceFrame!=player.getWindowFrame() || secondTargetFrame!=player.getWindowFrame())
-                throw new InvalidMoveException("Invalid frame");
-            else if(secondSource.getDice().getColor()!=color)
-                throw new InvalidMoveException("Dice colors error");
+            else if(!GameRules.validAllCellRestriction(dice, target)){
+                source.put(dice);
+                throw new InvalidMoveException("Cell restriction must be respected");
+            }
+            else if(!GameRules.validAllDiceRestriction(targetFrame, dice, target)){
+                source.put(dice);
+                throw new InvalidMoveException("Dice restrictions must be respected");
+            }
             else {
-                Dice dice=secondSource.removeDice();
-                if(!GameRules.validAllCellRestriction(dice, secondTarget)
-                        || !GameRules.validAllDiceRestriction(secondTargetFrame, dice, secondSource)) {
-                    secondSource.put(dice);
-                    throw new InvalidMoveException("Move must respect all placement restrictions");
-                }
-                secondSource.put(dice);
+                source.put(dice);
+                model.move(player, source, target);
+            }
+            firstMoveDone=true;
+            playable = isPlayable();
+            if(!playable)
+                model.toolCardUsed(player, this);
+        }
+        else{
+            WindowFrame sourceFrme = (WindowFrame) parameters.get(6);
+            WindowFrameCell source = (WindowFrameCell) parameters.get(7);
+            WindowFrame targetFrame = (WindowFrame) parameters.get(8);
+            WindowFrameCell target = (WindowFrameCell) parameters.get(9);
+            Dice dice = source.removeDice();
+            if(roundTrackCell.getDice().getColor() != dice.getColor()){
+                source.put(dice);
+                model.toolCardUsed(player, this);
+                throw new InvalidMoveException("Selected color and dice color must be equals");
+            }
+            else if(!GameRules.validAllCellRestriction(dice, target)){
+                source.put(dice);
+                model.toolCardUsed(player, this);
+                throw new InvalidMoveException("Cell restriction must be respected");
+            }
+            else if(!GameRules.validAllDiceRestriction(targetFrame, dice, target)){
+                source.put(dice);
+                model.toolCardUsed(player, this);
+                throw new InvalidMoveException("Dice restrictions must be respected");
+            }
+            else {
+                source.put(dice);
+                model.move(player, source, target);
+                model.toolCardUsed(player, this);
             }
         }
-        if(firstTarget.isEmpty()) {
-            model.move(player, firstSource, firstTarget);
-            if(secondMove==TWO_MOVES) {
-                if(secondTarget.isEmpty()) {
-                    model.move(player, secondSource, secondTarget);
-                }
-                else throw new InvalidMoveException("Already filled cell");
-            }
-        }
-        else throw new InvalidMoveException("Already filled cell");
-        model.toolCardUsed(player, this);
     }
 
     @Override
     public Response next() {   //da controllare
-        if(expectedParameters.peek().equals(WINDOW_FRAME)&&(expectedParameters.size()==9 || expectedParameters.size()==4))
-            return Response.WINDOW_FRAME_MOVE;
-        else if(expectedParameters.peek().equals(CHOICE))
-            return Response.TAGLIERINA_MANUALE_CHOICE;
-        else if(expectedParameters.equals(ROUND_TRACK_CELL))
+        if(parameters.size()==0)
             return Response.ROUND_TRACK_CELL;
-        else
-            return null;
+        else if(parameters.size()==1 && playable)
+            return Response.WINDOW_FRAME_MOVE;
+        else if(parameters.size()==5 && playable)
+            return Response.TAGLIERINA_MANUALE_CHOICE;
+        else if(parameters.size()==6 && ((Choice) parameters.get(5)).getChoice() == TWO_MOVES && playable)
+            return Response.WINDOW_FRAME_MOVE;
+        else return null;
+    }
+
+    private boolean isPlayable(){
+        WindowFrame frame = player.getWindowFrame();
+        for(int i=0; i<WindowFrame.ROWS; i++) {
+            for (int j = 0; j < WindowFrame.COLUMNS; j++) {
+                Dice dice = null;
+                try {
+                    dice = frame.getCell(i, j).removeDice();
+                    if (dice.getColor() == ((Cell) parameters.get(0)).getDice().getColor())
+                        for (int x = 0; x < WindowFrame.ROWS; x++) {
+                            for (int y = 0; y < WindowFrame.COLUMNS; y++) {
+                                if (GameRules.validAllDiceRestriction(frame, dice, frame.getCell(x, y))
+                                        && GameRules.validAllCellRestriction(dice, frame.getCell(x, y))) {
+                                    frame.getCell(i, j).put(dice);
+                                    return true;
+                                }
+                            }
+                        }
+                    frame.getCell(i, j).put(dice);
+                } catch (InvalidMoveException e) {
+                    dice = null;
+                }
+            }
+        }
+        return false;
     }
 }
