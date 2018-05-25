@@ -15,7 +15,7 @@ public class SelectingDraftPoolCell implements CliPhaseState {
 
 
     public SelectingDraftPoolCell() {
-        CliDisplayer.getDisplayer().displayText("Select the number of the cell: ");
+        CliDisplayer.getDisplayer().displayText("Select the number of the cell:\n>>> ");
     }
 
     @Override

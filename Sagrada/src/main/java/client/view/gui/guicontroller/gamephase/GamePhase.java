@@ -2,10 +2,7 @@ package client.view.gui.guicontroller.gamephase;
 
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
-import common.exceptions.InvalidMoveException;
-import common.response.Response;
 
-import java.rmi.RemoteException;
 
 public class GamePhase {
 
@@ -37,4 +34,5 @@ public class GamePhase {
     public GamePhase handleRoundTrack(int round, int index){
         return this;
     }
+    public GamePhase success(){return new MainPhase(controller, gameController);}
 }

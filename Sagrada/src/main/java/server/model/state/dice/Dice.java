@@ -11,7 +11,7 @@ public class Dice{
 	//Crea un nuovo dado con un valore casuale
 	public Dice(Color color){
 		this.color=color;
-		this.value=new Random().nextInt(5) +1;
+		this.value=new Random().nextInt(6) +1;
 	}
 	//Crea un nuovo dado con un colore e un valore predefiniti
 	public Dice(Color color, int value){

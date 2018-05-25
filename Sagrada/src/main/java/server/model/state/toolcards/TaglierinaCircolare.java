@@ -22,7 +22,9 @@ public class TaglierinaCircolare extends ToolCard{
     }
 
     @Override
-    public void start(Player player) {
+    public void start(Player player) throws InvalidMoveException{
+        if(model.getState().getRoundTrack().isEmpty())
+            throw new InvalidMoveException("Empty round track");
         expectedParameters=new ArrayDeque<>(2);
         parameters=new ArrayList<>(2);
         expectedParameters.add(DRAFT_POOL_CELL);

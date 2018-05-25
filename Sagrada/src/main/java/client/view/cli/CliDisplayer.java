@@ -2,8 +2,6 @@ package client.view.cli;
 
 
 public class CliDisplayer {
-    public static final String ANSI_PURPLE = "\u001B[34M";
-    public static final String ANSI_RESET = "\u001B[0m";
     private CliState cliState = CliState.getCliState();
     private static CliDisplayer singleton;
     private ToolCardsEffects toolCardsEffects = new ToolCardsEffects();
@@ -31,7 +29,7 @@ public class CliDisplayer {
         displayText("What you wanna do?\n");
         displayText("-Place a dice press\t\t\t\t\t D\n");
         displayText("-Use a ToolCard press\t\t\t\t U\n");
-        displayText("-In order to skip the turn press\t N\n>>>");
+        displayText("-In order to skip the turn press\t N\n");
     }
 
     public void printWindowFrame(CliPlayerState cliPlayerState) {
@@ -49,7 +47,7 @@ public class CliDisplayer {
                 if (cliPlayerState.getWindowFrame()[i][j].length() == 2) {
                     switch (cliPlayerState.getWindowFrame()[i][j].charAt(1)) {
                         case 'g':
-                            displayText((char) 27 + "[1;30;48;5;102m" +" "+cliPlayerState.getWindowFrame()[i][j].charAt(0)+"  " + (char) 27 + "[0m");   //caso green
+                            displayText((char) 27 + "[1;30;102m" +" "+cliPlayerState.getWindowFrame()[i][j].charAt(0)+"  " + (char) 27 + "[0m");   //caso green
                             break;
                         case 'b':
                             displayText((char) 27 + "[1;30;106m" +" "+ cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
@@ -61,7 +59,7 @@ public class CliDisplayer {
                             displayText((char) 27 + "[1;30;41m" +" "+ cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
                             break;
                         case 'p':
-                            displayText((char) 27 + "[1;30;105m" +" "+ cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[1;30;45m" +" "+ cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
                             break;
                     }
                 } else {
@@ -97,10 +95,10 @@ public class CliDisplayer {
                             displayText((char) 27 + "[103m" + "    " + (char) 27 + "[0m");
                             break;
                         case 'r':
-                            displayText((char) 27 + "[101m" + "    " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[41m" + "    " + (char) 27 + "[0m");
                             break;
                         case 'p':
-                            displayText((char) 27 + "[105m" + "    " + (char) 27 + "[0m");
+                            displayText((char) 27 + "[45m" + "    " + (char) 27 + "[0m");
                             break;
                     }
                 }
@@ -141,25 +139,25 @@ public class CliDisplayer {
           displayText(j+" |  ");
        }
        displayText("\n");
-        for (int i = 0; i < cliState.getRoundTrack().length && cliState.getRoundTrack()[i] != null; i++) {
-            displayText("Round "+((int) i + 1) + ")");
+        for (int i = 1; i < 11 && cliState.getRoundTrack()[i] != null; i++) {
+            displayText("Round "+i + ")");
             for (int j = 0; j < cliState.getRoundTrack()[i].length; j++)
                 if (cliState.getRoundTrack()[i][j].length() == 2) {
                     switch (cliState.getRoundTrack()[i][j].charAt(1)) {
                         case 'g':
-                            displayText((char) 27 + "[102m" +"  "+cliState.getRoundTrack()[i][j].charAt(0)+" " + (char) 27 + "[0m"+"|");   //caso green
+                            displayText((char) 27 + "[1;30;102m" +"  "+cliState.getRoundTrack()[i][j].charAt(0)+" " + (char) 27 + "[0m"+"|");   //caso green
                             break;
                         case 'b':
-                            displayText((char) 27 + "[106m" +"  "+cliState.getRoundTrack()[i][j].charAt(0)+" " + (char) 27 + "[0m"+"|");
+                            displayText((char) 27 + "[1;30;106m" +"  "+cliState.getRoundTrack()[i][j].charAt(0)+" " + (char) 27 + "[0m"+"|");
                             break;
                         case 'y':
-                            displayText((char) 27 + "[103m" +"  "+cliState.getRoundTrack()[i][j].charAt(0)+" " + (char) 27 + "[0m"+"|");
+                            displayText((char) 27 + "[1;30;103m" +"  "+cliState.getRoundTrack()[i][j].charAt(0)+" " + (char) 27 + "[0m"+"|");
                             break;
                         case 'r':
-                            displayText((char) 27 + "[101m"+"  " +cliState.getRoundTrack()[i][j].charAt(0)+" " +(char) 27 + "[0m"+"|");
+                            displayText((char) 27 + "[1;30;41m"+"  " +cliState.getRoundTrack()[i][j].charAt(0)+" " +(char) 27 + "[0m"+"|");
                             break;
                         case 'p':
-                            displayText((char) 27 + "[105m"+"  "+ cliState.getRoundTrack()[i][j].charAt(0)+" "+ (char) 27 + "[0m"+"|" );
+                            displayText((char) 27 + "[1;30;45m"+"  "+ cliState.getRoundTrack()[i][j].charAt(0)+" "+ (char) 27 + "[0m"+"|" );
                             break;
                     }
 
@@ -188,19 +186,19 @@ public class CliDisplayer {
             if (cliState.getDraftPool()[j].length() == 2) {
                 switch (cliState.getDraftPool()[j].charAt(1)) {
                     case 'g':
-                        displayText((char) 27 + "[102m" +"  "+ cliState.getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");   //caso green
+                        displayText((char) 27 + "[1;30;102m" +"  "+ cliState.getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");   //caso green
                         break;
                     case 'b':
-                        displayText((char) 27 + "[106m" +"  "+ cliState.getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");
+                        displayText((char) 27 + "[1;30;106m" +"  "+ cliState.getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");
                         break;
                     case 'y':
-                        displayText((char) 27 + "[103m" +"  "+ cliState.getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");
+                        displayText((char) 27 + "[1;30;103m" +"  "+ cliState.getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");
                         break;
                     case 'r':
-                        displayText((char) 27 + "[101m"+"  " +cliState.getDraftPool()[j].charAt(0)+" " +(char) 27 + "[0m"+"|");
+                        displayText((char) 27 + "[1;30;41m"+"  " +cliState.getDraftPool()[j].charAt(0)+" " +(char) 27 + "[0m"+"|");
                         break;
                     case 'p':
-                        displayText((char) 27 + "[105m"+"  "+ cliState.getDraftPool()[j].charAt(0)+" "+ (char) 27 + "[0m"+"|" );
+                        displayText((char) 27 + "[1;30;45m"+"  "+ cliState.getDraftPool()[j].charAt(0)+" "+ (char) 27 + "[0m"+"|" );
                         break;
                 }
 
@@ -221,8 +219,7 @@ public class CliDisplayer {
     }
 
     public void printPrivateObjectiveCard() {
-        displayText("Your PrivateObjectiveCard is: ");
-        displayText(cliState.getPrivateObjectiveCard() + "\n");
+        displayText(cliState.getPrivateObjectiveCard());
     }
 
     public void printFavorTokens() {
@@ -259,22 +256,22 @@ public class CliDisplayer {
                 char c = rep.charAt(index);
                 switch (c) {
                     case '1':
-                        displayText(c + "   ");
+                        displayText(" "+c + "  ");
                         break;
                     case '2':
-                        displayText(c + "   ");
+                        displayText(" "+c + "  ");
                         break;
                     case '3':
-                        displayText(c + "   ");
+                        displayText(" "+c + "  ");
                         break;
                     case '4':
-                        displayText(c + "   ");
+                        displayText(" "+c + "  ");
                         break;
                     case '5':
-                        displayText(c + "   ");
+                        displayText(" "+c + "  ");
                         break;
                     case '6':
-                        displayText(c + "   ");
+                        displayText(" "+c + "  ");
                         break;
                     case '0':
                         displayText("    ");
@@ -289,10 +286,10 @@ public class CliDisplayer {
                         displayText((char) 27 + "[103m" + "    " + (char) 27 + "[0m");
                         break;
                     case 'r':
-                        displayText((char) 27 + "[101m" + "    " + (char) 27 + "[0m");
+                        displayText((char) 27 + "[41m" + "    " + (char) 27 + "[0m");
                         break;
                     case 'p':
-                        displayText((char) 27 + "[105m" + "    " + (char) 27 + "[0m");
+                        displayText((char) 27 + "[45m" + "    " + (char) 27 + "[0m");
                         break;
                 }
                 index++;

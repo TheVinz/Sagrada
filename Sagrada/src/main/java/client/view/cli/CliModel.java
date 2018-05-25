@@ -94,7 +94,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     public void updateCell(int player, Response type, int index, int value, char color) {
         String s= ""+value+color;
         CliState.getCliState().getDraftPool()[index]=s;
-        CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + ">>> "+s);
+        CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + " >>> "+s);
     }
 
     @Override
@@ -104,11 +104,11 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         if(type==WINDOW_FRAME_CELL){
             cliPlayerState = CliState.getCliState().getCliPlayerState(player);
             cliPlayerState.getWindowFrame()[param1][param2]=s;
-            CliDisplayer.getDisplayer().displayText("Updated Window Frame Cell "+ param1 + " "+param2+ ">>> "+s);
+            CliDisplayer.getDisplayer().displayText("Updated Window Frame Cell "+ param1 + " "+param2+ " >>> "+s);
         }
         else if(type == ROUND_TRACK_CELL){
             CliState.getCliState().getRoundTrack()[param1][param2]=s;
-            CliDisplayer.getDisplayer().displayText("Updated Round Track Cell "+ param1 + " "+param2+ ">>> "+s);
+            CliDisplayer.getDisplayer().displayText("Updated Round Track Cell "+ param1 + " "+param2+ " >>> "+s);
         }
     }
 
@@ -127,7 +127,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
             s[i]=""+values[i]+colors[i];
         }
         CliState.getCliState().setDraftPool(s);
-        CliDisplayer.getDisplayer().displayText("The DraftPool is full\n");
+        CliDisplayer.getDisplayer().displayText("The DraftPool is full.\n");
         CliDisplayer.getDisplayer().printDraftPool();
     }
 
@@ -171,26 +171,26 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         String card;
         switch(color){
             case 'b':
-                card="Sum the values of every BLU dice on your WindowFrame";
+                card="Sum the values of every"+(char)27+"[1;36m"+" BLU "+(char)27+"[0m" +"dice on your WindowFrame\n";
                 break;
             case 'r':
-                card="Sum the values of every RED dice on your WindowFrame";
+                card="Sum the values of every"+(char)27+"[1;31m"+" RED "+(char)27+"[0m"+"dice on your WindowFrame\n";
                 break;
             case 'y':
-                card="Sum the values of every YELLOW dice on your WindowFrame";
+                card="Sum the values of every"+(char)27+"[1;33m"+" YELLOW "+(char)27+"[0m"+"dice on your WindowFrame\n";
                 break;
             case 'p':
-                card="Sum the values of every PURPLE dice on your WindowFrame";
+                card="Sum the values of every"+(char)27+"[1;35m"+" PURPLE "+(char)27+"[0m"+"dice on your WindowFrame\n";
                 break;
             case 'g':
-                card="Sum the values of every GREEN dice on your WindowFrame";
+                card="Sum the values of every"+(char)27+"[1;32m"+" GREEN "+(char)27+"[0m"+"dice on your WindowFrame\n";
                 break;
             default:
                 card="Compiler wants me to add a default case";
                 break;
         }
         CliState.getCliState().setPrivateObjectiveCard(card);
-        CliDisplayer.getDisplayer().displayText("Your private objective :\n>>> " + card + ";\n");
+        CliDisplayer.getDisplayer().displayText("Your private objective:\n " + card + ";\n");
     }
 
     @Override
@@ -230,14 +230,15 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 diceColor="Compiler wants me to add a default case";
                 break;
         }
-        CliDisplayer.getDisplayer().displayText(cliPlayerState.getName() + " drawn out a " + diceColor + "dice;\n");
+        CliDisplayer.getDisplayer().displayText(cliPlayerState.getName() + " drawn out a " + diceColor + " dice;\n");
     }
 
     @Override
     public void updateRoundTrack(int round, int[] values, char[] colors) {
         String[] roundDices=new String[values.length];
         for (int i=0; i<roundDices.length; i++){
-            roundDices[i]=""+colors[i]+values[i];
+            roundDices[i]=""+values[i]+colors[i];
+            System.out.println(roundDices[i]);
         }
         CliState.getCliState().setRoundDices(round, roundDices);
     }

@@ -40,7 +40,6 @@ public class MainPhase extends GamePhase {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            diceMoved=true;
         }
         return new GamePhase(controller, gameController);
     }
@@ -54,6 +53,12 @@ public class MainPhase extends GamePhase {
         }
         GamePhase phase = new GamePhase(controller, gameController);
         return phase;
+    }
+
+    @Override
+    public GamePhase success(){
+        GamePhase.diceMoved=true;
+        return new MainPhase(controller, gameController);
     }
 
 }

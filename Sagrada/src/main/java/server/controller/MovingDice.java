@@ -23,10 +23,6 @@ public class MovingDice extends PlayerState {
     }
 
 
-    private boolean firstMove() {
-        return model.getState().getRoundTrack().getRound()==1 && !player.isFirstMoveDone();
-    }
-
     @Override
     public PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException {
         switch(modelObject.getType()){
@@ -37,20 +33,21 @@ public class MovingDice extends PlayerState {
 
             case WINDOW_FRAME_CELL:
                 target=(WindowFrameCell) modelObject;
-                if(firstMove())
-                    if(GameRules.validFirstMove(player.getWindowFrame(), target)){
-                        model.move(player, source, target);
-                        nextParameter = Response.SUCCESS;
-                        return new WaitingState(player, model);
-                    }
-                    else throw new InvalidMoveException("Select a cell near borders");
-                else if(GameRules.validAllDiceRestriction(player.getWindowFrame(), source.getDice(), target) &&
-                    GameRules.validAllCellRestriction(source.getDice(), target)) {
-                    model.move(player, source, target);
-                    nextParameter = Response.SUCCESS;
-                    return new WaitingState(player, model);
+                if(!player.isFirstMoveDone()) {
+                    if (!GameRules.validFirstMove(player.getWindowFrame(), target))
+                        throw new InvalidMoveException("Select a cell near borders");
+                    else if (!GameRules.validAllCellRestriction(source.getDice(), target))
+                        throw new InvalidMoveException("Cell restriction must be respected");
                 }
-                else throw new InvalidMoveException("Invalid move");
+                else if(!GameRules.validAllDiceRestriction(player.getWindowFrame(), source.getDice(), target))
+                    throw new InvalidMoveException("All adjacent dice restrictions must be respected");
+                else if(!GameRules.validAllCellRestriction(source.getDice(), target))
+                    throw new InvalidMoveException("Cell restriction must be respected");
+
+                model.move(player, source, target);
+                player.setDiceMoved();
+                nextParameter = Response.SUCCESS;
+                return new WaitingState(player, model);
 
             case DRAFT_POOL_CELL:
                 source=(DraftPoolCell) modelObject;

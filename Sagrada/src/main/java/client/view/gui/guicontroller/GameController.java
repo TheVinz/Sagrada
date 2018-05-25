@@ -155,7 +155,7 @@ public class GameController {
     public void roundTrackPhase(){
         unableAll();
         roundTrackBox.getStyleClass().add(clickable);
-        log("Select a dice from the draft pool\n");
+        log("Select a dice from the round track\n");
     }
     public void windowFramePhase(){
         unableAll();
@@ -203,7 +203,7 @@ public class GameController {
         pane.getStyleClass().add("cell");
         pane.getChildren().add(dice);
         draftPoolBox.getChildren().add(i, pane);
-        pane.setOnDragDetected((event) -> handleStartDrag(event, i, dice));
+        pane.setOnDragDetected((event) -> handleStartDrag(event, i));
         pane.setOnMouseClicked((event) -> draftPoolCkick(event, i));
     }
 
@@ -221,12 +221,17 @@ public class GameController {
     public void updateDraftPool(int index, int value, char color) {
         Pane cell = (Pane) draftPoolBox.getChildren().get(index);
         ImageView image = Util.getImage(color, value);
-        cell.getChildren().set(0, image);
+        cell.getChildren().clear();
+        if(!cell.getStyleClass().contains("cell"))
+            cell.getStyleClass().add("cell");
+        cell.getChildren().add(0, image);
     }
 
     public ImageView getFromDraftPool(int index) {
-        ImageView image = (ImageView) ((Pane) draftPoolBox.getChildren().get(index)).getChildren().get(0);
-        draftPoolBox.getChildren().set(index,new Pane());
+        Pane pane = (Pane) draftPoolBox.getChildren().get(index);
+        ImageView image = (ImageView) (pane).getChildren().get(0);
+        pane.getChildren().clear();
+        pane.getStyleClass().remove("cell");
         return image;
     }
 
@@ -239,7 +244,16 @@ public class GameController {
         ImageView image = (ImageView) pane.getChildren().get(0);
         int index = param1*5 + param2;
         char emptyImage = reps[player].charAt(index);
-        pane.getChildren().set(0, Util.getImage(emptyImage));
+        pane.getChildren().clear();
+        pane.getChildren().add(Util.getImage(emptyImage));
+        if(player == id){
+            frame = activeFrame;
+            for (Node n : frame.getChildren())
+                if(GridPane.getColumnIndex(n)==param2 && GridPane.getRowIndex(n)==param1)
+                    pane = (Pane) n;
+            pane.getChildren().clear();
+            pane.getChildren().add(Util.getImage(emptyImage));
+        }
         return image;
     }
 
@@ -268,6 +282,17 @@ public class GameController {
         }
     }
 
+    public void setFromRoundTrack(int round, int index, ImageView source) {
+        ImageView image = new ImageView(source.getImage());
+        image.setY(2);
+        image.setX(2);
+        image.setFitHeight(50);
+        image.setFitWidth(50);
+        HBox box = (HBox) roundTrackBox.getChildren().get(round-1);
+        Pane pane = (Pane) box.getChildren().get(index);
+        pane.getChildren().set(0, image);
+    }
+
     /*===========================================================================================================*/
     /*Event handler*/
 
@@ -282,8 +307,9 @@ public class GameController {
         }
     }
 
-    private void handleStartDrag(MouseEvent event, int index, ImageView image) {
-        Node source = (Node) event.getSource();
+    private void handleStartDrag(MouseEvent event, int index) {
+        Pane source = (Pane) event.getSource();
+        ImageView image = (ImageView) source.getChildren().get(0);
         if(draftPoolBox.getStyleClass().contains(draggable)) {
             controller.draftPoolClick(index);
             Dragboard db = source.startDragAndDrop(TransferMode.ANY);

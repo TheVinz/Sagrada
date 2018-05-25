@@ -37,12 +37,12 @@ public class Controller {
 				view.notifyNextParameter(temp.nextParam());
 				throw e;
 			}
+			if(temp.nextParam() != null) {
+				view.notifyNextParameter(temp.nextParam());
+			}
 			if(player.isDiceMoved() && player.isToolCardUsed())
 			{
 				endTurn();
-			}
-			if(temp.nextParam() != null) {
-				view.notifyNextParameter(temp.nextParam());
 			}
 		}
 		return 0;

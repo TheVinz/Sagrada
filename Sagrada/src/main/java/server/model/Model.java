@@ -119,7 +119,6 @@ public class Model implements Observable {
     }
     public void move(Player player, Cell source, Cell target) throws InvalidMoveException {
         source.move(target);
-        player.setDiceMoved();
         notifyMove(player, source, target);
     }
 

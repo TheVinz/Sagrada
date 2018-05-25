@@ -22,12 +22,12 @@ public class CliDisplayerTest {
     private Integer favorTokens;
     private String[] roundTrack = new String[3];
     private String[] roundTrack1 = new String[1];
-    private CliPlayerState[] cliPlayerStates=new CliPlayerState[1];
+    private CliPlayerState[] cliPlayerStates = new CliPlayerState[1];
 
     @Before
     public void initClass() throws Exception {
-        cliPlayerState=Mockito.mock(CliPlayerState.class);
-        cliState=CliState.getCliState();
+        cliPlayerState = Mockito.mock(CliPlayerState.class);
+        cliState = CliState.getCliState();
         cliDisplayer = new CliDisplayer();
         stringFrame[0][0] = "X";
         stringFrame[0][1] = "3g";
@@ -49,83 +49,93 @@ public class CliDisplayerTest {
         stringFrame[3][2] = "X";
         stringFrame[3][3] = "3r";
         stringFrame[3][4] = "1y";
-        toolCard[0]=1;
-        toolCard[1]=5;
-        toolCard[2]=12;
-        publicObjectiveCardIds[0]=1;
-        publicObjectiveCardIds[1]=9;
-        publicObjectiveCardIds[2]=5;
-        draftPool[0]="3b";
-        draftPool[1]="X";
-        draftPool[2]="5y";
-        privateObjectiveCard = "RED";
-        favorTokens=3;
+        toolCard[0] = 1;
+        toolCard[1] = 5;
+        toolCard[2] = 12;
+        publicObjectiveCardIds[0] = 1;
+        publicObjectiveCardIds[1] = 9;
+        publicObjectiveCardIds[2] = 5;
+        draftPool[0] = "3b";
+        draftPool[1] = "X";
+        draftPool[2] = "5y";
+        privateObjectiveCard = "Sum the values of every"+(char)27+"[1;36m"+" BLU "+(char)27+"[0m" +"dice on your WindowFrame";
+        favorTokens = 3;
         when(cliPlayerState.getId()).thenReturn(1);
         when(cliPlayerState.getName()).thenReturn("Gabriele");
         when(cliPlayerState.getWindowFrame()).thenReturn(stringFrame);
         when(cliPlayerState.getFavorTokens()).thenReturn(favorTokens);
         cliState.setPrivateObjectiveCard(privateObjectiveCard);
-        cliPlayerStates[0]=cliPlayerState;
+        cliPlayerStates[0] = cliPlayerState;
         cliState.setCliPlayerStates(cliPlayerStates);
         cliState.setActivePlayer(cliPlayerStates[0].getId());
         cliState.setDraftPool(draftPool);
-        roundTrack[0]="3b";
-        roundTrack[1]="4g";
-        roundTrack[2]="2p";
-        roundTrack1[0]="4y";
-        cliState.setRoundDices(0,roundTrack);
-        cliState.getToolCardIds()[0]=toolCard[0];
-        cliState.getToolCardIds()[1]=toolCard[1];
-        cliState.getToolCardIds()[2]=toolCard[2];
-        cliState.getPublicObjectiveCardIds()[0]=publicObjectiveCardIds[0];
-        cliState.getPublicObjectiveCardIds()[1]=publicObjectiveCardIds[1];
-        cliState.getPublicObjectiveCardIds()[2]=publicObjectiveCardIds[2];
-        cliState.setRoundDices(0,roundTrack);
-        cliState.setRoundDices(1,roundTrack1);
+        roundTrack[0] = "3b";
+        roundTrack[1] = "4g";
+        roundTrack[2] = "2p";
+        //roundTrack1[0] = "4y";
+        cliState.setRoundDices(0, roundTrack);
+        cliState.getToolCardIds()[0] = toolCard[0];
+        cliState.getToolCardIds()[1] = toolCard[1];
+        cliState.getToolCardIds()[2] = toolCard[2];
+        cliState.getPublicObjectiveCardIds()[0] = publicObjectiveCardIds[0];
+        cliState.getPublicObjectiveCardIds()[1] = publicObjectiveCardIds[1];
+        cliState.getPublicObjectiveCardIds()[2] = publicObjectiveCardIds[2];
+        cliState.setRoundDices(0, roundTrack);
+       // cliState.setRoundDices(1, roundTrack1);
     }
+
     @Test
     public void shouldPrintWindowFrame() {
         cliDisplayer.printWindowFrame(cliPlayerState);
     }
+
     @Test
     public void shouldPrintMenu() {
         cliDisplayer.printMenu();
     }
+
     @Test
-    public void shouldPrintDraftPool(){
+    public void shouldPrintDraftPool() {
         cliDisplayer.printDraftPool();
     }
+
     @Test
-    public void shouldPrintToolCard(){
+    public void shouldPrintToolCard() {
         cliDisplayer.printToolCard();
     }
+
     @Test
-    public void shouldPrintPrivateObjeciveCard(){
+    public void shouldPrintPrivateObjectiveCard() {
         cliDisplayer.printPrivateObjectiveCard();
     }
+
     @Test
-    public void shouldPrintPublicObjectiveCard(){
+    public void shouldPrintPublicObjectiveCard() {
         cliDisplayer.printPublicObjectiveCards();
     }
+
     @Test
-    public void shouldPrintFavorTokens(){
+    public void shouldPrintFavorTokens() {
         cliDisplayer.printFavorTokens(cliPlayerState);
     }
+
     @Test
-    public void shouldPrintRoundTrack(){
+    public void shouldPrintRoundTrack() {
         cliDisplayer.printRoundTrack();
     }
+
     @Test
-    public void shouldPrintState(){
+    public void shouldPrintState() {
         cliDisplayer.printState();
     }
+
     @Test
-    public void shouldPrintOtherState(){
+    public void shouldPrintOtherState() {
         cliDisplayer.printState("Gabriele");
     }
+
     @Test
-    public void shouldPrintRep(){cliDisplayer.printRep("yb001g050430r0g200by",4);}
-
-
-
+    public void shouldPrintRep() {
+        cliDisplayer.printRep("yb001g050430r0g200by", 4);
+    }
 }

@@ -28,8 +28,8 @@ public class RoundTrack{
 		int index=0;
 		for(int i=0; i<pool.getSize(); i++){
 			if(pool.getCell(i).getDice()!=null){
-				roundTrackSpaces.get(round).add(0, new RoundTrackCell(round, index));
-				roundTrackSpaces.get(round).get(0).put(pool.getCell(i).removeDice());
+				roundTrackSpaces.get(round).add(index, new RoundTrackCell(round, index));
+				roundTrackSpaces.get(round).get(index).put(pool.getCell(i).removeDice());
 				index++;
 			}
 		}
@@ -43,5 +43,11 @@ public class RoundTrack{
 
 	public int getRound(){
 		return this.round;
+	}
+
+	public boolean isEmpty(){
+		for(ArrayList list : roundTrackSpaces.values())
+			if(!list.isEmpty()) return false;
+		return true;
 	}
 }

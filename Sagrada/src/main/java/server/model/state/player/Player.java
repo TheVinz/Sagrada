@@ -48,7 +48,10 @@ public class Player {
 
     public void setDiceMoved(){
         this.diceMoved=true;
-        if(!firstMoveDone) firstMoveDone=true;
+        if(!firstMoveDone) {
+            System.out.println("first move");
+            firstMoveDone=true;
+        }
     }
     public void setToolCardUsed(){ toolCardUsed=true; }
     public void setActive(){

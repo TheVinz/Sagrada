@@ -91,6 +91,8 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                 case DRAFT_POOL_CELL:
                     if (target.getType() == ModelType.WINDOW_FRAME_CELL)
                         remoteView.move(player.getId(), Response.DRAFT_POOL_CELL, Response.WINDOW_FRAME_CELL, ((DraftPoolCell) source).getIndex(), ((WindowFrameCell) target).getRow(), ((WindowFrameCell) target).getColumnn());
+                    else if(target.getType() == ModelType.ROUND_TRACK_CELL)
+                        remoteView.move(player.getId(), Response.DRAFT_POOL_CELL, Response.ROUND_TRACK_CELL, ((DraftPoolCell) source).getIndex(), ((RoundTrackCell) target).getRound(), ((RoundTrackCell) target).getIndex());
                     break;
                 case ROUND_TRACK_CELL:
                     if (target.getType() == ModelType.WINDOW_FRAME_CELL)
