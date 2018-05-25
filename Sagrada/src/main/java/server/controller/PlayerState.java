@@ -1,6 +1,7 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
+import common.exceptions.WrongParameter;
 import common.response.Response;
 import server.model.state.ModelObject.ModelObject;
 import server.model.Model;
@@ -16,7 +17,7 @@ public abstract class PlayerState {
         this.model=model;
     }
 
-    abstract PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException;
+    abstract PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException, WrongParameter;
     public Response nextParam(){
         return null;
     }

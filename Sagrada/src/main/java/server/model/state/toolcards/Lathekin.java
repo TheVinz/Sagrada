@@ -1,8 +1,10 @@
 package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
+import common.exceptions.WrongParameter;
 import common.response.Response;
 import server.model.Model;
+import server.model.state.ModelObject.ModelObject;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameCell;
@@ -16,8 +18,11 @@ import static server.model.state.ModelObject.ModelType.*;
 
 public class Lathekin extends ToolCard {
 
+    private boolean firstMoveDone;
+
     public Lathekin(Model model) {
         super(model);
+        firstMoveDone = false;
     }
 
     @Override
@@ -41,57 +46,148 @@ public class Lathekin extends ToolCard {
     }
 
     @Override
-    void doAbility() throws InvalidMoveException {
-        WindowFrame firstSourceFrame= (WindowFrame) parameters.get(0);
-        WindowFrameCell firstSource= (WindowFrameCell) parameters.get(1);
-        WindowFrame firstTargetFrame= (WindowFrame) parameters.get(2);
-        WindowFrameCell firstTarget= (WindowFrameCell) parameters.get(3);
-        WindowFrame secondSourceFrame= (WindowFrame) parameters.get(4);
-        WindowFrameCell secondSource= (WindowFrameCell) parameters.get(5);
-        WindowFrame secondtargetFrame= (WindowFrame) parameters.get(6);
-        WindowFrameCell secondTarget= (WindowFrameCell) parameters.get(7);
-
-        if(firstSource==secondSource)
-            throw new InvalidMoveException("Choose two different dices");
-        else if(firstTarget==secondTarget)
-            throw new InvalidMoveException("Target positions must be different");
-        else if(firstSourceFrame!=secondSourceFrame || firstSourceFrame!=firstTargetFrame
-                || firstSourceFrame != secondtargetFrame || firstSourceFrame!=player.getWindowFrame())
-            throw new InvalidMoveException("Dice must be on your same frame");
-        else {
-            Dice firstDice = firstSource.removeDice();
-            Dice secondDice=secondSource.removeDice();
-            if(!GameRules.validAllCellRestriction(firstDice, firstTarget)) {
-                firstSource.put(firstDice);
-                secondSource.put(secondDice);
-                throw new InvalidMoveException("First move does not respect cell restrictions");
+    public void setParameter(ModelObject o) throws InvalidMoveException, WrongParameter {
+        if(!firstMoveDone) {
+            if(o.getType()!=expectedParameters.peek()) throw new WrongParameter("Wrong parameter");
+            else {
+                expectedParameters.poll();
+                parameters.add(o);
             }
-            else if(!GameRules.validAllDiceRestriction(player.getWindowFrame(), firstDice, firstTarget)) {
-                firstSource.put(firstDice);
-                secondSource.put(secondDice);
-                throw new InvalidMoveException("First move does not respect dice restrictions");
-            }
-            else if(!GameRules.validAllCellRestriction(secondDice, secondTarget)) {
-                firstSource.put(firstDice);
-                secondSource.put(secondDice);
-                throw new InvalidMoveException("Second move does not respect cell restrictions");
-            }
-            else if(!GameRules.validAllDiceRestriction(player.getWindowFrame(), secondDice, secondTarget)) {
-                firstSource.put(firstDice);
-                secondSource.put(secondDice);
-                throw new InvalidMoveException("Second move does not respect dice restrictions");
-            }
-            else{
-                firstSource.put(firstDice);
-                secondSource.put(secondDice);
-                if(firstTarget.isEmpty() && secondTarget.isEmpty()) {
-                    model.move(player, firstSource, firstTarget);
-                    model.move(player, secondSource, secondTarget);
-                    model.toolCardUsed(player, this);
-                }
-                else throw new InvalidMoveException("Already filled cell");
+            if(parameters.get(3)!=null){
+                doAbility();
             }
         }
+        else{
+            if(o.getType()!=expectedParameters.peek()) throw new WrongParameter("Wrong parameter");
+            else {
+                expectedParameters.poll();
+                parameters.add(o);
+                if(expectedParameters.isEmpty()) doAbility();
+            }
+        }
+    }
+
+    private void refillParameters(){
+        expectedParameters.add(WINDOW_FRAME);
+        expectedParameters.add(WINDOW_FRAME_CELL);
+        expectedParameters.add(WINDOW_FRAME);
+        expectedParameters.add(WINDOW_FRAME_CELL);
+    }
+
+    @Override
+    void doAbility() throws InvalidMoveException, WrongParameter {
+        WindowFrame firstSourceFrame = null;
+        WindowFrameCell firstSource = null;
+        WindowFrame firstTargetFrame = null;
+        WindowFrameCell firstTarget = null;
+        WindowFrame secondSourceFrame = null;
+        WindowFrameCell secondSource = null;
+        WindowFrame secondtargetFrame = null;
+        WindowFrameCell secondTarget = null;
+
+        if(!firstMoveDone){
+            firstSourceFrame= (WindowFrame) parameters.get(0);
+            firstSource= (WindowFrameCell) parameters.get(1);
+            firstTargetFrame= (WindowFrame) parameters.get(2);
+            firstTarget= (WindowFrameCell) parameters.get(3);
+
+            if(firstSourceFrame!=player.getWindowFrame())
+                throw new InvalidMoveException("Dice must be on your same frame");
+
+            Dice dice = firstSource.removeDice();
+
+            if(GameRules.validAllDiceRestriction(player.getWindowFrame(), dice, firstTarget) &&
+                    GameRules.validAllCellRestriction(dice, firstTarget)){
+                firstTarget.put(dice); //sarà seguito da firstTarget.move(firstSource) serve alla verify
+            }
+            else{
+                firstSource.put(dice);
+                throw new InvalidMoveException("Invalid move");
+            }
+
+            if(!verify(firstTarget)){
+                firstTarget.move(firstSource);
+                throw new InvalidMoveException("You will never be able to finish this tool card!");
+            }
+            else{
+                firstTarget.move(firstSource);
+                model.move(player, firstSource, firstTarget);
+                firstMoveDone = true;
+            }
+        }else {
+            secondSourceFrame = (WindowFrame) parameters.get(4);
+            secondSource = (WindowFrameCell) parameters.get(5);
+            secondtargetFrame = (WindowFrame) parameters.get(6);
+            secondTarget = (WindowFrameCell) parameters.get(7);
+
+            if(secondSourceFrame!=player.getWindowFrame())
+                throw new InvalidMoveException("Dice must be on your same frame");
+
+            if(secondSource == firstTarget)
+            {
+                refillParameters();
+                throw new WrongParameter("Invalid move, try again the second move");
+            }
+
+            Dice dice = null;
+
+            try{
+                dice = secondSource.removeDice();
+            }catch(InvalidMoveException e){
+                refillParameters();
+                throw new WrongParameter(e.getMessage());
+            }
+
+
+            if(GameRules.validAllDiceRestriction(player.getWindowFrame(), dice, secondTarget) &&
+                    GameRules.validAllCellRestriction(dice, secondTarget)){
+                secondSource.put(dice);
+            }
+            else{
+                secondSource.put(dice);
+                refillParameters();
+                throw new WrongParameter("Invalid move, try again the second move");
+            }
+
+            model.move(player, secondSource, secondTarget);
+            model.toolCardUsed(player, this);
+        }
+    }
+
+    private boolean verify(WindowFrameCell firstTarget) {
+        WindowFrame windowFrame = player.getWindowFrame();
+        for (int h = 0; h < WindowFrame.ROWS; h++) {
+            for (int k = 0; k < WindowFrame.COLUMNS; k++) {
+                if(firstTarget.getRow() == h &&  firstTarget.getColumnn() == k)
+                    continue;
+
+                WindowFrameCell source = windowFrame.getCell(h,k);
+                Dice dice = null;
+
+                try{
+                    dice = source.removeDice();
+                }catch (InvalidMoveException e){
+                    continue;
+                }
+
+                for (int i = 0; i < WindowFrame.ROWS; i++) {
+                    for (int j = 0; j < WindowFrame.COLUMNS; j++) {
+                        if (GameRules.validAllDiceRestriction(windowFrame, dice, windowFrame.getCell(i,j)) &&
+                                GameRules.validAllCellRestriction(dice, windowFrame.getCell(i,j))){
+                            try{
+                                source.put(dice);
+                            } catch (InvalidMoveException e){}
+                            return true;
+                        }
+                    }
+                }
+                try{
+                    source.put(dice);
+                } catch (InvalidMoveException e){}
+            }
+        }
+
+        return false;
     }
 
     @Override

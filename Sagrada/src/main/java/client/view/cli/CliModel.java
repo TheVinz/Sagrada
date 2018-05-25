@@ -307,6 +307,10 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         CliApp.getCliApp().setWaitingPhase(false);
         CliApp.getCliApp().setCurrentState(new MenuPhase());
     }
+    @Override
+    public void wrongParameter(String message){
+        CliDisplayer.getDisplayer().displayText(message);
+    }
 
 
 }

@@ -1,6 +1,7 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
+import common.exceptions.WrongParameter;
 import common.response.Response;
 import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
@@ -19,7 +20,7 @@ public class UsingToolCard extends PlayerState {
     }
 
     @Override
-    public PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException {
+    public PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException, WrongParameter {
         ModelType i = modelObject.getType();
         if (i == ModelType.TOOL_CARD) {
             if (card == null) card = (ToolCard) modelObject;

@@ -1,6 +1,7 @@
 package server.model.state.toolcards;
 
 import common.exceptions.InvalidMoveException;
+import common.exceptions.WrongParameter;
 import common.response.Response;
 import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
@@ -30,8 +31,8 @@ public abstract class ToolCard implements ModelObject {
 	public void setUsed(){ used=false; }
 
 	public abstract void start(Player player) throws InvalidMoveException;
-	public void setParameter(ModelObject o) throws InvalidMoveException {
-		if(o.getType()!=expectedParameters.poll()) throw new InvalidMoveException("Wrong parameter");
+	public void setParameter(ModelObject o) throws InvalidMoveException, WrongParameter {
+		if(o.getType()!=expectedParameters.poll()) throw new WrongParameter("Wrong parameter");
 		else {
 			parameters.add(o);
 			if(!hasNext()) doAbility();
@@ -42,7 +43,7 @@ public abstract class ToolCard implements ModelObject {
 		return !expectedParameters.isEmpty();
 	}
 
-	abstract void doAbility() throws InvalidMoveException;
+	abstract void doAbility() throws InvalidMoveException, WrongParameter;
 
 	public Response next(){
 		 switch(expectedParameters.peek()){

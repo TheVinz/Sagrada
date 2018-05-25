@@ -84,7 +84,7 @@ public class Util {
         //con StripCutter 13
         boolean[] cards={true,true,true,true,true,true,true,true,true,true,true,true};
         ToolCard[] result=new ToolCard[3];
-        Random rnd=new Random();
+       /* Random rnd=new Random();
         for(int i=0; i<3; i++){
             int card=rnd.nextInt(12);
             while(!cards[card]){
@@ -131,7 +131,10 @@ public class Util {
                 default:
                     break;
             }
-        }
+        }*/
+       result[0] = new AlesatorePerLaminaDiRame(model);
+       result[1] = new DiluentePerPastaSalda(model);
+       result[2] = new Lathekin(model);
         return result;
     }
 

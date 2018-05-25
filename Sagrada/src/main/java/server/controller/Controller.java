@@ -1,5 +1,6 @@
 package server.controller;
 import common.exceptions.InvalidMoveException;
+import common.exceptions.WrongParameter;
 import common.response.Response;
 import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
@@ -21,7 +22,7 @@ public class Controller {
 		currentState=new WaitingState(player, model);
 	}
 
-	public int selectObject(ModelObject o) throws InvalidMoveException {
+	public int selectObject(ModelObject o) throws InvalidMoveException, WrongParameter {
 		PlayerState temp = null;
 		if(player.isActive()) {
 			try {
@@ -30,6 +31,10 @@ public class Controller {
 			} catch(InvalidMoveException e){
 				currentState=new WaitingState(player, model);
 				view.notifyError(e.getMessage());
+				throw e;
+			} catch(WrongParameter e){
+				view.notifyError(e.getMessage());
+				view.notifyNextParameter(temp.nextParam());
 				throw e;
 			}
 			if(player.isDiceMoved() && player.isToolCardUsed())

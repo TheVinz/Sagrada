@@ -17,7 +17,7 @@ public class GameRules {
     }
 
     public static boolean validAllCellRestriction(Dice dice, WindowFrameCell cell){
-        return validCellColor(dice, cell) && validCellShade(dice, cell);
+        return validCellColor(dice, cell) && validCellShade(dice, cell) && cell.isEmpty();
     }
 
     public static boolean validCellShade(Dice dice, WindowFrameCell cell){

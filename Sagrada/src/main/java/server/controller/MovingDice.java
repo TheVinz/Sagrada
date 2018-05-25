@@ -1,6 +1,7 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
+import common.exceptions.WrongParameter;
 import common.response.Response;
 import server.model.state.ModelObject.ModelObject;
 import server.model.state.ModelObject.ModelType;

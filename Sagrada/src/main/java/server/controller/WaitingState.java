@@ -1,6 +1,7 @@
 package server.controller;
 
 import common.exceptions.InvalidMoveException;
+import common.exceptions.WrongParameter;
 import common.response.Response;
 import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
@@ -16,7 +17,7 @@ public class WaitingState extends PlayerState {
     }
 
     @Override
-    public PlayerState selectObject(ModelObject  modelObject) throws InvalidMoveException {
+    public PlayerState selectObject(ModelObject  modelObject) throws InvalidMoveException, WrongParameter {
         switch (modelObject.getType()){
             case DRAFT_POOL_CELL:
                 if(!player.isDiceMoved()) {

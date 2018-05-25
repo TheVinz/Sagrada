@@ -4,6 +4,7 @@ import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
 import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
+import common.exceptions.WrongParameter;
 import common.response.Response;
 import server.controller.Controller;
 import server.model.Model;
@@ -63,9 +64,17 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 
     @Override
     public void notifyError(String message) {
-        System.out.println(message);
         try {
             remoteView.error(message);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void notifyWrongParameter(String message) {
+        try {
+            remoteView.wrongParameter(message);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -292,8 +301,11 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                     return;
             }
         }catch (InvalidMoveException e){
-            System.out.println("error");
-        }}).start();
+            System.out.println(e.getMessage());
+        }catch (WrongParameter e){
+            System.out.println(e.getMessage());
+        }
+        }).start();
     }
     @Override
     public int getId(){
@@ -334,6 +346,8 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
             }
             catch (InvalidMoveException e){
                 notifyError(e.getMessage());
+            }catch (WrongParameter e){
+                System.out.println(e.getMessage());
             }
         }).start();
 
@@ -357,6 +371,8 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
             }
             catch (InvalidMoveException e){
                 notifyError(e.getMessage());
+            }catch (WrongParameter e){
+                System.out.println(e.getMessage());
             }
         }).start();
     }
