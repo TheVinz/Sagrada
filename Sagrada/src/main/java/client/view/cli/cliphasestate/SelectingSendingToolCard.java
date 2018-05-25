@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class SelectingSendingToolCard implements CliPhaseState{
 
     public SelectingSendingToolCard(){
-        CliDisplayer.getDisplayer().displayText("Choose a toolcard: ");
+        CliDisplayer.getDisplayer().displayText("Choose a toolcard:\n>>> ");
     }
     @Override
     public void handle(String input) throws InvalidInput {

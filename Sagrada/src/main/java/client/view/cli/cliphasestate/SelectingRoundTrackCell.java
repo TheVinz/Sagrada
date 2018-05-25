@@ -15,7 +15,7 @@ public class SelectingRoundTrackCell implements CliPhaseState {
     private int round;
 
     public SelectingRoundTrackCell() {
-        CliDisplayer.getDisplayer().displayText("Select the round of the RoundTrack: ");
+        CliDisplayer.getDisplayer().displayText("\nSelect the round of the RoundTrack:\n>>> ");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class SelectingRoundTrackCell implements CliPhaseState {
                 if (nextInt >= CliState.getCliState().getCurrentRound() || nextInt < 0)
                     throw new InvalidInput("Wrong Input\n");
                 else {
-                    CliDisplayer.getDisplayer().displayText("Select the number of the cell: ");
+                    CliDisplayer.getDisplayer().displayText("Select the number of the cell:\n>>> ");
                     round = nextInt;
                 }
             } else {
