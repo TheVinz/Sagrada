@@ -296,6 +296,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;
+            case SUCCESS_INIT_SIMPLE_MOVE:
+                CliApp.getCliApp().setWaitingPhase(false);
             default:
                 return;
 

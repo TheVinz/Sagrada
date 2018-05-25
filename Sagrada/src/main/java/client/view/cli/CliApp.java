@@ -60,9 +60,17 @@ public class CliApp {
             }
         }
         sendCommand();
-        if(!movingDice){
-            addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME, CliState.getCliState().getActivePlayer().getId()));
-            sendCommand();
+        if(movingDice){
+            setWaitingPhase(true);
+            synchronized (this) {
+                while (waitingPhase) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         setCurrentState(new SelectingWindowFrameCell());
         sendCommand();
@@ -161,8 +169,6 @@ public class CliApp {
                 }
             }
         }
-        sendCommand();
-        addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME, CliState.getCliState().getActivePlayer().getId()));
         sendCommand();
         setCurrentState(new SelectingWindowFrameCell());
         sendCommand();
