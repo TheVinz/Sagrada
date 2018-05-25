@@ -134,7 +134,10 @@ public class DiluentePerPastaSalda extends ToolCard {
             return Response.DRAFT_POOL_CELL;
         else if(!valueSetted)
             return Response.DILUENTE_PER_PASTA_SALDA_CHOICE;
-        else return Response.WINDOW_FRAME;
+        else if (expectedParameters.peek().equals(WINDOW_FRAME))
+            return Response.WINDOW_FRAME;
+        else
+            return null;
     }
 
 }

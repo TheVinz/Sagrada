@@ -34,7 +34,7 @@ public class WaitingState extends PlayerState {
                     return temp;
                 }
                 else{
-                        throw new InvalidMoveException("You have already moved a dice!\n");
+                        throw new InvalidMoveException("You have already used a tool card!\n");
                     }
 
             default:
