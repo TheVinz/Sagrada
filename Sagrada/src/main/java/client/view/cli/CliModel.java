@@ -171,19 +171,19 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         String card;
         switch(color){
             case 'b':
-                card="Sum the values of every"+(char)27+"[1;36m"+" BLU "+(char)27+"[0m" +"dice on your WindowFrame";
+                card="Sum the values of every"+(char)27+"[1;36m"+" BLU "+(char)27+"[0m" +"dice on your WindowFrame\n";
                 break;
             case 'r':
-                card="Sum the values of every"+(char)27+"[1;31m"+" RED "+(char)27+"[0m"+"dice on your WindowFrame";
+                card="Sum the values of every"+(char)27+"[1;31m"+" RED "+(char)27+"[0m"+"dice on your WindowFrame\n";
                 break;
             case 'y':
-                card="Sum the values of every"+(char)27+"[1;33m"+" YELLOW "+(char)27+"[0m"+"dice on your WindowFrame";
+                card="Sum the values of every"+(char)27+"[1;33m"+" YELLOW "+(char)27+"[0m"+"dice on your WindowFrame\n";
                 break;
             case 'p':
-                card="Sum the values of every"+(char)27+"[1;35m"+" PURPLE "+(char)27+"[0m"+"dice on your WindowFrame";
+                card="Sum the values of every"+(char)27+"[1;35m"+" PURPLE "+(char)27+"[0m"+"dice on your WindowFrame\n";
                 break;
             case 'g':
-                card="Sum the values of every"+(char)27+"[1;32m"+" GREEN "+(char)27+"[0m"+"dice on your WindowFrame";
+                card="Sum the values of every"+(char)27+"[1;32m"+" GREEN "+(char)27+"[0m"+"dice on your WindowFrame\n";
                 break;
             default:
                 card="Compiler wants me to add a default case";
@@ -237,7 +237,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     public void updateRoundTrack(int round, int[] values, char[] colors) {
         String[] roundDices=new String[values.length];
         for (int i=0; i<roundDices.length; i++){
-            roundDices[i]=""+colors[i]+values[i];
+            roundDices[i]=""+values[i]+colors[i];
+            System.out.println(roundDices[i]);
         }
         CliState.getCliState().setRoundDices(round, roundDices);
     }

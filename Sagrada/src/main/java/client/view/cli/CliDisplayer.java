@@ -29,7 +29,7 @@ public class CliDisplayer {
         displayText("What you wanna do?\n");
         displayText("-Place a dice press\t\t\t\t\t D\n");
         displayText("-Use a ToolCard press\t\t\t\t U\n");
-        displayText("-In order to skip the turn press\t N\n>>>");
+        displayText("-In order to skip the turn press\t N\n");
     }
 
     public void printWindowFrame(CliPlayerState cliPlayerState) {
@@ -139,8 +139,8 @@ public class CliDisplayer {
           displayText(j+" |  ");
        }
        displayText("\n");
-        for (int i = 0; i < cliState.getRoundTrack().length && cliState.getRoundTrack()[i] != null; i++) {
-            displayText("Round "+((int) i + 1) + ")");
+        for (int i = 1; i < 11 && cliState.getRoundTrack()[i] != null; i++) {
+            displayText("Round "+i + ")");
             for (int j = 0; j < cliState.getRoundTrack()[i].length; j++)
                 if (cliState.getRoundTrack()[i][j].length() == 2) {
                     switch (cliState.getRoundTrack()[i][j].charAt(1)) {

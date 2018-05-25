@@ -12,7 +12,7 @@ public class MenuPhase implements CliPhaseState{
 
     public MenuPhase(){
         CliDisplayer.getDisplayer().printMenu();
-        CliDisplayer.getDisplayer().displayText("Insert an option:\n");
+        CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
 
     }
 
@@ -23,30 +23,30 @@ public class MenuPhase implements CliPhaseState{
 
             case "M":
                 CliDisplayer.getDisplayer().printMenu();
+                CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
                 break;
             case "P":
                 CliDisplayer.getDisplayer().printDraftPool();
-                break;
-            case "C":
-                CliDisplayer.getDisplayer().printPrivateObjectiveCard();
-                break;
-            case "F":
-                CliDisplayer.getDisplayer().printFavorTokens();
+                CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
                 break;
             case "V":
                 CliDisplayer.getDisplayer().printState();
+                CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
                 break;
             case "T":
                 CliDisplayer.getDisplayer().printToolCard();
+                CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
                 break;
             case "O":
                 CliDisplayer.getDisplayer().printPublicObjectiveCards();
+                CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
                 break;
             case "R":
                 CliDisplayer.getDisplayer().printRoundTrack();
+                CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
                 break;
             case "S":
-                CliApp.getCliApp().setCurrentState(new SelectingSendingPlayerWindowFrame());
+                CliApp.getCliApp().setCurrentState(new SelectingPlayerWindowFrame());
                 break;
             case "D":
                 CliApp.getCliApp().setMovingDice(true);

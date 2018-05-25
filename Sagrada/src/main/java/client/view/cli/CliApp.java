@@ -90,7 +90,6 @@ public class CliApp {
                 }
             }
             //System.out.println("error1\n");
-            CliDisplayer.getDisplayer().displayText(">>>");
             input = scanner.nextLine();
             //System.out.println("error2\n");
             try {
@@ -111,7 +110,7 @@ public class CliApp {
     public void setWaitingPhase(boolean waitingPhase) {
         this.waitingPhase = waitingPhase;
         if(waitingPhase)
-            CliDisplayer.getDisplayer().displayText("You can't insert anything now\n");
+            CliDisplayer.getDisplayer().displayText("\nYou can't insert anything now\n");
         else
             synchronized (this) {
                 notifyAll();

@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class WindowFrameChoice implements CliPhaseState {
 
     public WindowFrameChoice() {
-        System.out.print("\nSelect a" +(char)27+"[1m"+" Window Frame\n"+(char)27+"[0m");
+        System.out.print("\nSelect a" +(char)27+"[1m"+" Window Frame\n"+(char)27+"[0m"+"\n>>>");
 
     }
 

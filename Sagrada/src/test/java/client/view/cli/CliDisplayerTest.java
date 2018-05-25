@@ -72,7 +72,7 @@ public class CliDisplayerTest {
         roundTrack[0] = "3b";
         roundTrack[1] = "4g";
         roundTrack[2] = "2p";
-        roundTrack1[0] = "4y";
+        //roundTrack1[0] = "4y";
         cliState.setRoundDices(0, roundTrack);
         cliState.getToolCardIds()[0] = toolCard[0];
         cliState.getToolCardIds()[1] = toolCard[1];
@@ -81,7 +81,7 @@ public class CliDisplayerTest {
         cliState.getPublicObjectiveCardIds()[1] = publicObjectiveCardIds[1];
         cliState.getPublicObjectiveCardIds()[2] = publicObjectiveCardIds[2];
         cliState.setRoundDices(0, roundTrack);
-        cliState.setRoundDices(1, roundTrack1);
+       // cliState.setRoundDices(1, roundTrack1);
     }
 
     @Test
