@@ -12,7 +12,7 @@ public class MenuPhase implements CliPhaseState{
 
     public MenuPhase(){
         CliDisplayer.getDisplayer().printMenu();
-        CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
+        CliDisplayer.getDisplayer().displayText("Insert an option:\n");
 
     }
 

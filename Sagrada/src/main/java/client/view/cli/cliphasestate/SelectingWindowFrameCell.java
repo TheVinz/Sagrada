@@ -19,7 +19,7 @@ public class SelectingWindowFrameCell implements CliPhaseState {
 
     public SelectingWindowFrameCell() {
         this.row = -1;
-        CliDisplayer.getDisplayer().displayText("Select the first coordinate of the WindowFrame: ");
+        CliDisplayer.getDisplayer().displayText("\nSelect the first coordinate of the WindowFrame: ");
     }
 
     @Override
@@ -38,7 +38,7 @@ public class SelectingWindowFrameCell implements CliPhaseState {
                     throw new InvalidInput("Wrong Input\n");
                 else{
                     row = nextInt;
-                    CliDisplayer.getDisplayer().displayText("Select the second coordinate of the WindowFrame: ");
+                    CliDisplayer.getDisplayer().displayText("\nSelect the second coordinate of the WindowFrame: ");
                 }
             } else {
                 if (nextInt < 0 || nextInt > 4) {
