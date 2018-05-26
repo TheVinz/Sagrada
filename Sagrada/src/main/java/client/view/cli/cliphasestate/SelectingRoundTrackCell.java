@@ -38,7 +38,7 @@ public class SelectingRoundTrackCell implements CliPhaseState {
                     round = nextInt;
                 }
             } else {
-                if (nextInt < 0 || nextInt >= CliState.getCliState().getRoundTrack()[round-1].length/2) {
+                if (nextInt < 0 || nextInt >= CliState.getCliState().getRoundTrack()[round-1].length) {
                     throw new InvalidInput("Wrong Input\n");
                 } else
                     CliApp.getCliApp().addCommandToBuffer( new GameCommand(Response.ROUND_TRACK_CELL, round, nextInt));

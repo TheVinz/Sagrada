@@ -9,6 +9,7 @@ import common.response.Response;
 import common.RemoteMVC.RemoteController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
@@ -56,7 +57,9 @@ public class ViewController {
 
     public void notifyLogin(RemoteController remoteController){
         this.remoteController=remoteController;
-        rootLayout.setCenter(null);
+        Label label = new Label("Waiting server...");
+        label.setStyle("-fx-font-size: 40; -fx-text-fill: white; -fx-background-color: black");
+        rootLayout.setCenter(label);
     }
 
     public void loadWindowFrameChoice(String[] reps, int[] tokens){
@@ -214,49 +217,38 @@ public class ViewController {
     }
 
     public synchronized void handleResponse(Response response) {
-        gameController.log("handle response\n");
         switch(response){
             case DRAFT_POOL_MOVE:
-                gameController.log(response+"\n");
                 currentPhase=new MovingDraftPoolPhase(remoteController, gameController);
                 break;
             case WINDOW_FRAME_MOVE:
-                gameController.log(response+"\n");
                 currentPhase=new MovingWindowFramePhase(remoteController, gameController);
                 break;
             case DRAFT_POOL_CELL:
-                gameController.log(response+"\n");
                 currentPhase=new DraftPoolPhase(remoteController, gameController);
                 break;
             case WINDOW_FRAME:
-                gameController.log(response+"\n");
                 currentPhase=new WindowFramePhase(remoteController, gameController);
                 break;
             case ROUND_TRACK_CELL:
-                gameController.log(response+"\n");
                 currentPhase=new RoundTrackPhase(remoteController, gameController);
                 break;
             case PINZA_SGROSSATRICE_CHOICE:
-                gameController.log(response+"\n");
                 currentPhase = new PinzaSgrossatriceChoicePhase(remoteController, gameController);
                 currentPhase = currentPhase.handleChoice();
                 break;
             case TAGLIERINA_MANUALE_CHOICE:
-                gameController.log(response+"\n");
                 currentPhase = new TaglierinaManualeChoicePhase(remoteController, gameController);
                 currentPhase = currentPhase.handleChoice();
                 break;
             case DILUENTE_PER_PASTA_SALDA_CHOICE:
-                gameController.log(response+"\n");
                 currentPhase = new DiluentePerPastaSaldaChoicePhase(remoteController, gameController);
                 currentPhase = currentPhase.handleChoice();
                 break;
             case SUCCESS:
-                gameController.log(response+"\n");
                 currentPhase = currentPhase.success();
                 break;
             default:
-                gameController.log(response+"\n");
                 currentPhase=new MainPhase(remoteController, gameController);
                 break;
         }
@@ -286,7 +278,7 @@ public class ViewController {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        currentPhase=new MainPhase(remoteController, gameController);
+        currentPhase=new GamePhase(remoteController, gameController);
     }
 
     public void debug(String message) {

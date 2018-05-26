@@ -43,8 +43,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         }
         else {
             source = "round track";
-            dice=CliState.getCliState().getRoundTrack()[param1][param2];
-            CliState.getCliState().getRoundTrack()[param1][param2]="X";
+            dice=CliState.getCliState().getRoundTrack()[param1-1][param2];
+            CliState.getCliState().getRoundTrack()[param1-1][param2]="X";
         }
         if(destType == DRAFT_POOL_CELL) {
             CliState.getCliState().getDraftPool()[param3]=dice;
@@ -56,7 +56,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         }
         else{
             target = "round track";
-            CliState.getCliState().getRoundTrack()[param2][param3]=dice;
+            CliState.getCliState().getRoundTrack()[param2-1][param3]=dice;
         }
 
         CliDisplayer.getDisplayer().displayText(cliPlayerState.getName().concat(" moved dice from ").concat(source).concat(" to ").concat(target)+"\n");
@@ -75,8 +75,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         }
         else {
             source = "round track";
-            dice=CliState.getCliState().getRoundTrack()[param1][param2];
-            CliState.getCliState().getRoundTrack()[param1][param2]="X";
+            dice=CliState.getCliState().getRoundTrack()[param1-1][param2];
+            CliState.getCliState().getRoundTrack()[param1-1][param2]="X";
         }
         if(destType == WINDOW_FRAME_CELL){
             cliPlayerState.getWindowFrame()[param3][param4] = dice;
@@ -84,7 +84,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         }
         else{
             target = "round track";
-            CliState.getCliState().getRoundTrack()[param3][param4]=dice;
+            CliState.getCliState().getRoundTrack()[param3-1][param4]=dice;
         }
 
         CliDisplayer.getDisplayer().displayText(cliPlayerState.getName() + (" moved dice from ") + (source) + (" to ") + (target)+"\n");
@@ -107,7 +107,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
             CliDisplayer.getDisplayer().displayText("Updated Window Frame Cell "+ param1 + " "+param2+ " >>> "+s);
         }
         else if(type == ROUND_TRACK_CELL){
-            CliState.getCliState().getRoundTrack()[param1][param2]=s;
+            CliState.getCliState().getRoundTrack()[param1-1][param2]=s;
             CliDisplayer.getDisplayer().displayText("Updated Round Track Cell "+ param1 + " "+param2+ " >>> "+s);
         }
     }

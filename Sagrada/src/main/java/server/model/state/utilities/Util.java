@@ -132,9 +132,6 @@ public class Util {
                     break;
             }
         }
-       result[0] = new AlesatorePerLaminaDiRame(model);
-       result[1] = new DiluentePerPastaSalda(model);
-       result[2] = new Lathekin(model);
         return result;
     }
 

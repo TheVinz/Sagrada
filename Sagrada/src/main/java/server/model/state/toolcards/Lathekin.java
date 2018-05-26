@@ -22,7 +22,6 @@ public class Lathekin extends ToolCard {
 
     public Lathekin(Model model) {
         super(model);
-        firstMoveDone = false;
     }
 
     @Override
@@ -43,6 +42,7 @@ public class Lathekin extends ToolCard {
         expectedParameters.add(WINDOW_FRAME);
         expectedParameters.add(WINDOW_FRAME_CELL);
         this.player=player;
+        firstMoveDone = false;
     }
 
     @Override
@@ -68,6 +68,10 @@ public class Lathekin extends ToolCard {
     }
 
     private void refillParameters(){
+        parameters.remove(7);
+        parameters.remove(6);
+        parameters.remove(5);
+        parameters.remove(4);
         expectedParameters.add(WINDOW_FRAME);
         expectedParameters.add(WINDOW_FRAME_CELL);
         expectedParameters.add(WINDOW_FRAME);
@@ -133,7 +137,7 @@ public class Lathekin extends ToolCard {
             if(secondSource == firstTarget)
             {
                 refillParameters();
-                throw new WrongParameter("Invalid move, try again the second move");
+                throw new WrongParameter("Cannot move two time the same dice");
             }
 
             Dice dice = null;
@@ -151,7 +155,7 @@ public class Lathekin extends ToolCard {
             else{
                 secondSource.put(dice);
                 refillParameters();
-                throw new WrongParameter("Invalid move, try again the second move");
+                throw new WrongParameter("All move restrictions must be respected");
             }
             model.move(player, secondSource, secondTarget);
             model.toolCardUsed(player, this);
