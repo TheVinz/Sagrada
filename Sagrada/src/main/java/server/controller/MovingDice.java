@@ -46,7 +46,7 @@ public class MovingDice extends PlayerState {
 
                 model.move(player, source, target);
                 player.setDiceMoved();
-                nextParameter = Response.SUCCESS;
+                nextParameter = Response.SUCCESS_MOVE_DONE;
                 return new WaitingState(player, model);
 
             case DRAFT_POOL_CELL:

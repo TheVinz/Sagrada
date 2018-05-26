@@ -58,6 +58,7 @@ public class Player {
     public void setToolCardUsed(){ toolCardUsed=true; }
     public void setActive(){
         this.active=true;
+
     }
 
     public boolean isFirstMoveDone() {

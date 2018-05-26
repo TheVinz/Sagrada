@@ -6,7 +6,11 @@ import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.player.Player;
+import server.model.state.utilities.Timer;
 import server.viewproxy.ViewProxy;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Controller {
 	private Model model;
@@ -15,37 +19,45 @@ public class Controller {
 
 	private PlayerState currentState;
 
+	private Lock lock;
+	private Timer timer;
+
 	public Controller(Model model, Player player, ViewProxy view){
 		this.player=player;
 		this.model=model;
 		this.view=view;
 		currentState=new WaitingState(player, model);
+		lock = new ReentrantLock();
 	}
 
-	public int selectObject(ModelObject o) throws InvalidMoveException, WrongParameter {
-		PlayerState temp = null;
-		if(player.isActive()) {
+	public void selectObject(ModelObject o) throws InvalidMoveException, WrongParameter {
+		if(lock.tryLock()) {
 			try {
-				temp = currentState;
-				currentState = currentState.selectObject(o);
-			} catch(InvalidMoveException e){
-				currentState=new WaitingState(player, model);
-				view.notifyError(e.getMessage());
-				throw e;
-			} catch(WrongParameter e){
-				view.notifyError(e.getMessage());
-				view.notifyNextParameter(temp.nextParam());
-				throw e;
-			}
-			if(temp.nextParam() != null) {
-				view.notifyNextParameter(temp.nextParam());
-			}
-			if(player.isDiceMoved() && player.isToolCardUsed())
-			{
-				endTurn();
+				PlayerState temp = null;
+				if (player.isActive()) {
+					try {
+						temp = currentState;
+						currentState = currentState.selectObject(o);
+					} catch (InvalidMoveException e) {
+						currentState = new WaitingState(player, model);
+						view.notifyError(e.getMessage());
+						throw e;
+					} catch (WrongParameter e) {
+						view.notifyError(e.getMessage());
+						view.notifyNextParameter(temp.nextParam());
+						throw e;
+					}
+					if (temp.nextParam() != null) {
+						view.notifyNextParameter(temp.nextParam());
+					}
+					if (player.isDiceMoved() && player.isToolCardUsed()) {
+						endTurn();
+					}
+				}
+			}finally {
+				lock.unlock();
 			}
 		}
-		return 0;
 	}
 
 	public PlayerState getCurrentState(){
@@ -70,4 +82,19 @@ public class Controller {
 			view.notifyNextParameter(Response.DRAFT_POOL_MOVE);
 	}
 
+	public void notifyTimeout() {
+		if(lock.tryLock()){
+			if(Thread.currentThread()==timer.getBlinker()){
+				try{
+					timeFinished();
+				}finally {
+					lock.unlock();
+				}
+			}
+		}
+	}
+
+	public void timeFinished(){
+		endTurn();
+	}
 }

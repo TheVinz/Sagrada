@@ -32,7 +32,7 @@ public class UsingToolCard extends PlayerState {
                 return this;
             else
             {
-                nextParameter = Response.SUCCESS;
+                nextParameter = Response.SUCCESS_USED_TOOL_CARD;
                 return new WaitingState(player, model);
             }
         }

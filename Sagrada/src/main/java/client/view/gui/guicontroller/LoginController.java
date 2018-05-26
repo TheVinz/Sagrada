@@ -35,9 +35,9 @@ public class LoginController {
         name=textField.getText();
         textField.setText(null);
         try {
-            Registry reg = LocateRegistry.getRegistry();
-            RemoteLoginManager login =(RemoteLoginManager) reg.lookup("LoginManager");
-            //RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://192.168.1.66:1099/LoginManager");
+           // Registry reg = LocateRegistry.getRegistry();
+            //RemoteLoginManager login =(RemoteLoginManager) reg.lookup("LoginManager");
+            RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://192.168.1.66:1099/LoginManager");
             remoteController=login.connect(name, model);
             listener.notifyLogin(remoteController);
         }
