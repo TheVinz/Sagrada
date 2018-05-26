@@ -70,7 +70,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         String dice;
         if(sourceType == WINDOW_FRAME_CELL) {
             dice = cliPlayerState.getWindowFrame()[param1][param2];
-            cliPlayerState.getWindowFrame()[param1][param2] = null;
+            cliPlayerState.setEmpty(param1, param2);
             source = "window frame";
         }
         else {
@@ -199,6 +199,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         CliDisplayer.getDisplayer().displayText("Is the turn of " + cliPlayerState.getName() + "!\n");
         CliState.getCliState().setActivePlayer(player);
         if(player == CliApp.getCliApp().getId()) {
+            cliPlayerState.setSecondTurn(!cliPlayerState.isSecondTurn());
             CliApp.getCliApp().setCurrentState(new MenuPhase());
         }
         else
@@ -238,8 +239,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         String[] roundDices=new String[values.length];
         for (int i=0; i<roundDices.length; i++){
             roundDices[i]=""+values[i]+colors[i];
-            System.out.println(roundDices[i]);
         }
+        CliDisplayer.getDisplayer().displayText("Round track is updated.");
         CliState.getCliState().setRoundDices(round, roundDices);
     }
 
@@ -248,8 +249,6 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         new Thread( () -> {
         switch (response){
             case WINDOW_FRAME:
-                CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME, CliState.getCliState().getActivePlayer().getId()));
-                CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setCurrentState(new SelectingWindowFrameCell());
                 CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setWaitingPhase(true);
@@ -296,8 +295,6 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;
-            case SUCCESS_INIT_SIMPLE_MOVE:
-                CliApp.getCliApp().setWaitingPhase(false);
             default:
                 return;
 

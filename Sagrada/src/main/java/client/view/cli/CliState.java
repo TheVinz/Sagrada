@@ -11,10 +11,10 @@ public class CliState {
     private CliPlayerState[] cliPlayerStates;
     private Integer[] toolCardIds = new Integer[3];
     private Integer[] publicObjectiveCardIds = new Integer[3];
-    private Integer currentRound;
     private String[] draftPool;
     private String[][] roundTrack = new String[10][];
     private String privateObjectiveCard;
+    private int round = 1;
 
     private static CliState cliState;
 
@@ -71,11 +71,16 @@ public class CliState {
         return activePlayer;
     }
     public void setRoundDices(int round, String[] roundDices) {
-        roundTrack[round]=roundDices;
-        currentRound = round;
+        this.round=round+1;
+        roundTrack[round-1]=roundDices;
     }
 
-    public Integer getCurrentRound() {
-        return currentRound;
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 }

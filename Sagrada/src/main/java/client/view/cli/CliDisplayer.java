@@ -19,7 +19,11 @@ public class CliDisplayer {
 
     //(char)27+"[0m]"
     public void printMenu() {
-        displayText("\t\t\t\tIT'S YOUR TURN\nWhat would you like to see?\n");
+        if(cliState.getActivePlayer().isSecondTurn())
+            displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-"+cliState.getRound());
+        else
+            displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-"+cliState.getRound());
+        displayText("\t\t\t\tWhat would you like to see?\n");
         displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
         displayText("-Your State press\t\t\t\t\t V\n");    //(char)27+"[31m"   colore rosso
         displayText("-ToolCards press\t\t\t\t\t T\n");
@@ -128,42 +132,35 @@ public class CliDisplayer {
 
    public void printRoundTrack() {
         displayText("The RoundTrack is:\n");
-       int max=0;
-       for(int j=0;j<10;j++)
-           if(cliState.getRoundTrack()[j]!=null){
-             if(max<cliState.getRoundTrack()[j].length)
-                   max=cliState.getRoundTrack()[j].length;
-            }
+       int max=cliState.getRound();
        displayText("Index:    ");
-       for(int j=0;j<max;j++){
+       for(int j=1;j<max;j++){
           displayText(j+" |  ");
        }
        displayText("\n");
-        for (int i = 1; i < 11 && cliState.getRoundTrack()[i] != null; i++) {
-            displayText("Round "+i + ")");
-            for (int j = 0; j < cliState.getRoundTrack()[i].length; j++)
-                if (cliState.getRoundTrack()[i][j].length() == 2) {
-                    switch (cliState.getRoundTrack()[i][j].charAt(1)) {
-                        case 'g':
-                            displayText((char) 27 + "[1;30;102m" +"  "+cliState.getRoundTrack()[i][j].charAt(0)+" " + (char) 27 + "[0m"+"|");   //caso green
-                            break;
-                        case 'b':
-                            displayText((char) 27 + "[1;30;106m" +"  "+cliState.getRoundTrack()[i][j].charAt(0)+" " + (char) 27 + "[0m"+"|");
-                            break;
-                        case 'y':
-                            displayText((char) 27 + "[1;30;103m" +"  "+cliState.getRoundTrack()[i][j].charAt(0)+" " + (char) 27 + "[0m"+"|");
-                            break;
-                        case 'r':
-                            displayText((char) 27 + "[1;30;41m"+"  " +cliState.getRoundTrack()[i][j].charAt(0)+" " +(char) 27 + "[0m"+"|");
-                            break;
-                        case 'p':
-                            displayText((char) 27 + "[1;30;45m"+"  "+ cliState.getRoundTrack()[i][j].charAt(0)+" "+ (char) 27 + "[0m"+"|" );
-                            break;
-                    }
-
+        for (int i = 0; i < max-1; i++) {
+            displayText("Round "+(i+1) + ")");
+            for (int j = 0; j < cliState.getRoundTrack()[i].length; j++) {
+                switch (cliState.getRoundTrack()[i][j].charAt(1)) {
+                    case 'g':
+                        displayText((char) 27 + "[1;30;102m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");   //caso green
+                        break;
+                    case 'b':
+                        displayText((char) 27 + "[1;30;106m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                        break;
+                    case 'y':
+                        displayText((char) 27 + "[1;30;103m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                        break;
+                    case 'r':
+                        displayText((char) 27 + "[1;30;41m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                        break;
+                    case 'p':
+                        displayText((char) 27 + "[1;30;45m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                        break;
                 }
-                else
-                    displayText("    |");
+                displayText("    |");
+            }
+
 
             displayText("\n");
         }

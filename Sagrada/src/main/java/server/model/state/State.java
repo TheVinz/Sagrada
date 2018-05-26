@@ -6,10 +6,7 @@ import server.model.state.boards.roundtrack.RoundTrack;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.model.state.player.Player;
-import server.model.state.toolcards.TaglierinaCircolare;
-import server.model.state.toolcards.TaglierinaManuale;
-import server.model.state.toolcards.TenagliaARotelle;
-import server.model.state.toolcards.ToolCard;
+import server.model.state.toolcards.*;
 import server.model.state.utilities.Util;
 import server.model.Model;
 
@@ -30,7 +27,7 @@ public class State{
 		this.toolCards= new ToolCard[3];
 		this.toolCards[0] = new TaglierinaCircolare(model);
 		this.toolCards[1] = new TaglierinaManuale(model);
-		this.toolCards[2] = new TenagliaARotelle(model);
+		this.toolCards[2] = new Lathekin(model);
 		this.publicObjectiveCards=Util.getPublicObjectiveCards();
 		this.players=new ArrayList<>();
 		this.draftPool=new DraftPool();

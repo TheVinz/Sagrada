@@ -297,6 +297,9 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                 case ROUND_TRACK_CELL:
                     controller.selectObject(state.getRoundTrack().getRoundSet(gameCommand.getX()).get(gameCommand.getY()));
                     break;
+                case SIMPLE_MOVE_REQUEST:
+                    controller.isDiceMove();
+                    break;
                 default:
                     return;
             }

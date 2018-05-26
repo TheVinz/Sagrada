@@ -51,6 +51,8 @@ public class MovingDice extends PlayerState {
 
             case DRAFT_POOL_CELL:
                 source=(DraftPoolCell) modelObject;
+                if(source.isEmpty())
+                    throw new InvalidMoveException("Source cell is empty, try again");
                 return this;
 
             default:

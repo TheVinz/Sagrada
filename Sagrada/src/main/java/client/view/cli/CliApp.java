@@ -28,7 +28,6 @@ public class CliApp {
     private CliState cliState;
     private int id;
     private boolean waitingPhase=true;
-    private boolean movingDice=false;
     private ArrayDeque<GameCommand> commandBuffer = new ArrayDeque<GameCommand>();
     Scanner scanner = new Scanner(System.in);
 
@@ -60,22 +59,9 @@ public class CliApp {
             }
         }
         sendCommand();
-        if(movingDice){
-            setWaitingPhase(true);
-            synchronized (this) {
-                while (waitingPhase) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
         setCurrentState(new SelectingWindowFrameCell());
         sendCommand();
         setWaitingPhase(true);
-        movingDice =false;
     }
 
     public void setCurrentState(CliPhaseState currentState){
@@ -157,8 +143,6 @@ public class CliApp {
 
     public void moveFromWindowFrame() {
 
-        addCommandToBuffer(new GameCommand(Response.WINDOW_FRAME, CliState.getCliState().getActivePlayer().getId()));
-        sendCommand();
         setCurrentState(new SelectingWindowFrameCell());
         synchronized (this){
             while(getCommandBufferSize() == 0) {
@@ -176,7 +160,4 @@ public class CliApp {
     }
 
 
-    public void setMovingDice(boolean movingDice) {
-        this.movingDice = movingDice;
-    }
 }

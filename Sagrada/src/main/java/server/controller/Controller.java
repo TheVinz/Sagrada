@@ -63,4 +63,11 @@ public class Controller {
 		currentState=new SelectingWindowFrame(player, model, windowFrameLists);
     }
 
+    public void isDiceMove(){
+		if(player.isDiceMoved())
+			view.notifyError("You have already moved a dice!\n");
+		else
+			view.notifyNextParameter(Response.DRAFT_POOL_MOVE);
+	}
+
 }
