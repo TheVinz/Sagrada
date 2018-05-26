@@ -5,9 +5,11 @@ public class CliPlayerState {
     private String windowFrameRep;
     private String[][] windowFrame = new String[4][5];
     private Integer favorTokens;
+    private boolean secondTurn;
     private int id;
 
     public CliPlayerState(String name, int id, String rep, int favorTokens){
+        this.secondTurn = true;
         this.name=name;
         this.id = id;
         this.windowFrameRep=rep;
@@ -50,5 +52,13 @@ public class CliPlayerState {
 
     public void removeFavorTokens(int tokens) {
         favorTokens=favorTokens-tokens;
+    }
+
+    public void setSecondTurn(boolean secondTurn){
+        this.secondTurn = secondTurn;
+    }
+
+    public boolean isSecondTurn(){
+        return secondTurn;
     }
 }

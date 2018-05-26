@@ -22,7 +22,6 @@ public class WaitingState extends PlayerState {
             case DRAFT_POOL_CELL:
                 if(!player.isDiceMoved()) {
                     nextState = new MovingDice(player, model);
-                    nextParameter = Response.SUCCESS_INIT_SIMPLE_MOVE;
                     return nextState.selectObject(modelObject);
                 }
                 else{
@@ -38,7 +37,6 @@ public class WaitingState extends PlayerState {
                 else{
                         throw new InvalidMoveException("You have already used a tool card!\n");
                     }
-
             default:
                 return this;
         }

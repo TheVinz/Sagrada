@@ -53,7 +53,7 @@ public class Lathekin extends ToolCard {
                 expectedParameters.poll();
                 parameters.add(o);
             }
-            if(parameters.get(3)!=null){
+            if(parameters.size()==4){
                 doAbility();
             }
         }
@@ -94,6 +94,9 @@ public class Lathekin extends ToolCard {
             if(firstSourceFrame!=player.getWindowFrame())
                 throw new InvalidMoveException("Dice must be on your same frame");
 
+            if(firstSource == firstTarget)
+                throw new InvalidMoveException("Cells must be differents");
+
             Dice dice = firstSource.removeDice();
 
             if(GameRules.validAllDiceRestriction(player.getWindowFrame(), dice, firstTarget) &&
@@ -122,6 +125,11 @@ public class Lathekin extends ToolCard {
 
             if(secondSourceFrame!=player.getWindowFrame())
                 throw new InvalidMoveException("Dice must be on your same frame");
+
+            if(secondSource == secondTarget){
+                refillParameters();
+                throw new WrongParameter("Cells must be differents");
+            }
 
             if(secondSource == firstTarget)
             {
@@ -172,6 +180,8 @@ public class Lathekin extends ToolCard {
 
                 for (int i = 0; i < WindowFrame.ROWS; i++) {
                     for (int j = 0; j < WindowFrame.COLUMNS; j++) {
+                        if(i==h && j==k)
+                            continue;
                         if (GameRules.validAllDiceRestriction(windowFrame, dice, windowFrame.getCell(i,j)) &&
                                 GameRules.validAllCellRestriction(dice, windowFrame.getCell(i,j))){
                             try{
