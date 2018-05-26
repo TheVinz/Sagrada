@@ -27,7 +27,7 @@ public class State{
 		this.toolCards= new ToolCard[3];
 		this.toolCards[0] = new DiluentePerPastaSalda(model);
 		this.toolCards[1] = new PennelloperPastaSalda(model);
-		this.toolCards[2] = new RigaInSughero(model);
+		this.toolCards[2] = new TenagliaARotelle(model);
 		this.publicObjectiveCards=Util.getPublicObjectiveCards();
 		this.players=new ArrayList<>();
 		this.draftPool=new DraftPool();
