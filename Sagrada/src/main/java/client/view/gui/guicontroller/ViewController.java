@@ -9,6 +9,7 @@ import common.response.Response;
 import common.RemoteMVC.RemoteController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
@@ -56,7 +57,9 @@ public class ViewController {
 
     public void notifyLogin(RemoteController remoteController){
         this.remoteController=remoteController;
-        rootLayout.setCenter(null);
+        Label label = new Label("Waiting server...");
+        label.setStyle("-fx-font-size: 40; -fx-text-fill: white; -fx-background-color: black");
+        rootLayout.setCenter(label);
     }
 
     public void loadWindowFrameChoice(String[] reps, int[] tokens){
