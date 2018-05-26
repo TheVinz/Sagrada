@@ -53,7 +53,7 @@ public class Lathekin extends ToolCard {
                 expectedParameters.poll();
                 parameters.add(o);
             }
-            if(parameters.get(3)!=null){
+            if(parameters.size()==4){
                 doAbility();
             }
         }
@@ -104,7 +104,6 @@ public class Lathekin extends ToolCard {
                 firstSource.put(dice);
                 throw new InvalidMoveException("Invalid move");
             }
-
             if(!verify(firstTarget)){
                 firstTarget.move(firstSource);
                 throw new InvalidMoveException("You will never be able to finish this tool card!");
@@ -137,8 +136,6 @@ public class Lathekin extends ToolCard {
                 refillParameters();
                 throw new WrongParameter(e.getMessage());
             }
-
-
             if(GameRules.validAllDiceRestriction(player.getWindowFrame(), dice, secondTarget) &&
                     GameRules.validAllCellRestriction(dice, secondTarget)){
                 secondSource.put(dice);
@@ -148,7 +145,6 @@ public class Lathekin extends ToolCard {
                 refillParameters();
                 throw new WrongParameter("Invalid move, try again the second move");
             }
-
             model.move(player, secondSource, secondTarget);
             model.toolCardUsed(player, this);
         }
