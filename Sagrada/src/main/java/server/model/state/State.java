@@ -25,9 +25,9 @@ public class State{
 		this.bag=new Bag();
 		this.roundTrack=new RoundTrack();
 		this.toolCards= new ToolCard[3];
-		this.toolCards[0] = new TaglierinaCircolare(model);
-		this.toolCards[1] = new TaglierinaManuale(model);
-		this.toolCards[2] = new Lathekin(model);
+		this.toolCards[0] = new DiluentePerPastaSalda(model);
+		this.toolCards[1] = new PennelloperPastaSalda(model);
+		this.toolCards[2] = new RigaInSughero(model);
 		this.publicObjectiveCards=Util.getPublicObjectiveCards();
 		this.players=new ArrayList<>();
 		this.draftPool=new DraftPool();

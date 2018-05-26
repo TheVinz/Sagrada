@@ -54,6 +54,7 @@ public class Controller {
 
 	public void endTurn() {
 		if(player.isActive()) {
+			currentState.end
 			currentState = new WaitingState(player, model);
 			model.endTurn(player);
 		}
