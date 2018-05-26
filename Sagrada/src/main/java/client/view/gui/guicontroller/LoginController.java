@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -36,6 +37,7 @@ public class LoginController {
         try {
             Registry reg = LocateRegistry.getRegistry();
             RemoteLoginManager login =(RemoteLoginManager) reg.lookup("LoginManager");
+            //RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://192.168.1.66:1099/LoginManager");
             remoteController=login.connect(name, model);
             listener.notifyLogin(remoteController);
         }

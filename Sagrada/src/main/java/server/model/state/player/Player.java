@@ -18,6 +18,7 @@ public class Player {
     private boolean diceMoved;      // |
     private boolean toolCardUsed;   // |-> Aggiornati massimo una volpta per turno
     private boolean active;         // |
+    private boolean jumpSecondTurn;
 
 
     public Player(String name, int id){
@@ -27,6 +28,7 @@ public class Player {
         this.toolCardUsed=false;
         this.secondTurn=false;
         this.firstMoveDone=false;
+        this.jumpSecondTurn=false;
     }
 
     public void setWindowFrame(WindowFrameList windowFrameList){
@@ -87,10 +89,18 @@ public class Player {
     }
     public void endRound() {
         secondTurn=false;
+        jumpSecondTurn=false;
     }
 
     public void setInactive(){
         this.active =false;
     }
 
+    public boolean isJumpSecondTurn() {
+        return jumpSecondTurn;
+    }
+
+    public void setJumpSecondTurn(boolean jumpSecondTurn) {
+        this.jumpSecondTurn = jumpSecondTurn;
+    }
 }

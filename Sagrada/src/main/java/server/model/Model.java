@@ -77,12 +77,17 @@ public class Model implements Observable {
     }
     public void endTurn(Player player) {
         player.endTurn();
-        if(roundManager.hasNext()) {
-            Player active = roundManager.next();
-            active.setActive();
-            notifyStartTurn(active);
-        }
-        else endRound();
+        Player active;
+        do {
+            if(!roundManager.hasNext())
+            {
+                endRound();
+                return;
+            }
+            active = roundManager.next();
+        } while(active.isJumpSecondTurn());
+        active.setActive();
+        notifyStartTurn(active);
     }
     private void endRound() {
         try {
