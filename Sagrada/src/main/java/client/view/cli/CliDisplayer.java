@@ -122,9 +122,6 @@ public class CliDisplayer {
             }
         }
     }
-    public String displayCharBlack(char c){
-       return new String((char)27+"[30m"+c+(char)27+"[0m");
-    }
 
     public void printWindowFrame() {
         printWindowFrame(cliState.getActivePlayer());

@@ -33,6 +33,7 @@ public class LathekinTest {
     private boolean firstMoveDone;
     private List<ModelObject> parameters;
     private WindowFrame frame;
+    private WindowFrame secondFrame;
     private WindowFrameCell[] windowFrameCell = new WindowFrameCell[4];
 
 
@@ -42,13 +43,15 @@ public class LathekinTest {
         Model model = spy(new Model());
         toolCard = new Lathekin(model);
         frame = new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
+        secondFrame = new WindowFrame(WindowFrameList.AURORAE_MAGNIFICUS);
         player = mock(Player.class);
         when(player.getWindowFrame()).thenReturn(frame);
         windowFrameCell[0]=frame.getCell(0,0);
         windowFrameCell[0].put(new Dice(Color.RED,4));
-       // windowFrameCell[2]=frame.getCell(0,2);
-      //  windowFrameCell[2].put(new Dice(Color.BLUE,2));
+        windowFrameCell[2]=frame.getCell(0,2);
+        windowFrameCell[2].put(new Dice(Color.BLUE,3));
         windowFrameCell[1]=frame.getCell(0,1);
+        windowFrameCell[3]=frame.getCell(1,2);
       //  windowFrameCell[1].put(new Dice(Color.RED,5));
         parameters=new ArrayList<>(8);
     }
@@ -58,12 +61,92 @@ public class LathekinTest {
         Dice dice1 = new Dice(Color.RED, 5);
         Dice dice2 = new Dice(Color.PURPLE, 2);
        // player.getWindowFrame().getCell(0, 0).put(dice);
-        player.getWindowFrame().getCell(1, 0).put(dice1);
-        player.getWindowFrame().getCell(2, 2).put(dice2);
+      //  player.getWindowFrame().getCell(1, 0).put(dice1);
+       // player.getWindowFrame().getCell(2, 2).put(dice2);
                 toolCard.start(player);
     }
     @Test
     public void shouldSetParameter() throws InvalidMoveException {
+        toolCard.start(player);
+        try {
+            toolCard.setParameter(windowFrameCell[0]);    //passo una cella invece che la vetrata
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(secondFrame);     //passo la vetrata sbagliata
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(windowFrameCell[0]);    //passso la cella giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame.getCell(0,1));    //lancia eccezione perchè non è una windowframe
+        } catch (WrongParameter wrongParameter) {
+            assertEquals("Wrong parameter",wrongParameter.getMessage());
+        }
+        try {
+            toolCard.setParameter(frame);    //giusta windowframe
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+     /*   try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }*/
+       try{ try {
+            toolCard.setParameter(frame.getCell(0,1));      //caso windowframe sbagliata
+        } catch (WrongParameter wrongParameter) {
+             wrongParameter.printStackTrace();
+        }}
+        catch(InvalidMoveException invalidMoveException){
+            invalidMoveException.printStackTrace();
+        }
+
+        toolCard.start(player);   //firstSource=firstTarget
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(windowFrameCell[0]);    //passso la cella giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(windowFrameCell[0]);   //stessa cella
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+
         toolCard.start(player);
         try {
             toolCard.setParameter(frame);
@@ -73,16 +156,11 @@ public class LathekinTest {
             wrongParameter.printStackTrace();
         }
         try {
-            toolCard.setParameter(windowFrameCell[0]);
+            toolCard.setParameter(windowFrameCell[0]);    //passso la cella giusta
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
-        }
-        try {
-            toolCard.setParameter(windowFrameCell[1]);    //lancia eccezione perchè non è una windowframe
-        } catch (WrongParameter wrongParameter) {
-            assertEquals("Wrong parameter",wrongParameter.getMessage());
         }
         try {
             toolCard.setParameter(frame);
@@ -91,17 +169,15 @@ public class LathekinTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
-        windowFrameCell[2]=frame.getCell(0,2);
-        windowFrameCell[2].put(new Dice(Color.BLUE,3));
-       try{ try {
-            toolCard.setParameter(windowFrameCell[1]);     //stato iniziale, un solo dado, voglio spostarlo, non me lo fa spostare
-        } catch (WrongParameter wrongParameter) {          //se ho due dadi nello stato iniziale me lo fa spostare
-             wrongParameter.printStackTrace();
-        }}
-        catch(InvalidMoveException invalidMoveException){    //lancia la invalid move exception
-            invalidMoveException.printStackTrace();
+        try {
+            toolCard.setParameter(frame.getCell(1,3));    //passso la cellasbagliata
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
         }
 
+        toolCard.start(player);
         try {
             toolCard.setParameter(frame);
         } catch (InvalidMoveException e) {
@@ -110,7 +186,39 @@ public class LathekinTest {
             wrongParameter.printStackTrace();
         }
         try {
-            toolCard.setParameter(windowFrameCell[2]);
+            toolCard.setParameter(windowFrameCell[0]);    //passso la cella giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        frame.getCell(0,4).put(new Dice(Color.BLUE,3));
+        try {
+            toolCard.setParameter(frame.getCell(0,4));    //passso una cella
+                    } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+
+
+        toolCard.start(player);
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(windowFrameCell[0]);   //giusta
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (WrongParameter wrongParameter) {
@@ -122,16 +230,318 @@ public class LathekinTest {
             e.printStackTrace();
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();}
-            windowFrameCell[3]=frame.getCell(1,2);
-            try{ try {
-                toolCard.setParameter(windowFrameCell[3]);     //stato iniziale, un solo dado, voglio spostarlo, non me lo fa spostare
-            } catch (WrongParameter wrongParameter) {          //se ho due dadi nello stato iniziale me lo fa spostare
-                wrongParameter.printStackTrace();
-            }}
-            catch(InvalidMoveException invalidMoveException){    //lancia la invalid move exception
-                invalidMoveException.printStackTrace();
-            }
-            System.out.println(""+frame.getCell(1,2).getDice().getColor());
+
+        try{ try {
+            toolCard.setParameter(frame.getCell(0,1));
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }}
+        catch(InvalidMoveException invalidMoveException){
+            invalidMoveException.printStackTrace();
+        }
+
+        //primo mosso correttamente
+        try {
+            toolCard.setParameter(secondFrame);  //passo una windowframe sbagliata
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(windowFrameCell[2]);   //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+        try {
+            toolCard.setParameter(frame.getCell(0,1));   //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        //secondo con windowframe sbagliata
+
+
+        toolCard.start(player);
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(windowFrameCell[0]);   //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+
+        try{ try {
+            toolCard.setParameter(frame.getCell(0,1));    //first target
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }}
+        catch(InvalidMoveException invalidMoveException){
+            invalidMoveException.printStackTrace();
+        }
+        //primo mosso correttamente
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame.getCell(0,1));   //cell uguale al target di prima, non dovrebbe andare
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+        try {
+            toolCard.setParameter(windowFrameCell[3]);   //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        //secondsource uguale al firstTarget, non mi entra in questo caso
+
+
+        toolCard.start(player);
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(windowFrameCell[0]);   //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+        try{
+            try {
+                toolCard.setParameter(frame.getCell(0,1));    //first target
+             } catch (WrongParameter wrongParameter) { wrongParameter.printStackTrace(); }
+        } catch(InvalidMoveException invalidMoveException){ invalidMoveException.printStackTrace(); }
+        //primo mosso correttamente
+
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame.getCell(2,3));   //cella vuota
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame.getCell(0,1));   //cella vuota
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+
+
+
+
+
+
+
+
+        toolCard.start(player);
+        try {
+            toolCard.setParameter(frame);  //
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(windowFrameCell[0]);   //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+
+        try{ try {
+            toolCard.setParameter(frame.getCell(0,1));
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }}
+        catch(InvalidMoveException invalidMoveException){
+            invalidMoveException.printStackTrace();
+        }
+        //inserimento del secondo dado corretamente
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+        try {
+            toolCard.setParameter(windowFrameCell[2]);   //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+        try {
+            toolCard.setParameter(windowFrameCell[3]);   //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        System.out.println(""+frame.getCell(1,2).getDice().getColor());
+
+        toolCard.start(player);
+        try {
+            toolCard.setParameter(frame);  //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(windowFrameCell[0]);   //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+
+        try{ try {
+            toolCard.setParameter(frame.getCell(0,1));
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }}
+        catch(InvalidMoveException invalidMoveException){
+            invalidMoveException.printStackTrace();
+        }
+        //inserimento del secondo dado in modo incorretto
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+        try {
+            toolCard.setParameter(frame.getCell(0,1));   //secondSource=firstTarget, la mossa non andrà a buon fine
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+        try {
+            toolCard.setParameter(frame.getCell(0,1));
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);  //refilled parameters
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(windowFrameCell[2]);   //giusta
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+        try {
+            toolCard.setParameter(frame);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();}
+
+        try{ try {
+            toolCard.setParameter(windowFrameCell[3]);
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }}
+        catch(InvalidMoveException invalidMoveException){
+            invalidMoveException.printStackTrace();
+        }
+
 
 }
 }
