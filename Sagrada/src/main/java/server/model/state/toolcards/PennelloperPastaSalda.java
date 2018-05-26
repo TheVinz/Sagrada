@@ -69,6 +69,8 @@ public class PennelloperPastaSalda extends ToolCard {
             dice = new Dice(dice.getColor());
             model.putDice(player, dice, poolCell);
             playable = verify(dice);
+            if(!playable)
+                model.toolCardUsed(player, this);
             rerollDone=true;
         }
         else{

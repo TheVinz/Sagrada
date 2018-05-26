@@ -86,6 +86,8 @@ public class DiluentePerPastaSalda extends ToolCard {
             model.putDice(player, dice, poolCell);
             valueSetted=true;
             playable=verify(dice);
+            if(!playable)
+                model.toolCardUsed(player, this);
         }
         else{
             WindowFrame frame= (WindowFrame) parameters.get(2);
