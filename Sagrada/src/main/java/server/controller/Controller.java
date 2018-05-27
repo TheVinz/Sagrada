@@ -20,7 +20,6 @@ public class Controller {
 	private PlayerState currentState;
 
 	private Lock lock;
-	private Timer timer;
 
 	public Controller(Model model, Player player, ViewProxy view){
 		this.player=player;
@@ -28,6 +27,7 @@ public class Controller {
 		this.view=view;
 		currentState=new WaitingState(player, model);
 		lock = new ReentrantLock();
+		player.setTimer(new Timer(this));
 	}
 
 	public void selectObject(ModelObject o) throws InvalidMoveException, WrongParameter {
@@ -50,6 +50,7 @@ public class Controller {
 							view.notifyNextParameter(temp.nextParam());
 						throw e;
 					}
+					player.getTimer().start();
 					if (temp.nextParam() != null) {
 						view.notifyNextParameter(temp.nextParam());
 					}
@@ -87,12 +88,11 @@ public class Controller {
 
 	public void notifyTimeout() {
 		if(lock.tryLock()){
-			if(Thread.currentThread()==timer.getBlinker()){
-				try{
+			try{
+				if(Thread.currentThread()==player.getTimer().getBlinker())
 					timeFinished();
-				}finally {
-					lock.unlock();
-				}
+			}finally {
+				lock.unlock();
 			}
 		}
 	}

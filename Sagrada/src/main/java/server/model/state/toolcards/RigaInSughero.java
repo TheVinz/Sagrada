@@ -35,6 +35,8 @@ public class RigaInSughero extends ToolCard {
             throw new InvalidMoveException("Draft pool is empty");
         if(!playable())
             throw new InvalidMoveException("No available moves");
+        if(player.isDiceMoved())
+            throw new InvalidMoveException("You can only place a dice once per turn");
         parameters=new ArrayList<>(3);
         expectedParameters=new ArrayDeque<>(3);
         expectedParameters.add(DRAFT_POOL_CELL);
@@ -53,6 +55,7 @@ public class RigaInSughero extends ToolCard {
             throw new InvalidMoveException("Placement must respect cell restrictions");
         else{
             model.move(player, poolCell, cell);
+            player.setDiceMoved();
             model.toolCardUsed(player, this);
         }
     }
@@ -63,6 +66,11 @@ public class RigaInSughero extends ToolCard {
             return Response.DRAFT_POOL_MOVE;
         else
             return null;
+    }
+
+    @Override
+    public Response getSuccess(){
+        return Response.SUCCESS_TOOL_CARD_WITH_MOVE;
     }
 
     private boolean playable(){

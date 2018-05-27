@@ -32,12 +32,12 @@ public class LoginController {
 
     @FXML
     private void rmiLogin(){
+        String ip ="127.0.0.1";
+        int port = 1099;
         name=textField.getText();
         textField.setText(null);
         try {
-           // Registry reg = LocateRegistry.getRegistry();
-            //RemoteLoginManager login =(RemoteLoginManager) reg.lookup("LoginManager");
-            RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://192.168.1.66:1099/LoginManager");
+            RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+port+"/LoginManager");
             remoteController=login.connect(name, model);
             listener.notifyLogin(remoteController);
         }

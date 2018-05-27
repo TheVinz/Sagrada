@@ -253,6 +253,11 @@ public class ViewController {
                 GamePhase.toolCardUsed=true;
                 currentPhase = new MainPhase(remoteController, gameController);
                 break;
+            case SUCCESS_TOOL_CARD_WITH_MOVE:
+                GamePhase.toolCardUsed = true;
+                GamePhase.diceMoved = true;
+                currentPhase = new MainPhase(remoteController, gameController);
+                break;
             default:
                 currentPhase=new MainPhase(remoteController, gameController);
                 break;

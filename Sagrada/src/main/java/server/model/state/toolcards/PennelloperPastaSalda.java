@@ -35,6 +35,8 @@ public class PennelloperPastaSalda extends ToolCard {
     public void start(Player player) throws InvalidMoveException {
         if(model.getState().getDraftPool().isEmpty())
             throw new InvalidMoveException("Draft pool is empty");
+        if(player.isDiceMoved())
+            throw new InvalidMoveException("Can only place a dice once per turn");
         expectedParameters=new ArrayDeque<>(3);
         parameters=new ArrayList<>(3);
         expectedParameters.add(WINDOW_FRAME);
@@ -47,7 +49,8 @@ public class PennelloperPastaSalda extends ToolCard {
     @Override
     public void setParameter(ModelObject o) throws InvalidMoveException {
         if(!rerollDone) {
-            if(o.getType()!=DRAFT_POOL_CELL) throw new InvalidMoveException("Wrong parameter");
+            if(o.getType()!=DRAFT_POOL_CELL)
+                throw new InvalidMoveException("Wrong parameter");
             else {
                 parameters.add(o);
                 doAbility();
@@ -88,6 +91,7 @@ public class PennelloperPastaSalda extends ToolCard {
                 } else {
                     model.move(player, poolCell, cell);
                     playable=false;
+                    player.setDiceMoved();
                     model.toolCardUsed(player, this);
                 }
             }
@@ -124,6 +128,11 @@ public class PennelloperPastaSalda extends ToolCard {
             return Response.WINDOW_FRAME;
         else
             return null;
+    }
+
+    @Override
+    public Response getSuccess(){
+        return Response.SUCCESS_TOOL_CARD_WITH_MOVE;
     }
 
 }

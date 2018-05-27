@@ -19,18 +19,21 @@ public class Timer implements Runnable {
             if(cont == 0 ){
                 controller.notifyTimeout();
             }
-            else
-            try {
-                    sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            cont--;
+            else {
+                try {
+                        wait(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                cont--;
+                System.out.print(cont);
+            }
         }
 
     }
 
     public void start(){
+        System.out.println();
         cont = MAX_CONT;
         blinker=new Thread(this);
         blinker.start();

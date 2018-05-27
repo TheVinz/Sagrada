@@ -31,6 +31,8 @@ public class TenagliaARotelle extends ToolCard {
             throw new InvalidMoveException("Draft pool is empty");
         if(player.isSecondTurn())
             throw new InvalidMoveException("Only during your first turn");
+        if(!player.isDiceMoved())
+            throw new InvalidMoveException("You have to place a dice first");
         parameters=new ArrayList<>(3);
         expectedParameters=new ArrayDeque<>(3);
         expectedParameters.add(DRAFT_POOL_CELL);

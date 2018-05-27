@@ -34,7 +34,7 @@ public class UsingToolCard extends PlayerState {
                 return this;
             else
             {
-                nextParameter = Response.SUCCESS_USED_TOOL_CARD;
+                nextParameter = card.getSuccess();
                 return new WaitingState(player, model);
             }
         } else {
@@ -43,7 +43,7 @@ public class UsingToolCard extends PlayerState {
                 return this;
             else
             {
-                nextParameter = Response.SUCCESS_USED_TOOL_CARD;
+                nextParameter = card.getSuccess();
                 return new WaitingState(player, model);
             }
         }

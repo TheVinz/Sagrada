@@ -58,6 +58,11 @@ public abstract class ToolCard implements ModelObject {
 		 }
 	}
 
+	public Response getSuccess(){
+		return Response.SUCCESS_USED_TOOL_CARD;
+	}
+
+
 	@Override
 	public ModelType getType() {
 		return TOOL_CARD;
