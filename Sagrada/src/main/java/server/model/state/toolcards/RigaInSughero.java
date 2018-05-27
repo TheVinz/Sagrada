@@ -1,8 +1,10 @@
 package server.model.state.toolcards;
 
+import client.view.gui.guicontroller.gamephase.GamePhase;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 import server.model.Model;
+import server.model.state.boards.Cell;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -26,12 +28,20 @@ public class RigaInSughero extends ToolCard {
 
     @Override
     public void start(Player player) throws InvalidMoveException {
+        this.player=player;
+        if(!player.isFirstMoveDone())
+            throw new InvalidMoveException("You still have to place your first dice");
+        if(model.getState().getDraftPool().isEmpty())
+            throw new InvalidMoveException("Draft pool is empty");
+        if(!playable())
+            throw new InvalidMoveException("No available moves");
+        if(player.isDiceMoved())
+            throw new InvalidMoveException("You can only place a dice once per turn");
         parameters=new ArrayList<>(3);
         expectedParameters=new ArrayDeque<>(3);
         expectedParameters.add(DRAFT_POOL_CELL);
         expectedParameters.add(WINDOW_FRAME);
         expectedParameters.add(WINDOW_FRAME_CELL);
-        this.player=player;
     }
 
     @Override
@@ -45,6 +55,7 @@ public class RigaInSughero extends ToolCard {
             throw new InvalidMoveException("Placement must respect cell restrictions");
         else{
             model.move(player, poolCell, cell);
+            player.setDiceMoved();
             model.toolCardUsed(player, this);
         }
     }
@@ -56,4 +67,18 @@ public class RigaInSughero extends ToolCard {
         else
             return null;
     }
+
+    private boolean playable(){
+        for(int i=0; i<WindowFrame.ROWS; i++){
+            for(int j=0; j<WindowFrame.COLUMNS; j++){
+                if(!GameRules.validAdjacentDices(player.getWindowFrame(), player.getWindowFrame().getCell(i,j))){
+                    for(Cell cell : model.getState().getDraftPool().getDraftPool())
+                        if(GameRules.validAllCellRestriction(cell.getDice(), player.getWindowFrame().getCell(i,j)))
+                            return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

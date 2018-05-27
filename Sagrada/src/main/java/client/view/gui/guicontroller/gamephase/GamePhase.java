@@ -33,5 +33,4 @@ public class GamePhase {
     public GamePhase handleRoundTrack(int round, int index){
         return this;
     }
-    public GamePhase success(){return new MainPhase(controller, gameController);}
 }

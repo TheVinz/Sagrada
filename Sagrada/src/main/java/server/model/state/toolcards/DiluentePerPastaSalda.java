@@ -36,7 +36,11 @@ public class DiluentePerPastaSalda extends ToolCard {
     }
 
     @Override
-    public void start(Player player) {
+    public void start(Player player) throws InvalidMoveException {
+        if(player.isDiceMoved())
+            throw new InvalidMoveException("You can only place a dice once per turn");
+        if(model.getState().getDraftPool().isEmpty())
+            throw new InvalidMoveException("Draft pool is empty");
         expectedParameters=new ArrayDeque<>(3);
         parameters=new ArrayList<>(3);
         expectedParameters.add(WINDOW_FRAME);
@@ -86,6 +90,8 @@ public class DiluentePerPastaSalda extends ToolCard {
             model.putDice(player, dice, poolCell);
             valueSetted=true;
             playable=verify(dice);
+            if(!playable)
+                model.toolCardUsed(player, this);
         }
         else{
             WindowFrame frame= (WindowFrame) parameters.get(2);
@@ -100,6 +106,7 @@ public class DiluentePerPastaSalda extends ToolCard {
                 } else {
                     model.move(player, poolCell, cell);
                     playable=false;
+                    player.setDiceMoved();
                     model.toolCardUsed(player, this);
                 }
             }

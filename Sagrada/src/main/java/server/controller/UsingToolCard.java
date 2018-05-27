@@ -24,15 +24,26 @@ public class UsingToolCard extends PlayerState {
         ModelType i = modelObject.getType();
         if (i == ModelType.TOOL_CARD) {
             if (card == null) card = (ToolCard) modelObject;
+            if(card.isUsed())
+                if(player.getFavorTokens() <2)
+                    throw new InvalidMoveException("Not enough favor tokens");
+            else if(player.getFavorTokens()<1)
+                    throw new InvalidMoveException("Not enough favor tokens");
             card.start(player);
-            return this;
+            if (card.hasNext())
+                return this;
+            else
+            {
+                nextParameter = Response.SUCCESS_USED_TOOL_CARD;
+                return new WaitingState(player, model);
+            }
         } else {
             card.setParameter(modelObject);
             if (card.hasNext())
                 return this;
             else
             {
-                nextParameter = Response.SUCCESS;
+                nextParameter = Response.SUCCESS_USED_TOOL_CARD;
                 return new WaitingState(player, model);
             }
         }

@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -31,11 +32,12 @@ public class LoginController {
 
     @FXML
     private void rmiLogin(){
+        String ip ="127.0.0.1";
+        int port = 1099;
         name=textField.getText();
         textField.setText(null);
         try {
-            Registry reg = LocateRegistry.getRegistry("192.168.1.66");
-            RemoteLoginManager login =(RemoteLoginManager) reg.lookup("LoginManager");
+            RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+port+"/LoginManager");
             remoteController=login.connect(name, model);
             listener.notifyLogin(remoteController);
         }

@@ -5,6 +5,10 @@
     -fx-min-width: 54px;
     -fx-min-height: 54px;
 }
+.empty{
+    -fx-background-color: rgba(0,0,0,0) !important;
+    -fx-cursor: inherit !important;
+}
 .toolcard{
     -fx-min-height: 301px;
     -fx-max-height: 301px;

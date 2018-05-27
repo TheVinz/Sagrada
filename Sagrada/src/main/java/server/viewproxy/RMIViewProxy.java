@@ -346,7 +346,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                 }
             }
             catch (InvalidMoveException e){
-                notifyError(e.getMessage());
+                System.out.println(e.getMessage());
             }catch (WrongParameter e){
                 System.out.println(e.getMessage());
             }
@@ -370,7 +370,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                 }
             }
             catch (InvalidMoveException e){
-                notifyError(e.getMessage());
+                System.out.println(e.getMessage());
             }catch (WrongParameter e){
                 System.out.println(e.getMessage());
             }

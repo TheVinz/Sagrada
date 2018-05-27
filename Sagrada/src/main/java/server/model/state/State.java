@@ -24,10 +24,7 @@ public class State{
 	public State(Model model){
 		this.bag=new Bag();
 		this.roundTrack=new RoundTrack();
-		this.toolCards= new ToolCard[3];
-		this.toolCards[0] = new DiluentePerPastaSalda(model);
-		this.toolCards[1] = new PennelloperPastaSalda(model);
-		this.toolCards[2] = new RigaInSughero(model);
+		this.toolCards= Util.getToolCards(model);
 		this.publicObjectiveCards=Util.getPublicObjectiveCards();
 		this.players=new ArrayList<>();
 		this.draftPool=new DraftPool();

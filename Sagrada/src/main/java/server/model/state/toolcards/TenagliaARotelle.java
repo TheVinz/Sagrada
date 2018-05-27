@@ -27,7 +27,12 @@ public class TenagliaARotelle extends ToolCard {
 
     @Override
     public void start(Player player) throws InvalidMoveException {
-        if(player.isFirstMoveDone()) throw new InvalidMoveException("Only during your first turn");
+        if(model.getState().getDraftPool().isEmpty())
+            throw new InvalidMoveException("Draft pool is empty");
+        if(player.isSecondTurn())
+            throw new InvalidMoveException("Only during your first turn");
+        if(!player.isDiceMoved())
+            throw new InvalidMoveException("You have to place a dice first");
         parameters=new ArrayList<>(3);
         expectedParameters=new ArrayDeque<>(3);
         expectedParameters.add(DRAFT_POOL_CELL);
@@ -48,12 +53,13 @@ public class TenagliaARotelle extends ToolCard {
         else {
             model.move(player, poolCell, cell);
             model.toolCardUsed(player, this);
+            player.setJumpSecondTurn(true);
         }
     }
 
     @Override
     public Response next() {   //doppio trascinamento dalla draftpool
-        if(expectedParameters.equals(DRAFT_POOL_CELL))
+        if(expectedParameters.peek().equals(DRAFT_POOL_CELL))
             return Response.DRAFT_POOL_MOVE;
         else
             return null;

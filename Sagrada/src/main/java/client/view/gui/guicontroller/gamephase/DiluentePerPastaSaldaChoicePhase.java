@@ -4,6 +4,9 @@ import client.view.gui.guicontroller.GameController;
 import client.view.gui.util.Util;
 import common.RemoteMVC.RemoteController;
 import common.response.Response;
+import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -13,6 +16,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import java.rmi.RemoteException;
 
@@ -27,6 +32,10 @@ public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
     @Override
     public GamePhase handleChoice(){
         final Stage dialog = new Stage();
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.setAlwaysOnTop(true);
+        Platform.setImplicitExit(false);
+        dialog.setOnCloseRequest(Event::consume);
         dialog.setTitle("Diluente Per Pasta Salda");
         dialog.initModality(Modality.APPLICATION_MODAL);
         VBox box = new VBox(10);
