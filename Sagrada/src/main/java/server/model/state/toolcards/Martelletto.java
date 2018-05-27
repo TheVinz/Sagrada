@@ -22,6 +22,8 @@ public class Martelletto extends ToolCard {
             throw new InvalidMoveException("Draft pool is empty");
         if(!player.isSecondTurn())
             throw new InvalidMoveException("Can be used only on second move");
+        if(player.isDiceMoved())
+            throw new InvalidMoveException("Can be used only before placing a dice");
         this.player=player;
         doAbility();
     }
