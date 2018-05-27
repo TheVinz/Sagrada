@@ -38,4 +38,10 @@ public class DraftPool{
 	public int getSize() {
 		return draftPoolCells.size();
 	}
+
+    public boolean isEmpty() {
+		for(DraftPoolCell cell : draftPoolCells)
+			if(!cell.isEmpty()) return false;
+		return true;
+    }
 }

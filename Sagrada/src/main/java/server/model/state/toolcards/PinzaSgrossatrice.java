@@ -26,7 +26,9 @@ public class PinzaSgrossatrice extends ToolCard {
         return 1;
     }
 
-    public void start(Player player){
+    public void start(Player player) throws InvalidMoveException {
+        if(model.getState().getDraftPool().isEmpty())
+            throw new InvalidMoveException("Draft pool is empty");
         expectedParameters = new ArrayDeque<>();
         parameters = new ArrayList<>();
         expectedParameters.add(DRAFT_POOL_CELL);  //la cella deve avere un dado, se no eccezione

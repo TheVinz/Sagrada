@@ -18,9 +18,12 @@ public class Martelletto extends ToolCard {
 
     @Override
     public void start(Player player) throws InvalidMoveException {
+        if(model.getState().getDraftPool().isEmpty())
+            throw new InvalidMoveException("Draft pool is empty");
+        if(!player.isSecondTurn())
+            throw new InvalidMoveException("Can be used only on second move");
         this.player=player;
-        if(!player.isSecondTurn()) throw new InvalidMoveException("Can be used only on second move");
-        else doAbility();
+        doAbility();
     }
 
     @Override

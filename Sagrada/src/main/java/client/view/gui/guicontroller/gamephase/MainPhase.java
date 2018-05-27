@@ -55,10 +55,4 @@ public class MainPhase extends GamePhase {
         return phase;
     }
 
-    @Override
-    public GamePhase success(){
-        GamePhase.diceMoved=true;
-        return new MainPhase(controller, gameController);
-    }
-
 }

@@ -28,7 +28,7 @@ public abstract class ToolCard implements ModelObject {
 
 	public abstract int getNumber();
 	public boolean isUsed(){ return used;}
-	public void setUsed(){ used=false; }
+	public void setUsed(){ used=true; }
 
 	public abstract void start(Player player) throws InvalidMoveException;
 	public void setParameter(ModelObject o) throws InvalidMoveException, WrongParameter {

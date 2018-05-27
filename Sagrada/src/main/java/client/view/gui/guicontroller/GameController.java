@@ -37,6 +37,7 @@ public class GameController {
     private String[] playerNames = new String[4];
     private int[] tokens = new int[4];
     private Label[] labels = new Label[4];
+    private boolean[][] hasDice = new boolean[4][5];
     private GridPane activeFrame;
     private int id;
     private final String draggable = "draggable";
@@ -116,6 +117,9 @@ public class GameController {
             n.setOnMouseClicked((event) -> handleFrameClick(n));
             n.getStyleClass().add("cell");
         }
+        for(boolean[] booleans : hasDice)
+            for(boolean b : booleans)
+                b=false;
     }
 
     /*==========================================================================================*/
@@ -160,12 +164,12 @@ public class GameController {
     public void windowFramePhase(){
         unableAll();
         activeFrame.getStyleClass().add(clickable);
-        log("Select a dice from your window frame");
+        log("Select a dice from your window frame\n");
     }
     public void draftPoolPhase(){
         unableAll();
         draftPoolBox.getStyleClass().add(clickable);
-        log("Select a dice from the draft pool");
+        log("Select a dice from the draft pool\n");
     }
 
     public void cleanDraftPool() {
@@ -222,8 +226,8 @@ public class GameController {
         Pane cell = (Pane) draftPoolBox.getChildren().get(index);
         ImageView image = Util.getImage(color, value);
         cell.getChildren().clear();
-        if(!cell.getStyleClass().contains("cell"))
-            cell.getStyleClass().add("cell");
+        if(cell.getStyleClass().contains("empty"))
+            cell.getStyleClass().remove("empty");
         cell.getChildren().add(0, image);
     }
 
@@ -231,28 +235,29 @@ public class GameController {
         Pane pane = (Pane) draftPoolBox.getChildren().get(index);
         ImageView image = (ImageView) (pane).getChildren().get(0);
         pane.getChildren().clear();
-        pane.getStyleClass().remove("cell");
+        pane.getStyleClass().add("empty");
         return image;
     }
 
-    public ImageView getFromWindowFrame(int player, int param1, int param2) {
+    public ImageView getFromWindowFrame(int player, int row, int col) {
         GridPane frame = frames[player];
         Pane pane = null;
         for (Node n : frame.getChildren())
-            if(GridPane.getColumnIndex(n)==param2 && GridPane.getRowIndex(n)==param1)
+            if(GridPane.getColumnIndex(n)==col && GridPane.getRowIndex(n)==row)
                 pane = (Pane) n;
         ImageView image = (ImageView) pane.getChildren().get(0);
-        int index = param1*5 + param2;
+        int index = row*5 + col;
         char emptyImage = reps[player].charAt(index);
         pane.getChildren().clear();
         pane.getChildren().add(Util.getImage(emptyImage));
         if(player == id){
             frame = activeFrame;
             for (Node n : frame.getChildren())
-                if(GridPane.getColumnIndex(n)==param2 && GridPane.getRowIndex(n)==param1)
+                if(GridPane.getColumnIndex(n)==col && GridPane.getRowIndex(n)==row)
                     pane = (Pane) n;
             pane.getChildren().clear();
             pane.getChildren().add(Util.getImage(emptyImage));
+            hasDice[row][col]=false;
         }
         return image;
     }
@@ -279,6 +284,7 @@ public class GameController {
             image.setImage(source.getImage());
             image.setFitHeight(50);
             image.setFitWidth(50);
+            hasDice[row][col]=true;
         }
     }
 
@@ -310,7 +316,7 @@ public class GameController {
     private void handleStartDrag(MouseEvent event, int index) {
         Pane source = (Pane) event.getSource();
         ImageView image = (ImageView) source.getChildren().get(0);
-        if(draftPoolBox.getStyleClass().contains(draggable)) {
+        if(draftPoolBox.getStyleClass().contains(draggable) && image!=null) {
             controller.draftPoolClick(index);
             Dragboard db = source.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
@@ -320,9 +326,11 @@ public class GameController {
         }
     }
     private void handleFrameDrag(MouseEvent event, Node n) {
+        int row = GridPane.getRowIndex(n);
+        int col = GridPane.getColumnIndex(n);
         ImageView image = (ImageView) ((Pane) n).getChildren().get(0);
-        if(activeFrame.getStyleClass().contains(draggable)) {
-            controller.windowFrameClick(GridPane.getRowIndex(n), GridPane.getColumnIndex(n));
+        if(activeFrame.getStyleClass().contains(draggable) && hasDice[row][col]) {
+            controller.windowFrameClick(row, col);
             Dragboard db = n.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
             content.putImage(image.getImage());

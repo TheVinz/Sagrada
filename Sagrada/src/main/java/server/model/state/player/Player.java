@@ -81,6 +81,9 @@ public class Player {
     public int getId(){
         return this.id;
     }
+    public int getFavorTokens() {
+        return favorTokens;
+    }
 
     public void endTurn() {
         this.diceMoved=false;

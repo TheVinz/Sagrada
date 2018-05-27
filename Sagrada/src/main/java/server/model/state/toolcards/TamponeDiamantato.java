@@ -1,5 +1,6 @@
 package server.model.state.toolcards;
 
+import common.exceptions.InvalidMoveException;
 import server.model.Model;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.player.Player;
@@ -20,7 +21,9 @@ public class TamponeDiamantato extends ToolCard {
     }
 
     @Override
-    public void start(Player player) {
+    public void start(Player player) throws InvalidMoveException {
+        if(model.getState().getDraftPool().isEmpty())
+            throw new InvalidMoveException("Draft pool is empty");
         expectedParameters = new ArrayDeque<>(1);
         parameters = new ArrayList<>(1);
         expectedParameters.add(DRAFT_POOL_CELL);

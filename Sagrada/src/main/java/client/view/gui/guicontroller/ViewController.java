@@ -9,6 +9,7 @@ import common.response.Response;
 import common.RemoteMVC.RemoteController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -150,7 +151,6 @@ public class ViewController {
         String message;
         if(player == id) {
             message = "You ";
-            GamePhase.toolCardUsed=true;
         }
         else
             message = gameController.getPlayerName(player) + " ";
@@ -245,8 +245,13 @@ public class ViewController {
                 currentPhase = new DiluentePerPastaSaldaChoicePhase(remoteController, gameController);
                 currentPhase = currentPhase.handleChoice();
                 break;
-            case SUCCESS:
-                currentPhase = currentPhase.success();
+            case SUCCESS_MOVE_DONE:
+                GamePhase.diceMoved=true;
+                currentPhase = new MainPhase(remoteController, gameController);
+                break;
+            case SUCCESS_USED_TOOL_CARD:
+                GamePhase.toolCardUsed=true;
+                currentPhase = new MainPhase(remoteController, gameController);
                 break;
             default:
                 currentPhase=new MainPhase(remoteController, gameController);
@@ -271,7 +276,7 @@ public class ViewController {
     }
 
 
-    public void endTurn() {
+    public synchronized void endTurn() {
         try {
             remoteController.command(Response.END_TURN);
             gameController.unableAll();
@@ -285,8 +290,11 @@ public class ViewController {
         gameController.log(message);
     }
 
-    public void error(String message) {
-        gameController.log(message + "\n");
+    public synchronized void error(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(message);
+        alert.setTitle("Error");
+        alert.showAndWait();
         currentPhase = new MainPhase(remoteController, gameController);
     }
 }

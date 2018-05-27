@@ -27,7 +27,10 @@ public class TenagliaARotelle extends ToolCard {
 
     @Override
     public void start(Player player) throws InvalidMoveException {
-        if(player.isSecondTurn()) throw new InvalidMoveException("Only during your first turn");
+        if(model.getState().getDraftPool().isEmpty())
+            throw new InvalidMoveException("Draft pool is empty");
+        if(player.isSecondTurn())
+            throw new InvalidMoveException("Only during your first turn");
         parameters=new ArrayList<>(3);
         expectedParameters=new ArrayDeque<>(3);
         expectedParameters.add(DRAFT_POOL_CELL);

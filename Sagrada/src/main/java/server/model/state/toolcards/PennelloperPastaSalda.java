@@ -32,7 +32,9 @@ public class PennelloperPastaSalda extends ToolCard {
     }
 
     @Override
-    public void start(Player player) {
+    public void start(Player player) throws InvalidMoveException {
+        if(model.getState().getDraftPool().isEmpty())
+            throw new InvalidMoveException("Draft pool is empty");
         expectedParameters=new ArrayDeque<>(3);
         parameters=new ArrayList<>(3);
         expectedParameters.add(WINDOW_FRAME);

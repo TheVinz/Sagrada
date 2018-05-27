@@ -2,6 +2,7 @@ package server.model.state.toolcards;
 
 import client.view.cli.cliphasestate.WindowFrameChoice;
 import common.exceptions.InvalidMoveException;
+import common.exceptions.WrongParameter;
 import common.response.Response;
 import javafx.scene.layout.Pane;
 import server.model.Model;
@@ -41,6 +42,10 @@ public class TaglierinaManuale extends ToolCard {
 
     @Override
     public void start(Player player) throws InvalidMoveException {
+        if(model.getState().getDraftPool().isEmpty())
+            throw new InvalidMoveException("Draft pool is empty");
+        if(model.getState().getRoundTrack().isEmpty())
+            throw new InvalidMoveException("Empty round track");
         expectedParameters=new ArrayDeque<>(10);
         parameters=new ArrayList<>(10);
         expectedParameters.add(ROUND_TRACK_CELL);
@@ -73,7 +78,7 @@ public class TaglierinaManuale extends ToolCard {
     }
 
     @Override
-    public void setParameter(ModelObject o) throws InvalidMoveException {
+    public void setParameter(ModelObject o) throws InvalidMoveException, WrongParameter {
         if(o.getType() != expectedParameters.poll())
             throw new InvalidMoveException("Wrong parameter");
         else parameters.add(o);
@@ -88,10 +93,10 @@ public class TaglierinaManuale extends ToolCard {
     }
 
     @Override
-    void doAbility() throws InvalidMoveException {
+    void doAbility() throws InvalidMoveException, WrongParameter {
         RoundTrackCell roundTrackCell= (RoundTrackCell) parameters.get(0);
         if(!firstMoveDone) {
-            WindowFrame sourceFrme = (WindowFrame) parameters.get(1);
+            WindowFrame sourceFrame = (WindowFrame) parameters.get(1);
             WindowFrameCell source = (WindowFrameCell) parameters.get(2);
             WindowFrame targetFrame = (WindowFrame) parameters.get(3);
             WindowFrameCell target = (WindowFrameCell) parameters.get(4);
@@ -118,7 +123,7 @@ public class TaglierinaManuale extends ToolCard {
                 model.toolCardUsed(player, this);
         }
         else{
-            WindowFrame sourceFrme = (WindowFrame) parameters.get(6);
+            WindowFrame sourceFrame = (WindowFrame) parameters.get(6);
             WindowFrameCell source = (WindowFrameCell) parameters.get(7);
             WindowFrame targetFrame = (WindowFrame) parameters.get(8);
             WindowFrameCell target = (WindowFrameCell) parameters.get(9);
@@ -126,17 +131,20 @@ public class TaglierinaManuale extends ToolCard {
             if(roundTrackCell.getDice().getColor() != dice.getColor()){
                 source.put(dice);
                 model.toolCardUsed(player, this);
-                throw new InvalidMoveException("Selected color and dice color must be equals");
+                playable=false;
+                throw new WrongParameter("Selected color and dice color must be equals");
             }
             else if(!GameRules.validAllCellRestriction(dice, target)){
                 source.put(dice);
                 model.toolCardUsed(player, this);
-                throw new InvalidMoveException("Cell restriction must be respected");
+                playable=false;
+                throw new WrongParameter("Cell restriction must be respected");
             }
             else if(!GameRules.validAllDiceRestriction(targetFrame, dice, target)){
                 source.put(dice);
                 model.toolCardUsed(player, this);
-                throw new InvalidMoveException("Dice restrictions must be respected");
+                playable=false;
+                throw new WrongParameter("Dice restrictions must be respected");
             }
             else {
                 source.put(dice);

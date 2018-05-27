@@ -44,7 +44,10 @@ public class Controller {
 						throw e;
 					} catch (WrongParameter e) {
 						view.notifyError(e.getMessage());
-						view.notifyNextParameter(temp.nextParam());
+						if(temp.nextParam()==null)
+							view.notifyNextParameter(Response.SUCCESS_USED_TOOL_CARD);
+						else
+							view.notifyNextParameter(temp.nextParam());
 						throw e;
 					}
 					if (temp.nextParam() != null) {
