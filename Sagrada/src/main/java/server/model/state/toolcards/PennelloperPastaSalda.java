@@ -130,9 +130,4 @@ public class PennelloperPastaSalda extends ToolCard {
             return null;
     }
 
-    @Override
-    public Response getSuccess(){
-        return Response.SUCCESS_TOOL_CARD_WITH_MOVE;
-    }
-
 }

@@ -41,6 +41,8 @@ public class Controller {
 					} catch (InvalidMoveException e) {
 						currentState = new WaitingState(player, model);
 						view.notifyError(e.getMessage());
+						if(player.getTimer().timeFinished())
+							timeFinished();
 						throw e;
 					} catch (WrongParameter e) {
 						view.notifyError(e.getMessage());

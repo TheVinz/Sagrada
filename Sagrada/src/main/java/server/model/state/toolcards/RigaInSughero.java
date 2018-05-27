@@ -68,11 +68,6 @@ public class RigaInSughero extends ToolCard {
             return null;
     }
 
-    @Override
-    public Response getSuccess(){
-        return Response.SUCCESS_TOOL_CARD_WITH_MOVE;
-    }
-
     private boolean playable(){
         for(int i=0; i<WindowFrame.ROWS; i++){
             for(int j=0; j<WindowFrame.COLUMNS; j++){
