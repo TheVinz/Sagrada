@@ -62,4 +62,8 @@ public abstract class ToolCard implements ModelObject {
 	public ModelType getType() {
 		return TOOL_CARD;
 	}
+
+	public void abort(){
+		return;
+	}
 }
