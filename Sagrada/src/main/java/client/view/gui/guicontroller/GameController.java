@@ -54,7 +54,9 @@ public class GameController {
     public String getPlayerName(int id){
         return playerNames[id];
     }
-
+    public GridPane getPlayerFrame(int id){
+        return frames[id];
+    }
     public String getToolCardName(int index){
         Node card = toolCardBox.getChildren().get(index);
         return card.getAccessibleText();

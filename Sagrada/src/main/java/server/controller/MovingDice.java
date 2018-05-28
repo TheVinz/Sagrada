@@ -10,6 +10,7 @@ import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameCell;
 import server.model.state.player.Player;
 import server.model.Model;
+import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.GameRules;
 
 public class MovingDice extends PlayerState {
@@ -24,7 +25,7 @@ public class MovingDice extends PlayerState {
 
 
     @Override
-    public PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException {
+    public PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException, WrongParameter {
         switch(modelObject.getType()){
             case WINDOW_FRAME:
                 if(player.getWindowFrame()!=((WindowFrame) modelObject))
@@ -47,7 +48,12 @@ public class MovingDice extends PlayerState {
                 model.move(player, source, target);
                 player.setDiceMoved();
                 nextParameter = Response.SUCCESS_MOVE_DONE;
+                player.getTimer().start();
                 return new WaitingState(player, model);
+
+            case TOOL_CARD:
+                PlayerState next = new UsingToolCard(player, model);
+                return next.selectObject(modelObject);
 
             case DRAFT_POOL_CELL:
                 source=(DraftPoolCell) modelObject;

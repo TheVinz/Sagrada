@@ -267,6 +267,18 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 
     }
 
+    @Override
+    public void endGame(PrivateObjectiveCard[] cards, int[] points){
+        char[] charCards=new char[cards.length];
+        for(int i=0; i<cards.length; i++)
+            charCards[i]=cards[i].getColor().asChar();
+        try {
+            remoteView.endGame(charCards, points);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 /*
 =======================================================================================================================
@@ -276,7 +288,6 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     @Override
     public void command(GameCommand gameCommand) {
         new Thread( () -> {
-        try {
             switch (gameCommand.getType()) {
                 case DRAFT_POOL_CELL:
                     controller.selectObject(state.getDraftPool().getCell(gameCommand.getX()));
@@ -303,11 +314,6 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                 default:
                     return;
             }
-        }catch (InvalidMoveException e){
-            System.out.println(e.getMessage());
-        }catch (WrongParameter e){
-            System.out.println(e.getMessage());
-        }
         }).start();
     }
     @Override
@@ -330,25 +336,18 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     @Override
     public void command(Response type, int index) {
         new Thread( () -> {
-            try {
-                switch (type) {
-                    case DRAFT_POOL_CELL:
-                        controller.selectObject(state.getDraftPool().getCell(index));
-                        break;
-                    case TOOL_CARD:
-                        controller.selectObject(state.getToolCard(index));
-                        break;
-                    case CHOICE:
-                        controller.selectObject(new Choice(index));
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (InvalidMoveException e){
-                System.out.println(e.getMessage());
-            }catch (WrongParameter e){
-                System.out.println(e.getMessage());
+            switch (type) {
+                case DRAFT_POOL_CELL:
+                    controller.selectObject(state.getDraftPool().getCell(index));
+                    break;
+                case TOOL_CARD:
+                    controller.selectObject(state.getToolCard(index));
+                    break;
+                case CHOICE:
+                    controller.selectObject(new Choice(index));
+                    break;
+                default:
+                    break;
             }
         }).start();
 
@@ -356,23 +355,16 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     @Override
     public void command(Response type, int param1, int param2) {
         new Thread( () -> {
-            try {
-                switch (type) {
-                    case WINDOW_FRAME_CELL:
-                        controller.selectObject(player.getWindowFrame());
-                        controller.selectObject(player.getWindowFrame().getCell(param1, param2));
-                        break;
-                    case ROUND_TRACK_CELL:
-                        controller.selectObject(state.getRoundTrack().getRoundSet(param1).get(param2));
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (InvalidMoveException e){
-                System.out.println(e.getMessage());
-            }catch (WrongParameter e){
-                System.out.println(e.getMessage());
+            switch (type) {
+                case WINDOW_FRAME_CELL:
+                    controller.selectObject(player.getWindowFrame());
+                    controller.selectObject(player.getWindowFrame().getCell(param1, param2));
+                    break;
+                case ROUND_TRACK_CELL:
+                    controller.selectObject(state.getRoundTrack().getRoundSet(param1).get(param2));
+                    break;
+                default:
+                    break;
             }
         }).start();
     }

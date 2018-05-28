@@ -25,14 +25,13 @@ public class LoginController {
     private RemoteView model;
     private RemoteController remoteController;
     private String name;
-    private BorderPane rootLayout;
 
     @FXML
     private TextField textField;
 
     @FXML
     private void rmiLogin(){
-        String ip ="127.0.0.1";
+        String ip ="localhost";
         int port = 1099;
         name=textField.getText();
         textField.setText(null);
@@ -61,16 +60,9 @@ public class LoginController {
         this.model=model;
     }
 
-    public RemoteController getRemoteController(){
-        return this.remoteController;
-    }
 
     public void addListener(ViewController viewController) {
         this.listener=viewController;
-    }
-
-    public void setRootLayout(BorderPane rootLayout){
-        this.rootLayout=rootLayout;
     }
 
 }

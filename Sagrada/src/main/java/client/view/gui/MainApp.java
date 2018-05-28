@@ -42,7 +42,7 @@ public class MainApp extends Application {
         FXMLLoader loader= new FXMLLoader();
         loader.setLocation(MainApp.class.getResource("resources/fxml/RootLayout.fxml"));
         try {
-            rootLayout = (BorderPane) loader.load();
+            rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             scene.getStylesheets().add(this.getClass().getResource("resources/style/main.css").toExternalForm());

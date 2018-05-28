@@ -22,4 +22,5 @@ public interface Observable {
     void notifyPrivateObjectiveCard() throws RemoteException;
     void notifyStartTurn(Player player) throws RemoteException;
     void notifyRoundTrackUpdate(int round, Cell[] cells);
+    void endGame(int[] points);
 }

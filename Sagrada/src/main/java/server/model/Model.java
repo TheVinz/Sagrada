@@ -2,6 +2,8 @@ package server.model;
 
 import common.exceptions.InvalidMoveException;
 import server.model.state.boards.windowframe.WindowFrameList;
+import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
+import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.observer.Observable;
 import server.observer.Observer;
 import server.model.state.RoundManager;
@@ -103,7 +105,20 @@ public class Model implements Observable {
         else startRound();
     }
     private void endGame(){
-        /*Da definire*/
+        int[] points = new int[state.getPlayers().size()];
+        for(int i : points) i=0;
+        for(int i=0; i<state.getPlayers().size(); i++){
+            points[i]=points[i]+calculatePoints(state.getPlayers().get(i));
+        }
+        endGame(points);
+    }
+
+    private int calculatePoints(Player player) {
+        int points=0;
+        for(PublicObjectiveCard card : state.getPublicObjectiveCards())
+            points=points+card.calculatePoints(player.getWindowFrame());
+        points=points + player.getPrivatePoints();
+        return points;
     }
 
     /*
@@ -250,4 +265,14 @@ public class Model implements Observable {
     public void notifyRoundTrackUpdate(int round, Cell[] cells){
         for(Observer o : observers) o.updateRoundTrack(round, cells);
     }
+
+    @Override
+    public void endGame(int[] points) {
+        PrivateObjectiveCard[] cards=new PrivateObjectiveCard[state.getPlayers().size()];
+        for(int i=0; i<state.getPlayers().size(); i++)
+            cards[i]=state.getPlayers().get(i).getPrivateObjectiveCard();
+        for(Observer o : observers)
+            o.endGame(cards,points);
+    }
+
 }

@@ -91,6 +91,12 @@ public class Player {
         return favorTokens;
     }
     public Timer getTimer(){return this.timer;}
+    public PrivateObjectiveCard getPrivateObjectiveCard(){
+        return this.privateObjectiveCard;
+    }
+    public int getPrivatePoints(){
+        return privateObjectiveCard.calculatePoints(windowFrame);
+    }
 
     public void endTurn() {
         this.diceMoved=false;

@@ -48,4 +48,5 @@ public interface RemoteView extends Remote {
 
     void wrongParameter(String message) throws RemoteException;
 
+    void endGame(char[] cards, int[] points) throws RemoteException;
 }

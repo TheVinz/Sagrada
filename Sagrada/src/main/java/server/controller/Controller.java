@@ -30,7 +30,7 @@ public class Controller {
 		player.setTimer(new Timer(this));
 	}
 
-	public void selectObject(ModelObject o) throws InvalidMoveException, WrongParameter {
+	public void selectObject(ModelObject o) {
 		if(lock.tryLock()) {
 			try {
 				PlayerState temp = null;
@@ -43,19 +43,20 @@ public class Controller {
 						view.notifyError(e.getMessage());
 						if(player.getTimer().timeFinished())
 							timeFinished();
-						throw e;
+						return;
 					} catch (WrongParameter e) {
 						view.notifyError(e.getMessage());
 						if(temp.nextParam()==null)
 							view.notifyNextParameter(Response.SUCCESS_USED_TOOL_CARD);
 						else
 							view.notifyNextParameter(temp.nextParam());
-						throw e;
+						return;
 					}
-					player.getTimer().start();
 					if (temp.nextParam() != null) {
 						view.notifyNextParameter(temp.nextParam());
 					}
+					else if(currentState.nextParam() != null)
+						view.notifyNextParameter(currentState.nextParam());
 					if (player.isDiceMoved() && player.isToolCardUsed()) {
 						endTurn();
 					}
