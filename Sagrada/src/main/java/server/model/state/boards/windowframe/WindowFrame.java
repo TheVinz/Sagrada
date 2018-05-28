@@ -76,4 +76,15 @@ public class WindowFrame implements ModelObject {
 	public ModelType getType() {
 		return ModelType.WINDOW_FRAME;
 	}
+
+	public int getEmptyCells(){
+		int res = 0;
+		for(int i=0;i<ROWS;i++){
+			for(int j=0;j<COLUMNS;j++){
+				if(getCell(i,j).isEmpty())
+					res++;
+			}
+		}
+		return res;
+	}
 }

@@ -2,6 +2,7 @@ package server.model;
 
 import common.exceptions.InvalidMoveException;
 import server.model.state.boards.windowframe.WindowFrameList;
+import server.model.state.player.Points;
 import server.observer.Observable;
 import server.observer.Observer;
 import server.model.state.RoundManager;
@@ -103,7 +104,9 @@ public class Model implements Observable {
         else startRound();
     }
     private void endGame(){
-        /*Da definire*/
+        for(Player player : state.getPlayers()){
+            player.calculatePoints();
+        }
     }
 
     /*

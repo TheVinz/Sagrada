@@ -138,11 +138,11 @@ public class Lathekin extends ToolCard {
                 throw new WrongParameter("Cells must be differents");
             }
 
-            if(secondSource == firstTarget)
+           /* if(secondSource == firstTarget)
             {
                 refillParameters();
                 throw new WrongParameter("Cannot move two time the same dice");
-            }
+            }*/
 
             Dice dice = null;
 

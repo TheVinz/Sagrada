@@ -1,5 +1,6 @@
 package server.model.state.player;
 
+import server.model.state.State;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
@@ -11,6 +12,7 @@ public class Player {
     private WindowFrame windowFrame;
     private PrivateObjectiveCard privateObjectiveCard;
     private int favorTokens;
+    private Points points;
 
     private boolean firstMoveDone;  // Aggiornato massimo una volta per partita
 
@@ -32,6 +34,7 @@ public class Player {
         this.secondTurn=false;
         this.firstMoveDone=false;
         this.jumpSecondTurn=false;
+        this.points=new Points();
     }
 
     public void setTimer(Timer timer){
@@ -114,5 +117,22 @@ public class Player {
 
     public void setJumpSecondTurn(boolean jumpSecondTurn) {
         this.jumpSecondTurn = jumpSecondTurn;
+    }
+
+    public Points getPoints() {
+        return points;
+    }
+
+    public PrivateObjectiveCard getPrivateObjectiveCard() {
+        return privateObjectiveCard;
+    }
+
+    public void calculatePoints(State state){
+        for (int card=0; card<3; card++) {
+            points.setPointsFromPublicCard(card, state.getPublicObjectiveCards()[card].calculatePoints(windowFrame));
+        }
+        points.setPointsFromPrivateCard(privateObjectiveCard.calculatePoints(windowFrame));
+        points.setPointsFromFavorTokens(favorTokens);
+        points.setPointsFromEmptyCells(windowFrame.getEmptyCells());
     }
 }

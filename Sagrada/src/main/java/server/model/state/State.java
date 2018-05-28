@@ -25,6 +25,7 @@ public class State{
 		this.bag=new Bag();
 		this.roundTrack=new RoundTrack();
 		this.toolCards= Util.getToolCards(model);
+		this.toolCards[0] = new Lathekin(model);
 		this.publicObjectiveCards=Util.getPublicObjectiveCards();
 		this.players=new ArrayList<>();
 		this.draftPool=new DraftPool();
