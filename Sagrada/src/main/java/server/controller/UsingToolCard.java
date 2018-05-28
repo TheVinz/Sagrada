@@ -61,4 +61,9 @@ public class UsingToolCard extends PlayerState {
         }
 
     }
+
+    @Override
+    public void abort(){
+        card.abort();
+    }
 }

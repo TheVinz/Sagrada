@@ -21,4 +21,8 @@ public abstract class PlayerState {
     public Response nextParam(){
         return null;
     }
+
+    public void abort(){
+        return;
+    }
 }

@@ -276,10 +276,14 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
             case DRAFT_POOL_MOVE:
                 CliApp.getCliApp().moveFromDraftPool();
                 break;
-            /*case SUCCESS:
+            case SUCCESS_USED_TOOL_CARD:
                 CliApp.getCliApp().setWaitingPhase(false);
                 CliApp.getCliApp().setCurrentState(new MenuPhase());
-                break;*/
+                break;
+            case SUCCESS_MOVE_DONE:
+                CliApp.getCliApp().setWaitingPhase(false);
+                CliApp.getCliApp().setCurrentState(new MenuPhase());
+                break;
             case PINZA_SGROSSATRICE_CHOICE:
                 CliApp.getCliApp().setCurrentState(new PinzaSgrossatriceChoice());
                 CliApp.getCliApp().sendCommand();

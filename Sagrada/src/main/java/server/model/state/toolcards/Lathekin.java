@@ -19,6 +19,8 @@ import static server.model.state.ModelObject.ModelType.*;
 public class Lathekin extends ToolCard {
 
     private boolean firstMoveDone;
+    private WindowFrameCell possibleSource;
+    private WindowFrameCell possibleTarget;
 
     public Lathekin(Model model) {
         super(model);
@@ -43,6 +45,8 @@ public class Lathekin extends ToolCard {
         expectedParameters.add(WINDOW_FRAME_CELL);
         this.player=player;
         firstMoveDone = false;
+        possibleSource = null;
+        possibleTarget = null;
     }
 
     @Override
@@ -187,6 +191,8 @@ public class Lathekin extends ToolCard {
                             try{
                                 source.put(dice);
                             } catch (InvalidMoveException e){}
+                            possibleSource = windowFrame.getCell(h,k);
+                            possibleTarget = windowFrame.getCell(i,j);
                             return true;
                         }
                     }
@@ -206,5 +212,12 @@ public class Lathekin extends ToolCard {
             return Response.WINDOW_FRAME_MOVE;
         else
             return null;
+    }
+
+    @Override
+    public void abort(){
+        try{
+        model.move(player, possibleSource, possibleTarget);}
+        catch (InvalidMoveException e){};
     }
 }

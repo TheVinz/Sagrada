@@ -100,6 +100,7 @@ public class Controller {
 	}
 
 	public void timeFinished(){
+	    currentState.abort();
 		endTurn();
 	}
 }
