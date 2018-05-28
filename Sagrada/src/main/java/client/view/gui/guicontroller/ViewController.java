@@ -9,6 +9,7 @@ import common.response.Response;
 import common.RemoteMVC.RemoteController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -289,6 +290,24 @@ public class ViewController {
             e.printStackTrace();
         }
         currentPhase=new GamePhase(remoteController, gameController);
+    }
+
+    public void endGame(char[] privateObjectiveCards, int[] points){
+        HBox endGameBox = new HBox(50);
+        endGameBox.setAlignment(Pos.CENTER);
+        for(int i=0; i<points.length; i++) {
+            VBox playerBox = new VBox(20);
+            playerBox.setAlignment(Pos.CENTER);
+            Label pointsLabel=new Label("Points: "+points[i]);
+            Label nameLabel=new Label(gameController.getPlayerName(i));
+            pointsLabel.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 32");
+            nameLabel.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 32");
+            GridPane playerFrame = gameController.getPlayerFrame(i);
+            ImageView card = Util.getPrivateObjectiveCard(privateObjectiveCards[i]);
+            playerBox.getChildren().addAll(nameLabel, card, playerFrame, pointsLabel);
+            endGameBox.getChildren().add(playerBox);
+        }
+        rootLayout.setCenter(endGameBox);
     }
 
     public void debug(String message) {

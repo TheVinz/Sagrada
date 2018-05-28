@@ -35,6 +35,7 @@ public class UsingToolCard extends PlayerState {
             else
             {
                 nextParameter = Response.SUCCESS_USED_TOOL_CARD;
+                player.getTimer().start();
                 return new WaitingState(player, model);
             }
         } else {
@@ -44,6 +45,7 @@ public class UsingToolCard extends PlayerState {
             else
             {
                 nextParameter = Response.SUCCESS_USED_TOOL_CARD;
+                player.getTimer().start();
                 return new WaitingState(player, model);
             }
         }
@@ -53,6 +55,7 @@ public class UsingToolCard extends PlayerState {
     public Response nextParam() {
         if(nextParameter == null){
             if(card.hasNext()) {
+                System.out.println(card.next());
                 return card.next();
             }
             else return null;

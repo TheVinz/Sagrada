@@ -54,7 +54,7 @@ public class Util {
                     result[2*i+1]=FRACTAL_DROPS ;
                     break;
                 case 8:
-                    result[2*i]=LUX_ASTRAL;
+                    result[2*i]=LUX_ASTRAM;
                     result[2*i+1]= CHROMATIC_SPLENDOR;
                     break;
                 case 9:

@@ -316,5 +316,10 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         CliDisplayer.getDisplayer().displayText(message);
     }
 
+    @Override
+    public void endGame(char[] cards, int[] scoreBoard, int[][] points) throws RemoteException {
+        //;
+    }
+
 
 }

@@ -94,6 +94,12 @@ public class Player {
         return favorTokens;
     }
     public Timer getTimer(){return this.timer;}
+    public PrivateObjectiveCard getPrivateObjectiveCard(){
+        return this.privateObjectiveCard;
+    }
+    public int getPrivatePoints(){
+        return privateObjectiveCard.calculatePoints(windowFrame);
+    }
 
     public void endTurn() {
         this.diceMoved=false;
@@ -123,9 +129,7 @@ public class Player {
         return points;
     }
 
-    public PrivateObjectiveCard getPrivateObjectiveCard() {
-        return privateObjectiveCard;
-    }
+
 
     public void calculatePoints(State state){
         for (int card=0; card<3; card++) {

@@ -26,14 +26,12 @@ public class Timer implements Runnable {
                         e.printStackTrace();
                     }
                 cont--;
-                System.out.print(cont);
             }
         }
 
     }
 
     public void start(){
-        System.out.println();
         cont = MAX_CONT;
         blinker=new Thread(this);
         blinker.start();

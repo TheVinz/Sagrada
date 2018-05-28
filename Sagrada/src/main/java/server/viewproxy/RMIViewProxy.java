@@ -18,6 +18,7 @@ import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.model.state.player.Player;
+import server.model.state.player.Points;
 import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Choice;
 import server.model.state.utilities.Color;
@@ -267,6 +268,30 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 
     }
 
+    @Override
+    public void updateEndGame(Player[] scoreboard){
+        int[] scoreboardIds = new int[scoreboard.length];
+        char[] charCards=new char[scoreboard.length];
+        int[][] matrixPoins=new int[scoreboard.length][7];
+        for(int i=0; i<scoreboard.length; i++){
+            Points points = scoreboard[i].getPoints();
+            scoreboardIds[i]=scoreboard[i].getId();
+            charCards[scoreboard[i].getId()] = scoreboard[i].getPrivateObjectiveCard().getColor().asChar();
+            matrixPoins[scoreboard[i].getId()][0]=points.getPointsFromPublicCard(0);
+            matrixPoins[scoreboard[i].getId()][1]=points.getPointsFromPublicCard(1);
+            matrixPoins[scoreboard[i].getId()][2]=points.getPointsFromPublicCard(2);
+            matrixPoins[scoreboard[i].getId()][3]=points.getPointsFromPrivateCard();
+            matrixPoins[scoreboard[i].getId()][4]=points.getPointsFromFavorTokens();
+            matrixPoins[scoreboard[i].getId()][5]=points.getPointsFromEmptyCells();
+            matrixPoins[scoreboard[i].getId()][6]=points.getFinalPoints();
+        }
+        try {
+            remoteView.endGame(charCards, scoreboardIds, matrixPoins);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 /*
 =======================================================================================================================
@@ -276,7 +301,6 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     @Override
     public void command(GameCommand gameCommand) {
         new Thread( () -> {
-        try {
             switch (gameCommand.getType()) {
                 case DRAFT_POOL_CELL:
                     controller.selectObject(state.getDraftPool().getCell(gameCommand.getX()));
@@ -303,11 +327,6 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                 default:
                     return;
             }
-        }catch (InvalidMoveException e){
-            System.out.println(e.getMessage());
-        }catch (WrongParameter e){
-            System.out.println(e.getMessage());
-        }
         }).start();
     }
     @Override
@@ -330,25 +349,18 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     @Override
     public void command(Response type, int index) {
         new Thread( () -> {
-            try {
-                switch (type) {
-                    case DRAFT_POOL_CELL:
-                        controller.selectObject(state.getDraftPool().getCell(index));
-                        break;
-                    case TOOL_CARD:
-                        controller.selectObject(state.getToolCard(index));
-                        break;
-                    case CHOICE:
-                        controller.selectObject(new Choice(index));
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (InvalidMoveException e){
-                System.out.println(e.getMessage());
-            }catch (WrongParameter e){
-                System.out.println(e.getMessage());
+            switch (type) {
+                case DRAFT_POOL_CELL:
+                    controller.selectObject(state.getDraftPool().getCell(index));
+                    break;
+                case TOOL_CARD:
+                    controller.selectObject(state.getToolCard(index));
+                    break;
+                case CHOICE:
+                    controller.selectObject(new Choice(index));
+                    break;
+                default:
+                    break;
             }
         }).start();
 
@@ -356,23 +368,16 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     @Override
     public void command(Response type, int param1, int param2) {
         new Thread( () -> {
-            try {
-                switch (type) {
-                    case WINDOW_FRAME_CELL:
-                        controller.selectObject(player.getWindowFrame());
-                        controller.selectObject(player.getWindowFrame().getCell(param1, param2));
-                        break;
-                    case ROUND_TRACK_CELL:
-                        controller.selectObject(state.getRoundTrack().getRoundSet(param1).get(param2));
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (InvalidMoveException e){
-                System.out.println(e.getMessage());
-            }catch (WrongParameter e){
-                System.out.println(e.getMessage());
+            switch (type) {
+                case WINDOW_FRAME_CELL:
+                    controller.selectObject(player.getWindowFrame());
+                    controller.selectObject(player.getWindowFrame().getCell(param1, param2));
+                    break;
+                case ROUND_TRACK_CELL:
+                    controller.selectObject(state.getRoundTrack().getRoundSet(param1).get(param2));
+                    break;
+                default:
+                    break;
             }
         }).start();
     }

@@ -3,6 +3,7 @@ package server.model;
 import common.exceptions.InvalidMoveException;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.player.Points;
+import server.model.state.utilities.PointsComparator;
 import server.observer.Observable;
 import server.observer.Observer;
 import server.model.state.RoundManager;
@@ -103,11 +104,16 @@ public class Model implements Observable {
             endGame();
         else startRound();
     }
-    private void endGame(){
-        for(Player player : state.getPlayers()){
-            player.calculatePoints();
+    private void endGame() {
+        List <Player> scoreboard = new ArrayList<>();
+        for (Player player : state.getPlayers()) {
+            player.calculatePoints(state);
+            scoreboard.add(player);
         }
+        scoreboard.sort(new PointsComparator());
+        notifyEndGame((Player[])scoreboard.toArray());
     }
+
 
     /*
     * =================================================================================================================
@@ -253,4 +259,12 @@ public class Model implements Observable {
     public void notifyRoundTrackUpdate(int round, Cell[] cells){
         for(Observer o : observers) o.updateRoundTrack(round, cells);
     }
+
+    @Override
+    public void notifyEndGame(Player[] scoreboard){
+        for (Observer o: observers) o.updateEndGame(scoreboard);
+    }
+
+
+
 }
