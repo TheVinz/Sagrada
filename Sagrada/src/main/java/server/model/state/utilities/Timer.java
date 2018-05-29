@@ -6,7 +6,7 @@ import static java.lang.Thread.sleep;
 
 public class Timer implements Runnable {
     private int cont = 0;
-    private final int MAX_CONT = 30;
+    private final int MAX_CONT = 45;
     private Controller controller;
     private volatile Thread blinker;
 
