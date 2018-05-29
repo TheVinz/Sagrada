@@ -325,10 +325,6 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     }
 
-    @Override
-    public void endGame(char[] cards, int[] scoreBoard, int[][] points) throws RemoteException {
-        //
-    }
 
     @Override
     public void mutableData(int[] draftPoolValues, char[] draftPoolColors, int[][] roundTrackValues, char[][] roundTrackColors, String[] names, int[] ids, int[] favorTokens, String[] windowFrameReps, int[][][] windowFrameValues, char[][][] windowFrameColors) {
@@ -355,6 +351,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
             cliState.getCliPlayerState(i).
         }*/
     }
-
+    public void endGame(char[] cards, int[] scoreboard, int[][] points) throws RemoteException {
+        CliDisplayer.getDisplayer().printResults(cards,scoreboard,points);
+    }
 
 }

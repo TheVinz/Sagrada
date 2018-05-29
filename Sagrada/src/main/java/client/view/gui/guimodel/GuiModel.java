@@ -112,12 +112,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void endGame(char[] cards, int[] scoreboardIds,int[][] matrixPoints) {
-        int[] finalPoints = new int[matrixPoints.length];
-        for(int i=0;i<scoreboardIds.length; i++)
-        {
-            finalPoints[scoreboardIds[i]] = matrixPoints[scoreboardIds[i]][6];
-        }
-        Platform.runLater(() -> view.endGame(cards, finalPoints));
+        Platform.runLater(() -> view.endGame(cards, scoreboardIds, matrixPoints));
     }
 
     @Override

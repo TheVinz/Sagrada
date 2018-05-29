@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -259,6 +260,25 @@ public class ViewController {
                 GamePhase.diceMoved = true;
                 currentPhase = new MainPhase(remoteController, gameController);
                 break;
+            case SUSPENDED:
+                endTurn();
+                Label label= new Label("Disconnected");
+                Button button = new Button("Reconnect");
+                button.setStyle("-fx-background-color: orange; -fx-text-fill: white; -fx-font-size: 32");
+                label.setStyle("-fx-background-color: rgba(255,255,255,0.7); -fx-font-size: 32");
+                button.setOnAction((event) -> {
+                    try {
+                        remoteController.command(Response.ACTIVE_AGAIN);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                });
+                VBox box = new VBox(50);
+                box.setAlignment(Pos.CENTER);
+                box.getChildren().addAll(label, button);
+                rootLayout.setCenter(box);
+                break;
+
             default:
                 currentPhase=new MainPhase(remoteController, gameController);
                 break;
@@ -292,19 +312,31 @@ public class ViewController {
         currentPhase=new GamePhase(remoteController, gameController);
     }
 
-    public void endGame(char[] privateObjectiveCards, int[] points){
-        HBox endGameBox = new HBox(50);
+    public void endGame(char[] privateObjectiveCards, int[] ids, int[][] points){
+        HBox endGameBox = new HBox(20);
         endGameBox.setAlignment(Pos.CENTER);
         for(int i=0; i<points.length; i++) {
             VBox playerBox = new VBox(20);
             playerBox.setAlignment(Pos.CENTER);
-            Label pointsLabel=new Label("Points: "+points[i]);
-            Label nameLabel=new Label(gameController.getPlayerName(i));
-            pointsLabel.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 32");
-            nameLabel.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 32");
+            Label nameLabel=new Label(gameController.getPlayerName(ids[i]));
+            nameLabel.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 26");
+            int publicSum=points[i][0]+points[i][1]+points[i][2];
+            Label publicPoints = new Label("Public objective cards: "+publicSum);
+            Label privatePoints = new Label("Private objective card: " + points[i][3]);
+            Label favorPoints = new Label("Favor tokens bonus: " + points[i][4]);
+            Label emptyMalus = new Label("Empty cells malus: " + points[i][5]);
+            Label total = new Label("Total: " + points[i][6]);
+            String style = "-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 22";
+            publicPoints.setStyle(style);
+            privatePoints.setStyle(style);
+            favorPoints.setStyle(style);
+            emptyMalus.setStyle(style);
+            total.setStyle(style);
             GridPane playerFrame = gameController.getPlayerFrame(i);
             ImageView card = Util.getPrivateObjectiveCard(privateObjectiveCards[i]);
-            playerBox.getChildren().addAll(nameLabel, card, playerFrame, pointsLabel);
+            VBox labels= new VBox(5);
+            labels.getChildren().addAll(publicPoints, privatePoints, favorPoints, emptyMalus, total);
+            playerBox.getChildren().addAll(nameLabel, card, playerFrame, labels);
             endGameBox.getChildren().add(playerBox);
         }
         rootLayout.setCenter(endGameBox);

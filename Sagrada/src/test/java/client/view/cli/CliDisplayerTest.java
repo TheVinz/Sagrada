@@ -60,7 +60,7 @@ public class CliDisplayerTest {
         draftPool[2] = "5y";
         privateObjectiveCard = "Sum the values of every"+(char)27+"[1;36m"+" BLU "+(char)27+"[0m" +"dice on your WindowFrame";
         favorTokens = 3;
-        when(cliPlayerState.getId()).thenReturn(1);
+        when(cliPlayerState.getId()).thenReturn(0);
         when(cliPlayerState.getName()).thenReturn("Gabriele");
         when(cliPlayerState.getWindowFrame()).thenReturn(stringFrame);
         when(cliPlayerState.getFavorTokens()).thenReturn(favorTokens);
@@ -73,14 +73,13 @@ public class CliDisplayerTest {
         roundTrack[1] = "4g";
         roundTrack[2] = "2p";
         //roundTrack1[0] = "4y";
-        cliState.setRoundDices(0, roundTrack);
         cliState.getToolCardIds()[0] = toolCard[0];
         cliState.getToolCardIds()[1] = toolCard[1];
         cliState.getToolCardIds()[2] = toolCard[2];
         cliState.getPublicObjectiveCardIds()[0] = publicObjectiveCardIds[0];
         cliState.getPublicObjectiveCardIds()[1] = publicObjectiveCardIds[1];
         cliState.getPublicObjectiveCardIds()[2] = publicObjectiveCardIds[2];
-        cliState.setRoundDices(0, roundTrack);
+        cliState.setRoundDices(1, roundTrack);
        // cliState.setRoundDices(1, roundTrack1);
     }
 
@@ -137,5 +136,25 @@ public class CliDisplayerTest {
     @Test
     public void shouldPrintRep() {
         cliDisplayer.printRep("yb001g050430r0g200by", 4);
+    }
+
+    @Test
+    public void shouldPrintResult(){
+        char[] c=new char[2];
+        c[0]='c';
+        c[1]='b';
+        int[] s=new int[2];
+        s[0]=0;
+        s[1]=2;
+        int[][] m= new int[1][7];
+        m[0][0]=10;
+        m[0][1]=20;
+        m[0][2]=15;
+        m[0][3]=40;
+        m[0][4]=30;
+        m[0][5]=60;
+        m[0][6]=70;
+
+        cliDisplayer.printResults(c,s,m);
     }
 }

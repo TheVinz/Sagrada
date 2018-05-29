@@ -1,8 +1,8 @@
 package client.view.cli;
 
 public class ObjectiveCardsEffects {
-    public String returnEffects(int ObjectiveCard){
-        switch (ObjectiveCard){
+    public String returnEffects(int objectiveCard) {
+        switch (objectiveCard) {
             case 0:
                 return "COLORED DIAGONAL:\n  Number of dices with same color in adjacent diagonal.\n\n";
             case 1:
@@ -26,6 +26,35 @@ public class ObjectiveCardsEffects {
             default:
                 return "error";
         }
-
     }
+
+    public String returnName(int objectiveCard){
+        switch(objectiveCard) {
+            case 0:
+                return "COLORED DIAGONAL";
+            case 1:
+                return "DARK SHADES";
+            case 2:
+                return "DIFFERENT COLORS";
+            case 3:
+                return "DIFFERENT COLORS COLUMN";
+            case 4:
+                return "DIFFERENT COLORS ROW";
+            case 5:
+                return "DIFFERENT SHADES";
+            case 6:
+                return "DIFFERENT SHADES COLUMN";
+            case 7:
+                return "DIFFERENT SHADES ROW";
+            case 8:
+                return "MEDIUM SHADES";
+            case 9:
+                return "PALE SHADES";
+            default:
+                return "error";
+
+        }
+    }
+
+
 }
