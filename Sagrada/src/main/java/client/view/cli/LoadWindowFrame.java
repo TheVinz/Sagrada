@@ -22,7 +22,7 @@ public class LoadWindowFrame {
                 return "BELLESGUARD";
             case "p60035p30002p10015p4":
                 return "FIRMITAS";
-            case "20501y6p2r0b5g003050":
+            case "20501y6p2r0b4g003050":
                 return "SYMPHONY OF LIGHT";
             case "r0b0y4p3g20105000600":
                 return "AURORA SAGRADIS";
@@ -36,8 +36,8 @@ public class LoadWindowFrame {
                 return "GRAVITAS";
             case "040y6r020000rp1by000":
                 return "FRACTAL DROPS";
-            case "01rp46p25g1g53p00000":
-                return "LUX ASTRAL";  //nome lux astram
+            case "01gp46p25g1g53p00000":
+                return "LUX ASTRAM";
             case "00g002y5b10r3p010604":
                 return "CHROMATIC SPLENDOR";
             case "341500620y000yr50yr6":
@@ -48,7 +48,7 @@ public class LoadWindowFrame {
                 return "WATER OF LIFE";
             case "000r500p4b0b3y6y2g1r":
                 return "RIPPLES OF LIGHT";
-            case "001001g3b2g546g0b5g0":  //tra 2 e 5 b e non g
+            case "001001g3b2b546g0b5g0":  //tra 2 e 5 b e non g
                 return "LUX MUNDI";
             case "y02060405y000y512y30":
                 return "COMITAS";

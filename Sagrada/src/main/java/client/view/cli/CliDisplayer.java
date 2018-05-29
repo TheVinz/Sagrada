@@ -129,33 +129,37 @@ public class CliDisplayer {
 
    public void printRoundTrack() {
         displayText("The RoundTrack is:\n");
-       int max=cliState.getRound();
+       int max=0;
+       for(int i=0;i<cliState.getRound()-1;i++){
+           if(max<cliState.getRoundTrack()[i].length)
+               max=cliState.getRoundTrack()[i].length;
+       }
        displayText("Index:    ");
-       for(int j=1;j<max;j++){
+       for(int j=1;j<max+1;j++){
           displayText(j+" |  ");
        }
        displayText("\n");
-        for (int i = 0; i < max-1; i++) {
+        for (int i = 0; i < cliState.getRound()-1; i++) {
             displayText("Round "+(i+1) + ")");
-            for (int j = 0; j < cliState.getRoundTrack()[i].length; j++) {
-                switch (cliState.getRoundTrack()[i][j].charAt(1)) {
-                    case 'g':
-                        displayText((char) 27 + "[1;30;102m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");   //caso green
-                        break;
-                    case 'b':
-                        displayText((char) 27 + "[1;30;106m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
-                        break;
-                    case 'y':
-                        displayText((char) 27 + "[1;30;103m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
-                        break;
-                    case 'r':
-                        displayText((char) 27 + "[1;30;41m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
-                        break;
-                    case 'p':
-                        displayText((char) 27 + "[1;30;45m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
-                        break;
-                }
-                displayText("    |");
+                for (int j = 0; j < cliState.getRoundTrack()[i].length; j++) {
+                    switch (cliState.getRoundTrack()[i][j].charAt(1)) {
+                        case 'g':
+                            displayText((char) 27 + "[1;30;102m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");   //caso green
+                            break;
+                        case 'b':
+                            displayText((char) 27 + "[1;30;106m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                            break;
+                        case 'y':
+                            displayText((char) 27 + "[1;30;103m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                            break;
+                        case 'r':
+                            displayText((char) 27 + "[1;30;41m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                            break;
+                        case 'p':
+                            displayText((char) 27 + "[1;30;45m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                            break;
+                    }
+
             }
 
 
@@ -303,5 +307,44 @@ public class CliDisplayer {
             }
         }
         displayText("FAVOR TOKENS: "+favorTokens+"\n");
+    }
+
+    public void printResults(char[] cards, int[] scoreboard, int[][] points) {
+        displayText("SCOREBOARD:\n\tNAME\t|     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
+        displayText("\t\t\t|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |         |\n");
+
+        for(int i=0;i<1;i++) {
+            displayText("" + (i + 1) + ")" + cliState.getCliPlayerState(scoreboard[i]).getName() + "\t|");
+            if (points[scoreboard[i]][0] > 9)   //prima public
+                displayText("  " + points[scoreboard[i]][0] + "  |");
+            else
+                displayText("   " + points[scoreboard[i]][0] + "  |");
+            if (points[scoreboard[i]][1] > 9)   //seconda public
+                displayText("  " + points[scoreboard[i]][1] + "  |");
+            else
+                displayText("   " + points[scoreboard[i]][1] + "  |");
+            if (points[scoreboard[i]][2] > 9)
+                displayText("  " + points[scoreboard[i]][2] + "  |");
+            else
+                displayText("   " + points[scoreboard[i]][2] + "  |");
+            if (points[scoreboard[i]][3] > 9)
+                displayText("   " + points[scoreboard[i]][3] + "   |");
+            else
+                displayText("    " + points[scoreboard[i]][3] + "   |");
+            if (points[scoreboard[i]][4] > 9)
+                displayText("   " + points[scoreboard[i]][4] + "   |");
+            else
+                displayText("   " + points[scoreboard[i]][4] + "  |");
+            if (points[scoreboard[i]][5] > 9)
+                displayText("  " + points[scoreboard[i]][5] + "   |");
+            else
+                displayText("    " + points[scoreboard[i]][5] + "    |");
+            if (points[scoreboard[i]][6] > 9)
+                displayText("   " + points[scoreboard[i]][6] + "    |");
+            else
+                displayText("    " + points[scoreboard[i]][6] + "    |\n");
+        }
+
+        
     }
 }
