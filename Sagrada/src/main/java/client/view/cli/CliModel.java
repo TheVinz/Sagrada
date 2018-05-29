@@ -4,6 +4,7 @@ import client.view.cli.cliphasestate.*;
 import common.RemoteMVC.RemoteView;
 import common.command.GameCommand;
 import common.response.Response;
+import server.model.state.boards.windowframe.WindowFrame;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -344,15 +345,38 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
             for (int j=0; j<roundDices.length; j++){
                 roundDices[i]=""+roundTrackValues[i][j]+roundTrackColors[i][j];
             }
-            CliState.getCliState().setRoundDices(i, roundDices);
+            cliState.setRoundDices(i, roundDices);
         }
 
-      /*  for(int i=0; i<names.length; i++){
-            cliState.getCliPlayerState(i).
-        }*/
-    }
-    public void endGame(char[] cards, int[] scoreboard, int[][] points) throws RemoteException {
-        CliDisplayer.getDisplayer().printResults(cards,scoreboard,points);
+        CliPlayerState[] players =new CliPlayerState[names.length];
+        for(int i=0; i<names.length; i++){
+            players[i]=new CliPlayerState(names[i], ids[i], windowFrameReps[i], favorTokens[i]);
+        }
+        cliState.setCliPlayerStates(players);
+
+        for(int i=0; i<names.length; i++){
+            CliPlayerState cliPlayerState = cliState.getCliPlayerState(0);
+            for(int h=0; h<4; h++)
+                for(int k=0; k<5; k++){
+                    if(windowFrameValues[i][h][k]==0)
+                        cliPlayerState.setEmpty(h, k);
+                    else
+                        cliPlayerState.getWindowFrame()[h][k]=""+windowFrameValues[h][k]+windowFrameColors[h][k];
+                }
+        }
     }
 
+    @Override
+    public void reinsertPlayer(int id)  {
+        CliDisplayer.getDisplayer().displayText(CliState.getCliState().getCliPlayerState(id).getName()+" has been reinserted in the game!\n");
+    }
+
+    @Override
+    public void suspendPlayer(int id)  {
+        CliDisplayer.getDisplayer().displayText(CliState.getCliState().getCliPlayerState(id).getName()+" has been suspended from the game!\n");
+    }
+
+    public void endGame(char[] cards, int[] scoreboard, int[][] points) {
+        CliDisplayer.getDisplayer().printResults(cards,scoreboard,points);
+    }
 }

@@ -120,4 +120,14 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     }
 
+    @Override
+    public void reinsertPlayer(int id) throws RemoteException {
+
+    }
+
+    @Override
+    public void suspendPlayer(int id) throws RemoteException {
+
+    }
+
 }

@@ -120,7 +120,7 @@ public class Model implements Observable {
         notifyEndGame(scoreboard.toArray(new Player[0]));
     }
 
-    public void reinsertPlayer(Player player){ //forse è meglio farlo prima di un nuovo turno (con synchronized?)
+    public void reinsertPlayer(Player player){
         player.setSuspended(false);
         Observer o = playerObserverMap.get(player);
         activeObservers.add(o);
@@ -293,12 +293,14 @@ public class Model implements Observable {
 
     @Override
     public void notifyReinsertPlayer(Player player) {
-        //da implementare
+        for(Observer o : activeObservers)
+            o.updateReinsertPlayer(player);
     }
 
     @Override
     public void notifySuspendPlayer(Player player){
-        //da implementare
+        for(Observer o : activeObservers)
+            o.updateSuspendPlayer(player);
     }
 
 
