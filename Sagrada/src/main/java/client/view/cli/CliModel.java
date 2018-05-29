@@ -34,7 +34,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         if(sourceType == DRAFT_POOL_CELL) {
             source = "draft pool";
             dice = CliState.getCliState().getDraftPool()[param1];
-            CliState.getCliState().getDraftPool()[param1] = "X";
+            CliState.getCliState().getDraftPool()[param1] = "0";
         }
         else if(sourceType == WINDOW_FRAME_CELL) {
             dice = cliPlayerState.getWindowFrame()[param1][param2];
@@ -44,7 +44,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         else {
             source = "round track";
             dice=CliState.getCliState().getRoundTrack()[param1-1][param2];
-            CliState.getCliState().getRoundTrack()[param1-1][param2]="X";
+            CliState.getCliState().getRoundTrack()[param1-1][param2]="0";
         }
         if(destType == DRAFT_POOL_CELL) {
             CliState.getCliState().getDraftPool()[param3]=dice;
@@ -76,7 +76,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         else {
             source = "round track";
             dice=CliState.getCliState().getRoundTrack()[param1-1][param2];
-            CliState.getCliState().getRoundTrack()[param1-1][param2]="X";
+            CliState.getCliState().getRoundTrack()[param1-1][param2]="0";
         }
         if(destType == WINDOW_FRAME_CELL){
             cliPlayerState.getWindowFrame()[param3][param4] = dice;
@@ -328,6 +328,32 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     @Override
     public void endGame(char[] cards, int[] scoreBoard, int[][] points) throws RemoteException {
         //
+    }
+
+    @Override
+    public void mutableData(int[] draftPoolValues, char[] draftPoolColors, int[][] roundTrackValues, char[][] roundTrackColors, String[] names, int[] ids, int[] favorTokens, String[] windowFrameReps, int[][][] windowFrameValues, char[][][] windowFrameColors) {
+        CliState cliState = CliState.getCliState();
+
+        String[] draftPool = new String[draftPoolValues.length];
+        for(int i=0; i<draftPoolValues.length; i++){
+            if(draftPoolValues[i]==0)
+                draftPool[i]="0";
+            else
+                draftPool[i]=""+draftPoolValues[i]+draftPoolColors[i];
+        }
+        cliState.setDraftPool(draftPool);
+
+        for (int i=1; i<roundTrackValues.length; i++){
+            String[] roundDices=new String[roundTrackValues[i].length];
+            for (int j=0; j<roundDices.length; j++){
+                roundDices[i]=""+roundTrackValues[i][j]+roundTrackColors[i][j];
+            }
+            CliState.getCliState().setRoundDices(i, roundDices);
+        }
+
+      /*  for(int i=0; i<names.length; i++){
+            cliState.getCliPlayerState(i).
+        }*/
     }
 
 

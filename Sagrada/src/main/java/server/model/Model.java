@@ -117,10 +117,10 @@ public class Model implements Observable {
             scoreboard.add(player);
         }
         scoreboard.sort(new PointsComparator());
-        notifyEndGame((Player[])scoreboard.toArray());
+        notifyEndGame(scoreboard.toArray(new Player[0]));
     }
 
-    public void reinsertPlayer(Player player){
+    public void reinsertPlayer(Player player){ //forse è meglio farlo prima di un nuovo turno (con synchronized?)
         player.setSuspended(false);
         Observer o = playerObserverMap.get(player);
         activeObservers.add(o);

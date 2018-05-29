@@ -86,7 +86,7 @@ public class CliDisplayer {
                         case '6':
                             displayText(" "+(char)27+"[1;30m"+cliPlayerState.getWindowFrame()[i][j]+(char)27+"[0m" + "  ");
                             break;
-                        case 'X':
+                        case '0':
                             displayText("    ");
                             break;
                         case 'g':

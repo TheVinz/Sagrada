@@ -294,7 +294,57 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 
     @Override
     public void updateMutableData() {
-        //da implementare
+        int[] draftPoolValues = new int[state.getDraftPool().getSize()];
+        char[] draftPoolColors = new char[state.getDraftPool().getSize()];
+        int[][] roundTrackValues = new int[state.getRoundTrack().getRound()][];
+        char[][] roundTrackColors = new char[state.getRoundTrack().getRound()][];
+        String[] names = new String[state.getPlayers().size()];
+        int[] ids = new int[state.getPlayers().size()];
+        int[] favorTokens = new int[state.getPlayers().size()];
+        String[] windowFrameReps = new String[state.getPlayers().size()];
+        int[][][] windowFrameValues = new int[state.getPlayers().size()][4][5];
+        char[][][] windowFrameColors = new char[state.getPlayers().size()][4][5];
+
+        for(int i=0; i<state.getDraftPool().getSize(); i++){
+            DraftPoolCell draftPoolCell = state.getDraftPool().getCell(i);
+            if(draftPoolCell.isEmpty())
+                draftPoolValues[i]=0;
+            else{
+                draftPoolValues[i]=draftPoolCell.getDice().getValue();
+                draftPoolColors[i]=draftPoolCell.getDice().getColor().asChar();
+            }
+        }
+
+        for(int i=1; i<state.getRoundTrack().getRound(); i++) {
+            roundTrackValues[i] = new int[state.getRoundTrack().getRoundSet(i).size()];
+            roundTrackColors[i] = new char[state.getRoundTrack().getRoundSet(i).size()];
+            for (int j = 0; j < state.getRoundTrack().getRoundSet(i).size(); j++) {
+                roundTrackColors[i][j]=state.getRoundTrack().getRoundSet(i).get(j).getDice().getColor().asChar();
+                roundTrackValues[i][j]=state.getRoundTrack().getRoundSet(i).get(j).getDice().getValue();
+            }
+        }
+
+        for(int i=0; i<state.getPlayers().size(); i++){
+            names[i]=state.getPlayers().get(i).getName();
+            ids[i]=state.getPlayers().get(i).getId();
+            favorTokens[i]=state.getPlayers().get(i).getFavorTokens();
+            windowFrameReps[i]=state.getPlayers().get(i).getWindowFrame().getRep();
+            for(int h=0; h<4; h++){
+                for(int k=0; k<5; k++){
+                    WindowFrameCell windowFrameCell = state.getPlayers().get(i).getWindowFrame().getCell(h,k);
+                    if(windowFrameCell.isEmpty())
+                        windowFrameValues[i][h][k] = 0;
+                    else{
+                        windowFrameValues[i][h][k] =  windowFrameCell.getDice().getValue();
+                        windowFrameColors[i][h][k] =  windowFrameCell.getDice().getColor().asChar();
+                    }
+
+                }
+            }
+
+
+        }
+        remoteView.mutableData(draftPoolValues, draftPoolColors, roundTrackValues, roundTrackColors, names, ids, favorTokens, windowFrameReps, windowFrameValues, windowFrameColors );
     }
 
 

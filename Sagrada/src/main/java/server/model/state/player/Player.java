@@ -117,6 +117,7 @@ public class Player {
 
     public void setInactive(){
         this.active =false;
+        timer.stop();
     }
 
     public boolean isJumpSecondTurn() {

@@ -49,4 +49,6 @@ public interface RemoteView extends Remote {
     void wrongParameter(String message) throws RemoteException;
 
     void endGame(char[]cards, int[] scoreBoard, int[][] points) throws RemoteException;
+
+    void mutableData(int[] draftPoolValues, char[] draftPoolColors, int[][] roundTrackValues, char[][] roundTrackColors, String[] names, int[] ids, int[] favorTokens, String[] windowFrameReps, int[][][] windowFrameValues, char[][][] windowFrameColors);
 }
