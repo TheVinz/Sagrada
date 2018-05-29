@@ -23,4 +23,6 @@ public interface Observer {
     void updateDiceDraw(Player player, Color color);
     void updateRoundTrack(int round, Cell[] cells);
     void updateEndGame(Player[] scoreboard);
+
+    void updateMutableData();
 }

@@ -125,6 +125,7 @@ public class Lathekin extends ToolCard {
                 firstMoveDone = true;
             }
         }else {
+            firstTarget = (WindowFrameCell) parameters.get(3);
             secondSourceFrame = (WindowFrame) parameters.get(4);
             secondSource = (WindowFrameCell) parameters.get(5);
             secondtargetFrame = (WindowFrame) parameters.get(6);
@@ -138,11 +139,11 @@ public class Lathekin extends ToolCard {
                 throw new WrongParameter("Cells must be differents");
             }
 
-           /* if(secondSource == firstTarget)
+            if(secondSource == firstTarget)
             {
                 refillParameters();
                 throw new WrongParameter("Cannot move two time the same dice");
-            }*/
+            }
 
             Dice dice = null;
 

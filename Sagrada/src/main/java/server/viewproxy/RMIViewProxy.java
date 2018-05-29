@@ -292,6 +292,11 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
         }
     }
 
+    @Override
+    public void updateMutableData() {
+        //da implementare
+    }
+
 
 /*
 =======================================================================================================================
@@ -324,6 +329,8 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                 case SIMPLE_MOVE_REQUEST:
                     controller.isDiceMove();
                     break;
+                case ACTIVE_AGAIN:
+                    controller.reinsertPlayer();
                 default:
                     return;
             }

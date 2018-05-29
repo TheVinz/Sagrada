@@ -45,7 +45,7 @@ public class Controller {
 							timeFinished();
 						return;
 					} catch (WrongParameter e) {
-						view.notifyError(e.getMessage());
+						view.notifyWrongParameter(e.getMessage());
 						if(temp.nextParam()==null)
 							view.notifyNextParameter(Response.SUCCESS_USED_TOOL_CARD);
 						else
@@ -73,6 +73,7 @@ public class Controller {
 
 	public void endTurn() {
 		if(player.isActive()) {
+			currentState.abort();
 			currentState = new WaitingState(player, model);
 			model.endTurn(player);
 		}
@@ -90,18 +91,26 @@ public class Controller {
 	}
 
 	public void notifyTimeout() {
+		if(player.isActive()){ // forse questo controllo è meglio sostituirlo con un timer.stop() quando finisce il turno altrimenti continua a contare anche dopo il turno
 		if(lock.tryLock()){
 			try{
-				if(Thread.currentThread()==player.getTimer().getBlinker())
+				if(Thread.currentThread()==player.getTimer().getBlinker()){
 					timeFinished();
+					endTurn();
+				}
+
 			}finally {
 				lock.unlock();
 			}
-		}
+		}}
 	}
 
 	public void timeFinished(){
-	    currentState.abort();
-		endTurn();
+		model.suspendPlayer(player);
+		view.notifyNextParameter(Response.SUSPENDED);
+	}
+
+	public void reinsertPlayer() {
+		model.reinsertPlayer(player);
 	}
 }

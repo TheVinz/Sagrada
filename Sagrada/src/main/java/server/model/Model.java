@@ -2,7 +2,6 @@ package server.model;
 
 import common.exceptions.InvalidMoveException;
 import server.model.state.boards.windowframe.WindowFrameList;
-import server.model.state.player.Points;
 import server.model.state.utilities.PointsComparator;
 import server.observer.Observable;
 import server.observer.Observer;
@@ -17,17 +16,20 @@ import server.model.state.utilities.Util;
 import server.viewproxy.RMIViewProxy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Model implements Observable {
-    private List<Observer> observers;
+    private List<Observer> activeObservers;
+    private Map<Player, Observer> playerObserverMap = new HashMap<>();
 
     private State state;
     private RoundManager roundManager;
 
     public Model(){
         state=new State(this);
-        observers=new ArrayList<>();
+        activeObservers =new ArrayList<>();
     }
 
 
@@ -47,6 +49,7 @@ public class Model implements Observable {
             state.addPlayer(player);
             RMIViewProxy o=new RMIViewProxy(this, player);
             addObserver(o);
+            playerObserverMap.put(player, o);
             return o;
         }
     }
@@ -73,21 +76,24 @@ public class Model implements Observable {
         }
         notifyRefillDraftPool(state.getDraftPool().getDraftPool().toArray(new Cell[0]));
         roundManager.startRound();
-        Player active= roundManager.next();
+        Player active;
+        do {
+            active = roundManager.next();
+        } while(active.isSuspended()); //da controllare quando sono tutti sospesi
         active.setActive();
         notifyStartTurn(active);
     }
     public void endTurn(Player player) {
-        player.endTurn();
-        Player active;
+        Player active = player;
         do {
+            active.endTurn();
             if(!roundManager.hasNext())
             {
                 endRound();
                 return;
             }
             active = roundManager.next();
-        } while(active.isJumpSecondTurn());
+        } while(active.isJumpSecondTurn()||active.isSuspended());
         active.setActive();
         notifyStartTurn(active);
     }
@@ -112,6 +118,25 @@ public class Model implements Observable {
         }
         scoreboard.sort(new PointsComparator());
         notifyEndGame((Player[])scoreboard.toArray());
+    }
+
+    public void reinsertPlayer(Player player){
+        player.setSuspended(false);
+        Observer o = playerObserverMap.get(player);
+        activeObservers.add(o);
+        o.updateObjectiveCards(state.getPublicObjectiveCards());
+        o.updatePrivateObjectiveCard(player.getPrivateObjectiveCard());
+        o.updateToolCards(state.getToolCards());
+        o.updateMutableData();
+        notifyReinsertPlayer(player);
+    }
+
+
+
+    public void suspendPlayer(Player player){
+        player.setSuspended(true);
+        activeObservers.remove(playerObserverMap.get(player));
+        notifySuspendPlayer(player);
     }
 
 
@@ -180,91 +205,101 @@ public class Model implements Observable {
         notifyToolCardUsed(player, toolCard, tokens);
     }
 
+
     /*=================================================================================================================
     * da Observable
     * */
 
     @Override
     public void addObserver(Observer o) {
-        observers.add(o);
+        activeObservers.add(o);
     }
 
     @Override
     public void removeObserver(Observer o) {
-        observers.remove(o);
+        activeObservers.remove(o);
     }
 
     @Override
     public void notifyMove(Player player, Cell source, Cell target) {
-        for(Observer o:observers) o.updateMove(player, source, target);
+        for(Observer o: activeObservers) o.updateMove(player, source, target);
     }
 
     @Override
     public void notifyCellChangement(Player player, Cell cell) {
-        for(Observer o:observers) o.updateCellChangement(player, cell);
+        for(Observer o: activeObservers) o.updateCellChangement(player, cell);
     }
 
     @Override
     public void notifyRefillDraftPool(Cell[] draftPool) {
-        for(Observer o:observers) o.updateRefillDraftPool(draftPool);
+        for(Observer o: activeObservers) o.updateRefillDraftPool(draftPool);
     }
 
     @Override
     public void notifyToolCards() {
 
-        for(Observer o:observers)
+        for(Observer o: activeObservers)
             o.updateToolCards(state.getToolCards());
     }
 
     @Override
     public void notifyObjectiveCards() {
-        for(Observer o:observers)
+        for(Observer o: activeObservers)
             o.updateObjectiveCards(state.getPublicObjectiveCards());
     }
 
     @Override
     public void notifyWindowFrameChoices() {
-        for(Observer o:observers) {
+        for(Observer o: activeObservers) {
             o.updateWindowFrameChoices(Util.getWindowFrameChoiche());
         }
     }
 
     @Override
     public void notifyPlayers(Player[] players) {
-        for(Observer o:observers) o.updatePlayers(players);
+        for(Observer o: activeObservers) o.updatePlayers(players);
     }
 
     @Override
     public void notifyToolCardUsed(Player player, ToolCard toolCard, int tokens) {
-        for(Observer o:observers) o.updateToolCardUsed(player, toolCard, tokens);
+        for(Observer o: activeObservers) o.updateToolCardUsed(player, toolCard, tokens);
     }
 
     @Override
     public void notifyDraw(Player player, Dice dice) {
-        for(Observer o : observers) o.updateDiceDraw(player, dice.getColor());
+        for(Observer o : activeObservers) o.updateDiceDraw(player, dice.getColor());
     }
 
     @Override
     public void notifyPrivateObjectiveCard() {
-        for(Observer o:observers)
+        for(Observer o: activeObservers)
             o.updatePrivateObjectiveCard(Util.getCard());
     }
 
     @Override
     public void notifyStartTurn(Player player) {
-        for(Observer o : observers)
+        for(Observer o : activeObservers)
             o.updateStartTurn(player);
     }
     @Override
     public void notifyRoundTrackUpdate(int round, Cell[] cells){
-        for(Observer o : observers) o.updateRoundTrack(round, cells);
+        for(Observer o : activeObservers) o.updateRoundTrack(round, cells);
     }
 
     @Override
     public void notifyEndGame(Player[] scoreboard){
-        for (Observer o: observers) o.updateEndGame(scoreboard);
+        for (Observer o: activeObservers) o.updateEndGame(scoreboard);
     }
 
+    @Override
+    public void notifyReinsertPlayer(Player player) {
+        //da implementare
+    }
+
+    @Override
+    public void notifySuspendPlayer(Player player){
+        //da implementare
+    }
 
 
 }
