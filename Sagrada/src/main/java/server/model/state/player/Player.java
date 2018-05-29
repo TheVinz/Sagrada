@@ -22,6 +22,7 @@ public class Player {
     private boolean toolCardUsed;   // |-> Aggiornati massimo una volpta per turno
     private boolean active;         // |
     private boolean jumpSecondTurn;
+    private boolean suspended;
 
     private Timer timer;
 
@@ -35,6 +36,7 @@ public class Player {
         this.firstMoveDone=false;
         this.jumpSecondTurn=false;
         this.points=new Points();
+        this.suspended=false;
     }
 
     public void setTimer(Timer timer){
@@ -106,7 +108,7 @@ public class Player {
         this.toolCardUsed=false;
         this.active=false;
         this.secondTurn=true;
-        timer.stop();
+        timer.stop(); //forse non va
     }
     public void endRound() {
         secondTurn=false;
@@ -138,5 +140,13 @@ public class Player {
         points.setPointsFromPrivateCard(privateObjectiveCard.calculatePoints(windowFrame));
         points.setPointsFromFavorTokens(favorTokens);
         points.setPointsFromEmptyCells(windowFrame.getEmptyCells());
+    }
+
+    public boolean isSuspended() {
+        return suspended;
+    }
+
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
     }
 }

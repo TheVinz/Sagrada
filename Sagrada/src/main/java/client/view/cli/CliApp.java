@@ -49,15 +49,6 @@ public class CliApp {
     public void moveFromDraftPool()
     {
         setCurrentState(new SelectingDraftPoolCell());
-        synchronized (this){
-            while(getCommandBufferSize() == 0) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
         sendCommand();
         setCurrentState(new SelectingWindowFrameCell());
         sendCommand();
@@ -115,9 +106,6 @@ public class CliApp {
         commandBuffer.add(gameCommand);
     }
 
-    public int getCommandBufferSize(){
-        return commandBuffer.size();
-    }
 
     public void sendCommand() {
         synchronized (this){
@@ -144,15 +132,6 @@ public class CliApp {
     public void moveFromWindowFrame() {
 
         setCurrentState(new SelectingWindowFrameCell());
-        synchronized (this){
-            while(getCommandBufferSize() == 0) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
         sendCommand();
         setCurrentState(new SelectingWindowFrameCell());
         sendCommand();

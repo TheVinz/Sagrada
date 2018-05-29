@@ -310,11 +310,39 @@ public class CliDisplayer {
     }
 
     public void printResults(char[] cards, int[] scoreboard, int[][] points) {
-        displayText("SCOREBOARD:\n\tNAME\t|     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
-        displayText("\t\t\t|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |         |\n");
+        displayText("\t\t\tSCOREBOARD:\n");
+        int max=0;
+        for(int i=0;i<scoreboard.length;i++)
+            if(max<cliState.getCliPlayerState(scoreboard[i]).getName().length())
+                max=cliState.getCliPlayerState(scoreboard[i]).getName().length();
+        int space=0;
+        if(max<14){
+            max=14;
+            displayText("  \tNAME\t  "); }  //da implementare
+        else
+        { space=max-14;
+        for(int i=0;i<space;i++)
+            displayText("  ");
+        displayText("  \tNAME\t");
+        for(int i=0;i<space;i++)
+            displayText("  ");
+        }
 
-        for(int i=0;i<1;i++) {
-            displayText("" + (i + 1) + ")" + cliState.getCliPlayerState(scoreboard[i]).getName() + "\t|");
+
+        displayText("|     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
+        if(max<14)
+        displayText("\t\t\t");
+        else
+            for(int s=0;s<max+2;s++)
+                displayText(" ");
+        displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |         |\n");
+
+        for(int i=0;i<scoreboard.length;i++) {
+            displayText("" + (i + 1) + ")" + cliState.getCliPlayerState(scoreboard[i]).getName());
+                for(int s=0;s<max-cliState.getCliPlayerState(scoreboard[i]).getName().length();s++){
+                displayText(" ");
+                }
+                displayText("|");
             if (points[scoreboard[i]][0] > 9)   //prima public
                 displayText("  " + points[scoreboard[i]][0] + "  |");
             else
@@ -337,14 +365,18 @@ public class CliDisplayer {
                 displayText("   " + points[scoreboard[i]][4] + "  |");
             if (points[scoreboard[i]][5] > 9)
                 displayText("  " + points[scoreboard[i]][5] + "   |");
-            else
-                displayText("    " + points[scoreboard[i]][5] + "    |");
+            else if(points[scoreboard[i]][5]<0)
+                    displayText(" "+points[scoreboard[i]][5]+"   |");
+                else
+                    displayText("    " + points[scoreboard[i]][5] + "    |");
             if (points[scoreboard[i]][6] > 9)
-                displayText("   " + points[scoreboard[i]][6] + "    |");
-            else
-                displayText("    " + points[scoreboard[i]][6] + "    |\n");
+                displayText("   " + points[scoreboard[i]][6] + "    |\n");
+            else if(points[scoreboard[i]][6]<0)
+                    displayText(" "+points[scoreboard[i]][6]+"   |\n");
+                else
+                    displayText("    " + points[scoreboard[i]][6] + "    |\n");
         }
 
-        
+
     }
 }

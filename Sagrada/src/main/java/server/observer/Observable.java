@@ -23,4 +23,8 @@ public interface Observable {
     void notifyStartTurn(Player player) throws RemoteException;
     void notifyRoundTrackUpdate(int round, Cell[] cells);
     void notifyEndGame(Player[] scoreboard);
+
+    void notifyReinsertPlayer(Player player);
+
+    void notifySuspendPlayer(Player player);
 }

@@ -299,6 +299,9 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;
+            case SUSPENDED:
+                CliApp.getCliApp().setWaitingPhase(false);
+                CliApp.getCliApp().setCurrentState(new Suspended());
             default:
                 return;
 
@@ -307,19 +310,25 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     @Override
     public void error(String message){
-        CliDisplayer.getDisplayer().displayText(message);
-        CliApp.getCliApp().setWaitingPhase(false);
-        CliApp.getCliApp().setCurrentState(new MenuPhase());
+        new Thread(() -> {
+            CliDisplayer.getDisplayer().displayText(message);
+            CliApp.getCliApp().setWaitingPhase(false);
+            CliApp.getCliApp().setCurrentState(new MenuPhase());
+        }).start();
+
     }
     @Override
     public void wrongParameter(String message){
-        CliDisplayer.getDisplayer().displayText(message);
+        new Thread(() -> {
+            CliDisplayer.getDisplayer().displayText(message);
+        }).start();
+
     }
 
     @Override
+
     public void endGame(char[] cards, int[] scoreboard, int[][] points) throws RemoteException {
         CliDisplayer.getDisplayer().printResults(cards,scoreboard,points);
     }
-
 
 }
