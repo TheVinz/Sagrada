@@ -47,6 +47,7 @@ public class WindowFrameChoiceController {
             GridPane frame = Util.getWindowFrame(reps[i]);
             frames[i]=frame;
             VBox frameChoice = new VBox(5);
+            frameChoice.setAlignment(Pos.TOP_CENTER);
             frameChoice.getChildren().addAll(frame, tokensBox);
             frameChoice.setStyle("-fx-background-color: black; -fx-padding: 10px;");
             frameChoice.setMaxWidth(frame.getWidth()+10);

@@ -436,4 +436,14 @@ public class GameController {
                 box.getChildren().remove(1);
         }
     }
+
+    @FXML
+    private void setFullScreen(){
+        this.controller.setFullScreen();
+    }
+
+    @FXML
+    private void close(){
+        System.exit(0);
+    }
 }

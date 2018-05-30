@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -361,5 +362,9 @@ public class ViewController {
         alert.setTitle("Error");
         alert.showAndWait();
         currentPhase = new MainPhase(remoteController, gameController);
+    }
+
+    public void setFullScreen() {
+        ((Stage) rootLayout.getScene().getWindow()).setFullScreen(true);
     }
 }

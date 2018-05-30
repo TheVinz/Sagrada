@@ -170,7 +170,6 @@ public class Util {
             cell.getChildren().add(image);
             pane.add(cell, col, row);
         }
-        pane.setAlignment(Pos.CENTER);
         return pane;
     }
 
