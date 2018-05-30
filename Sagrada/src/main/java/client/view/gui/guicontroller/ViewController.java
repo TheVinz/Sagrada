@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
@@ -40,6 +41,9 @@ public class ViewController {
             AnchorPane pane= loader.load();
             rootLayout.setCenter(pane);
             LoginController login = loader.getController();
+            Image background = new Image(MainApp.class.getResource("resources/style/background.jpg").toString());
+            BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(0,0,false,false,false,true));
+            rootLayout.setBackground(new Background(backgroundImage));
             login.setModel(model);
             login.addListener(this);
             loader=new FXMLLoader();
@@ -66,6 +70,9 @@ public class ViewController {
     }
 
     public void loadWindowFrameChoice(String[] reps, int[] tokens){
+        Image background = new Image(MainApp.class.getResource("resources/style/gamebackground.jpg").toString());
+        BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(0,0,false,false,false,true));
+        rootLayout.setBackground(new Background(backgroundImage));
         rootLayout.setCenter(windowFrameChoicesPane);
         windowFrameChoiceController.setChoice(reps, tokens);
     }
@@ -77,10 +84,11 @@ public class ViewController {
     public void loadPlayers(String[] names, int[] ids, String[] windowFrameReps, int[] windowFrameFavorTokens, int id) {
         this.id=id;
         for(int i=0; i<names.length; i++){
-            GridPane frame = Util.getWindowFrame(windowFrameReps[i]);
-            gameController.loadPlayer(names[i], ids[i], windowFrameReps[i], windowFrameFavorTokens[i]);
             if(ids[i]==id)
-                gameController.setActiveFrame(frame, id);
+                gameController.setActiveFrame(names[i], ids[i], windowFrameReps[i], windowFrameFavorTokens[i]);
+            else {
+                gameController.loadPlayer(names[i], ids[i], windowFrameReps[i], windowFrameFavorTokens[i]);
+            }
         }
     }
 
@@ -192,6 +200,7 @@ public class ViewController {
 
     public void updateRoundTrack(int round, int[] values, char[] colors) {
         gameController.addRoundTrackBox(round, values, colors);
+        gameController.setRound(round);
     }
 
     public void updateCell(int player, Response type, int index, int value, char color) {

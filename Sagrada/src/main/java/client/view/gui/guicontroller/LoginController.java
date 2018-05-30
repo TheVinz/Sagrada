@@ -31,7 +31,7 @@ public class LoginController {
 
     @FXML
     private void rmiLogin(){
-        String ip ="192.168.43.181";
+        String ip ="localhost";
         int port = 1099;
         name=textField.getText();
         textField.setText(null);

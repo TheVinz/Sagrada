@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class LaunchServer {
     public static void main(String[] args){
-        String ip = "192.168.43.181";
+        String ip = "localhost";
         int port = 1099;
         try {
             System.out.print(">>>");

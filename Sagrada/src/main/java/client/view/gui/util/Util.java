@@ -235,14 +235,16 @@ public class Util {
         }
         image=new Image(Util.class.getResource(path).toString());
         ImageView toolCard=new ImageView(image);
-        toolCard.setFitHeight(297);
-        toolCard.setFitWidth(201);
+        toolCard.setFitWidth(134);
+        toolCard.setFitHeight(198);
         toolCard.setX(2);
         toolCard.setY(2);
         Pane pane = new Pane();
         pane.getStyleClass().add("toolcard");
         pane.getChildren().add(toolCard);
         pane.setAccessibleText(name);
+        pane.setOnMouseEntered((event) -> zoom(toolCard));
+        pane.setOnMouseExited((event) -> resize(toolCard));
         return pane;
     }
 
@@ -269,8 +271,10 @@ public class Util {
         }
         Image image = new Image(Util.class.getResource(path).toString());
         ImageView card = new ImageView(image);
-        card.setFitWidth(201);
-        card.setFitHeight(297);
+        card.setOnMouseEntered((event) -> zoom(card));
+        card.setOnMouseExited((event) -> resize(card));
+        card.setFitWidth(134);
+        card.setFitHeight(198);
         return card;
     }
 
@@ -312,8 +316,20 @@ public class Util {
         }
         Image image = new Image(Util.class.getResource(path).toString());
         ImageView publicObjectiveCard = new ImageView(image);
-        publicObjectiveCard.setFitHeight(297);
-        publicObjectiveCard.setFitWidth(201);
+        publicObjectiveCard.setFitWidth(134);
+        publicObjectiveCard.setFitHeight(198);
+        publicObjectiveCard.setOnMouseEntered((event) -> zoom(publicObjectiveCard));
+        publicObjectiveCard.setOnMouseExited((event) -> resize(publicObjectiveCard));
         return publicObjectiveCard;
+    }
+
+    private static void zoom(ImageView card){
+        card.setFitHeight(297);
+        card.setFitWidth(201);
+    }
+
+    private static void resize(ImageView card){
+        card.setFitHeight(198);
+        card.setFitWidth(134);
     }
 }
