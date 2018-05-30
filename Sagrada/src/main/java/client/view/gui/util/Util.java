@@ -171,9 +171,6 @@ public class Util {
             pane.add(cell, col, row);
         }
         pane.setAlignment(Pos.CENTER);
-        Reflection reflection = new Reflection();
-        reflection.setFraction(0.7f);
-        pane.setEffect(reflection);
         return pane;
     }
 

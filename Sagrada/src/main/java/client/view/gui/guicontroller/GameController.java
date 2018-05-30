@@ -7,12 +7,15 @@ import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 
 public class GameController {
@@ -34,8 +37,7 @@ public class GameController {
     private GridPane[] frames = new GridPane[4];
     private String[] reps = new String[4];
     private String[] playerNames = new String[4];
-    private int[] tokens = new int[4];
-    private Label[] labels = new Label[4];
+    private HBox[] tokens = new HBox[4];
     private boolean[][] hasDice = new boolean[4][5];
     private VBox[] roundTrackBoxes = new VBox[10];
     private GridPane activeFrame;
@@ -64,19 +66,27 @@ public class GameController {
 
     public void loadPlayer(String name, int id, String rep, int windowFrameFavorToken) {
         GridPane windowFrame = Util.getWindowFrame(rep);
+        Reflection reflection = new Reflection();
+        reflection.setFraction(0.7f);
+        windowFrame.setEffect(reflection);
         VBox box = new VBox(5);
         box.setAlignment(Pos.CENTER);
         Label nameLabel = new Label(name);
-        nameLabel.setStyle("-fx-background-color: rgba(255,255,255,0.7); -fx-font-size: 18");
-        Label tokensLabel = new Label("Favor Tokens: "+windowFrameFavorToken);
-        tokensLabel.setStyle(nameLabel.getStyle());
-        box.getChildren().addAll(nameLabel, tokensLabel, windowFrame);
+        nameLabel.setStyle("-fx-background-color: rgba(0,0,0,0.4); -fx-font-size: 18; -fx-text-fill: white");
+        HBox tokens = new HBox(5);
+        tokens.setAlignment(Pos.CENTER_RIGHT);
+        tokens.setMaxWidth(windowFrame.getWidth());
+        for(int i=0; i<windowFrameFavorToken; i++){
+            Circle token = new Circle(7, Color.WHITE);
+            tokens.getChildren().add(token);
+        }
+        tokens.setStyle("-fx-background-color: rgba(0,0,0,0.4)");
+        box.getChildren().addAll(nameLabel, tokens, windowFrame);
         framesBox.getChildren().add(box);
         frames[id]=windowFrame;
         reps[id]= rep;
         playerNames[id]=name;
-        tokens[id]=windowFrameFavorToken;
-        labels[id]=tokensLabel;
+        this.tokens[id]=tokens;
     }
 
     public void loadToolCard(int toolCard, final int i) {
@@ -103,12 +113,21 @@ public class GameController {
 
     public void setActiveFrame(String name, int id, String rep, int tokens) {
         GridPane frame = Util.getWindowFrame(rep);
+        Reflection reflection = new Reflection();
+        reflection.setFraction(0.7f);
+        frame.setEffect(reflection);
         this.id=id;
         Label nameLabel = new Label(name);
-        Label tokensLabel = new Label("Tokens: " + tokens);
-        nameLabel.setStyle("-fx-background-color: rgba(255,255,255,0.7); -fx-font-size: 18");
-        tokensLabel.setStyle(nameLabel.getStyle());
-        frameBox.getChildren().addAll(nameLabel, tokensLabel, frame);
+        nameLabel.setStyle("-fx-background-color: rgba(0,0,0,0.4); -fx-font-size: 18; -fx-text-fill: white");
+        HBox tokensBox = new HBox(5);
+        tokensBox.setAlignment(Pos.CENTER_RIGHT);
+        tokensBox.setMaxWidth(frame.getWidth());
+        tokensBox.setStyle("-fx-background-color: rgba(0,0,0,0.4)");
+        for(int i=0; i<tokens; i++){
+            Circle token = new Circle(7, Color.WHITE);
+            tokensBox.getChildren().add(token);
+        }
+        frameBox.getChildren().addAll(nameLabel, tokensBox, frame);
         activeFrame=frame;
         for(Node n : frame.getChildren()){
             n.setOnDragDropped(event -> handleDrop(event, n));
@@ -123,8 +142,7 @@ public class GameController {
         frames[id]=frame;
         reps[id]= rep;
         playerNames[id]=name;
-        this.tokens[id]=tokens;
-        labels[id]=tokensLabel;
+        this.tokens[id]=tokensBox;
     }
 
     /*==========================================================================================*/
@@ -221,8 +239,10 @@ public class GameController {
     /*Modifiers*/
 
     public void decreaseFavorTokens(int id, int tokens){
-        this.tokens[id]=this.tokens[id]-tokens;
-        labels[id].setText("Favor tokens : "+this.tokens[id]);
+        HBox tokensBox=this.tokens[id];
+        tokensBox.getChildren().remove(0);
+        if(tokens==2)
+            tokensBox.getChildren().remove(0);
     }
 
     public void updateDraftPool(int index, int value, char color) {
