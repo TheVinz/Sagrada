@@ -4,6 +4,7 @@ import common.RemoteMVC.RemoteController;
 import common.login.RemoteLoginManager;
 import server.login.LoginManager;
 
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -22,12 +23,13 @@ public class CliLaunchClient {
         System.out.println("\t\t\t\tWelcome to SAGRADA\n");
         System.out.print("Username>>> ");
         String name = sc.nextLine();
-
-
+        String ip = "localhost";
+        int port = 1099;
         try {
             model= new CliModel();
-            Registry reg = LocateRegistry.getRegistry();
-            loginManager=(RemoteLoginManager) reg.lookup("LoginManager");
+            //Registry reg = LocateRegistry.getRegistry();
+           // loginManager=(RemoteLoginManager) reg.lookup("rmi://" + ip + ":" + port + "/LoginManager");
+            loginManager =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+port+"/LoginManager");
             remoteController = loginManager.connect(name, model);
             CliApp.getCliApp().setRemoteController(remoteController);
             CliApp.getCliApp().mainLoop();

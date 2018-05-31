@@ -1,10 +1,11 @@
-package server.state.toolcards;
+package server.state.toolcards2;
 
 import static org.junit.Assert.*;
 
 
 
 import common.exceptions.InvalidMoveException;
+import common.exceptions.WrongParameter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
@@ -23,16 +24,16 @@ public class TamponeDiamantatoTest {
         private Model model;
         private ToolCard test;
         private Player player;
-        private DraftPool draftPool;
+        private DraftPool draftPool = new DraftPool();
 
         @Before
         public void setUp() throws Exception {
-            model = Mockito.mock(Model.class);
+            model = Mockito.spy(new Model());
             player = Mockito.mock(Player.class);
             test = new TamponeDiamantato(model);
-            draftPool = new DraftPool();
+            draftPool = model.getState().getDraftPool();
+            //draftPool = new DraftPool();    vorrei farlo qua ma mi dice che è empty
             draftPool.increaseSize();
-
             draftPool.getCell(0).put(new Dice(Color.RED, 4));
         }
 
@@ -41,23 +42,22 @@ public class TamponeDiamantatoTest {
             test.start(player);
         }
 
-        @Test
-        public void doAbility() throws InvalidMoveException {
-            test.start(player);
-            test.setParameter(draftPool.getCell(0));
 
-
-        }
 
         @Test
         public void setParameter() throws InvalidMoveException {
             test.start(player);
 
             try {
-                test.setParameter(draftPool.getCell(0));
+                try {
+                    test.setParameter(draftPool.getCell(0));
+                } catch (WrongParameter wrongParameter) {
+                    wrongParameter.printStackTrace();
+                }
             } catch (InvalidMoveException e) {
                 assertEquals("Wrong parameter", e.getMessage());
             }
+            assertEquals(3,draftPool.getCell(0).getDice().getValue());
 
 
         }

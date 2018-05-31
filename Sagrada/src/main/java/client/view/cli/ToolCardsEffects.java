@@ -30,4 +30,35 @@ public class ToolCardsEffects {
                return "Error";
        }
    }
+
+    public String returnName(int toolCard) {
+        switch (toolCard) {
+            case 1:
+                return "GROZING PLIERS";
+            case 2:
+                return "EGLOMISE BRUSH";
+            case 3:
+                return "COPPER FOIL BURNISHER";
+            case 4:
+                return "LATHEKIN";
+            case 5:
+                return "LENS CUTTER";
+            case 6:
+                return "FLUX BRUSH";
+            case 7:
+                return "GLAZING HAMMER";
+            case 8:
+                return "RUNNING PLIERS";
+            case 9:
+                return "CORK-BACKED STRAIGHTEDGE";
+            case 10:
+                return "GRINDING STONE";
+            case 11:
+                return "FLUX REMOVER";
+            case 12:
+                return "TAP WHEEL";
+            default:
+                return "Error";
+        }
+    }
 }

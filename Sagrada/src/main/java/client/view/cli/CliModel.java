@@ -13,6 +13,8 @@ import static common.response.Response.*;
 
 public class CliModel extends UnicastRemoteObject implements RemoteView{
 
+    private ToolCardsEffects toolCardsEffects = new ToolCardsEffects();
+    private ObjectiveCardsEffects objectiveCardsEffects = new ObjectiveCardsEffects();
 
     public CliModel() throws RemoteException {
         super(); ///???????
@@ -94,7 +96,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     public void updateCell(int player, Response type, int index, int value, char color) {
         String s= ""+value+color;
         CliState.getCliState().getDraftPool()[index]=s;
-        CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + " >>> "+s);
+        CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + " >>> "+s+"\n");
     }
 
     @Override
@@ -104,11 +106,11 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         if(type==WINDOW_FRAME_CELL){
             cliPlayerState = CliState.getCliState().getCliPlayerState(player);
             cliPlayerState.getWindowFrame()[param1][param2]=s;
-            CliDisplayer.getDisplayer().displayText("Updated Window Frame Cell "+ param1 + " "+param2+ " >>> "+s);
+            CliDisplayer.getDisplayer().displayText("Updated Window Frame Cell "+ param1 + " "+param2+ " >>> "+s+"\n");
         }
         else if(type == ROUND_TRACK_CELL){
             CliState.getCliState().getRoundTrack()[param1-1][param2]=s;
-            CliDisplayer.getDisplayer().displayText("Updated Round Track Cell "+ param1 + " "+param2+ " >>> "+s);
+            CliDisplayer.getDisplayer().displayText("Updated Round Track Cell "+ param1 + " "+param2+ " >>> "+s+"\n");
         }
     }
 
@@ -116,7 +118,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     public void loadToolCards(int[] toolCards) {
         for(int i=0; i<3;i++){
             CliState.getCliState().getToolCardIds()[i]=toolCards[i];
-            CliDisplayer.getDisplayer().displayText("Selected tool card No. " + toolCards[i] + ";\n");
+            CliDisplayer.getDisplayer().displayText("Selected tool card  " + toolCardsEffects.returnName(toolCards[i]) + ";\n");
         }
     }
 
@@ -134,7 +136,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     @Override
     public void loadPublicObjectiveCards(int[] cards) {
         for(int i=0; i<cards.length; i++){
-            CliDisplayer.getDisplayer().displayText("Selected public objective card No. "+cards[i]+";\n");
+            CliDisplayer.getDisplayer().displayText("Selected public objective card  "+objectiveCardsEffects.returnName(cards[i])+";\n");
             CliState.getCliState().getPublicObjectiveCardIds()[i]=cards[i];
         }
     }
@@ -162,7 +164,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     @Override
     public void toolCardUsed(int player, int index, int tokens) {
         CliPlayerState playerState=CliState.getCliState().getCliPlayerState(player);
-        CliDisplayer.getDisplayer().displayText(playerState.getName() + " used tool card No. " + CliState.getCliState().getToolCardIds()[index] + ";\n -" + tokens + " favor tokens;\n");
+        CliDisplayer.getDisplayer().displayText(playerState.getName() + " used tool card  " + toolCardsEffects.returnName(CliState.getCliState().getToolCardIds()[index]) + ";\n -" + tokens + " favor tokens;\n");
         playerState.removeFavorTokens(tokens);
     }
 
@@ -240,7 +242,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         for (int i=0; i<roundDices.length; i++){
             roundDices[i]=""+values[i]+colors[i];
         }
-        CliDisplayer.getDisplayer().displayText("Round track is updated.");
+        CliDisplayer.getDisplayer().displayText("Round track is updated.\n");
         CliState.getCliState().setRoundDices(round, roundDices);
     }
 
@@ -264,7 +266,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;
             case END_TURN:
-                CliDisplayer.getDisplayer().displayText("Your turn is finished!");
+                CliDisplayer.getDisplayer().displayText("Your turn is finished!\n");
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;
             case TOOL_CARD:
