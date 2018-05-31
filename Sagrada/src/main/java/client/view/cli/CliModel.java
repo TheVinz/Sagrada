@@ -119,7 +119,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     public void loadToolCards(int[] toolCards) {
         CliState.getCliState().setToolCardIds(toolCards);
         for(int i=0; i<toolCards.length;i++){
-            CliDisplayer.getDisplayer().displayText("Selected tool card No. " + toolCards[i] + ";\n");
+            CliDisplayer.getDisplayer().displayText("Selected tool card  " + toolCardsEffects.returnName(i) + ";\n");
         }
     }
 
@@ -192,6 +192,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 card="Compiler wants me to add a default case";
                 break;
         }
+        if(CliState.getCliState().getPrivateObjectiveCard().length!=0)
+            return;
         CliState.getCliState().setPrivateObjectiveCard(card);
         CliDisplayer.getDisplayer().displayText("Your private objective:\n");
         CliDisplayer.getDisplayer().printColoredPrvCard(card);

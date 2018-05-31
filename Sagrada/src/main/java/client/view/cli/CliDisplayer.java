@@ -217,8 +217,8 @@ public class CliDisplayer {
     }
 
     public void printPrivateObjectiveCard() {
-        for(int i=0; i<cliState.getPrivateObjectiveCard().length; i++)
-            printColoredPrvCard(cliState.getPrivateObjectiveCard()[i]);
+       for(int i=0; i<cliState.getPrivateObjectiveCard().length; i++)
+            printColoredPrvCard(cliState.getPrivateObjectiveCard()[0]);
     }
 
     public void printFavorTokens() {
@@ -401,9 +401,10 @@ public class CliDisplayer {
         }
 
 
+
     }
 
-    public void printGrassetto(String modify){    //da mettere in inglese
+    public void printBold(String modify){    //da mettere in inglese
         displayText((char)27+"[1m"+modify+(char)27+"[0m");
     }
     public void printColoredPrvCard(String color){

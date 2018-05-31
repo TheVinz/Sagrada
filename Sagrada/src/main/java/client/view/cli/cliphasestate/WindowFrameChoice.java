@@ -12,7 +12,7 @@ public class WindowFrameChoice implements CliPhaseState {
 
     public WindowFrameChoice() {
         System.out.print("\nSelect a ");
-        CliDisplayer.getDisplayer().printGrassetto("Window Frame\n>>>");
+        CliDisplayer.getDisplayer().printBold("Window Frame\n>>>");
     }
 
     @Override

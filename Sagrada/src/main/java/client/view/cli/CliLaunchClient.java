@@ -20,8 +20,9 @@ public class CliLaunchClient {
         CliApp app;
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("\t\t\t\tWelcome to SAGRADA\n");
-        System.out.print("Username:\n>>> ");
+        System.out.print("\t\t\t\tWelcome to:\t");
+        CliDisplayer.getDisplayer().printBold("Sagrada");
+        System.out.print("\nUsername:\n>>> ");
         String name = sc.nextLine();
 
         String choice = null;
