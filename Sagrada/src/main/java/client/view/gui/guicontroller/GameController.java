@@ -3,46 +3,48 @@ package client.view.gui.guicontroller;
 import client.view.gui.guicontroller.gamephase.GamePhase;
 import client.view.gui.util.Util;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.effect.Reflection;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 
 public class GameController {
     @FXML
     private HBox draftPoolBox;
     @FXML
-    private GridPane framesGrid;
+    private HBox framesBox;
     @FXML
-    private GridPane objectiveGrid;
+    private HBox objectiveCardsBox;
     @FXML
-    private HBox toolCardBox;
+    private HBox toolCardsBox;
     @FXML
     private VBox frameBox;
     @FXML
-    private TextArea textArea;
+    private Label textLabel;
     @FXML
-    private VBox roundTrackBox;
+    private HBox roundTrack;
 
     private GridPane[] frames = new GridPane[4];
     private String[] reps = new String[4];
     private String[] playerNames = new String[4];
-    private int[] tokens = new int[4];
-    private Label[] labels = new Label[4];
+    private HBox[] tokens = new HBox[4];
     private boolean[][] hasDice = new boolean[4][5];
+    private VBox[] roundTrackBoxes = new VBox[10];
     private GridPane activeFrame;
     private int id;
-    private final String draggable = "draggable";
-    private final String droppable = "droppable";
-    private final String clickable = "clickable";
+    private static final String draggable = "draggable";
+    private static final String droppable = "droppable";
+    private static final String clickable = "clickable";
 
     private ViewController controller;
 
@@ -58,35 +60,38 @@ public class GameController {
         return frames[id];
     }
     public String getToolCardName(int index){
-        Node card = toolCardBox.getChildren().get(index);
+        Node card = toolCardsBox.getChildren().get(index);
         return card.getAccessibleText();
     }
 
     public void loadPlayer(String name, int id, String rep, int windowFrameFavorToken) {
-        int row=id/2;
-        int col=id%2;
         GridPane windowFrame = Util.getWindowFrame(rep);
-        VBox box = new VBox();
+        Reflection reflection = new Reflection();
+        reflection.setFraction(0.7f);
+        windowFrame.setEffect(reflection);
+        VBox box = new VBox(5);
         box.setAlignment(Pos.CENTER);
-        box.setSpacing(5);
         Label nameLabel = new Label(name);
-        nameLabel.setStyle("-fx-background-color: rgba(255,255,255,0.7); -fx-font-size: 26");
-        Label tokensLabel = new Label("Favor Tokens: "+windowFrameFavorToken);
-        tokensLabel.setStyle("-fx-background-color: rgba(255,255,255,0.7); -fx-font-size: 22");
-        box.getChildren().addAll(nameLabel, tokensLabel, windowFrame);
-        framesGrid.add(box, col, row);
+        nameLabel.setStyle("-fx-background-color: rgba(0,0,0,0.4); -fx-font-size: 18; -fx-text-fill: white");
+        HBox tokens = new HBox(5);
+        tokens.setAlignment(Pos.CENTER_RIGHT);
+        tokens.setMaxWidth(windowFrame.getWidth());
+        for(int i=0; i<windowFrameFavorToken; i++){
+            Circle token = new Circle(7, Color.WHITE);
+            tokens.getChildren().add(token);
+        }
+        tokens.setStyle("-fx-background-color: rgba(0,0,0,0.4)");
+        box.getChildren().addAll(nameLabel, tokens, windowFrame);
+        framesBox.getChildren().add(box);
         frames[id]=windowFrame;
         reps[id]= rep;
         playerNames[id]=name;
-        tokens[id]=windowFrameFavorToken;
-        labels[id]=tokensLabel;
-        textArea.appendText(name + " joined the game!!\n");
-
+        this.tokens[id]=tokens;
     }
 
     public void loadToolCard(int toolCard, final int i) {
         Pane card=Util.getToolCard(toolCard);
-        toolCardBox.getChildren().add(card);
+        toolCardsBox.getChildren().add(card);
         card.setOnMouseClicked((event) -> handleToolCardClick(i));
     }
 
@@ -94,7 +99,7 @@ public class GameController {
         VBox box=new VBox();
         box.setAlignment(Pos.CENTER);
         box.getChildren().add(Util.getPrivateObjectiveCard(color));
-        objectiveGrid.add(box, 0, 0);
+        objectiveCardsBox.getChildren().add(0, box);
     }
 
     public void setPublicObjectiveCards(int[] cards) {
@@ -102,15 +107,27 @@ public class GameController {
             VBox box=new VBox();
             box.setAlignment(Pos.CENTER);
             box.getChildren().add(Util.getPublicObjectiveCard(cards[i]));
-            int col=(i+1)%2;
-            int row=(i+1)/2;
-            objectiveGrid.add(box, col, row);
+            objectiveCardsBox.getChildren().add(box);
         }
     }
 
-    public void setActiveFrame(GridPane frame, int id) {
+    public void setActiveFrame(String name, int id, String rep, int tokens) {
+        GridPane frame = Util.getWindowFrame(rep);
+        Reflection reflection = new Reflection();
+        reflection.setFraction(0.7f);
+        frame.setEffect(reflection);
         this.id=id;
-        frameBox.getChildren().add(frame);
+        Label nameLabel = new Label(name);
+        nameLabel.setStyle("-fx-background-color: rgba(0,0,0,0.4); -fx-font-size: 18; -fx-text-fill: white");
+        HBox tokensBox = new HBox(5);
+        tokensBox.setAlignment(Pos.CENTER_RIGHT);
+        tokensBox.setMaxWidth(frame.getWidth());
+        tokensBox.setStyle("-fx-background-color: rgba(0,0,0,0.4)");
+        for(int i=0; i<tokens; i++){
+            Circle token = new Circle(7, Color.WHITE);
+            tokensBox.getChildren().add(token);
+        }
+        frameBox.getChildren().addAll(nameLabel, tokensBox, frame);
         activeFrame=frame;
         for(Node n : frame.getChildren()){
             n.setOnDragDropped(event -> handleDrop(event, n));
@@ -122,6 +139,10 @@ public class GameController {
         for(boolean[] booleans : hasDice)
             for(boolean b : booleans)
                 b=false;
+        frames[id]=frame;
+        reps[id]= rep;
+        playerNames[id]=name;
+        this.tokens[id]=tokensBox;
     }
 
     /*==========================================================================================*/
@@ -133,8 +154,8 @@ public class GameController {
         activeFrame.getStyleClass().remove(clickable);
         activeFrame.getStyleClass().remove(draggable);
         activeFrame.getStyleClass().remove(droppable);
-        roundTrackBox.getStyleClass().remove(clickable);
-        toolCardBox.getStyleClass().remove(clickable);
+        roundTrack.getStyleClass().remove(clickable);
+        toolCardsBox.getStyleClass().remove(clickable);
     }
     public void mainPhase(){
         unableAll();
@@ -143,8 +164,7 @@ public class GameController {
             activeFrame.getStyleClass().add(droppable);
         }
         if(!GamePhase.toolCardUsed)
-            toolCardBox.getStyleClass().add(clickable);
-        log("What do you want to do?\n");
+            toolCardsBox.getStyleClass().add(clickable);
     }
     public void movingDraftPoolPhase(){
         unableAll();
@@ -160,7 +180,7 @@ public class GameController {
     }
     public void roundTrackPhase(){
         unableAll();
-        roundTrackBox.getStyleClass().add(clickable);
+        roundTrack.getStyleClass().add(clickable);
         log("Select a dice from the round track\n");
     }
     public void windowFramePhase(){
@@ -179,15 +199,14 @@ public class GameController {
     }
 
     public void addRoundTrackBox(int round, int[] values, char[] colors) {
-        HBox box = new HBox();
-        box.setAlignment(Pos.CENTER_LEFT);
-        box.setSpacing(10);
-        box.setPadding(new Insets(0, 10 , 0 , 50));
-        box.setMinHeight(75);
-        box.setPrefHeight(75);
+        VBox box = new VBox();
+        box.setAlignment(Pos.CENTER);
+        box.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        box.setSpacing(5);
+        box.setPrefWidth(54);
+        roundTrackBoxes[round-1]=box;
         Pane pane;
         ImageView image;
-        roundTrackBox.getChildren().add(round-1, box);
         for(int i=0; i<values.length; i++) {
             int index=i;
             pane = new Pane();
@@ -214,14 +233,16 @@ public class GameController {
     }
 
     public synchronized void log(String message){
-        textArea.appendText(message);
+        textLabel.setText(message);
     }
     /*======================================================================================*/
     /*Modifiers*/
 
     public void decreaseFavorTokens(int id, int tokens){
-        this.tokens[id]=this.tokens[id]-tokens;
-        labels[id].setText("Favor tokens : "+this.tokens[id]);
+        HBox tokensBox=this.tokens[id];
+        tokensBox.getChildren().remove(0);
+        if(tokens==2)
+            tokensBox.getChildren().remove(0);
     }
 
     public void updateDraftPool(int index, int value, char color) {
@@ -296,7 +317,7 @@ public class GameController {
         image.setX(2);
         image.setFitHeight(50);
         image.setFitWidth(50);
-        HBox box = (HBox) roundTrackBox.getChildren().get(round-1);
+        VBox box = roundTrackBoxes[round-1];
         Pane pane = (Pane) box.getChildren().get(index);
         pane.getChildren().set(0, image);
     }
@@ -305,7 +326,7 @@ public class GameController {
     /*Event handler*/
 
     private void handleToolCardClick(int i) {
-        if(toolCardBox.getStyleClass().contains(clickable))
+        if(toolCardsBox.getStyleClass().contains(clickable))
             controller.toolCardClick(i);
     }
 
@@ -371,15 +392,58 @@ public class GameController {
 
 
     private void handleRoundTrackClick(int round, int index) {
-        if(roundTrackBox.getStyleClass().contains(clickable)){
+        if(roundTrack.getStyleClass().contains(clickable)){
             controller.roundTrackClick(round, index);
         }
     }
 
+
+    public void setRound(int round) {
+        if(round == 10)
+            return;     //la notifica avviene a fine round, dunque a fine round 10 è finito il gioco
+        for(Node n : roundTrack.getChildren())
+            ((VBox) n).getChildren().get(0).getStyleClass().remove("selected");
+        ((VBox) roundTrack.getChildren().get(round)).getChildren().get(0).getStyleClass().add("selected");
+    }
 
     @FXML
     private void endTurn(){
         controller.endTurn();
     }
 
+    @FXML
+    private void showRoundTrack(){
+        int max = 0;
+        VBox box;
+        for(int i=0; i<roundTrackBoxes.length; i++){
+            box = (VBox) roundTrack.getChildren().get(i);
+            if(roundTrackBoxes[i]!=null) {
+                box.getChildren().add(roundTrackBoxes[i]);
+                if (roundTrackBoxes[i].getChildren().size() > max)
+                    max = roundTrackBoxes[i].getChildren().size();
+            }
+        }
+        roundTrack.setPrefHeight(roundTrack.getHeight() + 55*(max+1));
+    }
+
+    @FXML
+    private void hideRoundTrack(){
+        roundTrack.setPrefHeight(60);
+        VBox box;
+        for(int i=0; i<roundTrackBoxes.length; i++){
+            box = (VBox) roundTrack.getChildren().get(i);
+            if(box.getChildren().size()>1)
+                box.getChildren().remove(1);
+        }
+    }
+
+    @FXML
+    private void setFullScreen(){
+        this.controller.setFullScreen();
+    }
+
+    @FXML
+    private void close(){
+        System.exit(0);
+    }
 }

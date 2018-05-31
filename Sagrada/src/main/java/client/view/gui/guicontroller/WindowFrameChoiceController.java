@@ -8,8 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 
 public class WindowFrameChoiceController {
@@ -29,8 +31,13 @@ public class WindowFrameChoiceController {
             int row=i/2;
             int col=row%2;
             final int x=i;
-            Label label = new Label("Tokens: "+tokens[i]);
-            label.setStyle("-fx-font: 22 bold; -fx-background-color: rgba(255,255,255,0.5)");
+            HBox tokensBox = new HBox(2);
+            tokensBox.setMaxWidth(270);
+            tokensBox.setAlignment(Pos.CENTER_RIGHT);
+            for(int j=0; j<tokens[i]; j++){
+                Circle token = new Circle(5, Color.WHITE);
+                tokensBox.getChildren().add(token);
+            }
             Button button = new Button("pick");
             button.setOnAction((event) -> viewController.notifyChoice(x));
             button.setStyle("-fx-background-color: black; -fx-text-fill: white");
@@ -39,7 +46,12 @@ public class WindowFrameChoiceController {
             boxes[i].minHeight(300);
             GridPane frame = Util.getWindowFrame(reps[i]);
             frames[i]=frame;
-            boxes[i].getChildren().addAll(label, frame, button);
+            VBox frameChoice = new VBox(5);
+            frameChoice.setAlignment(Pos.TOP_CENTER);
+            frameChoice.getChildren().addAll(frame, tokensBox);
+            frameChoice.setStyle("-fx-background-color: black; -fx-padding: 10px;");
+            frameChoice.setMaxWidth(frame.getWidth()+10);
+            boxes[i].getChildren().addAll(frameChoice, button);
             boxes[i].setAlignment(Pos.CENTER);
         }
         grid.add(boxes[0], 0, 0);
