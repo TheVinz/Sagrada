@@ -115,4 +115,24 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
         Platform.runLater(() -> view.endGame(cards, scoreboardIds, matrixPoints));
     }
 
+    @Override
+    public void mutableData(int[] draftPoolValues, char[] draftPoolColors, int[][] roundTrackValues, char[][] roundTrackColors, String[] names, int[] ids, int[] favorTokens, String[] windowFrameReps, int[][][] windowFrameValues, char[][][] windowFrameColors) {
+
+    }
+
+    @Override
+    public void reinsertPlayer(int id) throws RemoteException {
+
+    }
+
+    @Override
+    public void suspendPlayer(int id) throws RemoteException {
+
+    }
+
+    @Override
+    public void toolCardsChoice() throws RemoteException {
+
+    }
+
 }

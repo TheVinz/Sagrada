@@ -21,16 +21,21 @@ public class CliLaunchClient {
 
         Scanner sc = new Scanner(System.in);
         System.out.println("\t\t\t\tWelcome to SAGRADA\n");
-        System.out.print("Username>>> ");
+        System.out.print("Username:\n>>> ");
         String name = sc.nextLine();
-        String ip = "localhost";
-        int port = 1099;
+
+        String choice = null;
+        do {
+            System.out.print("Single Player? (y/n):\n>>>");
+            choice = sc.nextLine();
+        }while(!choice.equals("y")&&!choice.equals("n"));
+        boolean singlePlayer = choice.equals("y") ? true : false;
+
         try {
             model= new CliModel();
-            //Registry reg = LocateRegistry.getRegistry();
-           // loginManager=(RemoteLoginManager) reg.lookup("rmi://" + ip + ":" + port + "/LoginManager");
-            loginManager =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+port+"/LoginManager");
-            remoteController = loginManager.connect(name, model);
+            Registry reg = LocateRegistry.getRegistry();
+            loginManager=(RemoteLoginManager) reg.lookup("LoginManager");
+            remoteController = loginManager.connect(name, model, singlePlayer);
             CliApp.getCliApp().setRemoteController(remoteController);
             CliApp.getCliApp().mainLoop();
         } catch (RemoteException e) {

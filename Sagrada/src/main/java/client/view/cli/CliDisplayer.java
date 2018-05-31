@@ -86,7 +86,7 @@ public class CliDisplayer {
                         case '6':
                             displayText(" "+(char)27+"[1;30m"+cliPlayerState.getWindowFrame()[i][j]+(char)27+"[0m" + "  ");
                             break;
-                        case 'X':
+                        case '0':
                             displayText("    ");
                             break;
                         case 'g':
@@ -168,7 +168,7 @@ public class CliDisplayer {
     }
      public void printToolCard() {
         displayText("You can use these ToolCards:\n");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < cliState.getToolCardIds().length; i++) {
             displayText(i + ")" + toolCardsEffects.returnEffects(cliState.getToolCardIds()[i]));     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
             //per ora un numero a cui dovremo associare la vera e propria ToolCard.
         }
@@ -210,14 +210,15 @@ public class CliDisplayer {
 
     public void printPublicObjectiveCards() {
         displayText("There are these PublicObjectiveCard:\n");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < cliState.getPublicObjectiveCardIds().length; i++) {
             Integer j = cliState.getPublicObjectiveCardIds()[i];
             displayText(i + ")" + objectiveCardsEffects.returnEffects(j));
         }
     }
 
     public void printPrivateObjectiveCard() {
-        displayText(cliState.getPrivateObjectiveCard());
+        for(int i=0; i<cliState.getPrivateObjectiveCard().length; i++)
+            printColoredPrvCard(cliState.getPrivateObjectiveCard()[i]);
     }
 
     public void printFavorTokens() {
@@ -400,5 +401,33 @@ public class CliDisplayer {
         }
 
 
+    }
+
+    public void printGrassetto(String modify){    //da mettere in inglese
+        displayText((char)27+"[1m"+modify+(char)27+"[0m");
+    }
+    public void printColoredPrvCard(String color){
+        String card;
+        switch(color){
+            case "BLU":
+                card="Sum the values of every"+(char)27+"[1;36m"+" BLU "+(char)27+"[0m" +"dice on your WindowFrame\n";
+                break;
+            case "RED":
+                card="Sum the values of every"+(char)27+"[1;31m"+" RED "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                break;
+            case "YELLOW":
+                card="Sum the values of every"+(char)27+"[1;33m"+" YELLOW "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                break;
+            case "PURPLE":
+                card="Sum the values of every"+(char)27+"[1;35m"+" PURPLE "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                break;
+            case "GREEN":
+                card="Sum the values of every"+(char)27+"[1;32m"+" GREEN "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                break;
+            default:
+                card="Compiler wants me to add a default case";
+                break;
+        }
+        displayText(card);
     }
 }

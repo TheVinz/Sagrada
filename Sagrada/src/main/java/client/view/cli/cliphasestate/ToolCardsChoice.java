@@ -8,11 +8,12 @@ import common.response.Response;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class WindowFrameChoice implements CliPhaseState {
+public class ToolCardsChoice implements CliPhaseState {
 
-    public WindowFrameChoice() {
-        System.out.print("\nSelect a ");
-        CliDisplayer.getDisplayer().printGrassetto("Window Frame\n>>>");
+
+    public ToolCardsChoice() {
+        CliDisplayer.getDisplayer().displayText("Select the number of toolcards you want to play with:\n>>>");
+
     }
 
     @Override
@@ -24,7 +25,7 @@ public class WindowFrameChoice implements CliPhaseState {
             } catch (InputMismatchException e) {
                 throw new InvalidInput("Wrong Input\n");
             }
-            if(nextInt < 0 || nextInt > 3){
+            if(nextInt < 1 || nextInt > 5){
                 throw new InvalidInput("Wrong Input\n");
             }
 
@@ -36,6 +37,6 @@ public class WindowFrameChoice implements CliPhaseState {
 
     @Override
     public CliPhaseState reset() {
-        return new WindowFrameChoice();
+        return new ToolCardsChoice();
     }
 }

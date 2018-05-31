@@ -22,7 +22,7 @@ public class CliPlayerState {
     }
 
     public void setEmpty(int row, int col){
-        if(windowFrameRep.charAt(row*5+col) == '0' ) windowFrame[row][col]="X";
+        if(windowFrameRep.charAt(row*5+col) == '0' ) windowFrame[row][col]="0";
         else windowFrame[row][col]= "" + windowFrameRep.charAt(row*5+col);
     }
     public void setWindowFrame(String[][] windowFrame){

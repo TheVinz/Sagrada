@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -24,8 +25,9 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage=primaryStage;
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Sagrada");
-
+        primaryStage.setOnCloseRequest((event) -> System.exit(0));
         initRootLayout();
 
         try {

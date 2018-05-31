@@ -27,4 +27,6 @@ public interface Observable {
     void notifyReinsertPlayer(Player player);
 
     void notifySuspendPlayer(Player player);
+
+
 }

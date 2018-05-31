@@ -11,7 +11,7 @@ import java.util.List;
 public class RoundTrack{
 	//Ogni casella sul tracciato dei round è rappresentato come un set di caselle poichè per ogni round posso avere più dadi
 	private HashMap<Integer, ArrayList<RoundTrackCell>> roundTrackSpaces;
-	public static final int MAX_ROUND=4;
+	public static final int MAX_ROUND=10;
 	//Round attuale
 	private int round;
 	public RoundTrack(){

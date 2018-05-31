@@ -41,7 +41,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
         this.state=model.getState();
     }
 
-    public void bindRemoteView(RemoteView remoteView){
+    synchronized public void bindRemoteView(RemoteView remoteView){
         this.remoteView=remoteView;
 
         try{
@@ -55,7 +55,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 
     //da ViewProxy
     @Override
-    public void notifyNextParameter(Response response) {
+    synchronized public void notifyNextParameter(Response response) {
         try {
             remoteView.nextParameter(response);
         } catch (RemoteException e) {
@@ -64,7 +64,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void notifyError(String message) {
+    synchronized public void notifyError(String message) {
         try {
             remoteView.error(message);
         } catch (RemoteException e) {
@@ -73,7 +73,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void notifyWrongParameter(String message) {
+    synchronized public void notifyWrongParameter(String message) {
         try {
             remoteView.wrongParameter(message);
         } catch (RemoteException e) {
@@ -82,7 +82,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateMove(Player player, Cell source, Cell target) {
+    synchronized public void updateMove(Player player, Cell source, Cell target) {
         try {
             switch (source.getType()) {
                 case WINDOW_FRAME_CELL :
@@ -109,7 +109,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateCellChangement(Player player, Cell cell) {
+    synchronized public void updateCellChangement(Player player, Cell cell) {
         try {
             switch (cell.getType()) {
                 case WINDOW_FRAME_CELL:
@@ -130,7 +130,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateRefillDraftPool(Cell[] draftPool) {
+    synchronized public void updateRefillDraftPool(Cell[] draftPool) {
         char[] colors = new char[draftPool.length];
         int[] values = new int[draftPool.length];
         for(int i=0; i<draftPool.length; i++){
@@ -145,7 +145,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateToolCards(ToolCard[] toolCards) {
+    synchronized public void updateToolCards(ToolCard[] toolCards) {
         int[] cards=new int[toolCards.length];
         for(int i=0; i<toolCards.length; i++)
             cards[i]=toolCards[i].getNumber();
@@ -157,7 +157,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
+    synchronized public void updateObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
         int[] cards= new int[publicObjectiveCards.length];
         for(int i=0; i<cards.length; i++)
             cards[i]=publicObjectiveCards[i].getNumber();
@@ -169,7 +169,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateWindowFrameChoices(WindowFrameList[] windowFrameLists) {
+    synchronized public void updateWindowFrameChoices(WindowFrameList[] windowFrameLists) {
         controller.windowFrameChoice(windowFrameLists);
         int[] favorTokens= new int[windowFrameLists.length];
         String[] reps=new String[favorTokens.length];
@@ -190,7 +190,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updatePlayers(Player[] players)  {
+    synchronized public void updatePlayers(Player[] players)  {
         String[] names=new String[players.length];
         int[] ids = new int[players.length];
         String[] windowFrameReps = new String[players.length];
@@ -209,10 +209,10 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateToolCardUsed(Player player, ToolCard toolCard, int tokens) {
+    synchronized public void updateToolCardUsed(Player player, ToolCard toolCard, int tokens) {
         int index=-1;
-        for(int i=0; i<state.getToolCards().length; i++){
-            if(state.getToolCards()[i].equals(toolCard))
+        for(int i=0; i<state.getToolCards().size(); i++){
+            if(state.getToolCards().get(i).equals(toolCard))
                 index=i;
         }
         if(index>-1) {
@@ -225,7 +225,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updatePrivateObjectiveCard(PrivateObjectiveCard card) {
+    synchronized public void updatePrivateObjectiveCard(PrivateObjectiveCard card) {
         player.setPrivateObjectiveCard(card);
         try {
             remoteView.loadPrivateObjectiveCard(card.getColor().asChar());
@@ -235,7 +235,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateStartTurn(Player player)  {
+    synchronized public void updateStartTurn(Player player)  {
         try {
             remoteView.newTurn(player.getId());
         } catch (RemoteException e) {
@@ -244,7 +244,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateDiceDraw(Player player, Color color)  {
+    synchronized public void updateDiceDraw(Player player, Color color)  {
         try {
             remoteView.notifyDiceDraw(player.getId(), color.asChar());
         } catch (RemoteException e) {
@@ -252,7 +252,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
         }
     }
     @Override
-    public void updateRoundTrack(int round, Cell[] cells) {
+    synchronized public void updateRoundTrack(int round, Cell[] cells) {
         int[] values = new int[cells.length];
         char[] colors=new char[cells.length];
         for(int i=0; i<cells.length; i++){
@@ -269,7 +269,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateEndGame(Player[] scoreboard){
+    synchronized public void updateEndGame(Player[] scoreboard){
         int[] scoreboardIds = new int[scoreboard.length];
         char[] charCards=new char[scoreboard.length];
         int[][] matrixPoins=new int[scoreboard.length][7];
@@ -293,8 +293,88 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateMutableData() {
-        //da implementare
+    synchronized public void updateMutableData() {
+        int[] draftPoolValues = new int[state.getDraftPool().getSize()];
+        char[] draftPoolColors = new char[state.getDraftPool().getSize()];
+        int[][] roundTrackValues = new int[state.getRoundTrack().getRound()][];
+        char[][] roundTrackColors = new char[state.getRoundTrack().getRound()][];
+        String[] names = new String[state.getPlayers().size()];
+        int[] ids = new int[state.getPlayers().size()];
+        int[] favorTokens = new int[state.getPlayers().size()];
+        String[] windowFrameReps = new String[state.getPlayers().size()];
+        int[][][] windowFrameValues = new int[state.getPlayers().size()][4][5];
+        char[][][] windowFrameColors = new char[state.getPlayers().size()][4][5];
+
+        for(int i=0; i<state.getDraftPool().getSize(); i++){
+            DraftPoolCell draftPoolCell = state.getDraftPool().getCell(i);
+            if(draftPoolCell.isEmpty())
+                draftPoolValues[i]=0;
+            else{
+                draftPoolValues[i]=draftPoolCell.getDice().getValue();
+                draftPoolColors[i]=draftPoolCell.getDice().getColor().asChar();
+            }
+        }
+
+        for(int i=1; i<state.getRoundTrack().getRound(); i++) {
+            roundTrackValues[i] = new int[state.getRoundTrack().getRoundSet(i).size()];
+            roundTrackColors[i] = new char[state.getRoundTrack().getRoundSet(i).size()];
+            for (int j = 0; j < state.getRoundTrack().getRoundSet(i).size(); j++) {
+                roundTrackColors[i][j]=state.getRoundTrack().getRoundSet(i).get(j).getDice().getColor().asChar();
+                roundTrackValues[i][j]=state.getRoundTrack().getRoundSet(i).get(j).getDice().getValue();
+            }
+        }
+
+        for(int i=0; i<state.getPlayers().size(); i++){
+            names[i]=state.getPlayers().get(i).getName();
+            ids[i]=state.getPlayers().get(i).getId();
+            favorTokens[i]=state.getPlayers().get(i).getFavorTokens();
+            windowFrameReps[i]=state.getPlayers().get(i).getWindowFrame().getRep();
+            for(int h=0; h<4; h++){
+                for(int k=0; k<5; k++){
+                    WindowFrameCell windowFrameCell = state.getPlayers().get(i).getWindowFrame().getCell(h,k);
+                    if(windowFrameCell.isEmpty())
+                        windowFrameValues[i][h][k] = 0;
+                    else{
+                        windowFrameValues[i][h][k] =  windowFrameCell.getDice().getValue();
+                        windowFrameColors[i][h][k] =  windowFrameCell.getDice().getColor().asChar();
+                    }
+
+                }
+            }
+        }
+        try {
+            remoteView.mutableData(draftPoolValues, draftPoolColors, roundTrackValues, roundTrackColors, names, ids, favorTokens, windowFrameReps, windowFrameValues, windowFrameColors );
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    synchronized public void updateReinsertPlayer(Player player) {
+        try {
+            remoteView.reinsertPlayer(player.getId());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    synchronized public void updateSuspendPlayer(Player player) {
+        try {
+            remoteView.suspendPlayer(player.getId());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    synchronized public void updateToolCardsChoice() {
+        try {
+            remoteView.toolCardsChoice();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -304,7 +384,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 */
 
     @Override
-    public void command(GameCommand gameCommand) {
+    synchronized public void command(GameCommand gameCommand) {
         new Thread( () -> {
             switch (gameCommand.getType()) {
                 case DRAFT_POOL_CELL:
@@ -337,12 +417,12 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
         }).start();
     }
     @Override
-    public int getId(){
+    synchronized public int getId(){
         return player.getId();
     }
 
     @Override
-    public void command(Response type) {
+    synchronized public void command(Response type) {
         new Thread( () -> {
             switch (type) {
                 case END_TURN:
@@ -354,7 +434,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
         }).start();
     }
     @Override
-    public void command(Response type, int index) {
+    synchronized public void command(Response type, int index) {
         new Thread( () -> {
             switch (type) {
                 case DRAFT_POOL_CELL:
@@ -373,7 +453,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
 
     }
     @Override
-    public void command(Response type, int param1, int param2) {
+    synchronized public void command(Response type, int param1, int param2) {
         new Thread( () -> {
             switch (type) {
                 case WINDOW_FRAME_CELL:

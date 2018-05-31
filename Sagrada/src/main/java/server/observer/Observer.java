@@ -25,4 +25,10 @@ public interface Observer {
     void updateEndGame(Player[] scoreboard);
 
     void updateMutableData();
+
+    void updateReinsertPlayer(Player player);
+
+    void updateSuspendPlayer(Player player);
+
+    void updateToolCardsChoice();
 }

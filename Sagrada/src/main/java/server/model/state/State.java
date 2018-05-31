@@ -17,16 +17,15 @@ public class State{
 	private final Bag bag;
 	private final DraftPool draftPool;
 	private final RoundTrack roundTrack;
-	private final ToolCard[] toolCards;
-	private final PublicObjectiveCard[] publicObjectiveCards;
+	private final List<ToolCard> toolCards;
+	private final List<PublicObjectiveCard> publicObjectiveCards;
 	private final List<Player> players;
 
 	public State(Model model){
 		this.bag=new Bag();
 		this.roundTrack=new RoundTrack();
-		this.toolCards= Util.getToolCards(model);
-		//this.toolCards[0] = new Lathekin(model);
-		this.publicObjectiveCards=Util.getPublicObjectiveCards();
+		this.toolCards=new ArrayList<>();
+		this.publicObjectiveCards=new ArrayList<>();
 		this.players=new ArrayList<>();
 		this.draftPool=new DraftPool();
 	}
@@ -41,9 +40,9 @@ public class State{
 		return this.draftPool;
 	}
 	public ToolCard getToolCard(int card){
-		return toolCards[card];
+		return toolCards.get(card);
 	}
-	public ToolCard[] getToolCards(){
+	public List<ToolCard> getToolCards(){
 		return this.toolCards;
 	}
 	public Player getPlayer(int id){
@@ -57,7 +56,7 @@ public class State{
 	}
 	public RoundTrack getRoundTrack() { return roundTrack; }
 	public Bag getBag() { return this.bag; }
-	public PublicObjectiveCard[] getPublicObjectiveCards() {
+	public List<PublicObjectiveCard> getPublicObjectiveCards() {
 		return this.publicObjectiveCards;
 	}
 }

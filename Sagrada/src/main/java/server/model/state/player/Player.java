@@ -6,11 +6,14 @@ import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.model.state.utilities.Timer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
     private String name;
     private int id;
     private WindowFrame windowFrame;
-    private PrivateObjectiveCard privateObjectiveCard;
+    private List<PrivateObjectiveCard> privateObjectiveCards;
     private int favorTokens;
     private Points points;
 
@@ -37,6 +40,7 @@ public class Player {
         this.jumpSecondTurn=false;
         this.points=new Points();
         this.suspended=false;
+        this.privateObjectiveCards = new ArrayList<>();
     }
 
     public void setTimer(Timer timer){
@@ -48,14 +52,15 @@ public class Player {
     }
 
     public void setPrivateObjectiveCard(PrivateObjectiveCard privateObjectiveCard) {
-        this.privateObjectiveCard = privateObjectiveCard;
+        this.privateObjectiveCards.add(privateObjectiveCard);
     }
+
 
     public WindowFrame getWindowFrame() {
         return windowFrame;
     }
 
-    public void removeFaforTokens(int tokens) {
+    public void removeFavorTokens(int tokens) {
         favorTokens=favorTokens-tokens;
     }
 
@@ -97,18 +102,19 @@ public class Player {
     }
     public Timer getTimer(){return this.timer;}
     public PrivateObjectiveCard getPrivateObjectiveCard(){
-        return this.privateObjectiveCard;
+        return this.privateObjectiveCards.get(0);
     }
-    public int getPrivatePoints(){
-        return privateObjectiveCard.calculatePoints(windowFrame);
+    public PrivateObjectiveCard getPrivateObjectiveCard(int i){
+        return this.privateObjectiveCards.get(i);
     }
+
 
     public void endTurn() {
         this.diceMoved=false;
         this.toolCardUsed=false;
         this.active=false;
         this.secondTurn=true;
-        timer.stop(); //forse non va
+        timer.stop();
     }
     public void endRound() {
         secondTurn=false;
@@ -117,6 +123,7 @@ public class Player {
 
     public void setInactive(){
         this.active =false;
+        timer.stop();
     }
 
     public boolean isJumpSecondTurn() {
@@ -135,9 +142,9 @@ public class Player {
 
     public void calculatePoints(State state){
         for (int card=0; card<3; card++) {
-            points.setPointsFromPublicCard(card, state.getPublicObjectiveCards()[card].calculatePoints(windowFrame));
+            points.setPointsFromPublicCard(card, state.getPublicObjectiveCards().get(card).calculatePoints(windowFrame));
         }
-        points.setPointsFromPrivateCard(privateObjectiveCard.calculatePoints(windowFrame));
+        points.setPointsFromPrivateCard(privateObjectiveCards.get(0).calculatePoints(windowFrame));
         points.setPointsFromFavorTokens(favorTokens);
         points.setPointsFromEmptyCells(windowFrame.getEmptyCells());
     }

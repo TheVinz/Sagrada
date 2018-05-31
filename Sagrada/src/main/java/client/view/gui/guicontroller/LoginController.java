@@ -37,7 +37,8 @@ public class LoginController {
         textField.setText(null);
         try {
             RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+port+"/LoginManager");
-            remoteController=login.connect(name, model);
+            remoteController=login.connect(name, model, false);
+
             listener.notifyLogin(remoteController);
         }
         catch (NotBoundException e) {
