@@ -22,6 +22,7 @@ public class LoginManager extends UnicastRemoteObject implements RemoteLoginMana
     public RemoteController connect(String name, RemoteView remoteView, boolean singlePlayer) throws Exception {
         if(model == null) //perchè manca il multipartita
             model = singlePlayer ? new SinglePlayerModel() : new Model();
+
         RemoteController remoteController = model.addRMIPlayer(name);
         ((RMIViewProxy) remoteController).bindRemoteView(remoteView);
         System.out.print(name + " connected\n>>>");

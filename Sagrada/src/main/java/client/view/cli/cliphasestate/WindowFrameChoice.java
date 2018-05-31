@@ -1,6 +1,7 @@
 package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
+import client.view.cli.CliDisplayer;
 import common.command.GameCommand;
 import common.response.Response;
 
@@ -10,8 +11,8 @@ import java.util.Scanner;
 public class WindowFrameChoice implements CliPhaseState {
 
     public WindowFrameChoice() {
-        System.out.print("\nSelect a" +(char)27+"[1m"+" Window Frame\n"+(char)27+"[0m"+"\n>>>");
-
+        System.out.print("\nSelect a ");
+        CliDisplayer.getDisplayer().printGrassetto("Window Frame\n>>>");
     }
 
     @Override

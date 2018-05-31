@@ -4,6 +4,7 @@ import common.RemoteMVC.RemoteController;
 import common.login.RemoteLoginManager;
 import server.login.LoginManager;
 
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -22,6 +23,7 @@ public class CliLaunchClient {
         System.out.println("\t\t\t\tWelcome to SAGRADA\n");
         System.out.print("Username:\n>>> ");
         String name = sc.nextLine();
+
         String choice = null;
         do {
             System.out.print("Single Player? (y/n):\n>>>");

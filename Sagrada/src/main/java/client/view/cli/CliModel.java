@@ -14,6 +14,8 @@ import static common.response.Response.*;
 
 public class CliModel extends UnicastRemoteObject implements RemoteView{
 
+    private ToolCardsEffects toolCardsEffects = new ToolCardsEffects();
+    private ObjectiveCardsEffects objectiveCardsEffects = new ObjectiveCardsEffects();
 
     public CliModel() throws RemoteException {
         super();
@@ -95,7 +97,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     public void updateCell(int player, Response type, int index, int value, char color) {
         String s= ""+value+color;
         CliState.getCliState().getDraftPool()[index]=s;
-        CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + " >>> "+s);
+        CliDisplayer.getDisplayer().displayText("Updated Draft Pool Cell "+ index + " >>> "+s+"\n");
     }
 
     @Override
@@ -105,11 +107,11 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         if(type==WINDOW_FRAME_CELL){
             cliPlayerState = CliState.getCliState().getCliPlayerState(player);
             cliPlayerState.getWindowFrame()[param1][param2]=s;
-            CliDisplayer.getDisplayer().displayText("Updated Window Frame Cell "+ param1 + " "+param2+ " >>> "+s);
+            CliDisplayer.getDisplayer().displayText("Updated Window Frame Cell "+ param1 + " "+param2+ " >>> "+s+"\n");
         }
         else if(type == ROUND_TRACK_CELL){
             CliState.getCliState().getRoundTrack()[param1-1][param2]=s;
-            CliDisplayer.getDisplayer().displayText("Updated Round Track Cell "+ param1 + " "+param2+ " >>> "+s);
+            CliDisplayer.getDisplayer().displayText("Updated Round Track Cell "+ param1 + " "+param2+ " >>> "+s+"\n");
         }
     }
 
@@ -135,11 +137,11 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     @Override
     public void loadPublicObjectiveCards(int[] cards) {
         CliState.getCliState().setPublicObjectiveCardIds(cards);
-        for(int i=0; i<cards.length; i++){
-            CliDisplayer.getDisplayer().displayText("Selected public objective card No. "+cards[i]+";\n");
+        for (int i = 0; i < cards.length; i++) {
+            CliDisplayer.getDisplayer().displayText("Selected public objective card  " + objectiveCardsEffects.returnName(cards[i]) + ";\n");
+            CliState.getCliState().getPublicObjectiveCardIds()[i] = cards[i];
         }
     }
-
     @Override
     synchronized public void loadWindowFrameChoice(String[] reps, int[] favorTokens) {
         CliDisplayer.getDisplayer().displayText("Choose a WindowFrame:\n");
@@ -163,7 +165,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     @Override
     public void toolCardUsed(int player, int index, int tokens) {
         CliPlayerState playerState=CliState.getCliState().getCliPlayerState(player);
-        CliDisplayer.getDisplayer().displayText(playerState.getName() + " used tool card No. " + CliState.getCliState().getToolCardIds()[index] + ";\n -" + tokens + " favor tokens;\n");
+        CliDisplayer.getDisplayer().displayText(playerState.getName() + " used tool card  " + toolCardsEffects.returnName(CliState.getCliState().getToolCardIds()[index]) + ";\n -" + tokens + " favor tokens;\n");
         playerState.removeFavorTokens(tokens);
     }
 
@@ -172,19 +174,19 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         String card;
         switch(color){
             case 'b':
-                card="Sum the values of every"+(char)27+"[1;36m"+" BLU "+(char)27+"[0m" +"dice on your WindowFrame\n";
+                card="BLU";
                 break;
             case 'r':
-                card="Sum the values of every"+(char)27+"[1;31m"+" RED "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                card="RED";
                 break;
             case 'y':
-                card="Sum the values of every"+(char)27+"[1;33m"+" YELLOW "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                card="YELLOW";
                 break;
             case 'p':
-                card="Sum the values of every"+(char)27+"[1;35m"+" PURPLE "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                card="PURPLE";
                 break;
             case 'g':
-                card="Sum the values of every"+(char)27+"[1;32m"+" GREEN "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                card="GREEN";
                 break;
             default:
                 card="Compiler wants me to add a default case";
@@ -193,7 +195,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         if(CliState.getCliState().getPrivateObjectiveCard().length!=0)
             return;
         CliState.getCliState().setPrivateObjectiveCard(card);
-        CliDisplayer.getDisplayer().displayText("Your private objective:\n " + card + ";\n");
+        CliDisplayer.getDisplayer().displayText("Your private objective:\n");
+        CliDisplayer.getDisplayer().printColoredPrvCard(card);
     }
 
     @Override
@@ -243,7 +246,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         for (int i=0; i<roundDices.length; i++){
             roundDices[i]=""+values[i]+colors[i];
         }
-        CliDisplayer.getDisplayer().displayText("Round track is updated.");
+        CliDisplayer.getDisplayer().displayText("Round track is updated.\n");
         CliState.getCliState().setRoundDices(round, roundDices);
     }
 
@@ -267,7 +270,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;
             case END_TURN:
-                CliDisplayer.getDisplayer().displayText("Your turn is finished!");
+                CliDisplayer.getDisplayer().displayText("Your turn is finished!\n");
                 CliApp.getCliApp().setWaitingPhase(true);
                 break;
             case TOOL_CARD:

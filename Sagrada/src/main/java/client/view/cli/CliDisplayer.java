@@ -20,7 +20,7 @@ public class CliDisplayer {
         System.out.print(text);
     }
 
-    //(char)27+"[0m]"
+
     public void printMenu() {
         if(cliState.getActivePlayer().isSecondTurn())
             displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-"+cliState.getRound());
@@ -54,7 +54,7 @@ public class CliDisplayer {
                 if (cliPlayerState.getWindowFrame()[i][j].length() == 2) {
                     switch (cliPlayerState.getWindowFrame()[i][j].charAt(1)) {
                         case 'g':
-                            displayText((char) 27 + "[1;30;102m" +" "+cliPlayerState.getWindowFrame()[i][j].charAt(0)+"  " + (char) 27 + "[0m");   //caso green
+                            displayText((char) 27 + "[1;30;102m" +" "+cliPlayerState.getWindowFrame()[i][j].charAt(0)+"  " + (char) 27 + "[0m");
                             break;
                         case 'b':
                             displayText((char) 27 + "[1;30;106m" +" "+ cliPlayerState.getWindowFrame()[i][j].charAt(0) + "  " + (char) 27 + "[0m");
@@ -221,7 +221,7 @@ public class CliDisplayer {
 
     public void printPrivateObjectiveCard() {
         for(int i=0; i<cliState.getPrivateObjectiveCard().length; i++)
-            displayText(cliState.getPrivateObjectiveCard()[i]);
+            printColoredPrvCard(cliState.getPrivateObjectiveCard()[i]);
     }
 
     public void printFavorTokens() {
@@ -320,26 +320,34 @@ public class CliDisplayer {
             if(max<cliState.getCliPlayerState(scoreboard[i]).getName().length())
                 max=cliState.getCliPlayerState(scoreboard[i]).getName().length();
         int space=0;
-        if(max<14){
-            max=14;
-            displayText("  \tNAME\t  "); }  //da implementare
-        else
-        { space=max-14;
-        for(int i=0;i<space;i++)
-            displayText("  ");
-        displayText("  \tNAME\t");
-        for(int i=0;i<space;i++)
-            displayText("  ");
+        if(max+2<18){
+            max=18;
+            displayText("    \tNAME\t  "); }  //da implementare
+        else {
+            space = max - 18;
+            if (space % 2 == 0) {
+                for (int i = 0; i < space; i++)
+                    displayText("  ");
+                displayText("    \tNAME\t  ");
+                for (int i = 0; i < space; i++)
+                    displayText("  ");
+            }
+            else {
+                for (int i = 0; i < space; i++)
+                displayText(" ");
+                displayText("    \tNAME\t  ");
+                for (int i = 0; i < space; i++)
+                    displayText(" ");
+            }
         }
 
-
-        displayText("|     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
+        displayText("  |     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
         if(max<14)
         displayText("\t\t\t");
         else
             for(int s=0;s<max+2;s++)
                 displayText(" ");
-        displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |         |\n");
+        displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |        |\n");
 
         for(int i=0;i<scoreboard.length;i++) {
             displayText("" + (i + 1) + ")" + cliState.getCliPlayerState(scoreboard[i]).getName());
@@ -355,30 +363,44 @@ public class CliDisplayer {
                 displayText("  " + points[scoreboard[i]][1] + "  |");
             else
                 displayText("   " + points[scoreboard[i]][1] + "  |");
-            if (points[scoreboard[i]][2] > 9)
+            if (points[scoreboard[i]][2] > 9)   //terza public
                 displayText("  " + points[scoreboard[i]][2] + "  |");
             else
                 displayText("   " + points[scoreboard[i]][2] + "  |");
-            if (points[scoreboard[i]][3] > 9)
+            if (points[scoreboard[i]][3] > 9)    //private
                 displayText("   " + points[scoreboard[i]][3] + "   |");
             else
                 displayText("    " + points[scoreboard[i]][3] + "   |");
-            if (points[scoreboard[i]][4] > 9)
+            if (points[scoreboard[i]][4] > 9)    //favor
                 displayText("   " + points[scoreboard[i]][4] + "   |");
             else
                 displayText("   " + points[scoreboard[i]][4] + "  |");
-            if (points[scoreboard[i]][5] > 9)
-                displayText("  " + points[scoreboard[i]][5] + "   |");
-            else if(points[scoreboard[i]][5]<0)
-                    displayText(" "+points[scoreboard[i]][5]+"   |");
+            if(points[scoreboard[i]][5]>0){     //empty
+                if (points[scoreboard[i]][5] > 9)
+                    displayText("  " + points[scoreboard[i]][5] + "   |");
                 else
                     displayText("    " + points[scoreboard[i]][5] + "    |");
-            if (points[scoreboard[i]][6] > 9)
-                displayText("   " + points[scoreboard[i]][6] + "    |\n");
-            else if(points[scoreboard[i]][6]<0)
-                    displayText(" "+points[scoreboard[i]][6]+"   |\n");
+            }
+            else{
+                if(points[scoreboard[i]][5]<-9){
+                    displayText("   "+points[scoreboard[i]][5]+"   |");
+                }
+                else
+                    displayText("   "+points[scoreboard[i]][5]+"    |");
+            }                             //total points
+            if(points[scoreboard[i]][6]>0){
+                if (points[scoreboard[i]][6] > 9)
+                    displayText("  " + points[scoreboard[i]][6] + "   |\n");
                 else
                     displayText("    " + points[scoreboard[i]][6] + "    |\n");
+            }
+            else{
+                if(points[scoreboard[i]][6]<-9){
+                    displayText("   "+points[scoreboard[i]][6]+"  |\n");
+                }
+                else
+                    displayText("   "+points[scoreboard[i]][6]+"   |\n");
+            }
         }
 
 
@@ -386,5 +408,32 @@ public class CliDisplayer {
 
     public void setSinglePlayer(boolean singlePlayer) {
         this.singlePlayer = singlePlayer;
+    }
+    public void printGrassetto(String modify){    //da mettere in inglese
+        displayText((char)27+"[1m"+modify+(char)27+"[0m");}
+
+    public void printColoredPrvCard(String color){
+        String card;
+        switch(color){
+            case "BLU":
+                card="Sum the values of every"+(char)27+"[1;36m"+" BLU "+(char)27+"[0m" +"dice on your WindowFrame\n";
+                break;
+            case "RED":
+                card="Sum the values of every"+(char)27+"[1;31m"+" RED "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                break;
+            case "YELLOW":
+                card="Sum the values of every"+(char)27+"[1;33m"+" YELLOW "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                break;
+            case "PURPLE":
+                card="Sum the values of every"+(char)27+"[1;35m"+" PURPLE "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                break;
+            case "GREEN":
+                card="Sum the values of every"+(char)27+"[1;32m"+" GREEN "+(char)27+"[0m"+"dice on your WindowFrame\n";
+                break;
+            default:
+                card="Compiler wants me to add a default case";
+                break;
+        }
+        displayText(card);
     }
 }
