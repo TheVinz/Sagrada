@@ -16,7 +16,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
 
     public CliModel() throws RemoteException {
-        super(); ///???????
+        super();
     }
 
 
@@ -190,6 +190,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 card="Compiler wants me to add a default case";
                 break;
         }
+        if(CliState.getCliState().getPrivateObjectiveCard().length!=0)
+            return;
         CliState.getCliState().setPrivateObjectiveCard(card);
         CliDisplayer.getDisplayer().displayText("Your private objective:\n " + card + ";\n");
     }
@@ -381,6 +383,12 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     @Override
     public void toolCardsChoice()  {
         CliApp.getCliApp().setCurrentState(new ToolCardsChoice());
+    }
+
+    @Override
+    public void removeDice(int id, Response draftPoolCell, int index) throws RemoteException {
+        CliState.getCliState().getDraftPool()[index]="0";
+        CliDisplayer.getDisplayer().displayText("A draftpool dice has been removed in order to use the toolcard!");
     }
 
     public void endGame(char[] cards, int[] scoreboard, int[][] points) {

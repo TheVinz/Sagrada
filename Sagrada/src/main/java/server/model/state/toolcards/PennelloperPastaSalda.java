@@ -3,6 +3,7 @@ package server.model.state.toolcards;
 import common.response.Response;
 import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
+import server.model.state.utilities.Color;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -29,6 +30,11 @@ public class PennelloperPastaSalda extends ToolCard {
     @Override
     public int getNumber() {
         return 6;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.PURPLE;
     }
 
     @Override

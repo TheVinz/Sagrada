@@ -1,6 +1,7 @@
 package server.model;
 
 import common.exceptions.InvalidMoveException;
+import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.model.state.utilities.PointsComparator;
@@ -211,9 +212,15 @@ public class Model implements Observable {
         return dice;
     }
 
-    public void flipDice(Player player, Cell cell) {
+    public void flipDice(Player player, Cell cell) throws InvalidMoveException{
         cell.getDice().flip();
         notifyCellChangement(player, cell);
+    }
+
+    public void remove(Player player, DraftPoolCell cell) throws InvalidMoveException{
+        Dice dice = cell.removeDice();
+        state.getBag().insert(dice);
+        notifyRemovedDice(player, cell);
     }
 
     public void toolCardUsed(Player player, ToolCard toolCard) {
@@ -324,6 +331,12 @@ public class Model implements Observable {
     public void notifySuspendPlayer(Player player){
         for(Observer o : activeObservers)
             o.updateSuspendPlayer(player);
+    }
+
+    @Override
+    public void notifyRemovedDice(Player player, DraftPoolCell cell) {
+        for(Observer o : activeObservers)
+            o.updateRemovedDice(player, cell);
     }
 
 

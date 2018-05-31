@@ -57,4 +57,6 @@ public interface RemoteView extends Remote {
     void suspendPlayer(int id) throws RemoteException;
 
     void toolCardsChoice() throws RemoteException;
+
+    void removeDice(int id, Response draftPoolCell, int index) throws RemoteException;
 }

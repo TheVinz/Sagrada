@@ -5,6 +5,7 @@ import server.model.Model;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.roundtrack.RoundTrackCell;
 import server.model.state.player.Player;
+import server.model.state.utilities.Color;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -19,6 +20,11 @@ public class TaglierinaCircolare extends ToolCard{
     @Override
     public int getNumber() {
         return 5;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.GREEN;
     }
 
     @Override

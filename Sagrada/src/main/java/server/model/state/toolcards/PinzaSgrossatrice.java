@@ -8,6 +8,7 @@ import server.model.state.boards.draftpool.DraftPoolCell;
 import common.exceptions.InvalidMoveException;
 import server.model.Model;
 import server.model.state.player.Player;
+import server.model.state.utilities.Color;
 
 import java.util.*;
 
@@ -24,6 +25,11 @@ public class PinzaSgrossatrice extends ToolCard {
     @Override
     public int getNumber() {
         return 1;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.PURPLE;
     }
 
     public void start(Player player) throws InvalidMoveException {

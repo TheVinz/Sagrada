@@ -6,11 +6,14 @@ public class CliDisplayer {
     private static CliDisplayer singleton;
     private ToolCardsEffects toolCardsEffects = new ToolCardsEffects();
     private ObjectiveCardsEffects objectiveCardsEffects = new ObjectiveCardsEffects();
+    private boolean singlePlayer=false;
 
     public static CliDisplayer getDisplayer() {
         if (singleton == null) singleton = new CliDisplayer();
         return singleton;
     }
+
+
 
 
     public void displayText(String text) {
@@ -379,5 +382,9 @@ public class CliDisplayer {
         }
 
 
+    }
+
+    public void setSinglePlayer(boolean singlePlayer) {
+        this.singlePlayer = singlePlayer;
     }
 }

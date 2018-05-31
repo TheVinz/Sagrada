@@ -2,6 +2,7 @@ package client.view.cli.cliphasestate;
 
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
+import client.view.cli.CliState;
 import common.command.GameCommand;
 import common.response.Response;
 
@@ -22,7 +23,7 @@ public class SelectingSendingToolCard implements CliPhaseState{
             } catch (InputMismatchException e) {
                 throw new InvalidInput("Wrong Input\n");
             }
-            if(nextInt < 0 || nextInt > 2){
+            if(nextInt < 0 || nextInt >= CliState.getCliState().getToolCardIds().length){
                 throw new InvalidInput("Wrong Input\n");
             }
             CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.TOOL_CARD, nextInt));

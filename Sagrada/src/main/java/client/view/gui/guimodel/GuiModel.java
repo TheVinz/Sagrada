@@ -135,4 +135,9 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     }
 
+    @Override
+    public void removeDice(int id, Response draftPoolCell, int index) throws RemoteException {
+
+    }
+
 }

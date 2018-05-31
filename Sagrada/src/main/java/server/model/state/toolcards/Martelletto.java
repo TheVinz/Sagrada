@@ -5,6 +5,7 @@ import server.model.Model;
 import server.model.state.boards.Cell;
 import server.model.state.dice.Dice;
 import server.model.state.player.Player;
+import server.model.state.utilities.Color;
 
 public class Martelletto extends ToolCard {
     public Martelletto(Model model) {
@@ -14,6 +15,11 @@ public class Martelletto extends ToolCard {
     @Override
     public int getNumber() {
         return 7;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.BLUE;
     }
 
     @Override

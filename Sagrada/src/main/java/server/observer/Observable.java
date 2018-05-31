@@ -1,5 +1,6 @@
 package server.observer;
 
+import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.dice.Dice;
 import server.model.state.player.Player;
 import server.model.state.boards.Cell;
@@ -27,6 +28,8 @@ public interface Observable {
     void notifyReinsertPlayer(Player player);
 
     void notifySuspendPlayer(Player player);
+
+    void notifyRemovedDice(Player player, DraftPoolCell cell);
 
 
 }

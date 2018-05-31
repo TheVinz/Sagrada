@@ -1,5 +1,6 @@
 package server.observer;
 
+import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.player.Player;
 import server.model.state.boards.Cell;
 import server.model.state.boards.windowframe.WindowFrameList;
@@ -31,4 +32,6 @@ public interface Observer {
     void updateSuspendPlayer(Player player);
 
     void updateToolCardsChoice();
+
+    void updateRemovedDice(Player player, DraftPoolCell cell);
 }

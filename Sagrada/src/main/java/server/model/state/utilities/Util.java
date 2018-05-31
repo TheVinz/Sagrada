@@ -136,7 +136,7 @@ public class Util { //non può essere static nel multipartita per la private
     }
 
     public PublicObjectiveCard[] getPublicObjectiveCards(boolean singlePlayer) {
-        PublicObjectiveCard[] result=new PublicObjectiveCard[singlePlayer ? 3 : 2];
+        PublicObjectiveCard[] result=new PublicObjectiveCard[singlePlayer ? 2 : 3];
         Random rnd= new Random();
         boolean[] cards={true,true,true,true,true,true,true,true,true, true};
         for(int i=0; i<result.length; i++){

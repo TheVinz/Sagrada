@@ -41,6 +41,11 @@ public class TaglierinaManuale extends ToolCard {
     }
 
     @Override
+    public Color getColor() {
+        return Color.BLUE;
+    }
+
+    @Override
     public void start(Player player) throws InvalidMoveException {
         if(model.getState().getDraftPool().isEmpty())
             throw new InvalidMoveException("Draft pool is empty");

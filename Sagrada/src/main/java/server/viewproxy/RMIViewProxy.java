@@ -377,6 +377,16 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
         }
     }
 
+    @Override
+    synchronized public void updateRemovedDice(Player player, DraftPoolCell cell) {
+        try {
+            remoteView.removeDice(player.getId(), Response.DRAFT_POOL_CELL, cell.getIndex());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 /*
 =======================================================================================================================
