@@ -168,7 +168,7 @@ public class CliDisplayer {
     }
      public void printToolCard() {
         displayText("You can use these ToolCards:\n");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < cliState.getToolCardIds().length; i++) {
             displayText(i + ")" + toolCardsEffects.returnEffects(cliState.getToolCardIds()[i]));     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
             //per ora un numero a cui dovremo associare la vera e propria ToolCard.
         }
@@ -210,14 +210,15 @@ public class CliDisplayer {
 
     public void printPublicObjectiveCards() {
         displayText("There are these PublicObjectiveCard:\n");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < cliState.getPublicObjectiveCardIds().length; i++) {
             Integer j = cliState.getPublicObjectiveCardIds()[i];
             displayText(i + ")" + objectiveCardsEffects.returnEffects(j));
         }
     }
 
     public void printPrivateObjectiveCard() {
-        displayText(cliState.getPrivateObjectiveCard());
+        for(int i=0; i<cliState.getPrivateObjectiveCard().length; i++)
+            displayText(cliState.getPrivateObjectiveCard()[i]);
     }
 
     public void printFavorTokens() {

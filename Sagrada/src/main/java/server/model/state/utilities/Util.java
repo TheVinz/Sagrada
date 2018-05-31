@@ -13,11 +13,11 @@ import java.util.*;
 import static server.model.state.boards.windowframe.WindowFrameList.*;
 import static server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard.*;
 
-public class Util {
-    private static List<Integer> avalaiblePatterns=new LinkedList<>(Arrays.asList(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12}));
-    private static List<PrivateObjectiveCard> availableCards=new LinkedList<>( Arrays.asList(new PrivateObjectiveCard[]{YELLOW_SHAPES, PURPLE_SHAPES, BLUE_SHAPES, GREEN_SHAPES, RED_SHAPES}));
+public class Util { //non può essere static nel multipartita per la private
+    private List<Integer> avalaiblePatterns=new LinkedList<>(Arrays.asList(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12}));
+    private List<PrivateObjectiveCard> availableCards=new LinkedList<>( Arrays.asList(new PrivateObjectiveCard[]{YELLOW_SHAPES, PURPLE_SHAPES, BLUE_SHAPES, GREEN_SHAPES, RED_SHAPES}));
 
-    public static WindowFrameList[] getWindowFrameChoiche(){
+    public WindowFrameList[] getWindowFrameChoiche(){
         int choice[]=new int[2];
         WindowFrameList[] result=new WindowFrameList[4];
         Collections.shuffle(avalaiblePatterns);
@@ -80,12 +80,12 @@ public class Util {
         return result;
     }
 
-    public static ToolCard[] getToolCards(Model model) {
+    public ToolCard[] getToolCards(Model model, int number) {
         //con StripCutter 13
         boolean[] cards={true,true,true,true,true,true,true,true,true,true,true,true};
-        ToolCard[] result=new ToolCard[3];
+        ToolCard[] result=new ToolCard[number];
         Random rnd=new Random();
-        for(int i=0; i<3; i++){
+        for(int i=0; i<number; i++){
             int card=rnd.nextInt(12);
             while(!cards[card]){
                 card=rnd.nextInt(12);
@@ -135,8 +135,8 @@ public class Util {
         return result;
     }
 
-    public static PublicObjectiveCard[] getPublicObjectiveCards() {
-        PublicObjectiveCard[] result=new PublicObjectiveCard[3];
+    public PublicObjectiveCard[] getPublicObjectiveCards(boolean singlePlayer) {
+        PublicObjectiveCard[] result=new PublicObjectiveCard[singlePlayer ? 3 : 2];
         Random rnd= new Random();
         boolean[] cards={true,true,true,true,true,true,true,true,true, true};
         for(int i=0; i<result.length; i++){
@@ -181,7 +181,7 @@ public class Util {
         return result;
     }
 
-    public static PrivateObjectiveCard getCard() {
+    public PrivateObjectiveCard getCard() {
         Collections.shuffle(availableCards);
         PrivateObjectiveCard result=availableCards.get(0);
         availableCards.remove(result);

@@ -211,8 +211,8 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     @Override
     synchronized public void updateToolCardUsed(Player player, ToolCard toolCard, int tokens) {
         int index=-1;
-        for(int i=0; i<state.getToolCards().length; i++){
-            if(state.getToolCards()[i].equals(toolCard))
+        for(int i=0; i<state.getToolCards().size(); i++){
+            if(state.getToolCards().get(i).equals(toolCard))
                 index=i;
         }
         if(index>-1) {
@@ -350,7 +350,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateReinsertPlayer(Player player) {
+    synchronized public void updateReinsertPlayer(Player player) {
         try {
             remoteView.reinsertPlayer(player.getId());
         } catch (RemoteException e) {
@@ -359,13 +359,22 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
     }
 
     @Override
-    public void updateSuspendPlayer(Player player) {
+    synchronized public void updateSuspendPlayer(Player player) {
         try {
             remoteView.suspendPlayer(player.getId());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    synchronized public void updateToolCardsChoice() {
+        try {
+            remoteView.toolCardsChoice();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 

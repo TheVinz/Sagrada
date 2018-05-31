@@ -55,4 +55,6 @@ public interface RemoteView extends Remote {
     void reinsertPlayer(int id) throws RemoteException;
 
     void suspendPlayer(int id) throws RemoteException;
+
+    void toolCardsChoice() throws RemoteException;
 }

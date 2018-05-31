@@ -130,4 +130,9 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     }
 
+    @Override
+    public void toolCardsChoice() throws RemoteException {
+
+    }
+
 }

@@ -29,4 +29,6 @@ public interface Observer {
     void updateReinsertPlayer(Player player);
 
     void updateSuspendPlayer(Player player);
+
+    void updateToolCardsChoice();
 }

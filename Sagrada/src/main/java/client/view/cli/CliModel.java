@@ -115,8 +115,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     @Override
     public void loadToolCards(int[] toolCards) {
-        for(int i=0; i<3;i++){
-            CliState.getCliState().getToolCardIds()[i]=toolCards[i];
+        CliState.getCliState().setToolCardIds(toolCards);
+        for(int i=0; i<toolCards.length;i++){
             CliDisplayer.getDisplayer().displayText("Selected tool card No. " + toolCards[i] + ";\n");
         }
     }
@@ -134,9 +134,9 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     @Override
     public void loadPublicObjectiveCards(int[] cards) {
+        CliState.getCliState().setPublicObjectiveCardIds(cards);
         for(int i=0; i<cards.length; i++){
             CliDisplayer.getDisplayer().displayText("Selected public objective card No. "+cards[i]+";\n");
-            CliState.getCliState().getPublicObjectiveCardIds()[i]=cards[i];
         }
     }
 
@@ -343,7 +343,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         for (int i=1; i<roundTrackValues.length; i++){
             String[] roundDices=new String[roundTrackValues[i].length];
             for (int j=0; j<roundDices.length; j++){
-                roundDices[i]=""+roundTrackValues[i][j]+roundTrackColors[i][j];
+                roundDices[j]=""+roundTrackValues[i][j]+roundTrackColors[i][j];
             }
             cliState.setRoundDices(i, roundDices);
         }
@@ -355,13 +355,15 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         cliState.setCliPlayerStates(players);
 
         for(int i=0; i<names.length; i++){
-            CliPlayerState cliPlayerState = cliState.getCliPlayerState(0);
+            CliPlayerState cliPlayerState = cliState.getCliPlayerState(i);
             for(int h=0; h<4; h++)
                 for(int k=0; k<5; k++){
                     if(windowFrameValues[i][h][k]==0)
                         cliPlayerState.setEmpty(h, k);
-                    else
-                        cliPlayerState.getWindowFrame()[h][k]=""+windowFrameValues[h][k]+windowFrameColors[h][k];
+                    else{
+                        cliPlayerState.getWindowFrame()[h][k]=""+windowFrameValues[i][h][k]+windowFrameColors[i][h][k];
+                    }
+
                 }
         }
     }
@@ -374,6 +376,11 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     @Override
     public void suspendPlayer(int id)  {
         CliDisplayer.getDisplayer().displayText(CliState.getCliState().getCliPlayerState(id).getName()+" has been suspended from the game!\n");
+    }
+
+    @Override
+    public void toolCardsChoice()  {
+        CliApp.getCliApp().setCurrentState(new ToolCardsChoice());
     }
 
     public void endGame(char[] cards, int[] scoreboard, int[][] points) {

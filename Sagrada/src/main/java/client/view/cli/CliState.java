@@ -9,11 +9,11 @@ import java.util.List;
 public class CliState {
     private CliPlayerState activePlayer;
     private CliPlayerState[] cliPlayerStates;
-    private Integer[] toolCardIds = new Integer[3];
-    private Integer[] publicObjectiveCardIds = new Integer[3];
+    private int[] toolCardIds;
+    private int[] publicObjectiveCardIds;
     private String[] draftPool;
     private String[][] roundTrack = new String[10][];
-    private String privateObjectiveCard;
+    private List<String> privateObjectiveCard = new ArrayList<>();
     private int round = 1;
 
     private static CliState cliState;
@@ -30,7 +30,7 @@ public class CliState {
         activePlayer=getCliPlayerState(id);
     }
     public void setPrivateObjectiveCard(String color){
-        this.privateObjectiveCard=color;
+        privateObjectiveCard.add(color);
     }
     public void setCliPlayerStates(CliPlayerState[] players) {
         this.cliPlayerStates=players;
@@ -39,10 +39,10 @@ public class CliState {
         this.draftPool=dices;
     }
 
-    public Integer[] getToolCardIds() {
+    public int[] getToolCardIds() {
         return toolCardIds;
     }
-    public Integer[] getPublicObjectiveCardIds() {
+    public int[] getPublicObjectiveCardIds() {
         return publicObjectiveCardIds;
     }
     public String[] getDraftPool() {
@@ -63,8 +63,8 @@ public class CliState {
                 return cps;
         return null; //da togliere
     }
-    public String getPrivateObjectiveCard(){
-        return this.privateObjectiveCard;
+    public String[] getPrivateObjectiveCard(){
+        return this.privateObjectiveCard.toArray(new String[0]);
     }
 
     public CliPlayerState getActivePlayer() {
@@ -82,5 +82,13 @@ public class CliState {
 
     public void setRound(int round) {
         this.round = round;
+    }
+
+    public void setToolCardIds(int[] toolCardIds) {
+        this.toolCardIds = toolCardIds;
+    }
+
+    public void setPublicObjectiveCardIds(int[] publicObjectiveCardIds) {
+        this.publicObjectiveCardIds = publicObjectiveCardIds;
     }
 }

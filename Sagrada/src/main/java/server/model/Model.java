@@ -2,6 +2,7 @@ package server.model;
 
 import common.exceptions.InvalidMoveException;
 import server.model.state.boards.windowframe.WindowFrameList;
+import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.model.state.utilities.PointsComparator;
 import server.observer.Observable;
 import server.observer.Observer;
@@ -24,40 +25,59 @@ public class Model implements Observable {
     private List<Observer> activeObservers;
     private Map<Player, Observer> playerObserverMap = new HashMap<>();
 
-    private State state;
+    private final State state;
+    private final Util util;
     private RoundManager roundManager;
 
     public Model(){
-        state=new State(this);
+        state = new State(this);
+        util = new Util();
         activeObservers =new ArrayList<>();
     }
 
 
     public State getState() {
-        return state;
+        return this.state;
     }
+
+    public Util getUtil() {return this.util;}
+
 
 
     /*
     Il ritorno della view proxy ignoratelo, servirà poi quando introdurremo la rete
     */
     public RMIViewProxy addRMIPlayer(String name) throws Exception {
-        if(state.getPlayers().size()==4) throw new Exception("The game is full");
-        else {
             int id=state.getPlayers().size();
-            Player player=new Player(name, id);
-            state.addPlayer(player);
+            Player player = addPlayer(name, id);
             RMIViewProxy o=new RMIViewProxy(this, player);
             addObserver(o);
             playerObserverMap.put(player, o);
             return o;
-        }
+    }
+
+    public Player addPlayer(String name, int id) throws Exception{ //da fare synchronized nel caso più giocatori si connettano contemporaneamente?
+        if(state.getPlayers().size()==4) throw new Exception("The game is full");
+        Player player = new Player(name, id);
+        state.addPlayer(player);
+        return player;
     }
 
     /*
     * =================================================================================================================
     * Game routine
     */
+    public void init(){
+        for(ToolCard t : util.getToolCards(this, 3))
+            state.getToolCards().add(t);
+        for(PublicObjectiveCard p : util.getPublicObjectiveCards(false))
+            state.getPublicObjectiveCards().add(p);
+        notifyToolCards();
+        notifyObjectiveCards();
+        notifyPlayers(state.getPlayers().toArray(new Player[0]));
+        startRound();
+    }
+
     public void startGame() {
         notifyPrivateObjectiveCard();
         for(Player p : state.getPlayers()) p.setActive();
@@ -66,7 +86,7 @@ public class Model implements Observable {
 
     }
 
-    private void startRound() {
+    public void startRound() {
         try {
             state.getDraftPool().draw(state.getBag());
         }
@@ -124,9 +144,9 @@ public class Model implements Observable {
         player.setSuspended(false);
         Observer o = playerObserverMap.get(player);
         activeObservers.add(o);
-        o.updateObjectiveCards(state.getPublicObjectiveCards());
+        o.updateObjectiveCards(state.getPublicObjectiveCards().toArray(new PublicObjectiveCard[0]));
         o.updatePrivateObjectiveCard(player.getPrivateObjectiveCard());
-        o.updateToolCards(state.getToolCards());
+        o.updateToolCards(state.getToolCards().toArray(new ToolCard[0]));
         o.updateMutableData();
         notifyReinsertPlayer(player);
     }
@@ -136,6 +156,8 @@ public class Model implements Observable {
     public void suspendPlayer(Player player){
         player.setSuspended(true);
         activeObservers.remove(playerObserverMap.get(player));
+        if(activeObservers.isEmpty())
+            endGame();
         notifySuspendPlayer(player);
     }
 
@@ -144,6 +166,8 @@ public class Model implements Observable {
     * =================================================================================================================
     * Changement
     * */
+    public void toolCardsChoice(int toolCards){
+    }
 
     public void windowFrameChoice(Player player, WindowFrameList windowFrameList){
         player.setWindowFrame(windowFrameList);
@@ -151,11 +175,10 @@ public class Model implements Observable {
         for(Player p : state.getPlayers()){
             if (p.getWindowFrame() == null) return;
         }
-        notifyToolCards();
-        notifyObjectiveCards();
-        notifyPlayers(state.getPlayers().toArray(new Player[0]));
-        startRound();
+        init();
     }
+
+
     public void move(Player player, Cell source, Cell target) throws InvalidMoveException {
         source.move(target);
         notifyMove(player, source, target);
@@ -200,7 +223,7 @@ public class Model implements Observable {
             toolCard.setUsed();
         }
         else tokens=2;
-        player.removeFaforTokens(tokens);
+        player.removeFavorTokens(tokens);
         player.setToolCardUsed();
         notifyToolCardUsed(player, toolCard, tokens);
     }
@@ -239,19 +262,19 @@ public class Model implements Observable {
     public void notifyToolCards() {
 
         for(Observer o: activeObservers)
-            o.updateToolCards(state.getToolCards());
+            o.updateToolCards(state.getToolCards().toArray(new ToolCard[0]));
     }
 
     @Override
     public void notifyObjectiveCards() {
         for(Observer o: activeObservers)
-            o.updateObjectiveCards(state.getPublicObjectiveCards());
+            o.updateObjectiveCards(state.getPublicObjectiveCards().toArray(new PublicObjectiveCard[0]));
     }
 
     @Override
     public void notifyWindowFrameChoices() {
         for(Observer o: activeObservers) {
-            o.updateWindowFrameChoices(Util.getWindowFrameChoiche());
+            o.updateWindowFrameChoices(util.getWindowFrameChoiche());
         }
     }
 
@@ -273,7 +296,7 @@ public class Model implements Observable {
     @Override
     public void notifyPrivateObjectiveCard() {
         for(Observer o: activeObservers)
-            o.updatePrivateObjectiveCard(Util.getCard());
+            o.updatePrivateObjectiveCard(util.getCard());
     }
 
     @Override

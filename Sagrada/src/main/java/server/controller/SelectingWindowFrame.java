@@ -27,7 +27,10 @@ public class SelectingWindowFrame extends PlayerState {
                 e.printStackTrace();
                 throw new InvalidMoveException("Index out of bound");
             }
-            return new WaitingState(player, model);
+            if(model.getClass().equals(Model.class))
+                return new WaitingState(player, model);
+            else
+                return new SelectingToolCards(player, model);
         }
         else return this;
     }
