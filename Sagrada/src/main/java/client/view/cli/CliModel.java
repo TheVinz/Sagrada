@@ -18,7 +18,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     private ObjectiveCardsEffects objectiveCardsEffects = new ObjectiveCardsEffects();
 
     public CliModel() throws RemoteException {
-        super(); ///???????
+        super();
     }
 
 
@@ -119,7 +119,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     public void loadToolCards(int[] toolCards) {
         CliState.getCliState().setToolCardIds(toolCards);
         for(int i=0; i<toolCards.length;i++){
-            CliDisplayer.getDisplayer().displayText("Selected tool card  " + toolCardsEffects.returnName(i) + ";\n");
+            CliDisplayer.getDisplayer().displayText("Selected tool card  " + toolCardsEffects.returnName(toolCards[i]) + ";\n");
         }
     }
 
@@ -386,6 +386,12 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
     @Override
     public void toolCardsChoice()  {
         CliApp.getCliApp().setCurrentState(new ToolCardsChoice());
+    }
+
+    @Override
+    public void removeDice(int id, Response draftPoolCell, int index) throws RemoteException {
+        CliState.getCliState().getDraftPool()[index]="0";
+        CliDisplayer.getDisplayer().displayText("A draftpool dice has been removed in order to use the toolcard!");
     }
 
     public void endGame(char[] cards, int[] scoreboard, int[][] points) {

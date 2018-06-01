@@ -5,6 +5,7 @@ import common.exceptions.InvalidMoveException;
 import common.response.Response;
 import server.model.Model;
 import server.model.state.boards.Cell;
+import server.model.state.utilities.Color;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -24,6 +25,11 @@ public class RigaInSughero extends ToolCard {
     @Override
     public int getNumber() {
         return 9;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.YELLOW;
     }
 
     @Override
@@ -72,9 +78,10 @@ public class RigaInSughero extends ToolCard {
         for(int i=0; i<WindowFrame.ROWS; i++){
             for(int j=0; j<WindowFrame.COLUMNS; j++){
                 if(!GameRules.validAdjacentDices(player.getWindowFrame(), player.getWindowFrame().getCell(i,j))){
-                    for(Cell cell : model.getState().getDraftPool().getDraftPool())
-                        if(GameRules.validAllCellRestriction(cell.getDice(), player.getWindowFrame().getCell(i,j)))
-                            return true;
+                    for(Cell cell : model.getState().getDraftPool().getDraftPool()) {
+                            if(GameRules.validAllCellRestriction(cell.getDice(), player.getWindowFrame().getCell(i,j)))
+                                return true;
+                    }
                 }
             }
         }

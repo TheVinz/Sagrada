@@ -5,6 +5,7 @@ import common.exceptions.WrongParameter;
 import common.response.Response;
 import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
+import server.model.state.utilities.Color;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameCell;
@@ -29,6 +30,11 @@ public class Lathekin extends ToolCard {
     @Override
     public int getNumber() {
         return 4;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.YELLOW;
     }
 
     @Override

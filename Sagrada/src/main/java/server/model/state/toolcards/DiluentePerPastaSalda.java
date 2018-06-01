@@ -5,6 +5,7 @@ import common.response.Response;
 import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
 import server.model.state.utilities.Choice;
+import server.model.state.utilities.Color;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -33,6 +34,11 @@ public class DiluentePerPastaSalda extends ToolCard {
     @Override
     public int getNumber() {
         return 11;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.PURPLE;
     }
 
     @Override
@@ -77,7 +83,7 @@ public class DiluentePerPastaSalda extends ToolCard {
 
 
     @Override
-    void doAbility() throws InvalidMoveException {
+    void doAbility() throws InvalidMoveException { //SIAMO SICURI CHE VENGA NOTIFICATO LO SPOSTAMENTO AL BAG?
         if(!drawDone) {
             poolCell = (DraftPoolCell) parameters.get(0);
             dice = poolCell.removeDice();

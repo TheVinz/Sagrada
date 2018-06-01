@@ -7,6 +7,7 @@ import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
 import server.model.state.ModelObject.ModelType;
 import server.model.state.player.Player;
+import server.model.state.utilities.Color;
 
 import java.util.List;
 import java.util.Queue;
@@ -27,6 +28,8 @@ public abstract class ToolCard implements ModelObject {
 	}
 
 	public abstract int getNumber();
+	public abstract Color getColor();
+
 	public boolean isUsed(){ return used;}
 	public void setUsed(){ used=true; }
 

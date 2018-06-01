@@ -3,6 +3,7 @@ package server.model.state.toolcards;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 import server.model.Model;
+import server.model.state.utilities.Color;
 import server.model.state.utilities.GameRules;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -23,6 +24,11 @@ public class TenagliaARotelle extends ToolCard {
     @Override
     public int getNumber() {
         return 8;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.RED;
     }
 
     @Override

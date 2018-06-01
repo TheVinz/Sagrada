@@ -4,6 +4,7 @@ import common.exceptions.InvalidMoveException;
 import server.model.Model;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.player.Player;
+import server.model.state.utilities.Color;
 
 import java.util.*;
 
@@ -21,6 +22,11 @@ public class TamponeDiamantato extends ToolCard {
     }
 
     @Override
+    public Color getColor() {
+        return Color.GREEN;
+    }
+
+    @Override
     public void start(Player player) throws InvalidMoveException {
         if(model.getState().getDraftPool().isEmpty())
             throw new InvalidMoveException("Draft pool is empty");
@@ -31,7 +37,7 @@ public class TamponeDiamantato extends ToolCard {
     }
 
     @Override
-    public void doAbility() {
+    public void doAbility() throws InvalidMoveException{
         DraftPoolCell cell= (DraftPoolCell) parameters.get(0);
         model.flipDice(player, cell);
         model.toolCardUsed(player, this);

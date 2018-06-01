@@ -6,11 +6,14 @@ public class CliDisplayer {
     private static CliDisplayer singleton;
     private ToolCardsEffects toolCardsEffects = new ToolCardsEffects();
     private ObjectiveCardsEffects objectiveCardsEffects = new ObjectiveCardsEffects();
+    private boolean singlePlayer=false;
 
     public static CliDisplayer getDisplayer() {
         if (singleton == null) singleton = new CliDisplayer();
         return singleton;
     }
+
+
 
 
     public void displayText(String text) {
@@ -19,21 +22,42 @@ public class CliDisplayer {
 
 
     public void printMenu() {
-        if(cliState.getActivePlayer().isSecondTurn())
-            displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-"+cliState.getRound());
+        if(!singlePlayer) {
+            if (cliState.getActivePlayer().isSecondTurn())
+                displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-" + cliState.getRound());
+            else
+                displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-" + cliState.getRound());
+            displayText("\n\t\t\t\tWhat would you like to see?\n");
+            displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
+            displayText("-Your State press\t\t\t\t\t V\n");    //(char)27+"[31m"   colore rosso
+            displayText("-ToolCards press\t\t\t\t\t T\n");
+            displayText("-PublicObjectiveCard press\t\t\t O\n");
+            displayText("-RoundTrack press\t\t\t\t\t R\n");
+            displayText("-Other's State press\t\t\t\t S\n\n ");
+            displayText("What you wanna do?\n");
+            displayText("-Place a dice press\t\t\t\t\t D\n");
+            displayText("-Use a ToolCard press\t\t\t\t U\n");
+            displayText("-In order to skip the turn press\t N\n");
+        }
         else
-            displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-"+cliState.getRound());
-        displayText("\t\t\t\tWhat would you like to see?\n");
-        displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
-        displayText("-Your State press\t\t\t\t\t V\n");    //(char)27+"[31m"   colore rosso
-        displayText("-ToolCards press\t\t\t\t\t T\n");
-        displayText("-PublicObjectiveCard press\t\t\t O\n");
-        displayText("-RoundTrack press\t\t\t\t\t R\n");
-        displayText("-Other's State press\t\t\t\t S\n\n ");
-        displayText("What you wanna do?\n");
-        displayText("-Place a dice press\t\t\t\t\t D\n");
-        displayText("-Use a ToolCard press\t\t\t\t U\n");
-        displayText("-In order to skip the turn press\t N\n");
+        {
+            if (cliState.getActivePlayer().isSecondTurn())
+                displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-" + cliState.getRound());
+            else
+                displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-" + cliState.getRound());
+            displayText("\n\t\t\t\tWhat would you like to see?\n");
+            displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
+            displayText("-Your State press\t\t\t\t\t V\n");    //(char)27+"[31m"   colore rosso
+            displayText("-ToolCards press\t\t\t\t\t T\n");
+            displayText("-PublicObjectiveCard press\t\t\t O\n");
+            displayText("-RoundTrack press\t\t\t\t\t R\n");
+            displayText("What you wanna do?\n");
+            displayText("-Place a dice press\t\t\t\t\t D\n");
+            displayText("-Use a ToolCard press\t\t\t\t U\n");
+            displayText("-In order to skip the turn press\t N\n");
+
+
+        }
     }
 
     public void printWindowFrame(CliPlayerState cliPlayerState) {
@@ -168,9 +192,16 @@ public class CliDisplayer {
     }
      public void printToolCard() {
         displayText("You can use these ToolCards:\n");
+        if(!singlePlayer){
         for (int i = 0; i < cliState.getToolCardIds().length; i++) {
-            displayText(i + ")" + toolCardsEffects.returnEffects(cliState.getToolCardIds()[i]));     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
+            displayText(i + ")" +toolCardsEffects.returnName(cliState.getToolCardIds()[i])+ toolCardsEffects.returnEffects(cliState.getToolCardIds()[i]));     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
             //per ora un numero a cui dovremo associare la vera e propria ToolCard.
+        }}
+        else {
+            for (int i = 0; i < cliState.getToolCardIds().length; i++) {
+                displayText(i + ")" + toolCardsEffects.returnColoredName(cliState.getToolCardIds()[i]));
+
+            }
         }
     }
 
@@ -403,10 +434,12 @@ public class CliDisplayer {
 
 
     }
-
-    public void printBold(String modify){    //da mettere in inglese
-        displayText((char)27+"[1m"+modify+(char)27+"[0m");
+    public void printBold(String modify) {    //da mettere in inglese
+        displayText((char) 27 + "[1m" + modify + (char) 27 + "[0m");
     }
+    public void setSinglePlayer(boolean singlePlayer) {
+        this.singlePlayer = singlePlayer;}
+
     public void printColoredPrvCard(String color){
         String card;
         switch(color){

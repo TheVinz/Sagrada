@@ -7,6 +7,7 @@ import server.model.Model;
 import server.model.state.ModelObject.ModelObject;
 import server.model.state.ModelObject.ModelType;
 import server.model.state.player.Player;
+import server.model.state.toolcards.SinglePlayerToolCard;
 import server.model.state.toolcards.ToolCard;
 
 
@@ -24,12 +25,22 @@ public class UsingToolCard extends PlayerState {
         ModelType i = modelObject.getType();
         if (i == ModelType.TOOL_CARD) {
             if (card == null) card = (ToolCard) modelObject;
-            if(card.isUsed())
-                if(player.getFavorTokens() <2)
-                    throw new InvalidMoveException("Not enough favor tokens");
-            else if(player.getFavorTokens()<1)
-                    throw new InvalidMoveException("Not enough favor tokens");
-            card.start(player);
+            if(model.getClass().equals(Model.class)) {
+                if (card.isUsed())
+                    if (player.getFavorTokens() < 2)
+                        throw new InvalidMoveException("Not enough favor tokens");
+                    else if (player.getFavorTokens() < 1)
+                        throw new InvalidMoveException("Not enough favor tokens");
+                card.start(player);
+            }
+            else{
+                if(card.isUsed())
+                    throw new InvalidMoveException("This card has already been used");
+                ToolCard temp = new SinglePlayerToolCard(model);
+                temp.start(player);
+                temp.setParameter(card);
+                card = temp;
+            }
             if (card.hasNext())
                 return this;
             else

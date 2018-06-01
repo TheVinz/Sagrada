@@ -33,7 +33,10 @@ public class CliLaunchClient {
         boolean singlePlayer = choice.equals("y") ? true : false;
 
         try {
-            model= new CliModel();
+            if(!singlePlayer)
+                model= new CliModel();
+            else
+                model = new SinglePlayerCliModel();
             Registry reg = LocateRegistry.getRegistry();
             loginManager=(RemoteLoginManager) reg.lookup("LoginManager");
             remoteController = loginManager.connect(name, model, singlePlayer);
