@@ -16,6 +16,7 @@ public class RMIViewProxy extends ViewProxy{
     private Model model;
     private Player player;
 
+
     public RMIViewProxy(Model model, Player player) throws RemoteException{
         super(model, player);
         this.model = model;

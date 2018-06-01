@@ -79,7 +79,7 @@ public class SinglePlayerToolCard extends ToolCard {
             throw new InvalidMoveException("DraftPool Cell is empty");
         if(!toolCard.getColor().equals(draftPoolCell.getDice().getColor()))
             throw new InvalidMoveException("Colors are differents");
-        model.remove(player, draftPoolCell);
+        model.remove(player, draftPoolCell); //da cambiare nel model, fare in mdo che rimuova solo dopo che toolcard used
         toolCard.start(player);
 
     }

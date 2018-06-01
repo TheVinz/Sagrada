@@ -3,6 +3,7 @@ package client.view.gui.guicontroller.gamephase;
 import client.view.gui.guicontroller.GameController;
 import client.view.gui.util.Util;
 import common.RemoteMVC.RemoteController;
+import common.command.GameCommand;
 import common.response.Response;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -60,7 +61,7 @@ public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
             button.setOnMouseClicked((event) -> {
                 stage.close();
                 try {
-                    controller.command(Response.CHOICE, index);
+                    controller.command(new GameCommand(Response.CHOICE, index));
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }

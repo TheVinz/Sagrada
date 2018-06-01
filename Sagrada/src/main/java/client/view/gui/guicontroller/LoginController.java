@@ -36,7 +36,7 @@ public class LoginController {
         name=textField.getText();
         textField.setText(null);
         try {
-            RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+port+"/LoginManager");
+            RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+port+"/RMILoginManager");
             remoteController=login.connect(name, model, false);
 
             listener.notifyLogin(remoteController);
