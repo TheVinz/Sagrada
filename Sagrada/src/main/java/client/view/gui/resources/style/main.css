@@ -28,13 +28,20 @@
 .selected{
     -fx-background-color: rgba(255,75,75,0.8);
 }
-.imageButton:hover{
-    -fx-min-height: 70px;
-    -fx-max-height: 70px;
-    -fx-min-width: 70px;
-    -fx-max-width: 70px;
-    -fx-cursor: hand;
+
+.difficultyButton{
+    -fx-background-color: rgb(150,170,255);
+    -fx-min-height: 104px;
+    -fx-max-height: 104px;
+    -fx-min-width: 104px;
+    -fx-max-width: 104px;
 }
+
+.difficultyButton:hover{
+    -fx-cursor: hand;
+    -fx-background-color: rgb(255,100,100);
+}
+
 .endButton{
     -fx-background-image: url("button.png");
     -fx-background-position: center;

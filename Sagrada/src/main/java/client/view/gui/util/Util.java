@@ -1,32 +1,31 @@
 package client.view.gui.util;
 
 import client.view.gui.MainApp;
-import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class Util {
 
-    public static ImageView getDifficultyButton(int difficulty){
+    public static Pane getDifficultyButton(int difficulty){
         Image img = new Image(MainApp.class.getResource("resources/singleplayer/"+difficulty+".png").toString());
         ImageView button = new ImageView(img);
-        button.setFitHeight(50);
-        button.setFitWidth(50);
-        button.setCursor(Cursor.HAND);
-        button.setOnMouseEntered((event) -> {
-            button.setFitHeight(70);
-            button.setFitWidth(70);
-        });
-        button.setOnMouseExited((event) -> {
-            button.setFitHeight(50);
-            button.setFitWidth(50);
-        });
-        return button;
+        button.setFitHeight(100);
+        button.setFitWidth(100);
+        button.setX(2);
+        button.setY(2);
+        Circle circle = new Circle(50, Color.WHITE);
+        circle.setCenterX(52);
+        circle.setCenterY(52);
+        Pane pane = new Pane();
+        pane.getChildren().addAll(circle, button);
+        pane.getStyleClass().add("difficultyButton");
+        return pane;
     }
 
     public static Pane getEmptyDice(int value){

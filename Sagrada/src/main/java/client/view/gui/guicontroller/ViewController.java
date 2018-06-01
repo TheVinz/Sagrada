@@ -66,16 +66,23 @@ public class ViewController {
 
     public void choseDifficulty(){
         final Stage dialog = new Stage();
+        dialog.setTitle("Difficulty Choice");
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setAlwaysOnTop(true);
         Platform.setImplicitExit(false);
         dialog.setOnCloseRequest(Event::consume);
-        dialog.setTitle("Difficulty");
         dialog.initModality(Modality.APPLICATION_MODAL);
+        VBox dialogBox = new VBox(10);
+        dialogBox.setStyle("-fx-background-color: rgba(255,255,255,0.4)");
+        dialogBox.setAlignment(Pos.CENTER);
+        Label title = new Label("Difficulty: ");
+        title.setStyle("-fx-font: 22 bold;");
+        dialogBox.getChildren().add(title);
         HBox buttonsBox = new HBox(10);
-        for(int i=0; i<5; i++){
-            int difficulty = i+1;
-            ImageView button = Util.getDifficultyButton(difficulty);
+        buttonsBox.setAlignment(Pos.CENTER);
+        for(int i=5; i>0; i--){
+            int difficulty = i;
+            Pane button = Util.getDifficultyButton(difficulty);
             button.setOnMouseClicked((event) -> {
                 try {
                     remoteController.command(Response.CHOICE, difficulty);
@@ -86,7 +93,9 @@ public class ViewController {
             });
             buttonsBox.getChildren().add(button);
         }
-        Scene scene = new Scene(buttonsBox,300, 100);
+        dialogBox.getChildren().add(buttonsBox);
+        Scene scene = new Scene(dialogBox,700, 150);
+        scene.getStylesheets().add(rootLayout.getScene().getStylesheets().get(0));
         dialog.setScene(scene);
         dialog.showAndWait();
     }
