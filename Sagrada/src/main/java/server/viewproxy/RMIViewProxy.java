@@ -421,6 +421,7 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
                     break;
                 case ACTIVE_AGAIN:
                     controller.reinsertPlayer();
+                    break;
                 default:
                     return;
             }
@@ -437,6 +438,9 @@ public class RMIViewProxy extends UnicastRemoteObject implements ViewProxy,Remot
             switch (type) {
                 case END_TURN:
                     controller.endTurn();
+                    break;
+                case ACTIVE_AGAIN:
+                    controller.reinsertPlayer();
                     break;
                 default:
                     break;

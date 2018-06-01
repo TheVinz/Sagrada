@@ -25,6 +25,7 @@ public class LoginController {
     private RemoteView model;
     private RemoteController remoteController;
     private String name;
+    private boolean singleplayer=false;
 
     @FXML
     private TextField textField;
@@ -37,9 +38,8 @@ public class LoginController {
         textField.setText(null);
         try {
             RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+port+"/LoginManager");
-            remoteController=login.connect(name, model, false);
-
-            listener.notifyLogin(remoteController);
+            remoteController=login.connect(name, model, singleplayer);
+            listener.notifyLogin(remoteController, singleplayer);
         }
         catch (NotBoundException e) {
             e.printStackTrace();
@@ -55,6 +55,20 @@ public class LoginController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Coming soon");
         alert.showAndWait();
+    }
+
+    @FXML
+    private void setSinglePlayer(){
+        singleplayer=true;
+    }
+
+    @FXML
+    private void unsetSinglePlayer(){
+        singleplayer=false;
+    }
+
+    public boolean isSingleplayer(){
+        return this.singleplayer;
     }
 
     public void setModel(RemoteView model){

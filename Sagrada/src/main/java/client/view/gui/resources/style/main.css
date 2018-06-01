@@ -28,6 +28,13 @@
 .selected{
     -fx-background-color: rgba(255,75,75,0.8);
 }
+.imageButton:hover{
+    -fx-min-height: 70px;
+    -fx-max-height: 70px;
+    -fx-min-width: 70px;
+    -fx-max-width: 70px;
+    -fx-cursor: hand;
+}
 .endButton{
     -fx-background-image: url("button.png");
     -fx-background-position: center;

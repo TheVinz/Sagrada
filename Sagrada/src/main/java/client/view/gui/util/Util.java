@@ -1,7 +1,8 @@
 package client.view.gui.util;
 
-import javafx.geometry.Pos;
-import javafx.scene.effect.Reflection;
+import client.view.gui.MainApp;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
@@ -10,6 +11,23 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 
 public class Util {
+
+    public static ImageView getDifficultyButton(int difficulty){
+        Image img = new Image(MainApp.class.getResource("resources/singleplayer/"+difficulty+".png").toString());
+        ImageView button = new ImageView(img);
+        button.setFitHeight(50);
+        button.setFitWidth(50);
+        button.setCursor(Cursor.HAND);
+        button.setOnMouseEntered((event) -> {
+            button.setFitHeight(70);
+            button.setFitWidth(70);
+        });
+        button.setOnMouseExited((event) -> {
+            button.setFitHeight(50);
+            button.setFitWidth(50);
+        });
+        return button;
+    }
 
     public static Pane getEmptyDice(int value){
         ImageView result = new ImageView();
@@ -328,4 +346,5 @@ public class Util {
         card.setFitHeight(198);
         card.setFitWidth(134);
     }
+
 }

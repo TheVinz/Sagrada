@@ -99,7 +99,7 @@ public class GameController {
         VBox box=new VBox();
         box.setAlignment(Pos.CENTER);
         box.getChildren().add(Util.getPrivateObjectiveCard(color));
-        objectiveCardsBox.getChildren().add(0, box);
+        objectiveCardsBox.getChildren().add(box);
     }
 
     public void setPublicObjectiveCards(int[] cards) {
@@ -229,7 +229,7 @@ public class GameController {
         pane.getChildren().add(dice);
         draftPoolBox.getChildren().add(i, pane);
         pane.setOnDragDetected((event) -> handleStartDrag(event, i));
-        pane.setOnMouseClicked((event) -> draftPoolCkick(event, i));
+        pane.setOnMouseClicked((event) -> draftPoolCkick( i));
     }
 
     public synchronized void log(String message){
@@ -322,6 +322,10 @@ public class GameController {
         pane.getChildren().set(0, image);
     }
 
+    public void removeToolCard(int index){
+        toolCardsBox.getChildren().remove(index);
+    }
+
     /*===========================================================================================================*/
     /*Event handler*/
 
@@ -330,7 +334,7 @@ public class GameController {
             controller.toolCardClick(i);
     }
 
-    private void draftPoolCkick(MouseEvent event, int index) {
+    private void draftPoolCkick(int index) {
         if(draftPoolBox.getStyleClass().contains(clickable)){
             controller.draftPoolClick(index);
         }
