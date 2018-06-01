@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
@@ -357,6 +358,11 @@ public class GameController {
         int col = GridPane.getColumnIndex(n);
         ImageView image = (ImageView) ((Pane) n).getChildren().get(0);
         if(activeFrame.getStyleClass().contains(draggable) && hasDice[row][col]) {
+            Pane pane = (Pane) n;
+            int index = row*5 + col;
+            char emptyImage = reps[id].charAt(index);
+            pane.getChildren().clear();
+            pane.getChildren().add(Util.getImage(emptyImage));
             controller.windowFrameClick(row, col);
             Dragboard db = n.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
@@ -378,6 +384,8 @@ public class GameController {
     private void handleDrop(DragEvent event, Node n) {
         if(activeFrame.getStyleClass().contains(droppable)) {
             Dragboard db = event.getDragboard();
+            Image image = db.getImage();
+            ((ImageView) ((Pane) event.getGestureSource()).getChildren().get(0)).setImage(image);
             boolean success = false;
             if (db.hasImage()) {
                 controller.windowFrameClick(GridPane.getRowIndex(n), GridPane.getColumnIndex(n));

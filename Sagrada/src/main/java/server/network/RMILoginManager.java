@@ -4,8 +4,6 @@ import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
 import common.login.RemoteLoginManager;
 import server.GameManager;
-import server.model.Model;
-import server.model.SinglePlayerModel;
 import server.model.state.player.Player;
 import server.viewproxy.RMIViewProxy;
 import server.viewproxy.ViewProxy;
