@@ -7,6 +7,7 @@ import server.model.state.toolcards.ToolCard;
 import server.observer.Observer;
 import server.observer.SinglePlayerObservable;
 import server.viewproxy.RMIViewProxy;
+import server.viewproxy.ViewProxy;
 
 public class SinglePlayerModel extends Model implements SinglePlayerObservable {
 
@@ -15,13 +16,13 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
 
     public SinglePlayerModel(){
         super();
+        getState().getDraftPool().increaseSizeByOne();
     }
 
     @Override
-    public RMIViewProxy addRMIPlayer(String name) throws Exception {
-        RMIViewProxy rmiViewProxy = super.addRMIPlayer(name);
-        observer = rmiViewProxy;
-        return rmiViewProxy;
+    public void addViewProxyPlayer(ViewProxy viewProxy, Player player)  {
+        super.addViewProxyPlayer(viewProxy, player);
+        observer = viewProxy;
     }
 
     @Override

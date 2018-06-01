@@ -2,6 +2,7 @@ package client.view.gui.guicontroller.gamephase;
 
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
+import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 
@@ -32,8 +33,8 @@ public class MovingWindowFramePhase extends GamePhase {
             targetRow=row;
             targetCol=col;
             try {
-                controller.command(Response.WINDOW_FRAME_CELL, sourceRow, sourceCol);
-                controller.command(Response.WINDOW_FRAME_CELL, targetRow, targetCol);
+                controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, sourceRow, sourceCol));
+                controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, targetRow, targetCol));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

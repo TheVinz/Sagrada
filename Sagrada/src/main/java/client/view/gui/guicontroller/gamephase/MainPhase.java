@@ -2,6 +2,7 @@ package client.view.gui.guicontroller.gamephase;
 
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
+import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 
@@ -21,7 +22,7 @@ public class MainPhase extends GamePhase {
     @Override
     public GamePhase handleDraftPool(int index){
         try {
-            controller.command(Response.DRAFT_POOL_CELL, index);
+            controller.command(new GameCommand(Response.DRAFT_POOL_CELL, index));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -35,8 +36,8 @@ public class MainPhase extends GamePhase {
         destCol=col;
         if(sourceIndex!=-1){
             try {
-                controller.command(Response.DRAFT_POOL_CELL, sourceIndex);
-                controller.command(Response.WINDOW_FRAME_CELL, destRow, destCol);
+                controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
+                controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -47,7 +48,7 @@ public class MainPhase extends GamePhase {
     @Override
     public GamePhase handleToolCard(int index){
         try {
-            controller.command(Response.TOOL_CARD, index);
+            controller.command(new GameCommand(Response.TOOL_CARD, index));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

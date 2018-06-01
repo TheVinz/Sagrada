@@ -5,6 +5,7 @@ import client.view.gui.MainApp;
 import client.view.gui.guicontroller.gamephase.*;
 import client.view.gui.guimodel.GuiModel;
 import client.view.gui.util.Util;
+import common.command.GameCommand;
 import common.response.Response;
 import common.RemoteMVC.RemoteController;
 import javafx.application.Platform;
@@ -85,7 +86,7 @@ public class ViewController {
             Pane button = Util.getDifficultyButton(difficulty);
             button.setOnMouseClicked((event) -> {
                 try {
-                    remoteController.command(Response.CHOICE, difficulty);
+                    remoteController.command(new GameCommand(Response.CHOICE, difficulty));
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -159,7 +160,7 @@ public class ViewController {
 
     public void notifyChoice(int index) {
         try {
-            remoteController.command(Response.CHOICE, index);
+            remoteController.command(new GameCommand(Response.CHOICE, index));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -368,7 +369,7 @@ public class ViewController {
         label.setStyle("-fx-background-color: rgba(255,255,255,0.7); -fx-font-size: 32");
         button.setOnMouseClicked((event) -> {
             try {
-                remoteController.command(Response.ACTIVE_AGAIN);
+                remoteController.command(new GameCommand(Response.ACTIVE_AGAIN));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -408,7 +409,7 @@ public class ViewController {
 
     public synchronized void endTurn() {
         try {
-            remoteController.command(Response.END_TURN);
+            remoteController.command(new GameCommand(Response.END_TURN));
             gameController.unableAll();
         } catch (RemoteException e) {
             e.printStackTrace();

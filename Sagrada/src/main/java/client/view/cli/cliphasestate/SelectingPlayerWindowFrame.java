@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class SelectingPlayerWindowFrame implements CliPhaseState {
 
     public SelectingPlayerWindowFrame(){
-        CliDisplayer.getDisplayer().displayText("Other Players are: ");
+        CliDisplayer.getDisplayer().displayText("Other LoadPlayers are: ");
         for(int i=0;i<4;i++){
             if(CliState.getCliState().getCliPlayerState(i)!=null)
                 CliDisplayer.getDisplayer().displayText("Id: "+CliState.getCliState().getCliPlayerState(i).getId()+"_Name: "+CliState.getCliState().getCliPlayerState(i).getName()+" | ");

@@ -44,4 +44,10 @@ public class DraftPool{
 			if(!cell.isEmpty()) return false;
 		return true;
     }
+
+    public void increaseSizeByOne(){
+		int size=draftPoolCells.size();
+		draftPoolCells.add(new DraftPoolCell(size));
+	}
+
 }

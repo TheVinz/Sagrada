@@ -2,6 +2,7 @@ package client.view.gui.guicontroller.gamephase;
 
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
+import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 import javafx.application.Platform;
@@ -39,7 +40,7 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
         oneMove.setOnAction((event -> {
             dialog.close();
             try {
-                controller.command(Response.CHOICE, Response.TAGLIERINA_MANUALE_ONE_MOVE);
+                controller.command(new GameCommand(Response.CHOICE, Response.TAGLIERINA_MANUALE_ONE_MOVE));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -48,7 +49,7 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
         twoMoves.setOnAction((event) -> {
             dialog.close();
             try {
-                controller.command(Response.CHOICE, Response.TAGLIERINA_MANUALE_TWO_MOVES);
+                controller.command(new GameCommand(Response.CHOICE, Response.TAGLIERINA_MANUALE_TWO_MOVES));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

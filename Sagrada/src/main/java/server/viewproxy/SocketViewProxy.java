@@ -1,38 +1,35 @@
 package server.viewproxy;
 
 import common.Notification;
-import common.RemoteMVC.RemoteView;
 import common.response.Response;
 import common.viewchangement.Changement;
 import common.viewchangement.LoadId;
 import server.model.Model;
 import server.model.state.player.Player;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 
+public class SocketViewProxy extends ViewProxy {
 
-public class RMIViewProxy extends ViewProxy {
-
-    private RemoteView remoteView;
+    private final ObjectOutputStream out;
     private Model model;
     private Player player;
 
-
-    public RMIViewProxy(Model model, Player player) throws RemoteException {
+    public SocketViewProxy(ObjectOutputStream out, Model model, Player player) throws RemoteException {
         super(model, player);
+        this.out = out;
         this.model = model;
         this.player = player;
-    }
-
-    synchronized public void bindRemoteView(RemoteView remoteView) {
-        this.remoteView = remoteView;
         change(new LoadId(player.getId()));
     }
-
     @Override
     void change(Changement changement) {
         try {
-            remoteView.change(changement);
-        } catch (RemoteException e) {
+            out.writeObject(changement);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -40,8 +37,8 @@ public class RMIViewProxy extends ViewProxy {
     @Override
     void notify(Notification notification) {
         try {
-            remoteView.notify(notification);
-        } catch (RemoteException e) {
+            out.writeObject(notification);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -49,8 +46,8 @@ public class RMIViewProxy extends ViewProxy {
     @Override
     void send(Response response) {
         try {
-            remoteView.send(response);
-        } catch (RemoteException e) {
+            out.writeObject(response);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

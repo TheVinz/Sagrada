@@ -2,6 +2,7 @@ package client.view.gui.guicontroller.gamephase;
 
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
+import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 import javafx.application.Platform;
@@ -36,7 +37,7 @@ public class PinzaSgrossatriceChoicePhase extends GamePhase {
         Button increase = new Button("Increase");
         increase.setOnAction((event) -> {
             try {
-                controller.command(Response.CHOICE, Response.PINZA_SGROSSATRICE_INCREASE);
+                controller.command(new GameCommand(Response.CHOICE, Response.PINZA_SGROSSATRICE_INCREASE));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -45,7 +46,7 @@ public class PinzaSgrossatriceChoicePhase extends GamePhase {
         Button decrease = new Button("Decrease");
         decrease.setOnAction((event) -> {
             try {
-                controller.command(Response.CHOICE, Response.PINZA_SGROSSATRICE_DECREASE);
+                controller.command(new GameCommand(Response.CHOICE, Response.PINZA_SGROSSATRICE_DECREASE));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

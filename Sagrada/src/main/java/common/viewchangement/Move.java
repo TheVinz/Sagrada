@@ -1,59 +1,71 @@
 package common.viewchangement;
 
 
-public class Move implements Changement{
+import client.view.Changer;
+import common.response.Response;
 
-    public static final int DRAFT_POOL=0;
-    public static final int WINDOW_FRAME=1;
-    public static final int ROUND_TRACK=2;
+public class Move extends Changement{
 
-    private final String player;
-    private final int sourceType;
-    private final int sourceX;
-    private final int sourceY;
-    private final int targetType;
-    private final int targetX;
-    private final int targetY;
 
-    public Move(String player, int sourceType, int sourceX, int sourceY,int targetType, int targetX, int targetY){
-        this.player = player;
+
+    private final int playerId;
+    private final Response sourceType;
+    private final int param1;
+    private final int param2;
+    private final Response targetType;
+    private final int param3;
+    private final int param4;
+
+    public Move(int id, Response sourceType, Response targetType, int param1, int param2, int param3, int param4){
         this.sourceType=sourceType;
-        this.sourceX=sourceX;
-        this.sourceY=sourceY;
+        this.param1=param1;
+        this.param2=param2;
         this.targetType=targetType;
-        this.targetX=targetX;
-        this.targetY=targetY;
+        this.param3=param3;
+        this.param4=param4;
+        this.playerId = id;
+    }
+
+    public Move(int id, Response sourceType, Response targetType, int param1,  int param2, int param3){
+        this.sourceType=sourceType;
+        this.param1=param1;
+        this.param2=param2;
+        this.targetType=targetType;
+        this.param3=param3;
+        this.param4=-1;
+        this.playerId = id;
     }
 
 
-    public int getSourceX() {
-        return sourceX;
+    public int getPlayerId() {
+        return playerId;
     }
 
-    public int getSourceY() {
-        return sourceY;
+    public Response getSourceType() {
+        return sourceType;
     }
 
-    public int getTargetX() {
-        return targetX;
+    public int getParam1() {
+        return param1;
     }
 
-    public int getTargetY() {
-        return targetY;
+    public int getParam2() {
+        return param2;
     }
 
-    public int getSourceType(){
-        return this.sourceType;
+    public Response getTargetType() {
+        return targetType;
     }
 
-    public int getTargetType(){
-        return this.targetType;
+    public int getParam3() {
+        return param3;
     }
 
-    public String getPlayer() {
-        return player;
+    public int getParam4() {
+        return param4;
     }
 
-
-
+    public void change(Changer changer){
+        changer.change(this);
+    }
 }
