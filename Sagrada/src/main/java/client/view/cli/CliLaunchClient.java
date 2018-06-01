@@ -2,9 +2,7 @@ package client.view.cli;
 
 import common.RemoteMVC.RemoteController;
 import common.login.RemoteLoginManager;
-import server.login.LoginManager;
 
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -33,9 +31,9 @@ public class CliLaunchClient {
 
         try {
             if(!singlePlayer)
-                model= new CliModel();
+                model= new CliModel(false);
             else
-                model = new SinglePlayerCliModel();
+                model = new CliModel(true);
             Registry reg = LocateRegistry.getRegistry();
             loginManager=(RemoteLoginManager) reg.lookup("LoginManager");
             remoteController = loginManager.connect(name, model, singlePlayer);

@@ -1,17 +1,22 @@
 package common.viewchangement;
 
-
 import client.view.Changer;
 
-public class RefilledDraftPool extends Changement {
+public class LoadLastRoundTrack extends Changement {
+    private final int round;
     private final int[] values;
     private final char[] colors;
 
-    public RefilledDraftPool(int[] values, char[] colors){
-        this.values=values;
-        this.colors=colors;
+    public LoadLastRoundTrack(int round, int[] values, char[] colors){
+
+        this.round = round;
+        this.values = values;
+        this.colors = colors;
     }
 
+    public int getRound() {
+        return round;
+    }
 
     public int[] getValues() {
         return values;

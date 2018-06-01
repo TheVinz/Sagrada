@@ -1,6 +1,8 @@
 package common.viewchangement;
 
-public class LoabPublicObjectiveCards implements Changement{
+import client.view.Changer;
+
+public class LoadPublicObjectiveCards extends Changement{
     public static final int COLORED_DIAGONAL = 0;
     public static final int DARK_SHADES = 1;
     public static final int DIFFERENT_COLORS = 2;
@@ -14,8 +16,14 @@ public class LoabPublicObjectiveCards implements Changement{
 
     private final int[] publicObjectiveCards;
 
-    public LoabPublicObjectiveCards(int[] publicObjectiveCards){this.publicObjectiveCards=publicObjectiveCards;}
+    public LoadPublicObjectiveCards(int[] publicObjectiveCards){this.publicObjectiveCards=publicObjectiveCards;}
 
-    public int[] getPublicObjectiveCards(){return publicObjectiveCards;}
 
+    public int[] getPublicObjectiveCards() {
+        return publicObjectiveCards;
+    }
+
+    public void change(Changer changer){
+        changer.change(this);
+    }
 }

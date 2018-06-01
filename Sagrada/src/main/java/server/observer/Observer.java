@@ -1,5 +1,6 @@
 package server.observer;
 
+import common.response.Response;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.player.Player;
 import server.model.state.boards.Cell;
@@ -24,14 +25,12 @@ public interface Observer {
     void updateDiceDraw(Player player, Color color);
     void updateRoundTrack(int round, Cell[] cells);
     void updateEndGame(Player[] scoreboard);
-
     void updateMutableData();
-
     void updateReinsertPlayer(Player player);
-
     void updateSuspendPlayer(Player player);
-
     void updateToolCardsChoice();
-
     void updateRemovedDice(Player player, DraftPoolCell cell);
+    void notifyNextParameter(Response response);
+    void notifyError(String message);
+    void notifyWrongParameter(String message);
 }
