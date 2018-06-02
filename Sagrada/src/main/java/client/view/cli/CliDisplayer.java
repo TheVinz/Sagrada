@@ -341,12 +341,12 @@ public class CliDisplayer {
         displayText("FAVOR TOKENS: "+favorTokens+"\n");
     }
 
-    public void printResults(char[] cards, int[] scoreboard, int[][] points) {
+    public void printResults(char[] cards, int[] scoreboardIds, int[][] points) {
         displayText("\t\t\tSCOREBOARD:\n");
         int max=0;
-        for(int i=0;i<scoreboard.length;i++)
-            if(max<cliState.getCliPlayerState(scoreboard[i]).getName().length())
-                max=cliState.getCliPlayerState(scoreboard[i]).getName().length();
+        for(int i=0;i<scoreboardIds.length;i++)
+            if(max<cliState.getCliPlayerState(scoreboardIds[i]).getName().length())
+                max=cliState.getCliPlayerState(scoreboardIds[i]).getName().length();
         int space=0;
         if(max+2<18){
             max=18;
@@ -377,57 +377,57 @@ public class CliDisplayer {
                 displayText(" ");
         displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |        |\n");
 
-        for(int i=0;i<scoreboard.length;i++) {
-            displayText("" + (i + 1) + ")" + cliState.getCliPlayerState(scoreboard[i]).getName());
-                for(int s=0;s<max-cliState.getCliPlayerState(scoreboard[i]).getName().length();s++){
+        for(int i=0;i<scoreboardIds.length;i++) {
+            displayText("" + (i + 1) + ")" + cliState.getCliPlayerState(scoreboardIds[i]).getName());
+                for(int s=0;s<max-cliState.getCliPlayerState(scoreboardIds[i]).getName().length();s++){
                 displayText(" ");
                 }
                 displayText("|");
-            if (points[scoreboard[i]][0] > 9)   //prima public
-                displayText("  " + points[scoreboard[i]][0] + "  |");
+            if (points[scoreboardIds[i]][0] > 9)   //prima public
+                displayText("  " + points[scoreboardIds[i]][0] + "  |");
             else
-                displayText("   " + points[scoreboard[i]][0] + "  |");
-            if (points[scoreboard[i]][1] > 9)   //seconda public
-                displayText("  " + points[scoreboard[i]][1] + "  |");
+                displayText("   " + points[scoreboardIds[i]][0] + "  |");
+            if (points[scoreboardIds[i]][1] > 9)   //seconda public
+                displayText("  " + points[scoreboardIds[i]][1] + "  |");
             else
-                displayText("   " + points[scoreboard[i]][1] + "  |");
-            if (points[scoreboard[i]][2] > 9)   //terza public
-                displayText("  " + points[scoreboard[i]][2] + "  |");
+                displayText("   " + points[scoreboardIds[i]][1] + "  |");
+            if (points[scoreboardIds[i]][2] > 9)   //terza public
+                displayText("  " + points[scoreboardIds[i]][2] + "  |");
             else
-                displayText("   " + points[scoreboard[i]][2] + "  |");
-            if (points[scoreboard[i]][3] > 9)    //private
-                displayText("   " + points[scoreboard[i]][3] + "   |");
+                displayText("   " + points[scoreboardIds[i]][2] + "  |");
+            if (points[scoreboardIds[i]][3] > 9)    //private
+                displayText("   " + points[scoreboardIds[i]][3] + "   |");
             else
-                displayText("    " + points[scoreboard[i]][3] + "   |");
-            if (points[scoreboard[i]][4] > 9)    //favor
-                displayText("   " + points[scoreboard[i]][4] + "   |");
+                displayText("    " + points[scoreboardIds[i]][3] + "   |");
+            if (points[scoreboardIds[i]][4] > 9)    //favor
+                displayText("   " + points[scoreboardIds[i]][4] + "   |");
             else
-                displayText("   " + points[scoreboard[i]][4] + "  |");
-            if(points[scoreboard[i]][5]>0){     //empty
-                if (points[scoreboard[i]][5] > 9)
-                    displayText("  " + points[scoreboard[i]][5] + "   |");
+                displayText("   " + points[scoreboardIds[i]][4] + "  |");
+            if(points[scoreboardIds[i]][5]>0){     //empty
+                if (points[scoreboardIds[i]][5] > 9)
+                    displayText("  " + points[scoreboardIds[i]][5] + "   |");
                 else
-                    displayText("    " + points[scoreboard[i]][5] + "    |");
+                    displayText("    " + points[scoreboardIds[i]][5] + "    |");
             }
             else{
-                if(points[scoreboard[i]][5]<-9){
-                    displayText("   "+points[scoreboard[i]][5]+"   |");
+                if(points[scoreboardIds[i]][5]<-9){
+                    displayText("   "+points[scoreboardIds[i]][5]+"   |");
                 }
                 else
-                    displayText("   "+points[scoreboard[i]][5]+"    |");
+                    displayText("   "+points[scoreboardIds[i]][5]+"    |");
             }                             //total points
-            if(points[scoreboard[i]][6]>0){
-                if (points[scoreboard[i]][6] > 9)
-                    displayText("  " + points[scoreboard[i]][6] + "   |\n");
+            if(points[scoreboardIds[i]][6]>0){
+                if (points[scoreboardIds[i]][6] > 9)
+                    displayText("  " + points[scoreboardIds[i]][6] + "   |\n");
                 else
-                    displayText("    " + points[scoreboard[i]][6] + "    |\n");
+                    displayText("    " + points[scoreboardIds[i]][6] + "    |\n");
             }
             else{
-                if(points[scoreboard[i]][6]<-9){
-                    displayText("   "+points[scoreboard[i]][6]+"  |\n");
+                if(points[scoreboardIds[i]][6]<-9){
+                    displayText("   "+points[scoreboardIds[i]][6]+"  |\n");
                 }
                 else
-                    displayText("   "+points[scoreboard[i]][6]+"   |\n");
+                    displayText("   "+points[scoreboardIds[i]][6]+"   |\n");
             }
         }
 

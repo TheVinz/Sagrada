@@ -15,6 +15,7 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
 
     public SinglePlayerModel(){
         super();
+        getState().getDraftPool().increaseSizeByOne();
     }
 
     @Override

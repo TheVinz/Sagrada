@@ -10,6 +10,6 @@ public class SinglePlayer extends Player {
 
     @Override
     public void calculatePoints(State state) {
-        //
+
     }
 }

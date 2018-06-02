@@ -1,25 +1,44 @@
 package common.viewchangement;
 
 
-public class CellUpdate implements Changement {
-    public static final int WINDOW_FRAME=1;
-    public static final int DRAFT_POOL=2;
-    public static final int ROUND_TRACK=3;
+import client.view.Changer;
+import common.response.Response;
 
-    private final String player;
-    private final int cellType;
+public class CellUpdate extends Changement {
+
+
+    private final int playerId;
+    private final Response cellType;
     private final int row;
     private final int column;
     private final int value;
     private final char color;
 
-    public CellUpdate(String player,int type, int row, int column, int value, char color) {
-        this.player = player;
+    public CellUpdate(int player, Response type, int row, int column, int value, char color) {
+        this.playerId = player;
         this.cellType=type;
         this.row=row;
         this.column=column;
         this.value=value;
         this.color=color;
+    }
+
+    public CellUpdate(int player, Response type, int row, int value, char color) {
+        this.playerId = player;
+        this.cellType=type;
+        this.row=row;
+        this.column=-1;
+        this.value=value;
+        this.color=color;
+    }
+
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public Response getCellType() {
+        return cellType;
     }
 
     public int getRow() {
@@ -38,10 +57,8 @@ public class CellUpdate implements Changement {
         return color;
     }
 
-    public int getCellType(){
-        return cellType;
+    public void change(Changer changer){
+        changer.change(this);
     }
-
-    public String getPlayer(){ return player; }
 
 }
