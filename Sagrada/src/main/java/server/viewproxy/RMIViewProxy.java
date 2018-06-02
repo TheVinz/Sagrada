@@ -10,23 +10,24 @@ import server.model.state.player.Player;
 import java.rmi.RemoteException;
 
 
-public class RMIViewProxy extends ViewProxy{
+public class RMIViewProxy extends ViewProxy {
 
     private RemoteView remoteView;
     private Model model;
     private Player player;
 
-    public RMIViewProxy(Model model, Player player) throws RemoteException{
+
+    public RMIViewProxy(Model model, Player player) throws RemoteException {
         super(model, player);
         this.model = model;
         this.player = player;
     }
 
-    synchronized public void bindRemoteView(RemoteView remoteView){
-        this.remoteView=remoteView;
+    synchronized public void bindRemoteView(RemoteView remoteView) {
+        this.remoteView = remoteView;
         change(new LoadId(player.getId()));
     }
-    
+
     @Override
     void change(Changement changement) {
         try {
@@ -53,8 +54,4 @@ public class RMIViewProxy extends ViewProxy{
             e.printStackTrace();
         }
     }
-
-
-
-
 }

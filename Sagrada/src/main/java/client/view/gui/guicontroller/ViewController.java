@@ -5,18 +5,24 @@ import client.view.gui.MainApp;
 import client.view.gui.guicontroller.gamephase.*;
 import client.view.gui.guimodel.GuiModel;
 import client.view.gui.util.Util;
+import common.command.GameCommand;
 import common.response.Response;
 import common.RemoteMVC.RemoteController;
+import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -26,6 +32,8 @@ public class ViewController {
 
     private RemoteController remoteController;
     private GameController gameController;
+    private LoginController loginController;
+
     private AnchorPane gamePane;
     private AnchorPane windowFrameChoicesPane;
     private WindowFrameChoiceController windowFrameChoiceController;
@@ -41,18 +49,12 @@ public class ViewController {
         try {
             AnchorPane pane= loader.load();
             rootLayout.setCenter(pane);
-            LoginController login = loader.getController();
+            loginController = loader.getController();
             Image background = new Image(MainApp.class.getResource("resources/style/background.jpg").toString());
             BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(0,0,false,false,false,true));
             rootLayout.setBackground(new Background(backgroundImage));
-            login.setModel(model);
-            login.addListener(this);
-            loader=new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("resources/fxml/Game.fxml"));
-            gamePane=loader.load();
-            gameController=loader.getController();
-            gameController.log("Waiting for other players...\n");
-            gameController.addListener(this);
+            loginController.setModel(model);
+            loginController.addListener(this);
             loader=new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("resources/fxml/WindowFrameChoice.fxml"));
             windowFrameChoicesPane = loader.load();
@@ -63,11 +65,74 @@ public class ViewController {
         }
     }
 
-    public void notifyLogin(RemoteController remoteController){
+    public void choseDifficulty(){
+        final Stage dialog = new Stage();
+        dialog.setTitle("Difficulty Choice");
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.setAlwaysOnTop(true);
+        Platform.setImplicitExit(false);
+        dialog.setOnCloseRequest(Event::consume);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        VBox dialogBox = new VBox(10);
+        dialogBox.setStyle("-fx-background-color: rgba(255,255,255,0.4)");
+        dialogBox.setAlignment(Pos.CENTER);
+        Label title = new Label("Difficulty: ");
+        title.setStyle("-fx-font: 22 bold;");
+        dialogBox.getChildren().add(title);
+        HBox buttonsBox = new HBox(10);
+        buttonsBox.setAlignment(Pos.CENTER);
+        for(int i=5; i>0; i--){
+            int difficulty = i;
+            Pane button = Util.getDifficultyButton(difficulty);
+            button.setOnMouseClicked((event) -> {
+                try {
+                    remoteController.command(new GameCommand(Response.CHOICE, difficulty));
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                dialog.close();
+            });
+            buttonsBox.getChildren().add(button);
+        }
+        dialogBox.getChildren().add(buttonsBox);
+        Scene scene = new Scene(dialogBox,700, 150);
+        scene.getStylesheets().add(rootLayout.getScene().getStylesheets().get(0));
+        dialog.setScene(scene);
+        dialog.showAndWait();
+    }
+
+    public void notifyLogin(RemoteController remoteController, boolean singleplayer){
         this.remoteController=remoteController;
         Label label = new Label("Waiting server...");
         label.setStyle("-fx-font-size: 40; -fx-text-fill: white; -fx-background-color: black");
         rootLayout.setCenter(label);
+        FXMLLoader loader=new FXMLLoader();
+        if(!singleplayer)
+            loader.setLocation(MainApp.class.getResource("resources/fxml/Game.fxml"));
+        else
+            loader.setLocation(MainApp.class.getResource("resources/fxml/SinglePlayer.fxml"));
+        try {
+            gamePane=loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gameController=loader.getController();
+        if(!singleplayer)
+            gameController.log("Waiting for other players...\n");
+        gameController.addListener(this);
+    }
+
+    public void notifyPlayerDisconnected(int id){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Disconnected");
+        alert.setHeaderText(gameController.getPlayerName(id) + " disconnected.");
+        alert.showAndWait();
+    }
+    public void notifyPlayerReconnected(int id){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Reconnected");
+        alert.setHeaderText(gameController.getPlayerName(id) + " reconnected.");
+        alert.showAndWait();
     }
 
     public void loadWindowFrameChoice(String[] reps, int[] tokens){
@@ -95,7 +160,7 @@ public class ViewController {
 
     public void notifyChoice(int index) {
         try {
-            remoteController.command(Response.CHOICE, index);
+            remoteController.command(new GameCommand(Response.CHOICE, index));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -117,6 +182,17 @@ public class ViewController {
         gameController.cleanDraftPool();
         for(int i=0; i<values.length; i++)
             gameController.setDraftPoolDice(i, values[i], colors[i]);
+    }
+    public void setWindowFrameDices(int id, int[][] values, char[][] colors){
+        GridPane frame = gameController.getPlayerFrame(id);
+        for(int i=0; i<values.length; i++){
+            for(int j=0; j<values[i].length; j++){
+                if(values[i][j] >= 1 && values[i][j]<=6) {
+                    ImageView dice = Util.getImage(colors[i][j], values[i][j]);
+                    gameController.setFromWindowFrame(id, i, j, dice);
+                }
+            }
+        }
     }
 
     public void setPublicObjectiveCards(int[] cards) {
@@ -157,6 +233,9 @@ public class ViewController {
         gameController.log(message);
     }
 
+    public void removeDraftPoolDice(int index){
+        gameController.getFromDraftPool(index);
+    }
 
     public void toolCardUsed(int player, int index, int tokens) {
         String message;
@@ -168,6 +247,8 @@ public class ViewController {
         message = message + "used "+gameController.getToolCardName(index) +  "\n";
         gameController.log(message);
         gameController.decreaseFavorTokens(player, tokens);
+        if(loginController.isSingleplayer())
+            gameController.removeToolCard(index);
     }
 
     public void notifyDiceDraw(int player, char color) {
@@ -271,27 +352,41 @@ public class ViewController {
                 currentPhase = new MainPhase(remoteController, gameController);
                 break;
             case SUSPENDED:
-                endTurn();
-                Label label= new Label("Disconnected");
-                Button button = new Button("Reconnect");
-                button.setStyle("-fx-background-color: orange; -fx-text-fill: white; -fx-font-size: 32");
-                label.setStyle("-fx-background-color: rgba(255,255,255,0.7); -fx-font-size: 32");
-                button.setOnAction((event) -> {
-                    try {
-                        remoteController.command(Response.ACTIVE_AGAIN);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                });
-                VBox box = new VBox(50);
-                box.setAlignment(Pos.CENTER);
-                box.getChildren().addAll(label, button);
-                rootLayout.setCenter(box);
+                suspend();
                 break;
 
             default:
                 currentPhase=new MainPhase(remoteController, gameController);
                 break;
+        }
+    }
+
+    public synchronized void suspend(){
+        endTurn();
+        Label label= new Label("Disconnected");
+        Button button = new Button("Reconnect");
+        button.setStyle("-fx-background-color: orange; -fx-text-fill: white; -fx-font-size: 32");
+        label.setStyle("-fx-background-color: rgba(255,255,255,0.7); -fx-font-size: 32");
+        button.setOnMouseClicked((event) -> {
+            try {
+                remoteController.command(new GameCommand(Response.ACTIVE_AGAIN));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
+        VBox box = new VBox(50);
+        box.setAlignment(Pos.CENTER);
+        box.getChildren().addAll(label, button);
+        rootLayout.setCenter(box);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(MainApp.class.getResource("resources/fxml/Game.fxml"));
+        try {
+            gamePane = loader.load();
+            gameController = loader.getController();
+            gameController.addListener(this);
+            gameController.log("Welcome back!\n");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -314,7 +409,7 @@ public class ViewController {
 
     public synchronized void endTurn() {
         try {
-            remoteController.command(Response.END_TURN);
+            remoteController.command(new GameCommand(Response.END_TURN));
             gameController.unableAll();
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -330,20 +425,20 @@ public class ViewController {
             playerBox.setAlignment(Pos.CENTER);
             Label nameLabel=new Label(gameController.getPlayerName(ids[i]));
             nameLabel.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 26");
-            int publicSum=points[i][0]+points[i][1]+points[i][2];
+            int publicSum=points[ids[i]][0]+points[ids[i]][1]+points[ids[i]][2];
             Label publicPoints = new Label("Public objective cards: "+publicSum);
-            Label privatePoints = new Label("Private objective card: " + points[i][3]);
-            Label favorPoints = new Label("Favor tokens bonus: " + points[i][4]);
-            Label emptyMalus = new Label("Empty cells malus: " + points[i][5]);
-            Label total = new Label("Total: " + points[i][6]);
+            Label privatePoints = new Label("Private objective card: " + points[ids[i]][3]);
+            Label favorPoints = new Label("Favor tokens bonus: " + points[ids[i]][4]);
+            Label emptyMalus = new Label("Empty cells malus: " + points[ids[i]][5]);
+            Label total = new Label("Total: " + points[ids[i]][6]);
             String style = "-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 22";
             publicPoints.setStyle(style);
             privatePoints.setStyle(style);
             favorPoints.setStyle(style);
             emptyMalus.setStyle(style);
             total.setStyle(style);
-            GridPane playerFrame = gameController.getPlayerFrame(i);
-            ImageView card = Util.getPrivateObjectiveCard(privateObjectiveCards[i]);
+            GridPane playerFrame = gameController.getPlayerFrame(ids[i]);
+            ImageView card = Util.getPrivateObjectiveCard(privateObjectiveCards[ids[i]]);
             VBox labels= new VBox(5);
             labels.getChildren().addAll(publicPoints, privatePoints, favorPoints, emptyMalus, total);
             playerBox.getChildren().addAll(nameLabel, card, playerFrame, labels);

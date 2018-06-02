@@ -2,6 +2,7 @@ package client.view.gui.guicontroller.gamephase;
 
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
+import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 
@@ -17,7 +18,7 @@ public class RoundTrackPhase extends GamePhase {
     @Override
     public GamePhase handleRoundTrack(int round, int index){
         try {
-            controller.command(Response.ROUND_TRACK_CELL, round, index);
+            controller.command(new GameCommand(Response.ROUND_TRACK_CELL, round, index));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

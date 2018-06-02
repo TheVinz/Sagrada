@@ -327,56 +327,5 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
             }
         }).start();
     }
-    @Override
-    synchronized public int getId(){
-        return player.getId();
-    }
 
-    @Override
-    synchronized public void command(Response type) {
-        new Thread( () -> {
-            switch (type) {
-                case END_TURN:
-                    controller.endTurn();
-                    break;
-                default:
-                    break;
-            }
-        }).start();
-    }
-    @Override
-    synchronized public void command(Response type, int index) {
-        new Thread( () -> {
-            switch (type) {
-                case DRAFT_POOL_CELL:
-                    controller.selectObject(state.getDraftPool().getCell(index));
-                    break;
-                case TOOL_CARD:
-                    controller.selectObject(state.getToolCard(index));
-                    break;
-                case CHOICE:
-                    controller.selectObject(new Choice(index));
-                    break;
-                default:
-                    break;
-            }
-        }).start();
-
-    }
-    @Override
-    synchronized public void command(Response type, int param1, int param2) {
-        new Thread( () -> {
-            switch (type) {
-                case WINDOW_FRAME_CELL:
-                    controller.selectObject(player.getWindowFrame());
-                    controller.selectObject(player.getWindowFrame().getCell(param1, param2));
-                    break;
-                case ROUND_TRACK_CELL:
-                    controller.selectObject(state.getRoundTrack().getRoundSet(param1).get(param2));
-                    break;
-                default:
-                    break;
-            }
-        }).start();
-    }
 }

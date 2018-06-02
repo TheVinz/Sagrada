@@ -2,6 +2,7 @@ package client.view.gui.guicontroller.gamephase;
 
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
+import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 
@@ -18,7 +19,7 @@ public class DraftPoolPhase extends GamePhase{
     @Override
     public GamePhase handleDraftPool(int index){
         try {
-            controller.command(Response.DRAFT_POOL_CELL, index);
+            controller.command(new GameCommand(Response.DRAFT_POOL_CELL, index));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

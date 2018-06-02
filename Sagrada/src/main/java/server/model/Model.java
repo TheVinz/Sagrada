@@ -16,6 +16,7 @@ import server.model.state.player.Player;
 import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Util;
 import server.viewproxy.RMIViewProxy;
+import server.viewproxy.ViewProxy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,16 +46,9 @@ public class Model implements Observable {
 
 
 
-    /*
-    Il ritorno della view proxy ignoratelo, servirà poi quando introdurremo la rete
-    */
-    public RMIViewProxy addRMIPlayer(String name) throws Exception {
-            int id=state.getPlayers().size();
-            Player player = addPlayer(name, id);
-            RMIViewProxy o=new RMIViewProxy(this, player);
-            addObserver(o);
-            playerObserverMap.put(player, o);
-            return o;
+    public void addViewProxyPlayer(ViewProxy viewProxy, Player player){
+            addObserver(viewProxy);
+            playerObserverMap.put(player, viewProxy);
     }
 
     public Player addPlayer(String name, int id) throws Exception{ //da fare synchronized nel caso più giocatori si connettano contemporaneamente?
