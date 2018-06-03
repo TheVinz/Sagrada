@@ -45,6 +45,9 @@ public class Model implements Observable {
     public Util getUtil() {return this.util;}
 
 
+    public boolean isSingleplayer(){
+        return false;
+    }
 
     public void addViewProxyPlayer(ViewProxy viewProxy, Player player){
             addObserver(viewProxy);
@@ -213,7 +216,7 @@ public class Model implements Observable {
 
     public void remove(Player player, DraftPoolCell cell) throws InvalidMoveException{
         Dice dice = cell.removeDice();
-        state.getBag().insert(dice);
+        //state.getBag().insert(dice);        ??? Il dado non viene rimosso dal gioco??
         notifyRemovedDice(player, cell);
     }
 
