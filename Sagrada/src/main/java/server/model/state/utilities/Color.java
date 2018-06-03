@@ -8,8 +8,8 @@ public enum Color{
 	RED, BLUE, GREEN, PURPLE, YELLOW;
 
     /**
-     *
-     * @return
+     *Switch a string representing a color into a char.
+     * @return a char that indicates a color.
      */
     public char asChar() {
         switch(this){

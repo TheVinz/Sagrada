@@ -9,17 +9,38 @@ import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameCell;
 import server.model.state.dice.Dice;
 
+/**
+ * The GameRules class implements methods useful to verify the validity of a move according to the game rules.
+ */
 public class GameRules {
 
+    /**
+     * Verify that the first move is on the boards of the {@link server.model.state.boards.windowframe.WindowFrame}.
+     * @param windowFrame of the player.
+     * @param cell of the WindowFrame.
+     * @return true if the cell is on the board, false if it isn't.
+     */
     public static boolean validFirstMove(WindowFrame windowFrame, WindowFrameCell cell) {
         return getUp(windowFrame, cell) == null || getRight(windowFrame, cell) == null
                 || getLeft(windowFrame, cell) == null || getDown(windowFrame, cell) == null;
     }
 
+    /**
+     * Verify that a {@link server.model.state.dice.Dice} can be places into a
+     * {@link server.model.state.boards.windowframe.WindowFrameCell} respecting all the restrictions.
+     * @param dice to put in the cell.
+     * @param cell the WindowFrameCell.
+     * @return true if it can be placed, false if it doesn't.
+     */
     public static boolean validAllCellRestriction(Dice dice, WindowFrameCell cell){
         return validCellColor(dice, cell) && validCellShade(dice, cell) && cell.isEmpty();
     }
 
+    /**Verify that a dice respects the value restriction.
+     * @param dice to put in the cell.
+     * @param cell the WindowFrameCell.
+     * @return true if the dice respects the restriction, false if it doesn't.
+     */
     public static boolean validCellShade(Dice dice, WindowFrameCell cell){
         if(cell.getShade()==0) return true;
         else return dice.getValue()==cell.getShade();

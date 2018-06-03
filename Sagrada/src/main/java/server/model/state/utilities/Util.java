@@ -13,10 +13,18 @@ import java.util.*;
 import static server.model.state.boards.windowframe.WindowFrameList.*;
 import static server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard.*;
 
+/**
+ * In the Util class there are methods useful to instantiate the start of a game.
+ */
 public class Util { //non può essere static nel multipartita per la private
     private List<Integer> avalaiblePatterns=new LinkedList<>(Arrays.asList(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12}));
     private List<PrivateObjectiveCard> availableCards=new LinkedList<>( Arrays.asList(new PrivateObjectiveCard[]{YELLOW_SHAPES, PURPLE_SHAPES, BLUE_SHAPES, GREEN_SHAPES, RED_SHAPES}));
 
+    /**
+     * Randomly returns four {@link server.model.state.boards.windowframe.WindowFrame} described
+     * by the enum class {@link server.model.state.boards.windowframe.WindowFrameList}.
+     * @return an array with four WindowFrame.
+     */
     public WindowFrameList[] getWindowFrameChoiche(){
         int choice[]=new int[2];
         WindowFrameList[] result=new WindowFrameList[4];
@@ -80,6 +88,12 @@ public class Util { //non può essere static nel multipartita per la private
         return result;
     }
 
+    /**
+     * Randomly chose {@link server.model.state.toolcards.ToolCard}s to add to the game.
+     * @param model contains the twelve possibly ToolCards.
+     * @param number of ToolCards to return.
+     * @return an array with ToolCards chose randomly.
+     */
     public ToolCard[] getToolCards(Model model, int number) {
         //con StripCutter 13
         boolean[] cards={true,true,true,true,true,true,true,true,true,true,true,true};
@@ -135,6 +149,11 @@ public class Util { //non può essere static nel multipartita per la private
         return result;
     }
 
+    /**
+     * Randomly chose two or three PublicObjectiveCards depending on if the game is SinglePlayer of MultiPlayer.
+     * @param singlePlayer indicates if SinglePlayer game or MultiPlayer game.
+     * @return an array with PublicObjectiveCard chose randomly.
+     */
     public PublicObjectiveCard[] getPublicObjectiveCards(boolean singlePlayer) {
         PublicObjectiveCard[] result=new PublicObjectiveCard[singlePlayer ? 2 : 3];
         Random rnd= new Random();
@@ -181,6 +200,10 @@ public class Util { //non può essere static nel multipartita per la private
         return result;
     }
 
+    /**
+     * Gets a {@link server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard} chose randomly.
+     * @return a PrivateObjectiveCard.
+     */
     public PrivateObjectiveCard getCard() {
         Collections.shuffle(availableCards);
         PrivateObjectiveCard result=availableCards.get(0);

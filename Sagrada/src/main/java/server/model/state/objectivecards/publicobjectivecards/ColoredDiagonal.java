@@ -23,8 +23,8 @@ public class ColoredDiagonal extends PublicObjectiveCard{
     }
 
     /**
-     * Gets the number that indicated the PublicObjectiveCard.
-     * @return an int corresponding to the COLORED_DIAGONAL.
+     * Gets the number that indicates the PublicObjectiveCard.
+     * @return an int corresponding to COLORED_DIAGONAL.
      */
     @Override
     public int getNumber() {
