@@ -2,6 +2,7 @@ package client.view.gui.guimodel;
 
 import client.view.Changer;
 import client.view.gui.guicontroller.ViewController;
+import common.response.Response;
 import common.viewchangement.*;
 import javafx.application.Platform;
 
@@ -106,22 +107,22 @@ public class GuiChanger implements Changer {
 
     @Override
     public void change(ReinsertedPlayer reinsertedPlayer) {
-
+        Platform.runLater(() -> view.notifyPlayerReconnected(reinsertedPlayer.getIdPlayer()));
     }
 
     @Override
     public void change(RemovedDice removedDice) {
-
+        Platform.runLater(() -> view.removeDraftPoolDice(removedDice.getIndex()));
     }
 
     @Override
     public void change(SuspendedPlayer suspendedPlayer) {
-
+        Platform.runLater(() -> view.notifyPlayerDisconnected(suspendedPlayer.getPlayerId()));
     }
 
     @Override
     public void change(ToolCardsChoices toolCardsChoices) {
-
+        Platform.runLater(() -> view.choseDifficulty());
     }
 
 }

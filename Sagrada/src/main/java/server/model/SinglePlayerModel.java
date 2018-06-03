@@ -20,6 +20,11 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
     }
 
     @Override
+    public boolean isSingleplayer(){
+        return true;
+    }
+
+    @Override
     public void addViewProxyPlayer(ViewProxy viewProxy, Player player)  {
         super.addViewProxyPlayer(viewProxy, player);
         observer = viewProxy;
