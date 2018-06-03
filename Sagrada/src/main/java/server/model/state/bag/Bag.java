@@ -7,13 +7,19 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 
-//Esiste una sola istanza della classe: pattern??
-
+/**
+ * The Bag class represents the container from which all the dices used in the game are taken.
+ * The class Bag includes methods to draw a dice or to reinsert it.
+ *
+ */
 public class Bag{
-	//I char rappresentano i 5 colori dei dadi che sono posti nella pila in maniera casuale
+
 	private ArrayDeque<Color> dices;
-	//Creo la pila con 18 elementi per ogni char rappresentante i colori
-	//NB dovrebbe esistere una funzione di libreria che mi fa mischiare la pila
+
+	/**
+	 * Initialize a newly created Bag so that it contains 18 dices for each of the 5 colors, with random values.
+	 */
+
 	public Bag(){
 		int n=18;
 		dices=new ArrayDeque<>();
@@ -41,18 +47,30 @@ public class Bag{
 		dices=new ArrayDeque<>(list);
 	}
 
-
-
-	//creo un nuovo dado del colore del char ottenuto pescando dalla pila
+	/**
+	 * Remove a random dice from the Bag.
+	 *
+	 * @return a random Dice
+	 */
 	public Dice draw() {
 		return new Dice(dices.pop());
 	}
 
+	/**
+	 * Remove a Dice with the specified value
+	 *
+	 * @param value of the Dice to return
+	 * @return a Dice with a random color and the specified value
+	 */
 	public Dice draw(int value) {
 		return new Dice(dices.pop(), value);
 	}
 
-	//Re inserisco un dado nel sacco
+	/**
+	 * Insert a {@link server.model.state.dice.Dice} in the Bag.
+	 *
+	 * @param dice the dice that I want to reinsert in the Bag
+	 */
 	public void insert(Dice dice){
 		dices.push(dice.getColor());
 		shuffle();

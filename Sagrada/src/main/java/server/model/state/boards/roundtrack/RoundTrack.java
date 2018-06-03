@@ -8,12 +8,21 @@ import java.util.List;
 
 //Una sola istanza per la classe
 
+/**
+ * The RoundTrack class contains the remaining {@link server.model.state.dice.Dice} in the {@link server.model.state.boards.draftpool.DraftPool } at the end of the round.
+ * This is a HashMap of ArrayList of {@link server.model.state.boards.roundtrack.RoundTrackCell}.
+ * His size is 10, number of the round of the game.
+ */
 public class RoundTrack{
 	//Ogni casella sul tracciato dei round è rappresentato come un set di caselle poichè per ogni round posso avere più dadi
 	private HashMap<Integer, ArrayList<RoundTrackCell>> roundTrackSpaces;
 	public static final int MAX_ROUND=10;
 	//Round attuale
 	private int round;
+
+	/**
+	 * Initialize the RoundTrack, create ten ArrayList, each one for one round.
+	 */
 	public RoundTrack(){
 		round=1;
 		roundTrackSpaces=new HashMap<>(MAX_ROUND);
@@ -21,6 +30,13 @@ public class RoundTrack{
 			roundTrackSpaces.put(i+1, new ArrayList<>());
 		}
 	}
+
+	/**
+	 * This put at the end of the n-round the dice from the DraftPool in the ArrayList corresponding at the n-round.
+	 * After this, increments the round to n+1.
+	 * @param pool the DraftPool with the dice.
+	 * @throws Exception if the round is 10, because the game is finished.
+	 */
 	//Aumenta il round
 	public void endRound(DraftPool pool) throws Exception {
 		if(round == 11)
@@ -35,19 +51,48 @@ public class RoundTrack{
 		}
 		round++;
 	}
+
+	/**
+	 * Gets the ArrayList of RoundTrackCells of the round indicated.
+	 * @param round to get the correct ArrayList and not all this RoundTrack.
+	 * @return ArrayList of RoundTrackCells of the round indicated.
+	 */
 	//Ritorna il set di dadi del turno indicato
 	public List<RoundTrackCell> getRoundSet(int round){
 		return roundTrackSpaces.get(round);
 	}
 
 
+	/**
+	 * Gets the current round of the game.
+	 * @return the current round.
+	 */
 	public int getRound(){
 		return this.round;
 	}
 
+	/**
+	 * Verify if the RoundTrack is empty.
+	 * @return false if there is a dice in one of the ArrayList, true if there isn't.
+	 */
 	public boolean isEmpty(){
 		for(ArrayList list : roundTrackSpaces.values())
 			if(!list.isEmpty()) return false;
 		return true;
 	}
+
+	/**
+	 * Sum the value of every dice in the RoundTrack, used to calculate the Objective Points for Single Player version.
+	 * @return the sum of every value of the dice in the RoundTrack
+	 */
+    public int calculatePoints() {
+		int points=0;
+		for(int round=0;round<MAX_ROUND;round++){
+			if(roundTrackSpaces.get(round)!=null){
+			for(int index=0;index<roundTrackSpaces.get(round).size();index++){
+				points=roundTrackSpaces.get(round).get(index).getDice().getValue()+points;
+			}}
+		}
+		return points;
+    }
 }

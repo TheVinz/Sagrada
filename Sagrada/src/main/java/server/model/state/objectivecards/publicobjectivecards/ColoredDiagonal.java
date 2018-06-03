@@ -2,7 +2,16 @@ package server.model.state.objectivecards.publicobjectivecards;
 
 import server.model.state.boards.windowframe.WindowFrame;
 
+/**
+ * The ColoredDiagonal class implements the method that add one point for every {@link server.model.state.dice.Dice}
+ * with same color adjacent diagonally on the {@link server.model.state.boards.windowframe.WindowFrame}.
+ */
 public class ColoredDiagonal extends PublicObjectiveCard{
+    /**
+     * This method calculate the points to add to the final points looking at the Adjacent Dice on the WindowFrame.
+     * @param windowFrame WindowFrame of the player.
+     * @return an int that indicates the points.
+     */
     public int calculatePoints(WindowFrame windowFrame) {
         int points=0;
         for(int i=0; i<WindowFrame.ROWS; i++){
@@ -13,6 +22,10 @@ public class ColoredDiagonal extends PublicObjectiveCard{
         return points;
     }
 
+    /**
+     * Gets the number that indicated the PublicObjectiveCard.
+     * @return an int corresponding to the COLORED_DIAGONAL.
+     */
     @Override
     public int getNumber() {
         return COLORED_DIAGONAL;
