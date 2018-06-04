@@ -4,7 +4,7 @@ import server.model.state.dice.Dice;
 import common.exceptions.InvalidMoveException;
 
 /**
- * Cell is the abstract base class for all the different cells in the game.
+ * <tt>Cell</tt> is the abstract base class for all the different cells in the game.
  * Implements the methods that manage the movement of {@link server.model.state.dice.Dice}.
  */
 public abstract class Cell implements ModelObject {

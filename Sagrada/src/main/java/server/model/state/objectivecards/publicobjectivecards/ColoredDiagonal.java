@@ -3,7 +3,7 @@ package server.model.state.objectivecards.publicobjectivecards;
 import server.model.state.boards.windowframe.WindowFrame;
 
 /**
- * The ColoredDiagonal class implements the method that add one point for every {@link server.model.state.dice.Dice}
+ * The <tt>ColoredDiagonal</tt> class implements the method that add one point for every {@link server.model.state.dice.Dice}
  * with same color adjacent diagonally on the {@link server.model.state.boards.windowframe.WindowFrame}.
  */
 public class ColoredDiagonal extends PublicObjectiveCard{

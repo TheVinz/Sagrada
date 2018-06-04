@@ -8,7 +8,7 @@ import server.model.state.utilities.Color;
 import static server.model.state.ModelObject.ModelType.WINDOW_FRAME_CELL;
 
 /**
- * The WindowFrameCell class extends the {@link server.model.state.boards.Cell} class.
+ * The <tt>WindowFrameCell</tt> class extends the {@link server.model.state.boards.Cell} class.
  * Represents the cell in the {@link server.model.state.boards.windowframe.WindowFrame}.
  * They might have a color restriction or a value restriction.
  *

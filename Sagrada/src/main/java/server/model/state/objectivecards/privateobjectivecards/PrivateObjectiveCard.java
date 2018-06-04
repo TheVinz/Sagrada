@@ -5,7 +5,7 @@ import server.model.state.objectivecards.ObjectiveCard;
 import server.model.state.utilities.Color;
 
 /**
- * This is an enum class that represents all the PrivateObjectiveCard. They are assigned randomly at every player at the beginning of the game.
+ * This is an enum class that represents all the <tt>PrivateObjectiveCard</tt>. They are assigned randomly at every player at the beginning of the game.
  * There are five PrivateObjectiveCard, one for each c{@link server.model.state.utilities.Color}.
  */
 public  enum PrivateObjectiveCard implements ObjectiveCard {

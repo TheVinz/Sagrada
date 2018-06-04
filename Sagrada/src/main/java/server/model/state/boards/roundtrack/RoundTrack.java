@@ -9,7 +9,7 @@ import java.util.List;
 //Una sola istanza per la classe
 
 /**
- * The RoundTrack class contains the remaining {@link server.model.state.dice.Dice} in the {@link server.model.state.boards.draftpool.DraftPool } at the end of the round.
+ * The <tt>RoundTrack</tt> class contains the remaining {@link server.model.state.dice.Dice} in the {@link server.model.state.boards.draftpool.DraftPool } at the end of the round.
  * This is a HashMap of ArrayList of {@link server.model.state.boards.roundtrack.RoundTrackCell}.
  * His size is 10, number of the round of the game.
  */

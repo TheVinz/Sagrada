@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The DraftPool class represents the space where there are the {@link server.model.state.dice.Dice} drawn from the {@link server.model.state.bag.Bag}.
+ * The <tt>DraftPool</tt> class represents the space where there are the {@link server.model.state.dice.Dice} drawn from the {@link server.model.state.bag.Bag}.
  * This is an ArrayList of {@link server.model.state.boards.draftpool.DraftPoolCell}.
  * The size of the DraftPool depends by the number of players.
  */
