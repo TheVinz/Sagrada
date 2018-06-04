@@ -1,6 +1,8 @@
 package client.view.cli;
 
 
+import common.viewchangement.SinglePlayerEndGame;
+
 public class CliDisplayer {
     private CliState cliState = CliState.getCliState();
     private static CliDisplayer singleton;
@@ -429,10 +431,11 @@ public class CliDisplayer {
                 else
                     displayText("   "+points[scoreboardIds[i]][6]+"   |\n");
             }
+
         }
-
-
-
+        for(int i=0;i<CliState.getCliState().getPublicObjectiveCardIds().length;i++)
+        displayText("PublicObjectiveCard "+i+" is "+objectiveCardsEffects.returnName(CliState.getCliState().getPublicObjectiveCardIds()[0]));
+        displayText("\n");
     }
     public void printBold(String modify) {    //da mettere in inglese
         displayText((char) 27 + "[1m" + modify + (char) 27 + "[0m");
@@ -463,5 +466,17 @@ public class CliDisplayer {
                 break;
         }
         displayText(card);
+    }
+    public void printSinglePlayerPoints(SinglePlayerEndGame singlePlayerEndGame){
+        if(singlePlayerEndGame.getFinalScore()<singlePlayerEndGame.getVectorPoints()[4]) {
+            displayText("\t\t\t\t\tYOU WIN");
+        }
+        else
+            displayText("\t\t\t\t\tYOU LOSE");
+        displayText("\nYour Total Points are "+singlePlayerEndGame.getVectorPoints()[4]+" instead the score to beat was "+singlePlayerEndGame.getFinalScore()+".\n");
+        displayText("Points from PublicObjectiveCard:\n-"+objectiveCardsEffects.returnName(cliState.getPublicObjectiveCardIds()[0]));
+        displayText(": "+singlePlayerEndGame.getVectorPoints()[0]+";\n-"+objectiveCardsEffects.returnName(cliState.getPublicObjectiveCardIds()[1]));
+        displayText(": "+singlePlayerEndGame.getVectorPoints()[1]+";\nPoints from PrivateObjectiveCard: "+singlePlayerEndGame.getVectorPoints()[2]);
+        displayText(";\nPoints from empty cell: "+singlePlayerEndGame.getVectorPoints()[3]+";\n");
     }
 }

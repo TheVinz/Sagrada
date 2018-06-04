@@ -99,7 +99,7 @@ public class CliChanger implements Changer {
     public void change(LoadToolCards loadToolCards) {
         CliState.getCliState().setToolCardIds(loadToolCards.getToolCards());
         for(int i=0; i<loadToolCards.getToolCards().length;i++){
-            CliDisplayer.getDisplayer().displayText("Selected tool card No. " + loadToolCards.getToolCards()[i] + ";\n");
+            CliDisplayer.getDisplayer().displayText("Selected tool card No. " + toolCardsEffects.returnName(loadToolCards.getToolCards()[i]) + ";\n");
         }
     }
 
@@ -139,7 +139,8 @@ public class CliChanger implements Changer {
 
     @Override
     public void change(SinglePlayerEndGame singlePlayerEndGame) {
-        CliDisplayer.getDisplayer().displayText(singlePlayerEndGame.getFinalScore()+" - "+singlePlayerEndGame.getVectorPoints()[4]);
+        CliDisplayer.getDisplayer().printSinglePlayerPoints(singlePlayerEndGame);
+      //  CliDisplayer.getDisplayer().displayText(singlePlayerEndGame.getFinalScore()+" - "+singlePlayerEndGame.getVectorPoints()[4]);
         CliState.getCliState().setGameFinished(true);
     }
 
@@ -287,7 +288,7 @@ public class CliChanger implements Changer {
 
     public void change(RemovedDice removedDice) {
         CliState.getCliState().getDraftPool()[removedDice.getIndex()]="0";
-        CliDisplayer.getDisplayer().displayText("A draftpool dice has been removed in order to use the toolcard!");
+        CliDisplayer.getDisplayer().displayText("A draftpool dice has been removed in order to use the toolcard!\n");
     }
 
     public void change(EndGame endGame){
