@@ -1,6 +1,10 @@
 package server.model.state.objectivecards.publicobjectivecards;
 import server.model.state.objectivecards.ObjectiveCard;
 
+/**
+ * This is an abstract class that implements the {@link server.model.state.objectivecards.ObjectiveCard} class.
+ * Defines all the possible PublicObjectiveCard in the game and assigned them an int.
+ */
 public abstract class PublicObjectiveCard implements ObjectiveCard{
 
     public static final int COLORED_DIAGONAL = 0;

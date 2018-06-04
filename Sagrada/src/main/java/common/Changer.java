@@ -1,4 +1,4 @@
-package client.view;
+package common;
 
 import common.viewchangement.*;
 
@@ -22,5 +22,6 @@ public interface Changer {
     void change(ToolCardsChoices toolCardsChoices);
     void change(ToolCardUsed toolCardUsed);
     void change(WindowFrameChoices windowFrameChoices);
-
+    void change(PrivateObjectiveCardsChoice privateObjectiveCardsChoice);
+    void change(SinglePlayerEndGame singlePlayerEndGame);
 }

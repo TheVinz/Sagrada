@@ -1,8 +1,7 @@
 package client.view.cli;
 
-import client.view.Changer;
+import common.Changer;
 import client.view.cli.cliphasestate.*;
-import client.view.cli.cliphasestate.ToolCardsChoice;
 import common.Notification;
 import common.RemoteMVC.RemoteView;
 import common.response.Response;
@@ -10,8 +9,6 @@ import common.viewchangement.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-
-import static common.response.Response.*;
 
 
 public class CliModel extends UnicastRemoteObject implements RemoteView{
@@ -21,6 +18,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     public CliModel(boolean singlePlayer) throws RemoteException {
         super();
+
         this.singlePlayer = singlePlayer;
         changer = singlePlayer ? new SinglePlayerCliChanger() : new CliChanger();
     }

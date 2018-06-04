@@ -1,6 +1,6 @@
 package common.viewchangement;
 
-import client.view.Changer;
+import common.Changer;
 
 public class MutableData extends Changement {
     private final int[] draftPoolValues;

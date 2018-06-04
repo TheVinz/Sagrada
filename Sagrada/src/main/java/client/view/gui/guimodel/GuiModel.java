@@ -1,6 +1,6 @@
 package client.view.gui.guimodel;
 
-import client.view.Changer;
+import common.Changer;
 import client.view.gui.guicontroller.ViewController;
 import common.Notification;
 import common.RemoteMVC.RemoteView;

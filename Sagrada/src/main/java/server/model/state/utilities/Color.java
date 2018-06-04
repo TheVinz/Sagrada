@@ -1,9 +1,16 @@
 package server.model.state.utilities;
 
 
+/**
+ * An enum class that describes all the possible color in the game.
+ */
 public enum Color{
 	RED, BLUE, GREEN, PURPLE, YELLOW;
 
+    /**
+     *Switch a string representing a color into a char.
+     * @return a char that indicates a color.
+     */
     public char asChar() {
         switch(this){
             case RED:

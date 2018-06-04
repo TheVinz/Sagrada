@@ -22,21 +22,42 @@ public class CliDisplayer {
 
 
     public void printMenu() {
-        if(cliState.getActivePlayer().isSecondTurn())
-            displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-"+cliState.getRound());
+        if(!singlePlayer) {
+            if (cliState.getActivePlayer().isSecondTurn())
+                displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-" + cliState.getRound());
+            else
+                displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-" + cliState.getRound());
+            displayText("\n\t\t\t\tWhat would you like to see?\n");
+            displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
+            displayText("-Your State press\t\t\t\t\t V\n");    //(char)27+"[31m"   colore rosso
+            displayText("-ToolCards press\t\t\t\t\t T\n");
+            displayText("-PublicObjectiveCard press\t\t\t O\n");
+            displayText("-RoundTrack press\t\t\t\t\t R\n");
+            displayText("-Other's State press\t\t\t\t S\n\n ");
+            displayText("What you wanna do?\n");
+            displayText("-Place a dice press\t\t\t\t\t D\n");
+            displayText("-Use a ToolCard press\t\t\t\t U\n");
+            displayText("-In order to skip the turn press\t N\n");
+        }
         else
-            displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-"+cliState.getRound());
-        displayText("\t\t\t\tWhat would you like to see?\n");
-        displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
-        displayText("-Your State press\t\t\t\t\t V\n");    //(char)27+"[31m"   colore rosso
-        displayText("-ToolCards press\t\t\t\t\t T\n");
-        displayText("-PublicObjectiveCard press\t\t\t O\n");
-        displayText("-RoundTrack press\t\t\t\t\t R\n");
-        displayText("-Other's State press\t\t\t\t S\n\n ");
-        displayText("What you wanna do?\n");
-        displayText("-Place a dice press\t\t\t\t\t D\n");
-        displayText("-Use a ToolCard press\t\t\t\t U\n");
-        displayText("-In order to skip the turn press\t N\n");
+        {
+            if (cliState.getActivePlayer().isSecondTurn())
+                displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-" + cliState.getRound());
+            else
+                displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-" + cliState.getRound());
+            displayText("\n\t\t\t\tWhat would you like to see?\n");
+            displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
+            displayText("-Your State press\t\t\t\t\t V\n");    //(char)27+"[31m"   colore rosso
+            displayText("-ToolCards press\t\t\t\t\t T\n");
+            displayText("-PublicObjectiveCard press\t\t\t O\n");
+            displayText("-RoundTrack press\t\t\t\t\t R\n");
+            displayText("What you wanna do?\n");
+            displayText("-Place a dice press\t\t\t\t\t D\n");
+            displayText("-Use a ToolCard press\t\t\t\t U\n");
+            displayText("-In order to skip the turn press\t N\n");
+
+
+        }
     }
 
     public void printWindowFrame(CliPlayerState cliPlayerState) {
@@ -171,9 +192,16 @@ public class CliDisplayer {
     }
      public void printToolCard() {
         displayText("You can use these ToolCards:\n");
+        if(!singlePlayer){
         for (int i = 0; i < cliState.getToolCardIds().length; i++) {
-            displayText(i + ")" + toolCardsEffects.returnEffects(cliState.getToolCardIds()[i]));     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
+            displayText(i + ")" +toolCardsEffects.returnName(cliState.getToolCardIds()[i])+ toolCardsEffects.returnEffects(cliState.getToolCardIds()[i]));     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
             //per ora un numero a cui dovremo associare la vera e propria ToolCard.
+        }}
+        else {
+            for (int i = 0; i < cliState.getToolCardIds().length; i++) {
+                displayText(i + ")" + toolCardsEffects.returnColoredName(cliState.getToolCardIds()[i]));
+
+            }
         }
     }
 
@@ -220,7 +248,7 @@ public class CliDisplayer {
     }
 
     public void printPrivateObjectiveCard() {
-        for(int i=0; i<cliState.getPrivateObjectiveCard().length; i++)
+       for(int i=0; i<cliState.getPrivateObjectiveCard().length; i++)
             printColoredPrvCard(cliState.getPrivateObjectiveCard()[i]);
     }
 
@@ -313,12 +341,12 @@ public class CliDisplayer {
         displayText("FAVOR TOKENS: "+favorTokens+"\n");
     }
 
-    public void printResults(char[] cards, int[] scoreboard, int[][] points) {
+    public void printResults(char[] cards, int[] scoreboardIds, int[][] points) {
         displayText("\t\t\tSCOREBOARD:\n");
         int max=0;
-        for(int i=0;i<scoreboard.length;i++)
-            if(max<cliState.getCliPlayerState(scoreboard[i]).getName().length())
-                max=cliState.getCliPlayerState(scoreboard[i]).getName().length();
+        for(int i=0;i<scoreboardIds.length;i++)
+            if(max<cliState.getCliPlayerState(scoreboardIds[i]).getName().length())
+                max=cliState.getCliPlayerState(scoreboardIds[i]).getName().length();
         int space=0;
         if(max+2<18){
             max=18;
@@ -349,68 +377,68 @@ public class CliDisplayer {
                 displayText(" ");
         displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |        |\n");
 
-        for(int i=0;i<scoreboard.length;i++) {
-            displayText("" + (i + 1) + ")" + cliState.getCliPlayerState(scoreboard[i]).getName());
-                for(int s=0;s<max-cliState.getCliPlayerState(scoreboard[i]).getName().length();s++){
+        for(int i=0;i<scoreboardIds.length;i++) {
+            displayText("" + (i + 1) + ")" + cliState.getCliPlayerState(scoreboardIds[i]).getName());
+                for(int s=0;s<max-cliState.getCliPlayerState(scoreboardIds[i]).getName().length();s++){
                 displayText(" ");
                 }
                 displayText("|");
-            if (points[scoreboard[i]][0] > 9)   //prima public
-                displayText("  " + points[scoreboard[i]][0] + "  |");
+            if (points[scoreboardIds[i]][0] > 9)   //prima public
+                displayText("  " + points[scoreboardIds[i]][0] + "  |");
             else
-                displayText("   " + points[scoreboard[i]][0] + "  |");
-            if (points[scoreboard[i]][1] > 9)   //seconda public
-                displayText("  " + points[scoreboard[i]][1] + "  |");
+                displayText("   " + points[scoreboardIds[i]][0] + "  |");
+            if (points[scoreboardIds[i]][1] > 9)   //seconda public
+                displayText("  " + points[scoreboardIds[i]][1] + "  |");
             else
-                displayText("   " + points[scoreboard[i]][1] + "  |");
-            if (points[scoreboard[i]][2] > 9)   //terza public
-                displayText("  " + points[scoreboard[i]][2] + "  |");
+                displayText("   " + points[scoreboardIds[i]][1] + "  |");
+            if (points[scoreboardIds[i]][2] > 9)   //terza public
+                displayText("  " + points[scoreboardIds[i]][2] + "  |");
             else
-                displayText("   " + points[scoreboard[i]][2] + "  |");
-            if (points[scoreboard[i]][3] > 9)    //private
-                displayText("   " + points[scoreboard[i]][3] + "   |");
+                displayText("   " + points[scoreboardIds[i]][2] + "  |");
+            if (points[scoreboardIds[i]][3] > 9)    //private
+                displayText("   " + points[scoreboardIds[i]][3] + "   |");
             else
-                displayText("    " + points[scoreboard[i]][3] + "   |");
-            if (points[scoreboard[i]][4] > 9)    //favor
-                displayText("   " + points[scoreboard[i]][4] + "   |");
+                displayText("    " + points[scoreboardIds[i]][3] + "   |");
+            if (points[scoreboardIds[i]][4] > 9)    //favor
+                displayText("   " + points[scoreboardIds[i]][4] + "   |");
             else
-                displayText("   " + points[scoreboard[i]][4] + "  |");
-            if(points[scoreboard[i]][5]>0){     //empty
-                if (points[scoreboard[i]][5] > 9)
-                    displayText("  " + points[scoreboard[i]][5] + "   |");
+                displayText("   " + points[scoreboardIds[i]][4] + "  |");
+            if(points[scoreboardIds[i]][5]>0){     //empty
+                if (points[scoreboardIds[i]][5] > 9)
+                    displayText("  " + points[scoreboardIds[i]][5] + "   |");
                 else
-                    displayText("    " + points[scoreboard[i]][5] + "    |");
+                    displayText("    " + points[scoreboardIds[i]][5] + "    |");
             }
             else{
-                if(points[scoreboard[i]][5]<-9){
-                    displayText("   "+points[scoreboard[i]][5]+"   |");
+                if(points[scoreboardIds[i]][5]<-9){
+                    displayText("   "+points[scoreboardIds[i]][5]+"   |");
                 }
                 else
-                    displayText("   "+points[scoreboard[i]][5]+"    |");
+                    displayText("   "+points[scoreboardIds[i]][5]+"    |");
             }                             //total points
-            if(points[scoreboard[i]][6]>0){
-                if (points[scoreboard[i]][6] > 9)
-                    displayText("  " + points[scoreboard[i]][6] + "   |\n");
+            if(points[scoreboardIds[i]][6]>0){
+                if (points[scoreboardIds[i]][6] > 9)
+                    displayText("  " + points[scoreboardIds[i]][6] + "   |\n");
                 else
-                    displayText("    " + points[scoreboard[i]][6] + "    |\n");
+                    displayText("    " + points[scoreboardIds[i]][6] + "    |\n");
             }
             else{
-                if(points[scoreboard[i]][6]<-9){
-                    displayText("   "+points[scoreboard[i]][6]+"  |\n");
+                if(points[scoreboardIds[i]][6]<-9){
+                    displayText("   "+points[scoreboardIds[i]][6]+"  |\n");
                 }
                 else
-                    displayText("   "+points[scoreboard[i]][6]+"   |\n");
+                    displayText("   "+points[scoreboardIds[i]][6]+"   |\n");
             }
         }
 
 
-    }
 
-    public void setSinglePlayer(boolean singlePlayer) {
-        this.singlePlayer = singlePlayer;
     }
-    public void printGrassetto(String modify){    //da mettere in inglese
-        displayText((char)27+"[1m"+modify+(char)27+"[0m");}
+    public void printBold(String modify) {    //da mettere in inglese
+        displayText((char) 27 + "[1m" + modify + (char) 27 + "[0m");
+    }
+    public void setSinglePlayer(boolean singlePlayer) {
+        this.singlePlayer = singlePlayer;}
 
     public void printColoredPrvCard(String color){
         String card;

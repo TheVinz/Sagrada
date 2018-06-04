@@ -13,6 +13,7 @@ public class ServerSocketConnection implements Runnable{
     private final ExecutorService pool;
     private final int port = 8010;
     private GameManager gameManager;
+    private boolean stopSignal = false;
 
     public ServerSocketConnection(GameManager gameManager)  throws IOException {
         this.gameManager = gameManager;
@@ -22,7 +23,8 @@ public class ServerSocketConnection implements Runnable{
     }
 
     public void run()  {
-        while (true) {
+        stopSignal=false;
+        while (!stopSignal) {
             try {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println(">>> New connection " + clientSocket.getRemoteSocketAddress());
@@ -34,6 +36,7 @@ public class ServerSocketConnection implements Runnable{
     }
 
     public void close() throws IOException {
+        stopSignal=true;
         serverSocket.close();
         pool.shutdown();
     }

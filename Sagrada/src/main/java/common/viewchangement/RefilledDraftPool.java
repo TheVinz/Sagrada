@@ -1,7 +1,7 @@
 package common.viewchangement;
 
 
-import client.view.Changer;
+import common.Changer;
 
 public class RefilledDraftPool extends Changement {
     private final int[] values;

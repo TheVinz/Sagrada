@@ -1,6 +1,7 @@
 package client.view.cli;
 
-import client.view.Changer;
+import client.view.cli.cliphasestate.PrivateObjectiveCardChoice;
+import common.Changer;
 import client.view.cli.cliphasestate.MenuPhase;
 import client.view.cli.cliphasestate.ToolCardsChoice;
 import client.view.cli.cliphasestate.WindowFrameChoice;
@@ -131,6 +132,17 @@ public class CliChanger implements Changer {
         CliApp.getCliApp().setCurrentState(new WindowFrameChoice());
     }
 
+    @Override
+    public void change(PrivateObjectiveCardsChoice privateObjectiveCardsChoice) {
+        CliApp.getCliApp().setCurrentState(new PrivateObjectiveCardChoice());
+    }
+
+    @Override
+    public void change(SinglePlayerEndGame singlePlayerEndGame) {
+        CliDisplayer.getDisplayer().displayText(singlePlayerEndGame.getFinalScore()+" - "+singlePlayerEndGame.getVectorPoints()[4]);
+        CliState.getCliState().setGameFinished(true);
+    }
+
     public void change(LoadPlayers loadPlayers) {
         CliPlayerState[] players =new CliPlayerState[loadPlayers.getNames().length];
         for(int i=0; i<loadPlayers.getNames().length; i++){
@@ -167,8 +179,6 @@ public class CliChanger implements Changer {
                 card="Compiler wants me to add a default case";
                 break;
         }
-        if(CliState.getCliState().getPrivateObjectiveCard().length!=0)
-            return;
         CliState.getCliState().setPrivateObjectiveCard(card);
         CliDisplayer.getDisplayer().displayText("Your private objective:\n");
         CliDisplayer.getDisplayer().printColoredPrvCard(card);
@@ -224,6 +234,7 @@ public class CliChanger implements Changer {
 
     public void change(MutableData mutableData){
         CliState cliState = CliState.getCliState();
+        cliState.resetPrivate();
 
         String[] draftPool = new String[mutableData.getDraftPoolValues().length];
         for(int i=0; i<mutableData.getDraftPoolValues().length; i++){
@@ -281,5 +292,6 @@ public class CliChanger implements Changer {
 
     public void change(EndGame endGame){
         CliDisplayer.getDisplayer().printResults(endGame.getCharCards(),endGame.getScoreboardIds(),endGame.getMatrixPoins());
+        CliState.getCliState().setGameFinished(true);
     }
 }

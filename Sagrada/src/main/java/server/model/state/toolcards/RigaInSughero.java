@@ -79,8 +79,10 @@ public class RigaInSughero extends ToolCard {
             for(int j=0; j<WindowFrame.COLUMNS; j++){
                 if(!GameRules.validAdjacentDices(player.getWindowFrame(), player.getWindowFrame().getCell(i,j))){
                     for(Cell cell : model.getState().getDraftPool().getDraftPool()) {
-                            if(GameRules.validAllCellRestriction(cell.getDice(), player.getWindowFrame().getCell(i,j)))
+                        if(!cell.isEmpty()) {
+                            if (GameRules.validAllCellRestriction(cell.getDice(), player.getWindowFrame().getCell(i, j)))
                                 return true;
+                        }
                     }
                 }
             }

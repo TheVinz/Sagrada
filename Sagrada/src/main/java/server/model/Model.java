@@ -45,6 +45,9 @@ public class Model implements Observable {
     public Util getUtil() {return this.util;}
 
 
+    public boolean isSingleplayer(){
+        return false;
+    }
 
     public void addViewProxyPlayer(ViewProxy viewProxy, Player player){
             addObserver(viewProxy);
@@ -125,7 +128,8 @@ public class Model implements Observable {
             endGame();
         else startRound();
     }
-    private void endGame() {
+    public void endGame() {
+        state.setGameFinished(true);
         List <Player> scoreboard = new ArrayList<>();
         for (Player player : state.getPlayers()) {
             player.calculatePoints(state);
@@ -140,9 +144,9 @@ public class Model implements Observable {
         Observer o = playerObserverMap.get(player);
         activeObservers.add(o);
         o.updateObjectiveCards(state.getPublicObjectiveCards().toArray(new PublicObjectiveCard[0]));
-        o.updatePrivateObjectiveCard(player.getPrivateObjectiveCard());
         o.updateToolCards(state.getToolCards().toArray(new ToolCard[0]));
         o.updateMutableData();
+        o.updatePrivateObjectiveCard(player.getPrivateObjectiveCard());
         notifyReinsertPlayer(player);
     }
 
@@ -162,6 +166,10 @@ public class Model implements Observable {
     * Changement
     * */
     public void toolCardsChoice(int toolCards){
+    }
+
+    public void privateCardChoice(int card){
+
     }
 
     public void windowFrameChoice(Player player, WindowFrameList windowFrameList){
@@ -213,7 +221,7 @@ public class Model implements Observable {
 
     public void remove(Player player, DraftPoolCell cell) throws InvalidMoveException{
         Dice dice = cell.removeDice();
-        state.getBag().insert(dice);
+        //state.getBag().insert(dice);        ??? Il dado non viene rimosso dal gioco??
         notifyRemovedDice(player, cell);
     }
 

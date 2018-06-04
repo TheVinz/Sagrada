@@ -1,6 +1,6 @@
 package common.viewchangement;
 
-import client.view.Changer;
+import common.Changer;
 
 public class ToolCardUsed extends Changement {
     private final int id;

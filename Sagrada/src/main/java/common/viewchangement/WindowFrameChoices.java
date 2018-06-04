@@ -1,6 +1,6 @@
 package common.viewchangement;
 
-import client.view.Changer;
+import common.Changer;
 
 public class WindowFrameChoices extends Changement {
     private final int[] favorTokens;

@@ -1,13 +1,18 @@
 package server.model;
 
+import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.model.state.player.Player;
 import server.model.state.player.SinglePlayer;
 import server.model.state.toolcards.ToolCard;
+import server.model.state.utilities.PointsComparator;
 import server.observer.Observer;
 import server.observer.SinglePlayerObservable;
 import server.viewproxy.RMIViewProxy;
 import server.viewproxy.ViewProxy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SinglePlayerModel extends Model implements SinglePlayerObservable {
 
@@ -17,6 +22,11 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
     public SinglePlayerModel(){
         super();
         getState().getDraftPool().increaseSizeByOne();
+    }
+
+    @Override
+    public boolean isSingleplayer(){
+        return true;
     }
 
     @Override
@@ -55,6 +65,17 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
     }
 
     @Override
+    public void privateCardChoice(int card) {
+        if(card == 1){
+            PrivateObjectiveCard privateObjectiveCard = player.getPrivateObjectiveCard(1);
+            player.resetPrivateObjectiveCard();
+            player.setPrivateObjectiveCard(privateObjectiveCard);
+        }
+        player.calculatePoints(super.getState());
+        observer.updateSinglePlayerEndGame(super.getState().getRoundTrack().calculatePoints(), player.getPoints());
+    }
+
+    @Override
     public void notifyPrivateObjectiveCard() {
         observer.updatePrivateObjectiveCard(getUtil().getCard());
         observer.updatePrivateObjectiveCard(getUtil().getCard());
@@ -63,4 +84,11 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
     public void notifyToolCardsChoice() {
         observer.updateToolCardsChoice();
     }
+
+    @Override
+    public void endGame() {
+        super.getState().setGameFinished(true);
+        observer.updatePrivateObjectiveCardChoice();
+    }
+
 }
