@@ -9,12 +9,14 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 public class LaunchServer {
+
+    private static final Object lock = new Object();
+
     public static void main(String[] args) throws Exception{
         GameManager gameManager = new GameManager();
         startRMIServer(gameManager);
-        ServerSocketConnection serverSocketConnection = new ServerSocketConnection(gameManager);
+        ServerSocketConnection serverSocketConnection = new ServerSocketConnection(gameManager, lock);
         new Thread(serverSocketConnection).start();
-        gameManager.init();
     }
 
     private static void startRMIServer(GameManager gameManager) {
@@ -22,7 +24,7 @@ public class LaunchServer {
         int port = 1099;
         try {
             System.out.print(">>>");
-            RemoteLoginManager loginManager = new RMILoginManager(gameManager);
+            RemoteLoginManager loginManager = new RMILoginManager(gameManager, lock);
             System.out.print("Starting RMI server...\n>>>");
             Naming.rebind("rmi://" + ip + ":" + port + "/RMILoginManager", loginManager);
             System.out.print("RMI Server on\n>>>");

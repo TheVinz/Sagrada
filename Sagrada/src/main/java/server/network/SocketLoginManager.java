@@ -1,6 +1,7 @@
 package server.network;
 
 import server.GameManager;
+import server.model.Model;
 import server.model.state.player.Player;
 import server.viewproxy.SocketViewProxy;
 import server.viewproxy.ViewProxy;
@@ -15,39 +16,41 @@ public class SocketLoginManager implements Runnable{
     private final ObjectInputStream in;
     private GameManager gameManager;
     private final ObjectOutputStream out;
+    private final Object lock;
 
 
-    public SocketLoginManager(Socket s, GameManager gameManager) throws IOException {
+    public SocketLoginManager(Socket s, GameManager gameManager, Object lock) throws IOException {
         this.socket = s;
         this.out = new ObjectOutputStream(s.getOutputStream());
         this.in = new ObjectInputStream(s.getInputStream());
         this.gameManager = gameManager;
+        this.lock = lock;
     }
 
 
     @Override
-    synchronized public void run() {
-        try {
-            out.writeObject(new String("You are connected to the server!"));
-            String name = (String) in.readObject();
-            boolean singlePlayer = (Boolean) in.readObject();
-            gameManager.setModel(singlePlayer);
-            Player player = gameManager.getModel().addPlayer(name, gameManager.getModel().getState().getPlayers().size());
-            ViewProxy viewProxy = new SocketViewProxy(out, gameManager.getModel(), player);
-            new Thread(new ServerSocketHandler(in, viewProxy)).start();
-            gameManager.getModel().addViewProxyPlayer(viewProxy, player);
-            System.out.print(name + " connected\n>>>");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void run() {
+        synchronized (lock) {
+            try {
+                out.writeObject(new String("You are connected to the server!"));
+                String name = (String) in.readObject();
+                boolean singlePlayer = (Boolean) in.readObject();
+                Model model = gameManager.setModel(name, singlePlayer);
+                Player player = model.addPlayer(name, model.getState().getPlayers().size());
+                ViewProxy viewProxy = new SocketViewProxy(out, model, player);
+                new Thread(new ServerSocketHandler(in, viewProxy)).start();
+                model.addViewProxyPlayer(viewProxy, player);
+                gameManager.startGame(singlePlayer);
+                System.out.print(name + " connected\n>>>");
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
         }
-
-
     }
-
-
-
 }

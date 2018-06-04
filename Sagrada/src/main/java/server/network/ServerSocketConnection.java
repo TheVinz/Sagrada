@@ -14,8 +14,10 @@ public class ServerSocketConnection implements Runnable{
     private final int port = 8010;
     private GameManager gameManager;
     private boolean stopSignal = false;
+    private final Object lock;
 
-    public ServerSocketConnection(GameManager gameManager)  throws IOException {
+    public ServerSocketConnection(GameManager gameManager, Object lock)  throws IOException {
+        this.lock = lock;
         this.gameManager = gameManager;
         serverSocket = new ServerSocket(port);
         pool = Executors.newCachedThreadPool();
@@ -28,7 +30,7 @@ public class ServerSocketConnection implements Runnable{
             try {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println(">>> New connection " + clientSocket.getRemoteSocketAddress());
-                pool.submit(new SocketLoginManager(clientSocket, gameManager));
+                pool.submit(new SocketLoginManager(clientSocket, gameManager, lock));
             } catch (IOException e) {
                 e.printStackTrace();
             }

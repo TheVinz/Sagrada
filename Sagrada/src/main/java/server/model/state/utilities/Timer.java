@@ -6,18 +6,19 @@ import static java.lang.Thread.sleep;
 
 public class Timer implements Runnable {
     private int cont = 0;
-    private final int MAX_CONT = 45;
-    private Controller controller;
+    private final int MAX_CONT;
     private volatile Thread blinker;
+    private TimerObserver timerObserver;
 
-    public Timer(Controller controller){
-        this.controller = controller;
+    public Timer(TimerObserver timerObserver, int max_cont){
+        this.timerObserver = timerObserver;
+        this.MAX_CONT = max_cont;
     }
     @Override
     public synchronized void run() {
         while(blinker == Thread.currentThread()) {
             if(cont == 0 ){
-                controller.notifyTimeout();
+                timerObserver.notifyTimeout();
             }
             else {
                 try {

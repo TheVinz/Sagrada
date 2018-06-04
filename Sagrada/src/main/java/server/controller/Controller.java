@@ -8,12 +8,13 @@ import server.model.state.ModelObject.ModelObject;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.player.Player;
 import server.model.state.utilities.Timer;
+import server.model.state.utilities.TimerObserver;
 import server.viewproxy.ViewProxy;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Controller {
+public class Controller implements TimerObserver {
 	private Model model;
 	private Player player;
 	private ViewProxy view;
@@ -28,7 +29,7 @@ public class Controller {
 		this.view=view;
 		currentState=new WaitingState(player, model);
 		lock = new ReentrantLock();
-		player.setTimer(new Timer(this));
+		player.setTimer(new Timer(this, 60));
 	}
 
 	public void selectObject(ModelObject o) { //synchronized?
