@@ -14,7 +14,7 @@ import static server.model.state.boards.windowframe.WindowFrameList.*;
 import static server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard.*;
 
 /**
- * In the Util class there are methods useful to instantiate the start of a game.
+ * In the <tt>Util</tt> class there are methods useful to instantiate the start of a game.
  */
 public class Util { //non può essere static nel multipartita per la private
     private List<Integer> avalaiblePatterns=new LinkedList<>(Arrays.asList(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12}));

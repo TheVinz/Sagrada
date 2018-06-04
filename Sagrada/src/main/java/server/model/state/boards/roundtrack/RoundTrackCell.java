@@ -8,7 +8,7 @@ import server.model.state.boards.Cell;
 import static server.model.state.ModelObject.ModelType.ROUND_TRACK_CELL;
 
 /**
- * The RoundTrackCell class extends the {@link server.model.state.boards.Cell} class.
+ * The <tt>RoundTrackCell</tt> class extends the {@link server.model.state.boards.Cell} class.
  * Represents the cell in the {@link server.model.state.boards.roundtrack.RoundTrack}.
  */
 public class RoundTrackCell extends Cell implements ModelObject {

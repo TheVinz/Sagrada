@@ -1,7 +1,7 @@
 package server.model.state.boards.windowframe;
 
 /**
- * The WindowFrameList is an enum of WindowFrame that can be chose by the player at the begin of the game.
+ * The <tt>WindowFrameList</tt> is an enum of WindowFrame that can be chose by the player at the begin of the game.
  * Every WindowFrame as a rep. A string of twenty characters, one for cell. Characters that indicates if the
  * cell has a value restriction (a number), a {@link server.model.state.utilities.Color} restriction (a letter) or nothing (zero).
  * Every WindowFrame as also an assigned int that indicates the difficulty, called FavorTokens.

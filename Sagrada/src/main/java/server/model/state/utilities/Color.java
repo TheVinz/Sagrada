@@ -2,7 +2,7 @@ package server.model.state.utilities;
 
 
 /**
- * An enum class that describes all the possible color in the game.
+ * <tt>Color</tt> is an enum class that describes all the possible color in the game.
  */
 public enum Color{
 	RED, BLUE, GREEN, PURPLE, YELLOW;

@@ -3,7 +3,7 @@ package server.model.state.objectivecards;
 import server.model.state.boards.windowframe.WindowFrame;
 
 /**
- * Objective Card is an interface class that represents the {@link server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard} and the {@link server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard}.
+ * <tt>ObjectiveCard </tt>is an interface class that represents the {@link server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard} and the {@link server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard}.
  *
  */
 public interface ObjectiveCard {

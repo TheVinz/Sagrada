@@ -6,7 +6,7 @@ import server.model.state.utilities.Color;
 import java.util.Random;
 
 /**
- * The Dice Class defines all the dices that can be draw from the bag.
+ * The <tt>Dice</tt> class defines all the dices that can be draw from the bag.
  * The class Dice include methods to change the value of a dice.
  *
  */

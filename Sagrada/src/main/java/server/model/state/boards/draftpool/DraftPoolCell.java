@@ -7,7 +7,7 @@ import server.model.state.boards.Cell;
 import static server.model.state.ModelObject.ModelType.DRAFT_POOL_CELL;
 
 /**
- * The DraftPoolCell class extends the {@link server.model.state.boards.Cell} class.
+ * The <tt>DraftPoolCell</tt> class extends the {@link server.model.state.boards.Cell} class.
  * Represents the cell in the {@link server.model.state.boards.draftpool.DraftPool}.
  */
 public class DraftPoolCell extends Cell implements ModelObject {

@@ -3,7 +3,7 @@ package server.model.state.objectivecards.publicobjectivecards;
 import server.model.state.boards.windowframe.WindowFrame;
 
 /**
- * The DarkShades class implements the method that add two points for each set of {@link server.model.state.dice.Dice}
+ * The <tt>DarkShades</tt> class implements the method that add two points for each set of {@link server.model.state.dice.Dice}
  * with value five and six on the {@link server.model.state.boards.windowframe.WindowFrame}.
  */
 public class DarkShades extends PublicObjectiveCard {

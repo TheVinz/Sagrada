@@ -3,7 +3,7 @@ package server.model.state.objectivecards.publicobjectivecards;
 import server.model.state.boards.windowframe.WindowFrame;
 
 /**
- * The DifferentColors class implements the method that add four point for every set of different
+ * The <tt>DifferentColors</tt> class implements the method that add four point for every set of different
  * colored {@link server.model.state.dice.Dice } in the {@link server.model.state.boards.windowframe.WindowFrame}.
  */
 public class DifferentColors extends PublicObjectiveCard{

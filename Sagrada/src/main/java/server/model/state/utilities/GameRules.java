@@ -10,7 +10,7 @@ import server.model.state.boards.windowframe.WindowFrameCell;
 import server.model.state.dice.Dice;
 
 /**
- * The GameRules class implements methods useful to verify the validity of a move according to the game rules.
+ * The <tt>GameRules</tt> class implements methods useful to verify the validity of a move according to the game rules.
  */
 public class GameRules {
 
