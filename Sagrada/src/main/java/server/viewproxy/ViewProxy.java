@@ -59,6 +59,8 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
             notify(new Notification(Notification.WRONG_PARAMETER, message));
     }
 
+
+
     @Override
     synchronized public void updateMove(Player player, Cell source, Cell target) {
         switch (source.getType()) {
@@ -286,6 +288,22 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     @Override
     synchronized public void updateRemovedDice(Player player, DraftPoolCell cell) {
         change(new RemovedDice(player.getId(), Response.DRAFT_POOL_CELL, cell.getIndex()));
+    }
+
+    @Override
+    synchronized public void updatePrivateObjectiveCardChoice() {
+        change(new PrivateObjectiveCardsChoice());
+    }
+
+    @Override
+    synchronized public void updateSinglePlayerEndGame(int targetPoints, Points points){
+        int[] vectorPoints = new int[5];
+        vectorPoints[0] = points.getPointsFromPublicCard(0);
+        vectorPoints[1] = points.getPointsFromPublicCard(1);
+        vectorPoints[2] = points.getPointsFromPrivateCard();
+        vectorPoints[3] = points.getPointsFromEmptyCells();
+        vectorPoints[4] = points.getFinalPoints();
+        change(new SinglePlayerEndGame(targetPoints, vectorPoints));
     }
 
 

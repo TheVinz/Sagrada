@@ -67,8 +67,14 @@ public class Bag{
 	}
 
 	/**
+<<<<<<< HEAD
+	 * Insert a (@link server.model.state.dice.Dice) in the Bag.
+	 *
+	 * @param dice the dice that I want to reinsert in the Bag
+=======
 	 * Insert a {@link server.model.state.dice.Dice} in this Bag.
 	 * @param dice the Dice that I want to reinsert in this Bag
+>>>>>>> 4c176e2836ba4e15e4f405cb6445feeca79caf43
 	 */
 	public void insert(Dice dice){
 		dices.push(dice.getColor());

@@ -72,6 +72,7 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
             player.setPrivateObjectiveCard(privateObjectiveCard);
         }
         player.calculatePoints(super.getState());
+        observer.updateSinglePlayerEndGame(super.getState().getRoundTrack().calculatePoints(), player.getPoints());
     }
 
     @Override
@@ -86,6 +87,7 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
 
     @Override
     public void endGame() {
+        super.getState().setGameFinished(true);
         observer.updatePrivateObjectiveCardChoice();
     }
 

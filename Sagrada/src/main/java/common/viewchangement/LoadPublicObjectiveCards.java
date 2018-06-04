@@ -1,6 +1,6 @@
 package common.viewchangement;
 
-import client.view.Changer;
+import common.Changer;
 
 public class LoadPublicObjectiveCards extends Changement{
     public static final int COLORED_DIAGONAL = 0;

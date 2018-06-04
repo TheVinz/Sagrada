@@ -20,6 +20,7 @@ public class State{
 	private final List<ToolCard> toolCards;
 	private final List<PublicObjectiveCard> publicObjectiveCards;
 	private final List<Player> players;
+	private boolean gameFinished;
 
 	public State(Model model){
 		this.bag=new Bag();
@@ -28,6 +29,7 @@ public class State{
 		this.publicObjectiveCards=new ArrayList<>();
 		this.players=new ArrayList<>();
 		this.draftPool=new DraftPool();
+		this.gameFinished = false;
 	}
 
 	public void addPlayer(Player player) throws Exception{
@@ -58,5 +60,13 @@ public class State{
 	public Bag getBag() { return this.bag; }
 	public List<PublicObjectiveCard> getPublicObjectiveCards() {
 		return this.publicObjectiveCards;
+	}
+
+	public boolean isGameFinished() {
+		return gameFinished;
+	}
+
+	public void setGameFinished(boolean gameFinished) {
+		this.gameFinished = gameFinished;
 	}
 }

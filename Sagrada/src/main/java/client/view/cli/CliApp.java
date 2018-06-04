@@ -63,7 +63,7 @@ public class CliApp {
 
     public void mainLoop(){
         String input = "";
-        while(!input.equals("quit")){
+        while(!CliState.getCliState().isGameFinished()){
            // System.out.println("error0\n");
             synchronized (this) {
                 while (waitingPhase) {

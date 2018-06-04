@@ -7,6 +7,7 @@ import server.model.state.boards.Cell;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
+import server.model.state.player.Points;
 import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Color;
 
@@ -33,6 +34,6 @@ public interface Observer {
     void notifyNextParameter(Response response);
     void notifyError(String message);
     void notifyWrongParameter(String message);
-
     void updatePrivateObjectiveCardChoice();
+    void updateSinglePlayerEndGame(int targetPoints, Points points);
 }

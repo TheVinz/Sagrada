@@ -129,6 +129,7 @@ public class Model implements Observable {
         else startRound();
     }
     public void endGame() {
+        state.setGameFinished(true);
         List <Player> scoreboard = new ArrayList<>();
         for (Player player : state.getPlayers()) {
             player.calculatePoints(state);
@@ -143,9 +144,9 @@ public class Model implements Observable {
         Observer o = playerObserverMap.get(player);
         activeObservers.add(o);
         o.updateObjectiveCards(state.getPublicObjectiveCards().toArray(new PublicObjectiveCard[0]));
-        o.updatePrivateObjectiveCard(player.getPrivateObjectiveCard());
         o.updateToolCards(state.getToolCards().toArray(new ToolCard[0]));
         o.updateMutableData();
+        o.updatePrivateObjectiveCard(player.getPrivateObjectiveCard());
         notifyReinsertPlayer(player);
     }
 

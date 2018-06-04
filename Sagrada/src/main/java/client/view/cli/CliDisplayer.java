@@ -249,7 +249,7 @@ public class CliDisplayer {
 
     public void printPrivateObjectiveCard() {
        for(int i=0; i<cliState.getPrivateObjectiveCard().length; i++)
-            printColoredPrvCard(cliState.getPrivateObjectiveCard()[0]);
+            printColoredPrvCard(cliState.getPrivateObjectiveCard()[i]);
     }
 
     public void printFavorTokens() {

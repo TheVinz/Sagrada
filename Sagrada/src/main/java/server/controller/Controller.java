@@ -3,6 +3,7 @@ import common.exceptions.InvalidMoveException;
 import common.exceptions.WrongParameter;
 import common.response.Response;
 import server.model.Model;
+import server.model.SinglePlayerModel;
 import server.model.state.ModelObject.ModelObject;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.player.Player;
@@ -30,11 +31,13 @@ public class Controller {
 		player.setTimer(new Timer(this));
 	}
 
-	public void selectObject(ModelObject o) {
+	public void selectObject(ModelObject o) { //synchronized?
 		if(lock.tryLock()) {
 			try {
+				if(model.getState().isGameFinished() && model.getClass().equals(SinglePlayerModel.class))
+					currentState = new SelectingPrivateObjectiveCard(player, model);
 				PlayerState temp = null;
-				if (player.isActive()) {
+				if (player.isActive() || currentState.getClass().equals(SelectingPrivateObjectiveCard.class)) {
 					try {
 						temp = currentState;
 						currentState = currentState.selectObject(o);
@@ -82,6 +85,7 @@ public class Controller {
     public void windowFrameChoice(WindowFrameList[] windowFrameLists) {
 		currentState=new SelectingWindowFrame(player, model, windowFrameLists);
     }
+
 
     public void isDiceMove(){
 		if(player.isDiceMoved())

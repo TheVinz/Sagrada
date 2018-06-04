@@ -2,9 +2,10 @@ package common.viewchangement;
 
 import common.Changer;
 
-public class ToolCardsChoices extends Changement {
+import java.io.Serializable;
+
+public class PrivateObjectiveCardsChoice extends Changement {
     public void change(Changer changer){
         changer.change(this);
     }
-
 }

@@ -15,6 +15,7 @@ public class CliState {
     private String[][] roundTrack = new String[10][];
     private List<String> privateObjectiveCard = new ArrayList<>();
     private int round = 1;
+    private boolean gameFinished = false;
 
     private static CliState cliState;
 
@@ -25,7 +26,9 @@ public class CliState {
             cliState = new CliState();
         return cliState;
     }
-
+    public void resetPrivate(){
+        privateObjectiveCard.clear();
+    }
     public void setActivePlayer(int id){
         activePlayer=getCliPlayerState(id);
     }
@@ -90,5 +93,13 @@ public class CliState {
 
     public void setPublicObjectiveCardIds(int[] publicObjectiveCardIds) {
         this.publicObjectiveCardIds = publicObjectiveCardIds;
+    }
+
+    public boolean isGameFinished() {
+        return gameFinished;
+    }
+
+    public void setGameFinished(boolean gameFinished) {
+        this.gameFinished = gameFinished;
     }
 }

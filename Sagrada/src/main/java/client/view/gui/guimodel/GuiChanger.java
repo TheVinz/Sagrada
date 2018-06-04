@@ -1,8 +1,7 @@
 package client.view.gui.guimodel;
 
-import client.view.Changer;
+import common.Changer;
 import client.view.gui.guicontroller.ViewController;
-import common.response.Response;
 import common.viewchangement.*;
 import javafx.application.Platform;
 
@@ -61,6 +60,16 @@ public class GuiChanger implements Changer {
     public void change(WindowFrameChoices windowFrameChoices) {
         //Multi-threading e javafx danno problemi, risolti con Platform.runLater()
         Platform.runLater(() -> view.loadWindowFrameChoice(windowFrameChoices.getReps(), windowFrameChoices.getFavorTokens()));
+    }
+
+    @Override
+    public void change(PrivateObjectiveCardsChoice privateObjectiveCardsChoice) {
+
+    }
+
+    @Override
+    public void change(SinglePlayerEndGame singlePlayerEndGame) {
+
     }
 
     @Override

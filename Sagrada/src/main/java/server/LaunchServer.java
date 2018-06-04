@@ -28,7 +28,7 @@ public class LaunchServer {
             System.out.print("RMI Server on\n>>>");
         } catch (RemoteException e) {
             e.printStackTrace();
-            System.exit(1);
+            System.out.println("Working just on Sockets, retry!");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

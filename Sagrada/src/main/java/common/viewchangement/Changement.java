@@ -1,10 +1,8 @@
 package common.viewchangement;
 
-import client.view.Changer;
-import common.RemoteMVC.RemoteView;
+import common.Changer;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 public abstract class Changement implements Serializable {
 

@@ -1,6 +1,6 @@
 package common.viewchangement;
 
-import client.view.Changer;
+import common.Changer;
 import common.response.Response;
 
 public class RemovedDice extends Changement{
