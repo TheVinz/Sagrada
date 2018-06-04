@@ -128,7 +128,7 @@ public class Model implements Observable {
             endGame();
         else startRound();
     }
-    private void endGame() {
+    public void endGame() {
         List <Player> scoreboard = new ArrayList<>();
         for (Player player : state.getPlayers()) {
             player.calculatePoints(state);
@@ -165,6 +165,10 @@ public class Model implements Observable {
     * Changement
     * */
     public void toolCardsChoice(int toolCards){
+    }
+
+    public void privateCardChoice(int card){
+
     }
 
     public void windowFrameChoice(Player player, WindowFrameList windowFrameList){

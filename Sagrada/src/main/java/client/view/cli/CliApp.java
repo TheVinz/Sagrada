@@ -75,7 +75,9 @@ public class CliApp {
                 }
             }
             //System.out.println("error1\n");
-            input = scanner.nextLine();
+            do {
+                input = scanner.nextLine();
+            }while(input.equals(""));
             //System.out.println("error2\n");
             try {
                 currentState.handle(input);

@@ -33,4 +33,6 @@ public interface Observer {
     void notifyNextParameter(Response response);
     void notifyError(String message);
     void notifyWrongParameter(String message);
+
+    void updatePrivateObjectiveCardChoice();
 }

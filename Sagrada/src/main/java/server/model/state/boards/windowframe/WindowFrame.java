@@ -9,6 +9,7 @@ import server.model.state.utilities.Color;
  * This window is a matrix of {@link server.model.state.boards.windowframe.WindowFrameCell}. A matrix with 4 rows and 5 columns.
  * There are twenty WindowFrame defined in the class {@link server.model.state.boards.windowframe.WindowFrameList}.
  * Every WindowFrame has a different difficulty defined from FavorTokens.
+ * @see WindowFrameCell
  */
 public class WindowFrame implements ModelObject {
 
@@ -94,7 +95,7 @@ public class WindowFrame implements ModelObject {
 	public String getRep(){return windowFrameList.getRep();}
 
 	/**
-	 * Get the type of this object,
+	 * Gets the type of this object,
 	 * @return WINDOW_FRAME type.
 	 */
 	@Override

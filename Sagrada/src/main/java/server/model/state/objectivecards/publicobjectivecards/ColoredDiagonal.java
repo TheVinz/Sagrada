@@ -8,7 +8,7 @@ import server.model.state.boards.windowframe.WindowFrame;
  */
 public class ColoredDiagonal extends PublicObjectiveCard{
     /**
-     * This method calculate the points to add to the final points looking at the Adjacent Dice on the WindowFrame.
+     * This method calculate the points to add to the final points looking at the adjacent dices on a specific WindowFrame.
      * @param windowFrame WindowFrame of the player.
      * @return an int that indicates the points.
      */

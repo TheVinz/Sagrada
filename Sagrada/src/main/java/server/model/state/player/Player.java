@@ -108,6 +108,10 @@ public class Player {
         return this.privateObjectiveCards.get(i);
     }
 
+    public void resetPrivateObjectiveCard(){
+        privateObjectiveCards.clear();
+    }
+
 
     public void endTurn() {
         this.diceMoved=false;
