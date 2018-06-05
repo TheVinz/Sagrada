@@ -15,6 +15,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     private final Changer changer;
     private final boolean singlePlayer;
+    private Response lastResponse;
 
     public CliModel(boolean singlePlayer) throws RemoteException {
         super();
@@ -31,6 +32,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     @Override
     public void send(Response response) {
+        lastResponse = response;
         new Thread( () -> {
         switch (response){
             case WINDOW_FRAME:
@@ -87,6 +89,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
             case SUSPENDED:
                 CliApp.getCliApp().setWaitingPhase(false);
                 CliApp.getCliApp().setCurrentState(new Suspended());
+                break;
             default:
                 return;
 
@@ -99,6 +102,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
             switch (notification.getType()) {
                 case Notification.WRONG_PARAMETER:
                     CliDisplayer.getDisplayer().displayText(notification.getMessage());
+                    send(lastResponse);
                     break;
                 case Notification.ERROR:
                     CliDisplayer.getDisplayer().displayText(notification.getMessage());

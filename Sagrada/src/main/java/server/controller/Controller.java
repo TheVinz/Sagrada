@@ -50,10 +50,6 @@ public class Controller implements TimerObserver {
 						return;
 					} catch (WrongParameter e) {
 						view.notifyWrongParameter(e.getMessage());
-						if(temp.nextParam()==null)
-							view.notifyNextParameter(Response.SUCCESS_USED_TOOL_CARD);
-						else
-							view.notifyNextParameter(temp.nextParam());
 						return;
 					}
 					if (temp.nextParam() != null) {
