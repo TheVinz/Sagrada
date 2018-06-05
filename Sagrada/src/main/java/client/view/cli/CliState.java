@@ -66,6 +66,12 @@ public class CliState {
                 return cps;
         return null; //da togliere
     }
+    public CliPlayerState getCliPlayerState() {
+        for(CliPlayerState cps : this.cliPlayerStates)
+            if(cps.getId() == CliApp.getCliApp().getId())
+                return cps;
+        return null; //da togliere
+    }
     public String[] getPrivateObjectiveCard(){
         return this.privateObjectiveCard.toArray(new String[0]);
     }

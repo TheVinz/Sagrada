@@ -111,7 +111,6 @@ public class CliChanger implements Changer {
         }
         CliState.getCliState().setDraftPool(s);
         CliDisplayer.getDisplayer().displayText("The DraftPool is full.\n");
-        CliDisplayer.getDisplayer().printDraftPool();
     }
 
     public void change(LoadPublicObjectiveCards loadPublicObjectiveCards) {
@@ -187,8 +186,15 @@ public class CliChanger implements Changer {
 
     public void change(NewTurn newTurn) {
         CliPlayerState cliPlayerState=CliState.getCliState().getCliPlayerState(newTurn.getId());
+
         CliDisplayer.getDisplayer().displayText("Is the turn of " + cliPlayerState.getName() + "!\n");
         CliState.getCliState().setActivePlayer(newTurn.getId());
+        if(newTurn.getId()!=CliApp.getCliApp().getId())
+            CliDisplayer.getDisplayer().printState(CliState.getCliState().getCliPlayerState(newTurn.getId()).getName());
+
+        CliDisplayer.getDisplayer().printState();
+        CliDisplayer.getDisplayer().printDraftPool();
+
         if(newTurn.getId() == CliApp.getCliApp().getId()) {
             cliPlayerState.setSecondTurn(!cliPlayerState.isSecondTurn());
             CliApp.getCliApp().setCurrentState(new MenuPhase());

@@ -150,7 +150,7 @@ public class CliDisplayer {
     }
 
     public void printWindowFrame() {
-        printWindowFrame(cliState.getActivePlayer());
+        printWindowFrame(CliState.getCliState().getCliPlayerState());
     }
 
    public void printRoundTrack() {
@@ -255,7 +255,7 @@ public class CliDisplayer {
     }
 
     public void printFavorTokens() {
-        printFavorTokens(cliState.getActivePlayer());
+        printFavorTokens(CliState.getCliState().getCliPlayerState());
     }
 
     public void printFavorTokens(CliPlayerState cliPlayerState) {
@@ -264,9 +264,10 @@ public class CliDisplayer {
 
     public void printState() {
         displayText("Your State is:\n");
+        printPrivateObjectiveCard();
         printFavorTokens();
         printWindowFrame();
-        printPrivateObjectiveCard();
+
     }
 
     public void printState(String name) {
@@ -420,7 +421,7 @@ public class CliDisplayer {
             }                             //total points
             if(points[scoreboardIds[i]][6]>0){
                 if (points[scoreboardIds[i]][6] > 9)
-                    displayText("  " + points[scoreboardIds[i]][6] + "   |\n");
+                    displayText("   " + points[scoreboardIds[i]][6] + "   |\n");
                 else
                     displayText("    " + points[scoreboardIds[i]][6] + "    |\n");
             }
