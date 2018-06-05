@@ -146,6 +146,7 @@ public class Util { //non può essere static nel multipartita per la private
                     break;
             }
         }
+        result[0] = new Lathekin(model);
         return result;
     }
 
