@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class TaglierinaManualeChoice implements CliPhaseState {
     public TaglierinaManualeChoice(){
-        CliDisplayer.getDisplayer().displayText("Insert 0 to move another dice, or 1 to stop:\n>>>");
+        CliDisplayer.getDisplayer().displayText("Insert 3 to move another dice, or 2 to stop:\n>>>");
     }
 
     @Override
@@ -22,7 +22,7 @@ public class TaglierinaManualeChoice implements CliPhaseState {
             } catch (InputMismatchException e) {
                 throw new InvalidInput("Wrong Input\n");
             }
-            if(nextInt !=0 && nextInt != 1){
+            if(nextInt !=2 && nextInt != 3){
                 throw new InvalidInput("Wrong Input\n");
             }
 

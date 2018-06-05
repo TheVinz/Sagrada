@@ -53,6 +53,8 @@ public class RigaInSughero extends ToolCard {
     @Override
     void doAbility() throws InvalidMoveException {
         DraftPoolCell poolCell= (DraftPoolCell) parameters.get(0);
+        if(poolCell.isEmpty())
+            throw new InvalidMoveException("PoolCell is empty");
         WindowFrame frame= (WindowFrame) parameters.get(1);
         WindowFrameCell cell= (WindowFrameCell) parameters.get(2);
         if(GameRules.validAdjacentDices(frame, cell))

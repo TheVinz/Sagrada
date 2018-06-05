@@ -86,6 +86,8 @@ public class DiluentePerPastaSalda extends ToolCard {
     void doAbility() throws InvalidMoveException { //SIAMO SICURI CHE VENGA NOTIFICATO LO SPOSTAMENTO AL BAG?
         if(!drawDone) {
             poolCell = (DraftPoolCell) parameters.get(0);
+            if(poolCell.isEmpty())
+                throw new InvalidMoveException("PoolCell is empty");
             dice = poolCell.removeDice();
             model.getState().getBag().insert(dice);
             dice=model.drawDice(player);
