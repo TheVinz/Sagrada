@@ -17,13 +17,13 @@ public class ToolCardsEffects {
            case 7:
                return ":\n  Re-roll all die in the Draft Pool.\n  This may only be used on your\n  second turn before drafting.\n\n";
            case 8:
-			   return ":\n  After your first turn immediately draft a die.\n (Skip your next turn this round)\n";
+			   return ":\n  After your first turn immediately draft a die.\n (Skip your next turn this round)\n\n";
            case 9:
                return ":\n  After drafting,place the die in a spot\n  that is not adjacent to another die.\n(You must obey all other placement restrictions)\n\n";
            case 10:
                return ":\n  After drafting,flip the die to its opposite side.\n(6 flips to 1, 5 to 2, 4 to 3, etc.)\n\n";
            case 11:
-               return ":\nAfter drafting, return the die to the\n  Dice Bag and pull 1 die from the bag.\n(Choose a value and place the new die,\nobeying all placement restrictions,or\nreturn it to the Draf Pool)\n\n";
+               return ":\n  After drafting, return the die to the\n  Dice Bag and pull 1 die from the bag.\n(Choose a value and place the new die,\nobeying all placement restrictions,or\nreturn it to the Draf Pool)\n\n";
            case 12:
                return ":\n  Move up to two die of the same\n  color that match the color of a die\n  on the Round Track.\n(You must obey all placement restrictions)\n\n";
            default:
