@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import server.model.Model;
+import server.model.state.ModelObject.ModelType;
 import server.model.state.boards.draftpool.DraftPool;
 import server.model.state.dice.Dice;
 import server.model.state.player.Player;
@@ -31,19 +32,23 @@ public class PinzaSgrossatriceTest {
         draftPool = model.getState().getDraftPool();
         player = mock(Player.class);
         draftPool.increaseSize();
-        draftPool.getCell(0).put(new Dice(Color.RED, 3));
-        //draftPool.getCell(1).put(new Dice(Color.GREEN, 5));
-        draftPool.getCell(2).put(new Dice(Color.YELLOW, 1));
+
     }
 
     @Test
     public void shouldStart() throws InvalidMoveException {
-        toolCard.start(player);
+        try{toolCard.start(player);}
+        catch(InvalidMoveException invalidMoveException){
+            invalidMoveException.printStackTrace();
+        }
     }
 
     @Test
     public void doAbility() throws InvalidMoveException {
+        draftPool.getCell(0).put(new Dice(Color.RED, 3));
+        draftPool.getCell(2).put(new Dice(Color.YELLOW, 1));
         toolCard.start(player);
+
         try {
             toolCard.setParameter(draftPool.getCell(0));
         } catch (WrongParameter wrongParameter) {
@@ -55,13 +60,51 @@ public class PinzaSgrossatriceTest {
             wrongParameter.printStackTrace();
         }
         assertEquals(4, draftPool.getCell(0).getDice().getValue());
+
+        toolCard.start(player);
+
+            try {
+                toolCard.setParameter(draftPool.getCell(1));
+            } catch (WrongParameter wrongParameter) {
+                wrongParameter.printStackTrace();
+            }
+
+        try{try {
+            toolCard.setParameter(new Choice(1));
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }}
+        catch (InvalidMoveException invalidMoveException){
+            invalidMoveException.printStackTrace();
+        }
         toolCard.start(player);
         try {
-            toolCard.setParameter(draftPool.getCell(1));
+            toolCard.setParameter(draftPool.getCell(0));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+
+        try{try {
+            toolCard.setParameter(new Choice(1));
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }}
+        catch (InvalidMoveException invalidMoveException){
+            invalidMoveException.printStackTrace();
+        }
     }
 
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(1,toolCard.getNumber());
+    }
+    @Test
+    public void shouldGetColor(){
+        assertEquals(Color.PURPLE,toolCard.getColor());
+    }
+    @Test
+    public void shouldGetType(){
+        assertEquals(ModelType.TOOL_CARD,toolCard.getType());
+    }
 
 }

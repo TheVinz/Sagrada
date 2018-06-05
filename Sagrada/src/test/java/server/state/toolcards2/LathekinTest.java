@@ -96,13 +96,6 @@ public class LathekinTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
-     /*   try {
-            toolCard.setParameter(frame);
-        } catch (InvalidMoveException e) {
-            e.printStackTrace();
-        } catch (WrongParameter wrongParameter) {
-            wrongParameter.printStackTrace();
-        }*/
         try {
             try {
                 toolCard.setParameter(frame.getCell(0, 1));      //caso windowframe sbagliata
@@ -465,8 +458,6 @@ public class LathekinTest {
         }
         //caso secondSource=secondTarget
 
-
-
         toolCard.start(player);
         try {
             toolCard.setParameter(frame);
@@ -531,6 +522,9 @@ public class LathekinTest {
         }
         //secondo dado mosso correttamente
 
+
+
+
         secondFrame.getCell(0,0).put(new Dice(Color.RED,5));
         secondFrame.getCell(0,1).put(new Dice(Color.GREEN,1));
         secondFrame.getCell(0,2).put(new Dice(Color.BLUE,5));
@@ -589,7 +583,7 @@ public class LathekinTest {
             wrongParameter.printStackTrace();
         }
         try {
-            toolCard.setParameter(secondFrame.getCell(2, 3));   //giusta
+            toolCard.setParameter(secondFrame.getCell(0, 1));   //giusta
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (WrongParameter wrongParameter) {
@@ -609,6 +603,7 @@ public class LathekinTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+
 
 
     }

@@ -381,7 +381,19 @@ public class CliDisplayer {
         displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |        |\n");
 
         for(int i=0;i<scoreboardIds.length;i++) {
-            displayText("" + (i + 1) + ")" + cliState.getCliPlayerState(scoreboardIds[i]).getName());
+            switch (cards[i]){
+                case 'r':
+                    displayText("" + (i + 1) + ")" +(char)27+"[1;31m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                case 'b':
+                    displayText("" + (i + 1) + ")" +(char)27+"[1;36m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                case 'g':
+                    displayText("" + (i + 1) + ")" +(char)27+"[1;32m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                case 'y':
+                    displayText("" + (i + 1) + ")" +(char)27+"[1;33m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                case 'p':
+                    displayText("" + (i + 1) + ")" +(char)27+"[1;35m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+            }
+
                 for(int s=0;s<max-cliState.getCliPlayerState(scoreboardIds[i]).getName().length();s++){
                 displayText(" ");
                 }
@@ -435,7 +447,7 @@ public class CliDisplayer {
 
         }
         for(int i=0;i<CliState.getCliState().getPublicObjectiveCardIds().length;i++)
-        displayText("PublicObjectiveCard "+i+" is "+objectiveCardsEffects.returnName(CliState.getCliState().getPublicObjectiveCardIds()[0]));
+        displayText("PublicObjectiveCard "+i+" is "+objectiveCardsEffects.returnName(CliState.getCliState().getPublicObjectiveCardIds()[i])+"\n");
         displayText("\n");
     }
     public void printBold(String modify) {    //da mettere in inglese
