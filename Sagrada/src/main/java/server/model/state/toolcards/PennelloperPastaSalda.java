@@ -76,6 +76,8 @@ public class PennelloperPastaSalda extends ToolCard {
     void doAbility() throws InvalidMoveException {
         if(!rerollDone) {
             poolCell = (DraftPoolCell) parameters.get(0);
+            if(poolCell.isEmpty())
+                throw new InvalidMoveException("PoolCell is empty");
             Dice dice = poolCell.removeDice();
             dice = new Dice(dice.getColor());
             model.putDice(player, dice, poolCell);

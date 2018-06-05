@@ -49,6 +49,8 @@ public class PinzaSgrossatrice extends ToolCard {
 
     public void doAbility() throws InvalidMoveException {
         DraftPoolCell cell= (DraftPoolCell) parameters.get(0);
+        if(cell.isEmpty())
+            throw new InvalidMoveException("Cell is empty");
         Choice choice=(Choice) parameters.get(1);
         if(choice.getChoice()==INCREASE) model.increase(player, cell);
         else model.decrease(player, cell);

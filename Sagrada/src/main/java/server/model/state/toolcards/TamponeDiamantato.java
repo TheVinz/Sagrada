@@ -39,6 +39,8 @@ public class TamponeDiamantato extends ToolCard {
     @Override
     public void doAbility() throws InvalidMoveException{
         DraftPoolCell cell= (DraftPoolCell) parameters.get(0);
+        if(cell.isEmpty())
+            throw new InvalidMoveException("PoolCell is empty");
         model.flipDice(player, cell);
         model.toolCardUsed(player, this);
     }

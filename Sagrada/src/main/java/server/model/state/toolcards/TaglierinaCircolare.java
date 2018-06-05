@@ -43,7 +43,11 @@ public class TaglierinaCircolare extends ToolCard{
     @Override
     void doAbility() throws InvalidMoveException {
         DraftPoolCell poolCell= (DraftPoolCell) parameters.get(0);
+        if(poolCell.isEmpty())
+            throw new InvalidMoveException("PoolCell is empty");
         RoundTrackCell trackCell= (RoundTrackCell) parameters.get(1);
+        if(trackCell.isEmpty())
+            throw new InvalidMoveException("TrackCell is empty");
         model.exchange(player, poolCell, trackCell);
         model.toolCardUsed(player, this);
     }
