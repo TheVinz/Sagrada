@@ -459,6 +459,14 @@ public class ViewController {
         currentPhase = new MainPhase(remoteController, gameController);
     }
 
+    public synchronized void wrongParameter(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(message);
+        alert.setTitle("Wrong parameter");
+        currentPhase = new GamePhase(remoteController, gameController);
+        alert.showAndWait();
+    }
+
     public void setFullScreen() {
         ((Stage) rootLayout.getScene().getWindow()).setFullScreen(true);
     }

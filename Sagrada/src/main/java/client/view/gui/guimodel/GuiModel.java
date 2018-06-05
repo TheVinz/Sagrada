@@ -10,6 +10,7 @@ import javafx.application.Platform;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.locks.Lock;
 
 public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
@@ -30,13 +31,15 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void send(Response response) {
+        System.out.println("Response");
         Platform.runLater(() -> view.handleResponse(response));
     }
 
     @Override
     public void notify(Notification notification){
-        if(notification.equals(Notification.WRONG_PARAMETER)){
-            Platform.runLater(() -> view.debug(notification.getMessage()));
+        System.out.println("Notification");
+        if(notification.getType()==Notification.WRONG_PARAMETER){
+            Platform.runLater(() -> view.wrongParameter(notification.getMessage()));
         }else{
             Platform.runLater(() -> view.error(notification.getMessage()));
         }
