@@ -50,6 +50,7 @@ public class SocketViewProxy extends ViewProxy {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("sent");
     }
 
 

@@ -314,6 +314,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
 
     @Override
     synchronized public void command(GameCommand gameCommand) {
+        System.out.println(gameCommand.getType() + " " + gameCommand.getX() + " " + gameCommand.getY());
         new Thread( () -> {
             switch (gameCommand.getType()) {
                 case DRAFT_POOL_CELL:
@@ -340,6 +341,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
                     break;
                 case ACTIVE_AGAIN:
                     controller.reinsertPlayer();
+                    break;
                 default:
                     return;
             }

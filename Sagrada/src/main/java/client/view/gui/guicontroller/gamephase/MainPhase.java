@@ -21,11 +21,11 @@ public class MainPhase extends GamePhase {
 
     @Override
     public GamePhase handleDraftPool(int index){
-        try {
+/*        try {
             controller.command(new GameCommand(Response.DRAFT_POOL_CELL, index));
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
         sourceIndex=index;
         return this;
     }

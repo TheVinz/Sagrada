@@ -27,7 +27,6 @@ public class Timer implements Runnable {
                         e.printStackTrace();
                     }
                 cont--;
-                System.out.print(cont);
             }
         }
 

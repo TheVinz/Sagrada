@@ -68,7 +68,6 @@ public class UsingToolCard extends PlayerState {
     public Response nextParam() {
         if(nextParameter == null){
             if(card.hasNext()) {
-                System.out.println(card.next());
                 return card.next();
             }
             else return null;
