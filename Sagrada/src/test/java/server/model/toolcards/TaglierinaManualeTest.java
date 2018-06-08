@@ -5,6 +5,7 @@ import common.exceptions.WrongParameter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
+import org.omg.CORBA.CODESET_INCOMPATIBLE;
 import server.model.Model;
 import server.model.state.boards.draftpool.DraftPool;
 import server.model.state.boards.roundtrack.RoundTrack;
@@ -17,6 +18,7 @@ import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Choice;
 import server.model.state.utilities.Color;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class TaglierinaManualeTest {
@@ -39,18 +41,29 @@ public class TaglierinaManualeTest {
         windowFrame.getCell(0, 1).put(new Dice(Color.YELLOW, 3));
         windowFrame.getCell(0, 2).put(new Dice(Color.BLUE, 5));
         windowFrame.getCell(1, 0).put(new Dice(Color.YELLOW, 3));
-        draftPool = new DraftPool();
+        draftPool = model.getState().getDraftPool();
         draftPool.increaseSize();
-        draftPool.getCell(0).put(new Dice(Color.YELLOW, 4));
-        roundTrack = new RoundTrack();
-        roundTrack.endRound(draftPool);
+        roundTrack = model.getState().getRoundTrack();
     }
     @Test
     public void start() throws InvalidMoveException {
-        toolCard.start(player);
+        try {
+            toolCard.start(player);
+        } catch (InvalidMoveException e) {
+            assertEquals("Draft pool is empty",e.getMessage());
+        }
+        draftPool.getCell(0).put(new Dice(Color.BLUE,3));
+        try {
+            toolCard.start(player);
+        } catch (InvalidMoveException e) {
+            assertEquals("Empty round track",e.getMessage());
+        }
     }
     @Test
-    public void shouldDoAbility() throws InvalidMoveException {
+    public void shouldDoAbility() throws Exception {
+        draftPool.getCell(0).put(new Dice(Color.YELLOW, 4));
+        roundTrack.endRound(draftPool);
+        draftPool.getCell(0).put(new Dice(Color.BLUE,3));
         toolCard.start(player);
         try {
             toolCard.setParameter(roundTrack.getRoundSet(1).get(0));
@@ -82,16 +95,24 @@ public class TaglierinaManualeTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
-
+        toolCard.hasNext();
         try {
-            toolCard.setParameter(windowFrame);
-        } catch (WrongParameter wrongParameter) {
-            wrongParameter.printStackTrace();
+            try {
+                toolCard.setParameter(windowFrame);
+            } catch (WrongParameter wrongParameter) {
+                wrongParameter.printStackTrace();
+            }
+        }catch (InvalidMoveException e){
+            e.printStackTrace();
         }
-        try {
-            toolCard.setParameter(windowFrame.getCell(1,0));   //secondo dado
-        } catch (WrongParameter wrongParameter) {
-            wrongParameter.printStackTrace();
+        try{
+            try {
+                toolCard.setParameter(windowFrame.getCell(1,0));   //secondo dado
+            } catch (WrongParameter wrongParameter) {
+                wrongParameter.printStackTrace();
+            }
+        }catch (InvalidMoveException e){
+            assertEquals("Wrong parameter",e.getMessage());
         }
         try {
             toolCard.setParameter(windowFrame);

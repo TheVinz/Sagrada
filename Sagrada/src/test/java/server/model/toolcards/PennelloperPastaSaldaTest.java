@@ -2,8 +2,10 @@ package server.model.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import common.exceptions.WrongParameter;
+import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameList;
@@ -19,87 +21,135 @@ import static org.junit.Assert.*;
 public class PennelloperPastaSaldaTest {
 
     private Player player;
-    private ToolCard test;
+    private ToolCard toolCard;
     private Model model;
 
     @Before
     public void setUp() throws Exception {
         model=Mockito.spy(new Model());
-        test=new PennelloperPastaSalda(model);
+        toolCard =new PennelloperPastaSalda(model);
         player=Mockito.mock(Player.class);
         WindowFrame frame=new WindowFrame(WindowFrameList.GRAVITAS);
         Mockito.when(player.getWindowFrame()).thenReturn(frame);
+
+    }
+    @Test
+    public void shouldStart() throws InvalidMoveException {
+        try {
+            toolCard.start(player);
+        } catch (InvalidMoveException e) {
+            assertEquals("Draft pool is empty",e.getMessage());
+        }
+        Mockito.when(player.isDiceMoved()).thenReturn(true);
         model.getState().getDraftPool().getCell(0).put(new Dice(Color.BLUE,4));
+        try{
+            toolCard.start(player);
+        }catch(InvalidMoveException e){
+            assertEquals("Can only place a dice once per turn",e.getMessage());
+        }
     }
 
     @Test
-    public void doAbility() throws InvalidMoveException {
-        test.start(player);
+    public void doAbility() throws Exception {
+        model.getState().getDraftPool().getCell(0).put(new Dice(Color.BLUE,4));
+        toolCard.start(player);
+        assertEquals(Response.DRAFT_POOL_CELL,toolCard.next());
+        try{
+            try {
+                toolCard.setParameter(player.getWindowFrame());
+            } catch (WrongParameter wrongParameter) {
+                wrongParameter.printStackTrace();
+            }
+        }catch (InvalidMoveException e){
+            assertEquals("Wrong parameter",e.getMessage());
+        }
         try {
-            test.setParameter(model.getState().getDraftPool().getCell(0));
+            toolCard.setParameter(model.getState().getDraftPool().getCell(0));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
-        assertFalse(test.hasNext());
+        assertFalse(toolCard.hasNext());
 
         player.getWindowFrame().getCell(0,0).put(new Dice(Color.YELLOW, 3));
         player.getWindowFrame().getCell(1,0).put(new Dice(Color.YELLOW, 3));
 
-        test.start(player);
+        toolCard.start(player);
         try {
-            test.setParameter(model.getState().getDraftPool().getCell(0));
+            toolCard.setParameter(model.getState().getDraftPool().getCell(0));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         while(model.getState().getDraftPool().getCell(0).getDice().getValue()==3){
-            test.start(player);
+            toolCard.start(player);
             try {
-                test.setParameter(model.getState().getDraftPool().getCell(0));
+                toolCard.setParameter(model.getState().getDraftPool().getCell(0));
             } catch (WrongParameter wrongParameter) {
                 wrongParameter.printStackTrace();
             }
         }
+        assertEquals(Response.WINDOW_FRAME,toolCard.next());
         try {
-            test.setParameter(player.getWindowFrame());
+            toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+        assertEquals(null,toolCard.next());
         try {
-            test.setParameter(player.getWindowFrame().getCell(3,3));
+            toolCard.setParameter(player.getWindowFrame().getCell(3,3));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
 
         assertFalse(model.getState().getDraftPool().getCell(0).isEmpty());
         assertTrue(player.getWindowFrame().getCell(3,3).isEmpty());
-        assertTrue(test.hasNext());
+        assertTrue(toolCard.hasNext());
 
         try {
-            test.setParameter(player.getWindowFrame());
+            toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            test.setParameter(player.getWindowFrame().getCell(1,0));
+            toolCard.setParameter(player.getWindowFrame().getCell(1,0));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
 
         assertFalse(model.getState().getDraftPool().getCell(0).isEmpty());
-        assertTrue(test.hasNext());
+        assertTrue(toolCard.hasNext());
 
         try {
-            test.setParameter(player.getWindowFrame());
+            toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            test.setParameter(player.getWindowFrame().getCell(0,1));
+            toolCard.setParameter(player.getWindowFrame().getCell(0,1));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
 
         assertFalse(player.getWindowFrame().getCell(0,1).isEmpty());
         assertTrue(model.getState().getDraftPool().getCell(0).isEmpty());
+
+        model.getState().getDraftPool().increaseSize();
+        model.getState().getDraftPool().getCell(1).put(new Dice(Color.BLUE,4));
+        toolCard.start(player);
+       try{ try {
+            toolCard.setParameter(model.getState().getDraftPool().getCell(0));
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
+       }catch (InvalidMoveException e){
+           assertEquals("PoolCell is empty",e.getMessage());
+       }
+    }
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(6, toolCard.getNumber());
+    }
+    @Test
+    public void shouldGetColor(){
+        assertEquals(Color.PURPLE,toolCard.getColor());
     }
 }

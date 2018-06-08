@@ -34,11 +34,11 @@ public class TamponeDiamantatoTest {
         }
         @Test
         public void start() {
-            try {
-                toolCard.start(player);
-            } catch (InvalidMoveException e) {
-                e.printStackTrace();
-            }
+                try {
+                    toolCard.start(player);
+                } catch (InvalidMoveException e) {
+                   assertEquals("Draft pool is empty",e.getMessage());
+                }
         }
         @Test
         public void setParameter() throws InvalidMoveException {
@@ -73,6 +73,10 @@ public class TamponeDiamantatoTest {
         @Test
         public void shouldGetType(){
             assertEquals(ModelType.TOOL_CARD,toolCard.getType());
+        }
+        @Test
+    public void shouldGetColor(){
+            assertEquals(Color.GREEN,toolCard.getColor());
         }
 
     }
