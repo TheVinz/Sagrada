@@ -19,9 +19,7 @@ public class DifferentColorsColumnTest {
     public void initClass(){
         windowFrame = new WindowFrame(WindowFrameList.KALEIDOSCOPIC_DREAM);
         differentColorsColumn= new DifferentColorsColumn();
-
     }
-
     @Test
     public void shouldCalculatePoints(){
                 assertEquals(0, differentColorsColumn.calculatePoints(windowFrame));    //vetrata vuota
@@ -46,15 +44,14 @@ public class DifferentColorsColumnTest {
             windowFrame.getCell(1, 3).put(new Dice(Color.RED));
             windowFrame.getCell(2,3).put(new Dice(Color.BLUE));
             windowFrame.getCell(3,3).put(new Dice(Color.PURPLE));
-
         }
         catch (InvalidMoveException e){
             e.printStackTrace();
         }
         assertEquals(10,differentColorsColumn.calculatePoints(windowFrame));   //due colonne piene e colori diversi, una non piena, una con colori non diversi
-
-
     }
-
-
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(3,differentColorsColumn.getNumber());
+    }
 }

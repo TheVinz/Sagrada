@@ -41,5 +41,9 @@ public class DarkShadesTest {    //copertoo
         assertEquals(4,darkShades.calculatePoints(windowFrame));   //vetrata con 5 dadi, tre 5 e due 6
     }
 
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(1,darkShades.getNumber());
+    }
 
 }

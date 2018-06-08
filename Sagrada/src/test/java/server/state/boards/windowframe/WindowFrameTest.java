@@ -37,4 +37,9 @@ public class WindowFrameTest {
     public void shouldGetRep(){
         assertEquals("r0b0y4p3g20105000600",windowFrame.getRep());
     }
+    @Test
+    public void shouldGetEmptyCell(){
+        assertEquals(20,windowFrame.getEmptyCells());
+
+    }
 }

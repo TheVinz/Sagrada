@@ -42,4 +42,9 @@ public class PaleShadesTest {    //coperto
         }
         assertEquals(2,paleShades.calculatePoints(windowFrame));  //vetrata con 4 dadi, uno da scartare e tre della carta
     }
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(9,paleShades.getNumber());
+    }
+
 }

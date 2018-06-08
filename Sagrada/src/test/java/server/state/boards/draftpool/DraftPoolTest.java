@@ -58,4 +58,9 @@ public class DraftPoolTest {
         assertNotEquals(null, draftPool.getCell(0));
     }
 
+    @Test
+    public void shouldIncreaseSizeByOne(){
+        draftPool.increaseSizeByOne();
+        assertEquals(2,draftPool.getSize());
+    }
 }

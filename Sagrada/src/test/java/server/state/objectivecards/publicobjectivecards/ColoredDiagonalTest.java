@@ -32,6 +32,10 @@ public class ColoredDiagonalTest {     //nullpointerexception
         windowFrame.getCell(0,4).put(new Dice(Color.RED));
         assertEquals(7, coloredDiagonal.calculatePoints(windowFrame));   //due diagonali di colori diversi
     }
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(0,coloredDiagonal.getNumber());
+    }
 
 
 }

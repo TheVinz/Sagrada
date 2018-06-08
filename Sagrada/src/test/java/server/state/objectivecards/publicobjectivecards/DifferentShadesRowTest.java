@@ -35,6 +35,10 @@ public class DifferentShadesRowTest {
         windowFrame.getCell(1,3).put(new Dice(Color.GREEN, 4));
         windowFrame.getCell(1,4).put(new Dice(Color.GREEN, 1));
         assertEquals(5,differentShadesRow.calculatePoints(windowFrame));   //vetrata con una riga piena buona, una piena non buona
-
     }
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(7,differentShadesRow.getNumber());
+    }
+
 }

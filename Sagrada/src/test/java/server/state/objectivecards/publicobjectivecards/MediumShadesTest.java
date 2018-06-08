@@ -31,5 +31,10 @@ public class MediumShadesTest {   //copertoo
         assertEquals(2,mediumShades.calculatePoints(windowFrame));
     }
 
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(8,mediumShades.getNumber());
+    }
+
 
 }

@@ -32,4 +32,9 @@ public class DifferentShadesColumnTest {   //nada
         windowFrame.getCell(1,2).put(new Dice(Color.GREEN, 6));
         assertEquals(4, differentShadesColumn.calculatePoints(windowFrame));
     }
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(6,differentShadesColumn.getNumber());
+    }
+
 }

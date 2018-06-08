@@ -28,5 +28,9 @@ public class PrivateObjectiveCardTest {
             }
         assertEquals(4, BLUE_SHAPES.calculatePoints(windowFrame));
     }
+    @Test
+    public void shouldGetColor(){
+        assertEquals(Color.PURPLE,PURPLE_SHAPES.getColor());
+    }
 
 }

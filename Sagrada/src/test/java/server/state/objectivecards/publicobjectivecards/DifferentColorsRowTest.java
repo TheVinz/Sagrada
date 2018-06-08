@@ -34,6 +34,8 @@ public class DifferentColorsRowTest {
         }
         assertEquals(6, differentColorsRow.calculatePoints(windowFrame));   //vetrata
     }
-
-
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(4,differentColorsRow.getNumber());
+}
 }

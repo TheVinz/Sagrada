@@ -47,8 +47,11 @@ public class DifferentColorsTest {  //andata con vetrata vuota
             }
 
         assertEquals(8,differentColors.calculatePoints(windowFrame));  //11  dadi di cui 6+6 diversi
-
     }
 
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(2,differentColors.getNumber());
+    }
 
 }

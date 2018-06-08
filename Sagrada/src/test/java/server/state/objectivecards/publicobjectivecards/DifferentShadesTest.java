@@ -40,5 +40,10 @@ public class DifferentShadesTest {  //andata con vetrata vuota
         assertEquals(10,differentShades.calculatePoints(windowFrame));   //vetrata con 12 dadi di valore diverso
 
     }
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(5,differentShades.getNumber());
+    }
+
 
 }
