@@ -292,7 +292,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
 
     @Override
     synchronized public void updatePrivateObjectiveCardChoice() {
-        change(new PrivateObjectiveCardsChoice());
+        change(new PrivateObjectiveCardsChoice(state.getPlayer(player.getId()).getPrivateObjectiveCard(0).getColor().asChar(), state.getPlayer(player.getId()).getPrivateObjectiveCard(1).getColor().asChar()));
     }
 
     @Override
