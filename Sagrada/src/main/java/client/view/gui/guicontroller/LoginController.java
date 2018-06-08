@@ -1,27 +1,19 @@
 package client.view.gui.guicontroller;
 
-import client.view.gui.MainApp;
 import client.view.gui.guimodel.GuiModel;
 import client.view.network.ClientSocketHandler;
 import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
 import common.login.RemoteLoginManager;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+
 
 
 public class LoginController {

@@ -147,6 +147,7 @@ public class Util { //non può essere static nel multipartita per la private
             }
         }
         result[0] = new Lathekin(model);
+        result[1] = new TaglierinaManuale(model);
         return result;
     }
 

@@ -17,6 +17,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
     private ViewController view;
     private int id;
     private final Changer changer;
+    private Response lastResponse;
 
     public GuiModel(ViewController view) throws RemoteException {
         super();
@@ -32,6 +33,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
     @Override
     public void send(Response response) {
         System.out.println("Response");
+        lastResponse=response;
         Platform.runLater(() -> view.handleResponse(response));
     }
 
@@ -39,7 +41,10 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
     public void notify(Notification notification){
         System.out.println("Notification");
         if(notification.getType()==Notification.WRONG_PARAMETER){
-            Platform.runLater(() -> view.wrongParameter(notification.getMessage()));
+            Platform.runLater(() -> {
+                view.wrongParameter(notification.getMessage());
+                view.handleResponse(lastResponse);
+            });
         }else{
             Platform.runLater(() -> view.error(notification.getMessage()));
         }

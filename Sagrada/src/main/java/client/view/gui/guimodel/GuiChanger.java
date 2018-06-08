@@ -63,11 +63,6 @@ public class GuiChanger implements Changer {
     }
 
     @Override
-    public void change(PrivateObjectiveCardsChoice privateObjectiveCardsChoice) {
-
-    }
-
-    @Override
     public void change(SinglePlayerEndGame singlePlayerEndGame) {
 
     }
@@ -134,4 +129,10 @@ public class GuiChanger implements Changer {
         Platform.runLater(() -> view.choseDifficulty());
     }
 
+    @Override
+    public void change(PrivateObjectiveCardsChoice privateObjectiveCardsChoice) {
+        char card1 = privateObjectiveCardsChoice.getCard1();
+        char card2 = privateObjectiveCardsChoice.getCard2();
+        //???????????''
+    }
 }

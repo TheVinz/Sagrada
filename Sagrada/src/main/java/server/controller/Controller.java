@@ -32,7 +32,7 @@ public class Controller implements TimerObserver {
 		player.setTimer(new Timer(this, 60));
 	}
 
-	public void selectObject(ModelObject o) { //synchronized?
+	public synchronized void selectObject(ModelObject o) { //synchronized? e si eh
 		if(lock.tryLock()) {
 			try {
 				if(model.getState().isGameFinished() && model.getClass().equals(SinglePlayerModel.class))
@@ -50,10 +50,6 @@ public class Controller implements TimerObserver {
 						return;
 					} catch (WrongParameter e) {
 						view.notifyWrongParameter(e.getMessage());
-						if(temp.nextParam()==null)
-							view.notifyNextParameter(Response.SUCCESS_USED_TOOL_CARD);
-						else
-							view.notifyNextParameter(temp.nextParam());
 						return;
 					}
 					if (temp.nextParam() != null) {
