@@ -10,6 +10,7 @@ import server.model.state.utilities.Color;
 public class Martelletto extends ToolCard {
     public Martelletto(Model model) {
         super(model);
+
     }
 
     @Override

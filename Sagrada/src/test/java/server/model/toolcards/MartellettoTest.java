@@ -6,11 +6,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import server.model.state.boards.draftpool.DraftPool;
 import server.model.state.boards.draftpool.DraftPoolCell;
+import server.model.state.dice.Dice;
 import server.model.state.player.Player;
 import server.model.Model;
 import server.model.state.toolcards.Martelletto;
 import server.model.state.toolcards.ToolCard;
+import server.model.state.utilities.Color;
 
 import java.rmi.RemoteException;
 import java.util.List;
@@ -22,40 +25,62 @@ public class MartellettoTest {
 
     private ToolCard toolCard;
     private Player player;
-    private List<DraftPoolCell> draftPool;
+    private DraftPool draftPool;
     private Model model;
-
     @Before
     public void setUp() throws Exception {
         model=new Model();
         player=mock(Player.class);
-        Mockito.when(player.isSecondTurn()).thenReturn(true);
-      //  model.addRMIPlayer("TheVinz");
-        //model.addRMIPlayer("Strenuus");
-       // model.addRMIPlayer("GabStuc");
-        model.getState().getDraftPool().draw(model.getState().getBag());
-        model.getState().getDraftPool().getCell(2).removeDice();
-        draftPool=model.getState().getDraftPool().getDraftPool();
-        toolCard=new Martelletto(model);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
-
+        draftPool = model.getState().getDraftPool();
+        draftPool.increaseSize();
+        toolCard=new Martelletto(model);}
     @Test
-    public void doAbility() throws InvalidMoveException {
+    public void doAbility()  {
         try {
-            toolCard.start(player);
+            try {
+                toolCard.start(player);
+            } catch (InvalidMoveException e) {    //drafpool vuota
+                e.printStackTrace();
+            }
         }catch(NullPointerException e){
             e.printStackTrace();
         }
-        for(int i=0; i<draftPool.size(); i++){
-            if(draftPool.get(i).isEmpty())
-                assertNull(model.getState().getDraftPool().getCell(i).getDice());
+        try {
+            draftPool.getCell(1).put(new Dice(Color.BLUE,3));
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+        try {
+            toolCard.start(player);
+        } catch (InvalidMoveException e) {     //non è la seconda mossa del giocatore
+            e.printStackTrace();
+        }
+        Mockito.when(player.isSecondTurn()).thenReturn(true);
+        try {
+            toolCard.start(player);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+        for(int i=0; i<draftPool.getSize(); i++){
+            if(draftPool.getCell(i).isEmpty())
+                assertNull(draftPool.getCell(i).getDice());    //andata a buon fine
             else
-                assertEquals(draftPool.get(i).getDice().getColor(),model.getState().getDraftPool().getCell(i).getDice().getColor());
+                assertEquals(Color.BLUE,draftPool.getCell(i).getDice().getColor());
         }
         assertFalse(toolCard.hasNext());
+        Mockito.when(player.isDiceMoved()).thenReturn(true);
+        try {
+            toolCard.start(player);
+        } catch (InvalidMoveException e) {     //il giocatore ha già mosso un dado
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(7,toolCard.getNumber());
+    }
+    @Test
+    public void shouldGetColor(){
+        assertEquals(Color.BLUE,toolCard.getColor());
     }
 }

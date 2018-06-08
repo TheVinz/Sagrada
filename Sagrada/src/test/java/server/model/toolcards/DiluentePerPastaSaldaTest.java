@@ -4,7 +4,9 @@ import common.exceptions.InvalidMoveException;
 import common.exceptions.WrongParameter;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import server.model.Model;
+import server.model.state.boards.draftpool.DraftPool;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameList;
@@ -25,36 +27,55 @@ public class DiluentePerPastaSaldaTest {
 
     private Player player;
     private ToolCard toolCard;
+    private DraftPool draftPool;
 
     @Before
-    public void setUp() throws RemoteException {
+    public void setUp() throws Exception {
         player=mock(Player.class);
         WindowFrame frame= new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
         Model model= spy(new Model());
         when(model.drawDice(player)).thenReturn(new Dice(YELLOW));
         toolCard=new DiluentePerPastaSalda(model);
         when(player.getWindowFrame()).thenReturn(frame);
+        draftPool = model.getState().getDraftPool();
+        draftPool.increaseSize();
+
     }
 
     @SuppressWarnings("Duplicates")
     @Test
-    public void doAbility() throws InvalidMoveException, RemoteException {
+    public void doAbility() throws InvalidMoveException {
+        try {
+            toolCard.start(player);
+        } catch (InvalidMoveException e) {
+            assertEquals("Draft pool is empty",e.getMessage());
+        }
 
-
-        DraftPoolCell draftPoolCell=new DraftPoolCell(0);
-        draftPoolCell.put(new Dice(Color.BLUE, 3));
-        player.getWindowFrame().getCell(0,0).put(new Dice(YELLOW, 6));
-        player.getWindowFrame().getCell(2,1).put(new Dice(RED, 6));
-        player.getWindowFrame().getCell(2,0).put(new Dice(RED,6));
-
-        //Yellow 6 in 0 0
-        //Red 6 in 2 1
-        //Red 6 in 2 0
-        //Blue 3 in DraftPool[0]
-
+        draftPool.getCell(1).put(new Dice(Color.BLUE,4));
+        WindowFrame secondFrame = new WindowFrame(WindowFrameList.AURORAE_MAGNIFICUS);
+        secondFrame.getCell(0,0).put(new Dice(Color.RED,5));
+        secondFrame.getCell(0,1).put(new Dice(Color.GREEN,1));
+        secondFrame.getCell(0,2).put(new Dice(Color.BLUE,5));
+        secondFrame.getCell(0,3).put(new Dice(Color.PURPLE,1));
+        secondFrame.getCell(0,4).put(new Dice(Color.RED,2));
+        secondFrame.getCell(1,0).put(new Dice(Color.PURPLE,1));
+        secondFrame.getCell(1,1).put(new Dice(Color.RED,5));
+        secondFrame.getCell(1,2).put(new Dice(Color.YELLOW,1));
+        secondFrame.getCell(1,3).put(new Dice(Color.RED,5));
+        secondFrame.getCell(1,4).put(new Dice(Color.YELLOW,1));
+        secondFrame.getCell(2,0).put(new Dice(Color.YELLOW,5));
+        secondFrame.getCell(2,1).put(new Dice(Color.GREEN,2));
+        secondFrame.getCell(2,2).put(new Dice(Color.RED,6));
+        secondFrame.getCell(2,3).put(new Dice(Color.BLUE,3));
+        secondFrame.getCell(2,4).put(new Dice(Color.PURPLE,5));
+        secondFrame.getCell(3,0).put(new Dice(Color.RED,1));
+        secondFrame.getCell(3,1).put(new Dice(Color.BLUE,4));
+        secondFrame.getCell(3,2).put(new Dice(Color.PURPLE,5));
+        secondFrame.getCell(3,3).put(new Dice(Color.GREEN,1));
+        secondFrame.getCell(3,4).put(new Dice(Color.BLUE,4));
         toolCard.start(player);
         try {
-            toolCard.setParameter(draftPoolCell);
+            toolCard.setParameter(draftPool.getCell(1));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
@@ -64,19 +85,57 @@ public class DiluentePerPastaSaldaTest {
             wrongParameter.printStackTrace();
         }
 
+        draftPool.getCell(0).put(new Dice(Color.BLUE,3));
+        player.getWindowFrame().getCell(0,0).put(new Dice(YELLOW, 6));
+        player.getWindowFrame().getCell(2,1).put(new Dice(RED, 6));
+        player.getWindowFrame().getCell(2,0).put(new Dice(RED,6));
+        //Yellow 6 in 0 0
+        //Red 6 in 2 1
+        //Red 6 in 2 0
+        //Blue 3 in DraftPool[0]
+        try {
+            toolCard.start(player);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+
+            try {
+                try {
+                    toolCard.setParameter(draftPool.getCell(0));
+                } catch (WrongParameter wrongParameter) {
+                    wrongParameter.printStackTrace();
+                }
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
+        try {
+            try {
+                toolCard.setParameter(new Choice(1));
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
+        } catch (WrongParameter wrongParameter) {
+            wrongParameter.printStackTrace();
+        }
         //expected Yellow 1 in DraftPool[0]
-
-        assertEquals(YELLOW, draftPoolCell.getDice().getColor());
-        assertEquals(1, draftPoolCell.getDice().getValue());
-
+        assertEquals(YELLOW, draftPool.getCell(0).getDice().getColor());
+        assertEquals(1, draftPool.getCell(0).getDice().getValue());
         //invalid adjacent dices for 0 4
         try {
-            toolCard.setParameter(player.getWindowFrame());
+            try {
+                toolCard.setParameter(player.getWindowFrame());
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            toolCard.setParameter(player.getWindowFrame().getCell(0,4));
+            try {
+                toolCard.setParameter(player.getWindowFrame().getCell(0,4));
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
@@ -84,35 +143,51 @@ public class DiluentePerPastaSaldaTest {
         //expected invalid move without exception
         //move ignored
 
-        assertFalse(draftPoolCell.isEmpty());
-        assertEquals(YELLOW, draftPoolCell.getDice().getColor());
-        assertEquals(1, draftPoolCell.getDice().getValue());
+        assertFalse(draftPool.getCell(0).isEmpty());
+        assertEquals(YELLOW, draftPool.getCell(0).getDice().getColor());
+        assertEquals(1, draftPool.getCell(0).getDice().getValue());
         assertTrue(player.getWindowFrame().getCell(0,4).isEmpty());
 
         //Already filled cell 2 1
         try {
-            toolCard.setParameter(player.getWindowFrame());
+            try {
+                toolCard.setParameter(player.getWindowFrame());
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            toolCard.setParameter( player.getWindowFrame().getCell(2,1));
+            try {
+                toolCard.setParameter( player.getWindowFrame().getCell(2,1));
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
 
         //move ignored
 
-        assertFalse(draftPoolCell.isEmpty());
+        assertFalse(draftPool.getCell(0).isEmpty());
 
         //should be a valid cell 2 2
         try {
-            toolCard.setParameter(player.getWindowFrame());
+            try {
+                toolCard.setParameter(player.getWindowFrame());
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            toolCard.setParameter(player.getWindowFrame().getCell(2, 2));
+            try {
+                toolCard.setParameter(player.getWindowFrame().getCell(2, 2));
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
@@ -120,34 +195,56 @@ public class DiluentePerPastaSaldaTest {
 
         assertNotNull(player.getWindowFrame().getCell(2,2).getDice());
         assertEquals(1, player.getWindowFrame().getCell(2,2).getDice().getValue());
-        assertTrue(draftPoolCell.isEmpty());
+        assertTrue(draftPool.getCell(0).isEmpty());
 
         //move done successfully
         //Yellow 1 in 2 2
         //restart
 
-        player.getWindowFrame().getCell(3,2).put(new Dice(YELLOW,6));
+        try {
+            player.getWindowFrame().getCell(3,2).put(new Dice(YELLOW,6));
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
         //Yellow 6 in 3 2
-        toolCard.start(player);
 
-        //purple dice in DP[0]
-
-        draftPoolCell.put(new Dice(YELLOW));
         try {
-            toolCard.setParameter(draftPoolCell);
+            draftPool.getCell(0).put(new Dice(YELLOW));
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+        try {
+            toolCard.start(player);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+        //yellow dice in DP[0]
+        try {
+            try {
+                toolCard.setParameter(draftPool.getCell(1));
+            } catch (InvalidMoveException e) {
+                assertEquals("PoolCell is empty",e.getMessage());
+            }
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+        //draftPoolCell empty
+        when(player.isDiceMoved()).thenReturn(true);
         try {
-            toolCard.setParameter(new Choice(6));
-        } catch (WrongParameter wrongParameter) {
-            wrongParameter.printStackTrace();
+            toolCard.start(player);
+        } catch (InvalidMoveException e) {
+           assertEquals("You can only place a dice once per turn",e.getMessage());
         }
 
-        //Yellow 6 in DP[0]
-        //should have no valid cell for Yellow 6 on WF
-
-        assertFalse(toolCard.hasNext());
     }
 
+    @Test
+    public void shouldGetNumber() {
+        assertEquals(11,toolCard.getNumber());
+    }
+
+    @Test
+    public void shouldGetColor() {
+        assertEquals(Color.PURPLE,toolCard.getColor());
+    }
 }
