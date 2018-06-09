@@ -291,6 +291,15 @@ public class Util {
         return card;
     }
 
+    public static ImageView getPrivateObjectiveCardEndGame(char color){
+        ImageView card = new ImageView(getPrivateObjectiveCard(color).getImage());
+        card.setFitWidth(268);
+        card.setFitHeight(396);
+        card.setX(2);
+        card.setY(2);
+        return card;
+    }
+
     public static ImageView getPublicObjectiveCard(int card){
         String path = "../resources/objectivecards/publicobjectivecards/";
         switch(card){

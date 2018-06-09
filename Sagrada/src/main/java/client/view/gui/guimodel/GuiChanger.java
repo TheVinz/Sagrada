@@ -63,11 +63,6 @@ public class GuiChanger implements Changer {
     }
 
     @Override
-    public void change(SinglePlayerEndGame singlePlayerEndGame) {
-
-    }
-
-    @Override
     public void change(LoadPlayers loadPlayers) {
         Platform.runLater(() -> view.loadPlayers(loadPlayers.getNames(), loadPlayers.getIds(), loadPlayers.getWindowFrameReps(), loadPlayers.getWindowFrameFavorTokens(), id));
     }
@@ -110,6 +105,11 @@ public class GuiChanger implements Changer {
     }
 
     @Override
+    public void change(SinglePlayerEndGame singlePlayerEndGame) {
+        Platform.runLater(() -> view.endSinglePlayerGame(singlePlayerEndGame.getCard(), singlePlayerEndGame.getVectorPoints(), singlePlayerEndGame.getTargetPoints()));
+    }
+
+    @Override
     public void change(ReinsertedPlayer reinsertedPlayer) {
         Platform.runLater(() -> view.notifyPlayerReconnected(reinsertedPlayer.getIdPlayer()));
     }
@@ -133,6 +133,6 @@ public class GuiChanger implements Changer {
     public void change(PrivateObjectiveCardsChoice privateObjectiveCardsChoice) {
         char card1 = privateObjectiveCardsChoice.getCard1();
         char card2 = privateObjectiveCardsChoice.getCard2();
-        //???????????''
+        Platform.runLater(() -> view.notifyPrivateObjectiveCardChoice(card1, card2));
     }
 }

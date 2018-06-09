@@ -56,3 +56,13 @@
     -fx-border-style: solid;
     -fx-border-color: black;
 }
+.end_game_card{
+    -fx-min-height: 400px;
+    -fx-max-height: 400px;
+    -fx-min-width: 272px;
+    -fx-max-width: 272px;
+}
+.end_game_card:hover{
+    -fx-cursor: hand;
+    -fx-background-color: rgb(255,100,100);
+}

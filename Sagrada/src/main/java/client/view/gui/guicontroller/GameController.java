@@ -382,10 +382,10 @@ public class GameController {
     }
 
     private void handleDrop(DragEvent event, Node n) {
+        Dragboard db = event.getDragboard();
+        Image image = db.getImage();
+        ((ImageView) ((Pane) event.getGestureSource()).getChildren().get(0)).setImage(image);
         if(activeFrame.getStyleClass().contains(droppable)) {
-            Dragboard db = event.getDragboard();
-            Image image = db.getImage();
-            ((ImageView) ((Pane) event.getGestureSource()).getChildren().get(0)).setImage(image);
             boolean success = false;
             if (db.hasImage()) {
                 controller.windowFrameClick(GridPane.getRowIndex(n), GridPane.getColumnIndex(n));

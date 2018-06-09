@@ -417,6 +417,78 @@ public class ViewController {
         currentPhase=new GamePhase(remoteController, gameController);
     }
 
+    public void notifyPrivateObjectiveCardChoice(char card1, char card2){
+        HBox box = new HBox();
+        box.setAlignment(Pos.CENTER);
+        Pane first = new Pane();
+        first.getStyleClass().add("end_game_card");
+        first.getChildren().add(Util.getPrivateObjectiveCardEndGame(card1));
+        first.setOnMouseClicked((mouseEvent -> {
+            try {
+                remoteController.command(new GameCommand(Response.CHOICE,0));
+            } catch (RemoteException e) {
+                notifyPlayerDisconnected(this.id);
+            }
+        }));
+        Pane second = new Pane();
+        second.setPrefHeight(400);
+        second.setPrefWidth(272);
+        second.getStyleClass().add("end_game_card");
+        second.getChildren().add(Util.getPrivateObjectiveCardEndGame(card2));
+        second.setOnMouseClicked((mouseEvent -> {
+            try {
+                remoteController.command(new GameCommand(Response.CHOICE,1));
+            } catch (RemoteException e) {
+                notifyPlayerDisconnected(this.id);
+            }
+        }));
+        box.getChildren().addAll(first, second);
+        rootLayout.setCenter(box);
+    }
+
+    public void endSinglePlayerGame(char card, int[] points, int targetPoints){
+
+        String style = "-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 26";
+
+        HBox box = new HBox(20);
+        box.setAlignment(Pos.CENTER);
+
+        VBox frameBox = new VBox(10);
+        frameBox.setAlignment(Pos.CENTER);
+        Label targetPointsLabel = new Label("Target points: " + targetPoints);
+        targetPointsLabel.setStyle(style);
+        ImageView privateCard = Util.getPrivateObjectiveCardEndGame(card);
+        frameBox.getChildren().addAll(privateCard, gameController.getPlayerFrame(this.id), targetPointsLabel);
+
+        VBox pointsBox = new VBox(10);
+        pointsBox.setAlignment(Pos.CENTER);
+
+        int publicPoints = points[0]+points[1];
+        Label publicCardPoints = new Label("Public objective cards points: " + publicPoints);
+        Label privateCardPoints = new Label("Private objective card points: " + points[2]);
+        Label emptyCellMalus = new Label("Empty cells malus: " + points[3]);
+        Label total = new Label("Total: " + points[4]);
+
+        publicCardPoints.setStyle(style);
+        privateCardPoints.setStyle(style);
+        emptyCellMalus.setStyle(style);
+        total.setStyle(style);
+
+        pointsBox.getChildren().addAll(publicCardPoints, privateCardPoints, emptyCellMalus, total);
+
+        box.getChildren().addAll(frameBox, pointsBox);
+
+        String result;
+
+        if(points[4]>targetPoints)
+            result = "You win!";
+        else
+            result="You lose";
+
+        Label resultLabel = new Label(result);
+        resultLabel.setStyle("-fx-background-color: rgba(255, 165, 0, 0.9); -fx-text-fill: black; -fx-font-size: 28");
+    }
+
     public void endGame(char[] privateObjectiveCards, int[] ids, int[][] points){
         HBox endGameBox = new HBox(20);
         endGameBox.setAlignment(Pos.CENTER);
