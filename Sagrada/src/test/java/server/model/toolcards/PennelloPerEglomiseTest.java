@@ -2,6 +2,7 @@ package server.model.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import common.exceptions.WrongParameter;
+import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,13 +21,13 @@ import static org.mockito.Mockito.when;
 
 public class PennelloPerEglomiseTest {
 
-    private ToolCard test;
+    private ToolCard toolCard;
     private Player player;
 
     @Before
     public void setUp() throws Exception {
         Model model=new Model();
-        test= new PennelloPerEglomise(model);
+        toolCard = new PennelloPerEglomise(model);
         player = Mockito.mock(Player.class);
         WindowFrame frame = new WindowFrame(WindowFrameList.BATLLO);
         when(player.getWindowFrame()).thenReturn(frame);
@@ -36,28 +37,29 @@ public class PennelloPerEglomiseTest {
 
     @Test
     public void doAbility() throws InvalidMoveException {
-        test.start(player);
+        toolCard.start(player);
 
         WindowFrame frame=new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
+        assertEquals(Response.WINDOW_FRAME_MOVE,toolCard.next());
 
         try {
-            test.setParameter(frame);
+            toolCard.setParameter(frame);
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            test.setParameter(frame.getCell(2,2));
+            toolCard.setParameter(frame.getCell(2,2));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            test.setParameter(player.getWindowFrame());
+            toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
             try {
-                test.setParameter(player.getWindowFrame().getCell(2, 3));
+                toolCard.setParameter(player.getWindowFrame().getCell(2, 3));
             } catch (WrongParameter wrongParameter) {
                 wrongParameter.printStackTrace();
             }
@@ -69,26 +71,26 @@ public class PennelloPerEglomiseTest {
 
 
 
-        test.start(player);
+        toolCard.start(player);
 
         try {
-            test.setParameter(player.getWindowFrame());
+            toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            test.setParameter(player.getWindowFrame().getCell(1,3));
+            toolCard.setParameter(player.getWindowFrame().getCell(1,3));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            test.setParameter(player.getWindowFrame());
+            toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
             try {
-                test.setParameter(player.getWindowFrame().getCell(3, 4));
+                toolCard.setParameter(player.getWindowFrame().getCell(3, 4));
             } catch (WrongParameter wrongParameter) {
                 wrongParameter.printStackTrace();
             }
@@ -100,26 +102,26 @@ public class PennelloPerEglomiseTest {
         assertFalse(player.getWindowFrame().getCell(2,4).isEmpty());
         assertTrue(player.getWindowFrame().getCell(3,4).isEmpty());
 
-        test.start(player);
+        toolCard.start(player);
 
         try {
-            test.setParameter(player.getWindowFrame());
+            toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            test.setParameter(player.getWindowFrame().getCell(1,3));
+            toolCard.setParameter(player.getWindowFrame().getCell(1,3));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            test.setParameter(player.getWindowFrame());
+            toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
             try {
-                test.setParameter(player.getWindowFrame().getCell(0, 0));
+                toolCard.setParameter(player.getWindowFrame().getCell(0, 0));
             } catch (WrongParameter wrongParameter) {
                 wrongParameter.printStackTrace();
             }
@@ -127,28 +129,37 @@ public class PennelloPerEglomiseTest {
             assertEquals("Invalid adjacent dices", e.getMessage());
         }
 
-        test.start(player);
+        toolCard.start(player);
 
         try {
-            test.setParameter(player.getWindowFrame());
+            toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            test.setParameter(player.getWindowFrame().getCell(1,3));
+            toolCard.setParameter(player.getWindowFrame().getCell(1,3));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            test.setParameter(player.getWindowFrame());
+            toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+        assertEquals(null,toolCard.next());
         try {
-            test.setParameter(player.getWindowFrame().getCell(2,3));
+            toolCard.setParameter(player.getWindowFrame().getCell(2,3));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         assertEquals(Color.BLUE, player.getWindowFrame().getCell(2,3).getDice().getColor());
+    }
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(2, toolCard.getNumber());
+    }
+    @Test
+    public void shouldGetColor(){
+        assertEquals(Color.BLUE,toolCard.getColor());
     }
 }

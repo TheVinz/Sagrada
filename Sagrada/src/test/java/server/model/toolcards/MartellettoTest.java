@@ -40,7 +40,7 @@ public class MartellettoTest {
             try {
                 toolCard.start(player);
             } catch (InvalidMoveException e) {    //drafpool vuota
-                e.printStackTrace();
+                assertEquals("Draft pool is empty",e.getMessage());
             }
         }catch(NullPointerException e){
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class MartellettoTest {
         try {
             toolCard.start(player);
         } catch (InvalidMoveException e) {     //non è la seconda mossa del giocatore
-            e.printStackTrace();
+           assertEquals("Can be used only on second move",e.getMessage());
         }
         Mockito.when(player.isSecondTurn()).thenReturn(true);
         try {
@@ -72,7 +72,7 @@ public class MartellettoTest {
         try {
             toolCard.start(player);
         } catch (InvalidMoveException e) {     //il giocatore ha già mosso un dado
-            e.printStackTrace();
+            assertEquals("Can be used only before placing a dice",e.getMessage());
         }
     }
     @Test

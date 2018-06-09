@@ -16,13 +16,14 @@ import server.model.state.utilities.Color;
 
 import java.rmi.RemoteException;
 
+import static junit.framework.TestCase.assertEquals;
+
 public class TaglierinaCircolareTest {
     private Model model;
     private ToolCard toolCard;
     private Player player;
     private DraftPool draftPool = new DraftPool();
     private RoundTrack roundTrack = new RoundTrack();
-    private Dice dice1;
 
     @Before
     public void setUp() throws Exception {
@@ -30,20 +31,30 @@ public class TaglierinaCircolareTest {
         player = Mockito.mock(Player.class);
         toolCard = new TaglierinaCircolare(model);
         draftPool = model.getState().getDraftPool();
-        //dice1 = new Dice (Color.BLUE,4);
-      //  draftPool = new DraftPool();
-        draftPool.getCell(0).put(new Dice(Color.RED, 4));
+        draftPool.increaseSize();
         roundTrack = model.getState().getRoundTrack();
-       // roundTrack = new RoundTrack();
-        roundTrack.endRound(draftPool);
-        System.out.println(roundTrack.getRoundSet(1).get(0).getDice().getColor());
-        // System.out.println(draftPool.getCell(0).getDice().getColor());
-       // draftPool = model.getState().getDraftPool();
-        draftPool.getCell(0).put(new Dice(Color.GREEN,3));
-       // draftPool.getCell(1).put(new Dice(Color.BLUE,5));
-           }
+
+        }
+        @Test
+        public void shouldStart() throws InvalidMoveException {
+            try {
+                toolCard.start(player);
+            } catch (InvalidMoveException e) {
+               assertEquals("Draft pool is empty",e.getMessage());
+            }
+            draftPool.getCell(0).put(new Dice(Color.BLUE,3));
+            try {
+                toolCard.start(player);
+            } catch (InvalidMoveException e) {
+               assertEquals("Empty round track",e.getMessage());
+            }
+
+        }
     @Test
-    public void shouldDoAbility() throws InvalidMoveException {
+    public void shouldDoAbility() throws Exception {
+        draftPool.getCell(0).put(new Dice(Color.RED, 4));
+        roundTrack.endRound(draftPool);
+        draftPool.getCell(0).put(new Dice(Color.GREEN,3));
         try {
             toolCard.start(player);
         } catch (InvalidMoveException e) {
@@ -51,7 +62,6 @@ public class TaglierinaCircolareTest {
         }
         try {
             toolCard.setParameter(draftPool.getCell(0));
-            System.out.println(draftPool.getCell(0).getDice().getColor());
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (WrongParameter wrongParameter) {
@@ -65,23 +75,32 @@ public class TaglierinaCircolareTest {
             wrongParameter.printStackTrace();
         }
         toolCard.start(player);
-        draftPool.getCell(0).removeDice();
-        try {
-            toolCard.setParameter(roundTrack.getRoundSet(1).get(0));
-        } catch (InvalidMoveException e) {
-            e.printStackTrace();
-        } catch (WrongParameter wrongParameter) {
-              wrongParameter.printStackTrace();
+        try{
+            try{
+                toolCard.setParameter(draftPool.getCell(2));
+            }catch (WrongParameter wrongParameter){
+                wrongParameter.printStackTrace();
+            }
+        }catch (InvalidMoveException e){
+           e.printStackTrace();
         }
-        try {
-            toolCard.setParameter(draftPool.getCell(0));
-        } catch (InvalidMoveException e) {
-            e.printStackTrace();
-        } catch (WrongParameter wrongParameter) {
-            wrongParameter.printStackTrace();
+        try{
+            try{
+                toolCard.setParameter(roundTrack.getRoundSet(1).get(0));
+            }catch (WrongParameter wrongParameter){
+                wrongParameter.printStackTrace();
+            }
+        }catch (InvalidMoveException e){
+            assertEquals("PoolCell is empty",e.getMessage());
         }
-
-
+    }
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(5,toolCard.getNumber());
+    }
+    @Test
+    public void shouldGetColor(){
+        assertEquals(Color.GREEN,toolCard.getColor());
     }
 
 }

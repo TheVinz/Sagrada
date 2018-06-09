@@ -2,6 +2,7 @@ package server.model.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import common.exceptions.WrongParameter;
+import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
@@ -41,6 +42,7 @@ public class AlesatorePerLaminaDiRameTest {
     @Test
     public void doAbility() throws InvalidMoveException {
         toolCard.start(player);
+        assertEquals(Response.WINDOW_FRAME_MOVE,toolCard.next());
         try {
             toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
@@ -51,16 +53,21 @@ public class AlesatorePerLaminaDiRameTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+
         try {
             toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+        assertEquals(null,toolCard.next());
         try {
             toolCard.setParameter(player.getWindowFrame().getCell(0, 1));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+
+
+
 
         WindowFrame frame=new WindowFrame(WindowFrameList.FIRELIGHT);
         toolCard.start(player);

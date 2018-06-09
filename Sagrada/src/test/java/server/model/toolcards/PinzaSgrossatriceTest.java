@@ -2,6 +2,7 @@ package server.model.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import common.exceptions.WrongParameter;
+import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -39,7 +40,7 @@ public class PinzaSgrossatriceTest {
     public void shouldStart() throws InvalidMoveException {
         try{toolCard.start(player);}
         catch(InvalidMoveException invalidMoveException){
-            invalidMoveException.printStackTrace();
+           assertEquals("Draft pool is empty",invalidMoveException.getMessage());
         }
     }
 
@@ -54,6 +55,7 @@ public class PinzaSgrossatriceTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+        assertEquals(Response.PINZA_SGROSSATRICE_CHOICE,toolCard.next());
         try {
             toolCard.setParameter(new Choice(0));
         } catch (WrongParameter wrongParameter) {
@@ -75,7 +77,7 @@ public class PinzaSgrossatriceTest {
             wrongParameter.printStackTrace();
         }}
         catch (InvalidMoveException invalidMoveException){
-            invalidMoveException.printStackTrace();
+          assertEquals("Cell is empty",invalidMoveException.getMessage());
         }
         toolCard.start(player);
         try {

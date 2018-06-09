@@ -2,6 +2,7 @@ package server.model.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import common.exceptions.WrongParameter;
+import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -98,7 +99,8 @@ public class DiluentePerPastaSaldaTest {
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         }
-
+        assertEquals(true,toolCard.hasNext());
+        assertEquals(Response.DRAFT_POOL_CELL,toolCard.next());
             try {
                 try {
                     toolCard.setParameter(draftPool.getCell(0));
@@ -108,6 +110,7 @@ public class DiluentePerPastaSaldaTest {
             } catch (InvalidMoveException e) {
                 e.printStackTrace();
             }
+        assertEquals(Response.DILUENTE_PER_PASTA_SALDA_CHOICE,toolCard.next());
         try {
             try {
                 toolCard.setParameter(new Choice(1));
@@ -117,6 +120,7 @@ public class DiluentePerPastaSaldaTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+        assertEquals(Response.WINDOW_FRAME,toolCard.next());
         //expected Yellow 1 in DraftPool[0]
         assertEquals(YELLOW, draftPool.getCell(0).getDice().getColor());
         assertEquals(1, draftPool.getCell(0).getDice().getValue());
@@ -139,7 +143,6 @@ public class DiluentePerPastaSaldaTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
-
         //expected invalid move without exception
         //move ignored
 
@@ -182,6 +185,7 @@ public class DiluentePerPastaSaldaTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+        assertEquals(null,toolCard.next());
         try {
             try {
                 toolCard.setParameter(player.getWindowFrame().getCell(2, 2));
@@ -201,11 +205,6 @@ public class DiluentePerPastaSaldaTest {
         //Yellow 1 in 2 2
         //restart
 
-        try {
-            player.getWindowFrame().getCell(3,2).put(new Dice(YELLOW,6));
-        } catch (InvalidMoveException e) {
-            e.printStackTrace();
-        }
         //Yellow 6 in 3 2
 
         try {

@@ -2,6 +2,7 @@ package server.model.toolcards;
 
 import common.exceptions.InvalidMoveException;
 import common.exceptions.WrongParameter;
+import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import server.model.state.ModelObject.ModelObject;
@@ -68,7 +69,7 @@ public class LathekinTest {
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (WrongParameter wrongParameter) {
-            wrongParameter.printStackTrace();
+            assertEquals("Wrong parameter",wrongParameter.getMessage());
         }
         try {
             toolCard.setParameter(secondFrame);     //passo la vetrata sbagliata
@@ -103,7 +104,7 @@ public class LathekinTest {
                 wrongParameter.printStackTrace();
             }
         } catch (InvalidMoveException invalidMoveException) {
-            invalidMoveException.printStackTrace();
+           assertEquals("Dice must be on your same frame",invalidMoveException.getMessage());
         }
 
         toolCard.start(player);   //firstSource=firstTarget
@@ -131,7 +132,7 @@ public class LathekinTest {
         try {
             toolCard.setParameter(frame.getCell(0, 0));   //stessa cella
         } catch (InvalidMoveException e) {
-            e.printStackTrace();
+            assertEquals("Cells must be differents",e.getMessage());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
@@ -161,7 +162,7 @@ public class LathekinTest {
         try {
             toolCard.setParameter(frame.getCell(1, 3));    //passso la cellasbagliata
         } catch (InvalidMoveException e) {
-            e.printStackTrace();
+           assertEquals("Invalid move",e.getMessage());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
@@ -192,7 +193,7 @@ public class LathekinTest {
         try {
             toolCard.setParameter(frame.getCell(0, 4));    //passso una cella
         } catch (InvalidMoveException e) {
-            e.printStackTrace();
+           assertEquals("Invalid move",e.getMessage());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
@@ -256,7 +257,7 @@ public class LathekinTest {
         try {
             toolCard.setParameter(frame.getCell(0, 1));
         } catch (InvalidMoveException e) {
-            e.printStackTrace();
+          assertEquals("Dice must be on your same frame",e.getMessage());
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
@@ -324,7 +325,7 @@ public class LathekinTest {
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (WrongParameter wrongParameter) {
-            wrongParameter.printStackTrace();
+          assertEquals("Cannot move two time the same dice",wrongParameter.getMessage());
         }
         //secondsource uguale al firstTarget, non mi entra in questo caso
 
@@ -389,7 +390,7 @@ public class LathekinTest {
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (WrongParameter wrongParameter) {
-            wrongParameter.printStackTrace();
+            assertEquals("Empty cell",wrongParameter.getMessage());
         }
         //second source vuota
 
@@ -454,11 +455,12 @@ public class LathekinTest {
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (WrongParameter wrongParameter) {
-            wrongParameter.printStackTrace();
+            assertEquals("Cells must be differents",wrongParameter.getMessage());
         }
         //caso secondSource=secondTarget
 
         toolCard.start(player);
+        assertEquals(Response.WINDOW_FRAME_MOVE,toolCard.next());
         try {
             toolCard.setParameter(frame);
         } catch (InvalidMoveException e) {
@@ -513,6 +515,7 @@ public class LathekinTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+        assertEquals(null,toolCard.next());
         try {
             toolCard.setParameter(frame.getCell(1, 0));   //giusta
         } catch (InvalidMoveException e) {
@@ -520,6 +523,7 @@ public class LathekinTest {
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
+
         //secondo dado mosso correttamente
 
 
@@ -601,10 +605,15 @@ public class LathekinTest {
         } catch (InvalidMoveException e) {
             e.printStackTrace();
         } catch (WrongParameter wrongParameter) {
-            wrongParameter.printStackTrace();
-        }
+            assertEquals("All move restrictions must be respected",wrongParameter.getMessage());        }
+    }
 
-
-
+    @Test
+    public void shouldGetNumber(){
+        assertEquals(4,toolCard.getNumber());
+    }
+    @Test
+    public void shouldGetColor(){
+        assertEquals(Color.YELLOW,toolCard.getColor());
     }
 }
