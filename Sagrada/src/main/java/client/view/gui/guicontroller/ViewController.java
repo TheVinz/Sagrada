@@ -474,10 +474,6 @@ public class ViewController {
         emptyCellMalus.setStyle(style);
         total.setStyle(style);
 
-        pointsBox.getChildren().addAll(publicCardPoints, privateCardPoints, emptyCellMalus, total);
-
-        box.getChildren().addAll(frameBox, pointsBox);
-
         String result;
 
         if(points[4]>targetPoints)
@@ -487,6 +483,37 @@ public class ViewController {
 
         Label resultLabel = new Label(result);
         resultLabel.setStyle("-fx-background-color: rgba(255, 165, 0, 0.9); -fx-text-fill: black; -fx-font-size: 28");
+
+        pointsBox.getChildren().addAll(publicCardPoints, privateCardPoints, emptyCellMalus, total, resultLabel);
+
+        box.getChildren().addAll(frameBox, pointsBox);
+
+        Button rematchButton = new Button("Play again");
+        rematchButton.setOnMouseClicked((mouseEvent -> {
+            try {
+                init(new GuiModel(this));
+            } catch (RemoteException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Connection error");
+                alert.setHeaderText("Connection error.");
+                alert.showAndWait();
+                System.exit(-1);
+            }
+            rootLayout.setTop(null);
+        }));
+        Button exitButton = new Button("Exit");
+        exitButton.setOnMouseClicked((mouseEvent -> System.exit(0)));
+        style = "-fx-background-color: orange; -fx-font-size: 24";
+        exitButton.setStyle(style);
+        rematchButton.setStyle(style);
+
+        VBox buttonsBox = new VBox(40);
+        buttonsBox.setAlignment(Pos.CENTER);
+        buttonsBox.getChildren().addAll(rematchButton, exitButton);
+
+        box.getChildren().add(buttonsBox);
+
+        rootLayout.setCenter(box);
     }
 
     public void endGame(char[] privateObjectiveCards, int[] ids, int[][] points){
@@ -514,6 +541,9 @@ public class ViewController {
             VBox labels= new VBox(5);
             labels.getChildren().addAll(publicPoints, privatePoints, favorPoints, emptyMalus, total);
             playerBox.getChildren().addAll(nameLabel, card, playerFrame, labels);
+            if(ids[i] == this.id){
+                playerBox.setStyle("-fx-background-color: radial-gradient(center 50% 0%, radius 70%, rgba(252,176,19,0.3), rgba(0,0,0,0))");
+            }
             endGameBox.getChildren().add(playerBox);
         }
         rootLayout.setCenter(endGameBox);

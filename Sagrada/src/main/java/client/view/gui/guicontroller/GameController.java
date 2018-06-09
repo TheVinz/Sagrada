@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
@@ -17,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import server.GameManager;
 
 
 public class GameController {
@@ -34,6 +36,8 @@ public class GameController {
     private Label textLabel;
     @FXML
     private HBox roundTrack;
+
+    private boolean canEnd = true;
 
     private GridPane[] frames = new GridPane[4];
     private String[] reps = new String[4];
@@ -135,6 +139,7 @@ public class GameController {
             n.setOnDragOver(event -> handleDragOver(event));
             n.setOnDragDetected((event) -> handleFrameDrag(event, n));
             n.setOnMouseClicked((event) -> handleFrameClick(n));
+            n.setOnDragDone((event) -> handleDragDone(event, n));
             n.getStyleClass().add("cell");
         }
         for(boolean[] booleans : hasDice)
@@ -157,6 +162,7 @@ public class GameController {
         activeFrame.getStyleClass().remove(droppable);
         roundTrack.getStyleClass().remove(clickable);
         toolCardsBox.getStyleClass().remove(clickable);
+        canEnd = false;
     }
     public void mainPhase(){
         unableAll();
@@ -166,6 +172,7 @@ public class GameController {
         }
         if(!GamePhase.toolCardUsed)
             toolCardsBox.getStyleClass().add(clickable);
+        canEnd = true;
     }
     public void movingDraftPoolPhase(){
         unableAll();
@@ -363,7 +370,6 @@ public class GameController {
             char emptyImage = reps[id].charAt(index);
             pane.getChildren().clear();
             pane.getChildren().add(Util.getImage(emptyImage));
-            controller.windowFrameClick(row, col);
             Dragboard db = n.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
             content.putImage(image.getImage());
@@ -383,17 +389,24 @@ public class GameController {
 
     private void handleDrop(DragEvent event, Node n) {
         Dragboard db = event.getDragboard();
-        Image image = db.getImage();
-        ((ImageView) ((Pane) event.getGestureSource()).getChildren().get(0)).setImage(image);
+        Node source =(Node) event.getGestureSource();
         if(activeFrame.getStyleClass().contains(droppable)) {
             boolean success = false;
             if (db.hasImage()) {
+                if(activeFrame.getChildren().contains(source))
+                    controller.windowFrameClick(GridPane.getRowIndex(source), GridPane.getColumnIndex(source));
                 controller.windowFrameClick(GridPane.getRowIndex(n), GridPane.getColumnIndex(n));
                 success = true;
             }
             event.setDropCompleted(success);
             event.consume();
         }
+    }
+
+    private void handleDragDone(DragEvent event, Node n){
+        Dragboard db = event.getDragboard();
+        Image image = db.getImage();
+        ((ImageView) ((Pane) n).getChildren().get(0)).setImage(image);
     }
 
     private void handleFrameClick(Node n) {
@@ -420,7 +433,9 @@ public class GameController {
 
     @FXML
     private void endTurn(){
-        controller.endTurn();
+        if(canEnd) {
+            controller.endTurn();
+        }
     }
 
     @FXML

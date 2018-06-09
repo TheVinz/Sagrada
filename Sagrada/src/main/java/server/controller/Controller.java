@@ -29,7 +29,7 @@ public class Controller implements TimerObserver {
 		this.view=view;
 		currentState=new WaitingState(player, model);
 		lock = new ReentrantLock();
-		player.setTimer(new Timer(this, 60));
+		player.setTimer(new Timer(this, 10));
 	}
 
 	public synchronized void selectObject(ModelObject o) { //synchronized? e si eh
