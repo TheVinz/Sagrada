@@ -43,9 +43,11 @@ public class MenuPhase implements CliPhaseState{
                 break;
             case "R":
                 CliDisplayer.getDisplayer().printRoundTrack();
+                CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
                 break;
             case "S":
                 CliApp.getCliApp().setCurrentState(new SelectingPlayerWindowFrame());
+                CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
                 break;
             case "D":
                 CliApp.getCliApp().addCommandToBuffer( new GameCommand(Response.SIMPLE_MOVE_REQUEST));

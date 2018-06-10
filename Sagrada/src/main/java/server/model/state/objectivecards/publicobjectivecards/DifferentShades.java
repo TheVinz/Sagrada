@@ -2,7 +2,18 @@ package server.model.state.objectivecards.publicobjectivecards;
 
 import server.model.state.boards.windowframe.WindowFrame;
 
+/**
+ * The <tt>DifferentShades</tt> class implements the method that add five points for each set of
+ * six different colored dices in a {@link server.model.state.boards.windowframe.WindowFrame}.
+ * @see WindowFrame
+ * @see server.model.state.dice.Dice
+ */
 public class DifferentShades extends PublicObjectiveCard {
+    /**
+     * Calculates the occurrence of every shades and saved them in an array. Returns the lower value multiplied by four.
+     * @param windowFrame of the player.
+     * @return an int that indicates the points.
+     */
     public int calculatePoints(WindowFrame windowFrame) {
         int[] shades= {0,0,0,0,0,0};
         int min;
@@ -41,6 +52,10 @@ public class DifferentShades extends PublicObjectiveCard {
         return min*5;
     }
 
+    /**
+     * Gets the number that indicates the PublicObjectiveCard.
+     * @return an int corresponding to DIFFERENT_SHADES.
+     */
     @Override
     public int getNumber() {
         return DIFFERENT_SHADES;

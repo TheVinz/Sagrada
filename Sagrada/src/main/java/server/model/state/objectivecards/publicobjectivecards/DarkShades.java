@@ -5,10 +5,12 @@ import server.model.state.boards.windowframe.WindowFrame;
 /**
  * The <tt>DarkShades</tt> class implements the method that add two points for each set of {@link server.model.state.dice.Dice}
  * with value five and six on the {@link server.model.state.boards.windowframe.WindowFrame}.
+ * @see server.model.state.dice.Dice
+ * @see WindowFrame
  */
 public class DarkShades extends PublicObjectiveCard {
     /**
-     * Calculates the number of Dice with value six and five. Returns the lower one multiplied by two.
+     * Calculates the number of dice with value six and five. Returns the lower one multiplied by two.
      * @param windowFrame of the player.
      * @return an int that indicates the points.
      */
