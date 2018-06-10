@@ -29,16 +29,20 @@ public class MovingWindowFramePhase extends GamePhase {
             first=false;
             return this;
         }
-        else{
-            targetRow=row;
-            targetCol=col;
-            try {
-                controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, sourceRow, sourceCol));
-                controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, targetRow, targetCol));
-            } catch (RemoteException e) {
-                e.printStackTrace();
+        else {
+            targetRow = row;
+            targetCol = col;
+            if (sourceRow == targetRow && sourceCol == targetCol)
+                return new MovingWindowFramePhase(controller, gameController);
+            else {
+                try {
+                    controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, sourceRow, sourceCol));
+                    controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, targetRow, targetCol));
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                return new GamePhase(controller, gameController);
             }
         }
-        return new GamePhase(controller, gameController);
     }
 }

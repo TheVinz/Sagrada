@@ -481,12 +481,12 @@ public class CliDisplayer {
         displayText(card);
     }
     public void printSinglePlayerPoints(SinglePlayerEndGame singlePlayerEndGame){
-        if(singlePlayerEndGame.getFinalScore()<singlePlayerEndGame.getVectorPoints()[4]) {
+        if(singlePlayerEndGame.getTargetPoints()<singlePlayerEndGame.getVectorPoints()[4]) {
             displayText("\t\t\t\t\tYOU WIN");
         }
         else
             displayText("\t\t\t\t\tYOU LOSE");
-        displayText("\nYour Total Points are "+singlePlayerEndGame.getVectorPoints()[4]+" instead the score to beat was "+singlePlayerEndGame.getFinalScore()+".\n");
+        displayText("\nYour Total Points are "+singlePlayerEndGame.getVectorPoints()[4]+" instead the score to beat was "+singlePlayerEndGame.getTargetPoints()+".\n");
         displayText("Points from PublicObjectiveCard:\n-"+objectiveCardsEffects.returnName(cliState.getPublicObjectiveCardIds()[0]));
         displayText(": "+singlePlayerEndGame.getVectorPoints()[0]+";\n-"+objectiveCardsEffects.returnName(cliState.getPublicObjectiveCardIds()[1]));
         displayText(": "+singlePlayerEndGame.getVectorPoints()[1]+";\nPoints from PrivateObjectiveCard: "+singlePlayerEndGame.getVectorPoints()[2]);

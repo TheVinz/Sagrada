@@ -296,14 +296,14 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     }
 
     @Override
-    synchronized public void updateSinglePlayerEndGame(int targetPoints, Points points){
+    synchronized public void updateSinglePlayerEndGame(int targetPoints, Points points, PrivateObjectiveCard privateObjectiveCard){
         int[] vectorPoints = new int[5];
         vectorPoints[0] = points.getPointsFromPublicCard(0);
         vectorPoints[1] = points.getPointsFromPublicCard(1);
         vectorPoints[2] = points.getPointsFromPrivateCard();
         vectorPoints[3] = points.getPointsFromEmptyCells();
         vectorPoints[4] = points.getFinalPoints();
-        change(new SinglePlayerEndGame(targetPoints, vectorPoints));
+        change(new SinglePlayerEndGame(targetPoints, vectorPoints, privateObjectiveCard.getColor().asChar()));
     }
 
 

@@ -14,8 +14,7 @@ public class SelectingPrivateObjectiveCard extends PlayerState{
     }
 
     @Override
-    PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException, WrongParameter {
-        System.out.println("DEBUUUUUUUUUUUUG");
+    PlayerState selectObject(ModelObject modelObject) throws WrongParameter {
         if(modelObject.getType()==ModelType.CHOICE) {
             int choice = ((Choice) modelObject).getChoice();
             if(choice != 0 && choice != 1 )

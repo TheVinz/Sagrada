@@ -35,5 +35,5 @@ public interface Observer {
     void notifyError(String message);
     void notifyWrongParameter(String message);
     void updatePrivateObjectiveCardChoice();
-    void updateSinglePlayerEndGame(int targetPoints, Points points);
+    void updateSinglePlayerEndGame(int targetPoints, Points points, PrivateObjectiveCard privateObjectiveCard);
 }

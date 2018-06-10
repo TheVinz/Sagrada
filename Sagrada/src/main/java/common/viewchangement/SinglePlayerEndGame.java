@@ -3,11 +3,13 @@ package common.viewchangement;
 import common.Changer;
 
 public class SinglePlayerEndGame extends Changement {
-    private final int finalScore;
+    private final int targetPoints;
     private final int[] vectorPoints;
+    private final char card;
 
-    public SinglePlayerEndGame(int finalScore, int[] vectorPoints){
-        this.finalScore = finalScore;
+    public SinglePlayerEndGame(int targetPoints, int[] vectorPoints, char card){
+        this.card=card;
+        this.targetPoints = targetPoints;
         this.vectorPoints = vectorPoints;
     }
 
@@ -16,11 +18,13 @@ public class SinglePlayerEndGame extends Changement {
         changer.change(this);
     }
 
-    public int getFinalScore() {
-        return finalScore;
+    public int getTargetPoints() {
+        return targetPoints;
     }
 
     public int[] getVectorPoints() {
         return vectorPoints;
     }
+
+    public char getCard(){return this.card;}
 }
