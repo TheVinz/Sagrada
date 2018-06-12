@@ -44,25 +44,25 @@ public class Util {
         Image image;
         switch(value){
             case 1:
-                image=new Image(Util.class.getResource("../resources/frame/one.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/one.png").toString());
                 break;
             case 2:
-                image=new Image(Util.class.getResource("../resources/frame/two.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/two.png").toString());
                 break;
             case 3:
-                image=new Image(Util.class.getResource("../resources/frame/three.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/three.png").toString());
                 break;
             case 4:
-                image=new Image(Util.class.getResource("../resources/frame/four.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/four.png").toString());
                 break;
             case 5:
-                image=new Image(Util.class.getResource("../resources/frame/five.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/five.png").toString());
                 break;
             case 6:
-                image=new Image(Util.class.getResource("../resources/frame/six.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/six.png").toString());
                 break;
             default:
-                image=new Image(Util.class.getResource("../resources/frame/empty.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/empty.png").toString());
                 break;
         }
         result.setImage(image);
@@ -81,40 +81,40 @@ public class Util {
         Image image;
         switch(rep){
             case '1':
-                image=new Image(Util.class.getResource("../resources/frame/empty1.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/empty1.png").toString());
                 break;
             case '2':
-                image=new Image(Util.class.getResource("../resources/frame/empty2.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/empty2.png").toString());
                 break;
             case '3':
-                image=new Image(Util.class.getResource("../resources/frame/empty3.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/empty3.png").toString());
                 break;
             case '4':
-                image=new Image(Util.class.getResource("../resources/frame/empty4.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/empty4.png").toString());
                 break;
             case '5':
-                image=new Image(Util.class.getResource("../resources/frame/empty5.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/empty5.png").toString());
                 break;
             case '6':
-                image=new Image(Util.class.getResource("../resources/frame/empty6.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/empty6.png").toString());
                 break;
             case 'b':
-                image=new Image(Util.class.getResource("../resources/frame/emptyblue.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/emptyblue.png").toString());
                 break;
             case 'r':
-                image=new Image(Util.class.getResource("../resources/frame/emptyred.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/emptyred.png").toString());
                 break;
             case 'y':
-                image=new Image(Util.class.getResource("../resources/frame/emptyyellow.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/emptyyellow.png").toString());
                 break;
             case 'p':
-                image=new Image(Util.class.getResource("../resources/frame/emptypurple.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/emptypurple.png").toString());
                 break;
             case 'g':
-                image=new Image(Util.class.getResource("../resources/frame/emptygreen.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/emptygreen.png").toString());
                 break;
             default:
-                image=new Image(Util.class.getResource("../resources/frame/empty.png").toString());
+                image=new Image(MainApp.class.getResource("resources/frame/empty.png").toString());
                 break;
         }
         result.setImage(image);
@@ -169,7 +169,7 @@ public class Util {
             default:
                 return null;
         }
-        ImageView result = new ImageView( new Image(Util.class.getResource("../resources/dices/"+diceColor+dicevalue+".png").toString()));
+        ImageView result = new ImageView( new Image(MainApp.class.getResource("resources/dices/"+diceColor+dicevalue+".png").toString()));
         result.setFitWidth(50);
         result.setFitHeight(50);
         result.setX(2);
@@ -204,7 +204,7 @@ public class Util {
     public static Pane getToolCard(int index){
         String name;
         Image image;
-        String path="../resources/toolcards/";
+        String path="resources/toolcards/";
         switch(index){
             case 1:
                 path=path+"1-pinzasgrossatrice.png";
@@ -257,7 +257,7 @@ public class Util {
             default:
                 return null;
         }
-        image=new Image(Util.class.getResource(path).toString());
+        image=new Image(MainApp.class.getResource(path).toString());
         ImageView toolCard=new ImageView(image);
         toolCard.setFitWidth(134);
         toolCard.setFitHeight(198);
@@ -294,7 +294,6 @@ public class Util {
                 return null;
         }
         Image image = new Image(MainApp.class.getResource(path).toString());
-        //Image image = new Image(MainApp.class.getClassLoader().getResource(path).toString());
         ImageView card = new ImageView(image);
         card.setOnMouseEntered((event) -> zoom(card));
         card.setOnMouseExited((event) -> resize(card));
@@ -313,7 +312,7 @@ public class Util {
     }
 
     public static ImageView getPublicObjectiveCard(int card){
-        String path = "../resources/objectivecards/publicobjectivecards/";
+        String path = "resources/objectivecards/publicobjectivecards/";
         switch(card){
             case 0:
                 path=path+"coloreddiagonal.png";
@@ -348,7 +347,7 @@ public class Util {
             default:
                 return null;
         }
-        Image image = new Image(Util.class.getResource(path).toString());
+        Image image = new Image(MainApp.class.getResource(path).toString());
         ImageView publicObjectiveCard = new ImageView(image);
         publicObjectiveCard.setFitWidth(134);
         publicObjectiveCard.setFitHeight(198);
