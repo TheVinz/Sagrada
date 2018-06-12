@@ -1,7 +1,7 @@
 package client.view.gui.guicontroller;
 
 import client.view.gui.guimodel.GuiModel;
-import client.view.network.ClientSocketHandler;
+import client.network.ClientSocketHandler;
 import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
 import common.login.RemoteLoginManager;

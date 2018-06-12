@@ -1,7 +1,7 @@
 package client.view.cli;
 
-import client.view.network.ClientRMIConnection;
-import client.view.network.ClientSocketConnection;
+import client.network.ClientRMIConnection;
+import client.network.ClientSocketConnection;
 import common.RemoteMVC.RemoteView;
 
 import java.util.Scanner;
