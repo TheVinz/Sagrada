@@ -133,13 +133,8 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         int[] favorTokens= new int[windowFrameLists.length];
         String[] reps=new String[favorTokens.length];
         for(int i=0; i<windowFrameLists.length; i++){
-            try {
-                favorTokens[i] = windowFrameLists[i].getFavorToken();
-                reps[i] = windowFrameLists[i].getRep();
-            } catch(NullPointerException e){
-                System.out.println(i);
-                System.out.println(windowFrameLists[i]);
-            }
+            favorTokens[i] = windowFrameLists[i].getFavorToken();
+            reps[i] = windowFrameLists[i].getRep();
         }
         change(new WindowFrameChoices(reps, favorTokens));
     }
@@ -314,7 +309,6 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
 
     @Override
     synchronized public void command(GameCommand gameCommand) {
-        System.out.println(gameCommand.getType() + " " + gameCommand.getX() + " " + gameCommand.getY());
         new Thread( () -> {
             switch (gameCommand.getType()) {
                 case DRAFT_POOL_CELL:
