@@ -17,6 +17,7 @@ public class SocketLoginManager implements Runnable{
     private GameManager gameManager;
     private final ObjectOutputStream out;
     private final Object lock;
+    private String name;
 
 
     public SocketLoginManager(Socket s, GameManager gameManager, Object lock) throws IOException {
@@ -33,7 +34,7 @@ public class SocketLoginManager implements Runnable{
         synchronized (lock) {
             try {
                 out.writeObject(new String("You are connected to the server!"));
-                String name = (String) in.readObject();
+                name = (String) in.readObject();
                 boolean singlePlayer = (Boolean) in.readObject();
                 Model model = gameManager.setModel(name, singlePlayer);
                 Player player = model.addPlayer(name, model.getState().getPlayers().size());
@@ -43,11 +44,13 @@ public class SocketLoginManager implements Runnable{
                 gameManager.startGame(singlePlayer);
                 System.out.print(name + " connected\n>>>");
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.print(name + " disconnected.\n>>>");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+                System.out.print(">>>");
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.print(">>>");
             }
 
 

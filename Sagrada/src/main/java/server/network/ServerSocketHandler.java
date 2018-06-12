@@ -22,7 +22,7 @@ public class ServerSocketHandler implements Runnable {
                 viewProxy.command((GameCommand) in.readObject());
             } while (true);
         } catch (Exception e) {
-           e.printStackTrace();
+            System.out.print("Someone i can't get the name but i'll fix this disconnected.\n>>>");
         }
 
     }

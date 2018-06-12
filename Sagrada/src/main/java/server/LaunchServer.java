@@ -29,10 +29,9 @@ public class LaunchServer {
             Naming.rebind("rmi://" + ip + ":" + port + "/RMILoginManager", loginManager);
             System.out.print("RMI Server on\n>>>");
         } catch (RemoteException e) {
-            e.printStackTrace();
             System.out.println("Working just on Sockets, retry!");
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            System.err.println("Malformed url.");
         }
     }
 }

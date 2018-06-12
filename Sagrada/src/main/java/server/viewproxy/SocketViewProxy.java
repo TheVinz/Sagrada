@@ -30,7 +30,7 @@ public class SocketViewProxy extends ViewProxy {
         try {
             out.writeObject(changement);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.print(player.getName()+" disconnected.\n>>>");
         }
     }
 
@@ -39,7 +39,7 @@ public class SocketViewProxy extends ViewProxy {
         try {
             out.writeObject(notification);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.print(player.getName()+" disconnected.\n>>>");
         }
     }
 
@@ -48,7 +48,7 @@ public class SocketViewProxy extends ViewProxy {
         try {
             out.writeObject(response);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.print(player.getName()+" disconnected.\n>>>");
         }
     }
 
