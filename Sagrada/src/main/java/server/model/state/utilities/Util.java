@@ -25,7 +25,7 @@ public class Util { //non può essere static nel multipartita per la private
      * by the enum class {@link server.model.state.boards.windowframe.WindowFrameList}.
      * @return an array with four WindowFrame.
      */
-    public WindowFrameList[] getWindowFrameChoiche(){
+    public WindowFrameList[] getWindowFrameChoice(){
         int choice[]=new int[2];
         WindowFrameList[] result=new WindowFrameList[4];
         Collections.shuffle(avalaiblePatterns);
@@ -146,8 +146,6 @@ public class Util { //non può essere static nel multipartita per la private
                     break;
             }
         }
-        result[0] = new Lathekin(model);
-        result[1] = new TaglierinaManuale(model);
         return result;
     }
 

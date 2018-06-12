@@ -11,7 +11,7 @@ import server.model.state.boards.windowframe.WindowFrame;
 @SuppressWarnings("Duplicates")
 public class DifferentColorsColumn extends PublicObjectiveCard {
     /**
-     * Save in an array the occurrence of all the colors in an array and checks if there aren't more then one dice with the
+     * Save in an array the occurrence of all the colors then checks if there aren't more then one dice with the
      * same color in a column. If a column hasn't got repeated colored dice return five point for each column.
      * @param windowFrame of the player.
      * @return an int that represents the points achieve by a player.
@@ -48,6 +48,11 @@ public class DifferentColorsColumn extends PublicObjectiveCard {
         return points;
     }
 
+    /**
+     *
+     * Gets the number that indicates the PublicObjectiveCard.
+     * @return an int corresponding to DIFFERENT_COLORS_COLUMN.
+     */
     @Override
     public int getNumber() {
         return DIFFERENT_COLORS_COLUMN;

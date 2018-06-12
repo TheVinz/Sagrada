@@ -9,6 +9,17 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Path;
+import sun.applet.Main;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.stream.Stream;
 
 public class Util {
 
@@ -262,7 +273,7 @@ public class Util {
     }
 
     public static ImageView getPrivateObjectiveCard(char color){
-        String path = "../resources/objectivecards/privateobjectivecards/";
+        String path = "resources/objectivecards/privateobjectivecards/";
         switch(color){
             case 'b':
                 path=path+"blueprivateobjective.png";
@@ -282,7 +293,8 @@ public class Util {
             default:
                 return null;
         }
-        Image image = new Image(Util.class.getResource(path).toString());
+        Image image = new Image(MainApp.class.getResource(path).toString());
+        //Image image = new Image(MainApp.class.getClassLoader().getResource(path).toString());
         ImageView card = new ImageView(image);
         card.setOnMouseEntered((event) -> zoom(card));
         card.setOnMouseExited((event) -> resize(card));

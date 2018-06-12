@@ -5,11 +5,13 @@ import server.model.state.boards.windowframe.WindowFrame;
 /**
  * The <tt>ColoredDiagonal</tt> class implements the method that add one point for every {@link server.model.state.dice.Dice}
  * with same color adjacent diagonally on the {@link server.model.state.boards.windowframe.WindowFrame}.
+ * @see server.model.state.dice.Dice
+ * @see WindowFrame
  */
 public class ColoredDiagonal extends PublicObjectiveCard{
     /**
-     * This method calculate the points to add to the final points looking at the adjacent dices on a specific WindowFrame.
-     * @param windowFrame WindowFrame of the player.
+     * This method calculate the points to add to the final points looking at the adjacent dices on a specific windowFrame.
+     * @param windowFrame of the player.
      * @return an int that indicates the points.
      */
     public int calculatePoints(WindowFrame windowFrame) {

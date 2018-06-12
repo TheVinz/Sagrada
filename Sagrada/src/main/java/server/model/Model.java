@@ -15,7 +15,6 @@ import server.model.state.dice.Dice;
 import server.model.state.player.Player;
 import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Util;
-import server.viewproxy.RMIViewProxy;
 import server.viewproxy.ViewProxy;
 
 import java.util.ArrayList;
@@ -283,7 +282,7 @@ public class Model implements Observable {
     @Override
     public void notifyWindowFrameChoices() {
         for(Observer o: activeObservers) {
-            o.updateWindowFrameChoices(util.getWindowFrameChoiche());
+            o.updateWindowFrameChoices(util.getWindowFrameChoice());
         }
     }
 
