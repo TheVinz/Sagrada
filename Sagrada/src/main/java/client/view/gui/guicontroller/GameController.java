@@ -331,7 +331,7 @@ public class GameController {
     }
 
     public void removeToolCard(int index){
-        toolCardsBox.getChildren().remove(index);
+        toolCardsBox.getChildren().set(index, new Pane());
     }
 
     /*===========================================================================================================*/

@@ -79,6 +79,7 @@ public class GuiChanger implements Changer {
 
     @Override
     public void change(ToolCardUsed toolCardUsed) {
+        System.out.println(toolCardUsed.getIndex());
         Platform.runLater(() -> view.toolCardUsed(toolCardUsed.getId(), toolCardUsed.getIndex(), toolCardUsed.getTokens()));
 
     }
