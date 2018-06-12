@@ -10,6 +10,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -59,11 +60,14 @@ public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
             button.getChildren().add(image);
             button.getStyleClass().addAll("cell","clickable");
             button.setOnMouseClicked((event) -> {
-                stage.close();
                 try {
                     controller.command(new GameCommand(Response.CHOICE, index));
+                    stage.close();
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Connection error.");
+                    alert.showAndWait();
                 }
             });
             buttons.getChildren().add(button);

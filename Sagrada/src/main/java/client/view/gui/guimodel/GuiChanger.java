@@ -26,7 +26,17 @@ public class GuiChanger implements Changer {
 
     @Override
     public void change(MutableData mutableData) {
-
+        Platform.runLater(() -> {
+            view.startGame();
+            view.loadPlayers(mutableData.getNames(), mutableData.getIds(), mutableData.getWindowFrameReps(), mutableData.getFavorTokens(), this.id);
+            for(int i=0; i<mutableData.getIds().length; i++) {
+                view.setWindowFrameDices(i, mutableData.getWindowFrameValues()[i], mutableData.getWindowFrameColors()[i]);
+            }
+            for(int i=1; i<mutableData.getRoundTrackValues().length; i++) {
+                view.updateRoundTrack(i,mutableData.getRoundTrackValues()[i], mutableData.getRoundTrackColors()[i]);
+            }
+            view.setDraftPool(mutableData.getDraftPoolValues(), mutableData.getDraftPoolColors());
+        });
     }
 
 

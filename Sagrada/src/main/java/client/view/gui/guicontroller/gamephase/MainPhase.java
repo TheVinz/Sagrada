@@ -21,37 +21,24 @@ public class MainPhase extends GamePhase {
 
     @Override
     public GamePhase handleDraftPool(int index){
-/*        try {
-            controller.command(new GameCommand(Response.DRAFT_POOL_CELL, index));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }*/
         sourceIndex=index;
         return this;
     }
 
     @Override
-    public GamePhase handleWindowFrame(int row, int col){
+    public GamePhase handleWindowFrame(int row, int col) throws RemoteException {
         destRow=row;
         destCol=col;
         if(sourceIndex!=-1){
-            try {
-                controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
-                controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
+            controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
         }
         return new GamePhase(controller, gameController);
     }
 
     @Override
-    public GamePhase handleToolCard(int index){
-        try {
-            controller.command(new GameCommand(Response.TOOL_CARD, index));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public GamePhase handleToolCard(int index) throws RemoteException {
+        controller.command(new GameCommand(Response.TOOL_CARD, index));
         GamePhase phase = new GamePhase(controller, gameController);
         return phase;
     }

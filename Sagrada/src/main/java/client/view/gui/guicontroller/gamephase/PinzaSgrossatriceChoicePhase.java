@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,23 +36,31 @@ public class PinzaSgrossatriceChoicePhase extends GamePhase {
         VBox box = new VBox(10);
         HBox buttons = new HBox(10);
         Button increase = new Button("Increase");
+
         increase.setOnAction((event) -> {
             try {
                 controller.command(new GameCommand(Response.CHOICE, Response.PINZA_SGROSSATRICE_INCREASE));
             } catch (RemoteException e) {
-                e.printStackTrace();
+                exceptionRoutine();
+                dialog.close();
+                return;
             }
             dialog.close();
         });
+
         Button decrease = new Button("Decrease");
+
         decrease.setOnAction((event) -> {
             try {
                 controller.command(new GameCommand(Response.CHOICE, Response.PINZA_SGROSSATRICE_DECREASE));
             } catch (RemoteException e) {
-                e.printStackTrace();
+                exceptionRoutine();
+                dialog.close();
+                return;
             }
             dialog.close();
         });
+
         buttons.getChildren().addAll(increase, decrease);
         buttons.setAlignment(Pos.CENTER);
         box.getChildren().addAll(new Text("Select a choice"), buttons);
@@ -60,5 +69,12 @@ public class PinzaSgrossatriceChoicePhase extends GamePhase {
         dialog.setScene(scene);
         dialog.show();
         return new GamePhase(controller, gameController);
+    }
+
+    private void exceptionRoutine() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Connection error");
+        gameController.suspend();
     }
 }

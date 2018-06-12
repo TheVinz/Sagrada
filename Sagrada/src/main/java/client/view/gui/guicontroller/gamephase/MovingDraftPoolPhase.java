@@ -25,15 +25,11 @@ public class MovingDraftPoolPhase extends GamePhase{
         return this;
     }
     @Override
-    public GamePhase handleWindowFrame(int row, int col){
+    public GamePhase handleWindowFrame(int row, int col) throws RemoteException {
         destRow=row;
         destCol=col;
-        try {
-            controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
-            controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
+        controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
         gameController.unableAll();
         return new GamePhase(controller, gameController);
     }

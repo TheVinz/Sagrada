@@ -16,12 +16,8 @@ public class RoundTrackPhase extends GamePhase {
     }
 
     @Override
-    public GamePhase handleRoundTrack(int round, int index){
-        try {
-            controller.command(new GameCommand(Response.ROUND_TRACK_CELL, round, index));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public GamePhase handleRoundTrack(int round, int index) throws RemoteException {
+        controller.command(new GameCommand(Response.ROUND_TRACK_CELL, round, index));
         return new GamePhase(controller, gameController);
     }
 

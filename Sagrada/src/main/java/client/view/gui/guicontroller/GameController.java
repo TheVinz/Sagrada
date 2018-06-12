@@ -473,4 +473,8 @@ public class GameController {
     private void close(){
         System.exit(0);
     }
+
+    public void suspend() {
+        controller.suspend();
+    }
 }
