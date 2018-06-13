@@ -143,6 +143,18 @@ public class ViewController {
         windowFrameChoiceController.setChoice(reps, tokens);
     }
 
+    public void clear(){
+        FXMLLoader loader=new FXMLLoader();
+        loader.setLocation(MainApp.class.getResource("resources/fxml/Game.fxml"));
+        try {
+            gamePane=loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gameController=loader.getController();
+        gameController.addListener(this);
+    }
+
     public void startGame(){
         rootLayout.setCenter(gamePane);
     }
@@ -383,6 +395,7 @@ public class ViewController {
 
     public synchronized void suspend(){
         currentPhase=new GamePhase(remoteController, gameController);
+        clear();
         Label label= new Label("Disconnected");
         Button button = new Button("Reconnect");
         button.setStyle("-fx-background-color: orange; -fx-text-fill: white; -fx-font-size: 32");
