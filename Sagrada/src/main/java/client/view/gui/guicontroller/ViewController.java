@@ -136,9 +136,7 @@ public class ViewController {
     }
 
     public void loadWindowFrameChoice(String[] reps, int[] tokens){
-        Image background = new Image(MainApp.class.getResource("resources/style/gamebackground.jpg").toString());
-        BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(0,0,false,false,false,true));
-        rootLayout.setBackground(new Background(backgroundImage));
+        setGameBackground();
         rootLayout.setCenter(windowFrameChoicesPane);
         windowFrameChoiceController.setChoice(reps, tokens);
     }
@@ -153,6 +151,12 @@ public class ViewController {
         }
         gameController=loader.getController();
         gameController.addListener(this);
+    }
+
+    public void setGameBackground(){
+        Image background = new Image(MainApp.class.getResource("resources/style/gamebackground.jpg").toString());
+        BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(0,0,false,false,false,true));
+        rootLayout.setBackground(new Background(backgroundImage));
     }
 
     public void startGame(){

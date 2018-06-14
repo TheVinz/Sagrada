@@ -13,8 +13,9 @@ public class MutableData extends Changement {
     private final String[] windowFrameReps;
     private final int[][][] windowFrameValues;
     private final char[][][] windowFrameColors;
+    private final int id;
 
-    public MutableData(int[] draftPoolValues, char[] draftPoolColors, int[][] roundTrackValues, char[][] roundTrackColors, String[] names, int[] ids, int[] favorTokens, String[] windowFrameReps, int[][][] windowFrameValues, char[][][] windowFrameColors){
+    public MutableData(int[] draftPoolValues, char[] draftPoolColors, int[][] roundTrackValues, char[][] roundTrackColors, String[] names, int[] ids, int[] favorTokens, String[] windowFrameReps, int[][][] windowFrameValues, char[][][] windowFrameColors, int id){
         this.draftPoolValues = draftPoolValues;
         this.draftPoolColors = draftPoolColors;
         this.roundTrackValues = roundTrackValues;
@@ -26,6 +27,11 @@ public class MutableData extends Changement {
         this.windowFrameReps = windowFrameReps;
         this.windowFrameValues = windowFrameValues;
         this.windowFrameColors = windowFrameColors;
+        this.id=id;
+    }
+
+    public int getId(){
+        return this.id;
     }
 
     public int[] getDraftPoolValues() {

@@ -19,4 +19,5 @@ public interface RemoteView extends Remote {
     void change(Changement changement) throws RemoteException;
     void send(Response response) throws RemoteException;
     void notify(Notification notification) throws RemoteException;
+    void ping() throws RemoteException;
 }

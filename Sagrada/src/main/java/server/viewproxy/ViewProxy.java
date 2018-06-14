@@ -31,17 +31,29 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     private Player player;
     private State state;
     private Controller controller;
+    private Model model;
+    boolean ping = true;
 
     public ViewProxy(Model model, Player player) throws RemoteException{
         super();
         this.controller=new Controller(model, player, this);
         this.player=player;
         this.state=model.getState();
+        this.model=model;
     }
     
     abstract void change(Changement changement);
     abstract void notify(Notification notification);
     abstract void send(Response response);
+    public abstract void ping();
+
+    public void suspendPlayer(){
+        new Thread(() -> {
+            model.suspendPlayer(this.player);
+            controller.endTurn();
+            ping = false;
+        }).start();
+    }
 
     //da ViewProxy
     @Override
@@ -175,6 +187,8 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     @Override
     synchronized public void updateStartTurn(Player player)  {
         change(new NewTurn(player.getId()));
+        if(player.equals(this.player) && (player.isSuspended() || player.isJumpSecondTurn()))
+            controller.endTurn();
     }
 
     @Override
@@ -262,7 +276,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
                 }
             }
         }
-        change(new MutableData(draftPoolValues, draftPoolColors, roundTrackValues, roundTrackColors, names, ids, favorTokens, windowFrameReps, windowFrameValues, windowFrameColors ));
+        change(new MutableData(draftPoolValues, draftPoolColors, roundTrackValues, roundTrackColors, names, ids, favorTokens, windowFrameReps, windowFrameValues, windowFrameColors, player.getId()));
     }
 
     @Override
@@ -335,6 +349,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
                     break;
                 case ACTIVE_AGAIN:
                     controller.reinsertPlayer();
+                    ping = true;
                     break;
                 default:
                     return;

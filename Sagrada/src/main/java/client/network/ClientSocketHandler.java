@@ -43,9 +43,8 @@ public class ClientSocketHandler implements RemoteController, Runnable {
                     viewModel.notify((Notification) o);
                 else if(o instanceof Response)
                     viewModel.send((Response) o);
-                else
+                else if(o instanceof Changement)
                     viewModel.change((Changement) o);
-
             }while (true);
         } catch (IOException e) {
             e.printStackTrace();

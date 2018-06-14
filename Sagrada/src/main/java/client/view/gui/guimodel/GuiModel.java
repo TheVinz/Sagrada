@@ -47,4 +47,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
             Platform.runLater(() -> view.error(notification.getMessage()));
         }
     }
+
+    @Override
+    public void ping() throws RemoteException {}
 }

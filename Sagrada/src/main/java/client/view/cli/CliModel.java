@@ -116,6 +116,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     }
 
+    @Override
+    public void ping() throws RemoteException {}
 
 
 }

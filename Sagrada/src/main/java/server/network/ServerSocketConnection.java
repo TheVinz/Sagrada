@@ -8,8 +8,8 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ServerSocketConnection implements Runnable{
-    private final ServerSocket serverSocket;
+public class ServerSocketConnection /*implements Runnable*/{
+/*    private final ServerSocket serverSocket;
     private final ExecutorService pool;
     private final int port = 8010;
     private GameManager gameManager;
@@ -41,5 +41,5 @@ public class ServerSocketConnection implements Runnable{
         stopSignal=true;
         serverSocket.close();
         pool.shutdown();
-    }
+    }*/
 }

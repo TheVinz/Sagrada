@@ -13,14 +13,13 @@ import java.rmi.RemoteException;
 public class RMIViewProxy extends ViewProxy {
 
     private RemoteView remoteView;
-    private Model model;
     private Player player;
 
 
     public RMIViewProxy(Model model, Player player) throws RemoteException {
         super(model, player);
-        this.model = model;
         this.player = player;
+        new Thread(this::ping).start();
     }
 
     synchronized public void bindRemoteView(RemoteView remoteView) {
@@ -31,27 +30,44 @@ public class RMIViewProxy extends ViewProxy {
     @Override
     void change(Changement changement) {
         try {
-            remoteView.change(changement);
+            if(!player.isSuspended()) remoteView.change(changement);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            super.suspendPlayer();
         }
     }
 
     @Override
     void notify(Notification notification) {
         try {
-            remoteView.notify(notification);
+            if(!player.isSuspended()) remoteView.notify(notification);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            super.suspendPlayer();
         }
     }
 
     @Override
     void send(Response response) {
         try {
-            remoteView.send(response);
+            if(!player.isSuspended()) remoteView.send(response);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            super.suspendPlayer();
+        }
+    }
+
+    @Override
+    public void ping(){
+        while(ping) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+            try {
+                remoteView.ping();
+            } catch (RemoteException e) {
+                super.suspendPlayer();
+            }
         }
     }
 }

@@ -67,7 +67,6 @@ public class Player {
     public void setDiceMoved(){
         this.diceMoved=true;
         if(!firstMoveDone) {
-            System.out.println("first move");
             firstMoveDone=true;
         }
     }
@@ -159,5 +158,11 @@ public class Player {
 
     public void setSuspended(boolean suspended) {
         this.suspended = suspended;
+    }
+
+    public void endGame() {
+        timer.stop();
+        this.suspended = true;
+        this.privateObjectiveCards=null;
     }
 }
