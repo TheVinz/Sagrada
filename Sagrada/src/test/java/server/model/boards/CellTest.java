@@ -43,7 +43,7 @@ public class CellTest {
             }
             catch (InvalidMoveException e)
             {
-                assertEquals(e.getMessage(),  "Empty cell");
+                assertEquals("Empty cell",e.getMessage());
             }
             finally {
                 try {
@@ -70,7 +70,7 @@ public class CellTest {
             }
             catch (InvalidMoveException e)
             {
-                assertEquals(e.getMessage(), "Empty cell");
+                assertEquals("Empty cell", e.getMessage());
             }
             finally {
                 try {
