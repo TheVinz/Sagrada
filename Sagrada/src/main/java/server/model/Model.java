@@ -1,6 +1,5 @@
 package server.model;
 
-import com.sun.istack.internal.NotNull;
 import common.exceptions.InvalidMoveException;
 import server.GameManager;
 import server.model.state.boards.draftpool.DraftPoolCell;
@@ -19,10 +18,7 @@ import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.Util;
 import server.viewproxy.ViewProxy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Model implements Observable {
 
@@ -112,9 +108,14 @@ public class Model implements Observable {
         notifyRefillDraftPool(state.getDraftPool().getDraftPool().toArray(new Cell[0]));
         roundManager.startRound();
         Player active = roundManager.next();
-        active.setActive();
-        notifyStartTurn(active);
+        if(active.isSuspended())
+            endTurn(active);
+        else {
+            active.setActive();
+            notifyStartTurn(active);
+        }
     }
+
     public void endTurn(Player player) {
         Player active = player;
         active.endTurn();
@@ -122,10 +123,14 @@ public class Model implements Observable {
             if (roundManager.hasNext()) {
                 active = roundManager.next();
                 active.setActive();
-                notifyStartTurn(active);
+                if(active.isSuspended() || active.isJumpSecondTurn())
+                    endTurn(active);
+                else
+                    notifyStartTurn(active);
             } else endRound();
         }
     }
+
     private void endRound() {
         try {
             state.getRoundTrack().endRound(state.getDraftPool());
@@ -153,8 +158,7 @@ public class Model implements Observable {
         this.playerObserverMap = null;
     }
 
-    /** @requires scoreboard.size()>0; **/
-    private Player getWinner(@NotNull List<Player> scoreboard){
+    private Player getWinner(List<Player> scoreboard){
         for(int i=0; i<scoreboard.size(); i++)
             if(!scoreboard.get(i).isSuspended()) return scoreboard.get(i);
         return scoreboard.get(0);

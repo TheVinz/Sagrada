@@ -172,6 +172,7 @@ public class GameController {
         }
         if(!GamePhase.toolCardUsed)
             toolCardsBox.getStyleClass().add(clickable);
+        log("What do you want to do?");
         canEnd = true;
     }
     public void movingDraftPoolPhase(){

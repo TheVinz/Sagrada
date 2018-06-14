@@ -55,12 +55,9 @@ public class GameManager implements TimerObserver {
     }
 
     public synchronized void endGame(Model model, String message){
-        ArrayList<String> toBeRemoved = new ArrayList<>();
-        gamesMap.forEach((key, value) -> {
-            if(value.equals(model))
-                toBeRemoved.add(key);
-        });
-        toBeRemoved.forEach( name -> gamesMap.remove(name) );
+
+        model.getState().getPlayers().forEach( player -> gamesMap.remove(player.getName()));
+
         System.out.println(model.hashCode()+" terminated. --> "+message+"\n>>>");
         printPlayers();
     }
