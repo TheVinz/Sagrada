@@ -32,6 +32,7 @@ public class RMIViewProxy extends ViewProxy {
         try {
             if(!player.isSuspended()) remoteView.change(changement);
         } catch (RemoteException e) {
+            System.out.println(player.getName() + " disconnected.\n>>>");
             super.suspendPlayer();
         }
     }
@@ -41,6 +42,7 @@ public class RMIViewProxy extends ViewProxy {
         try {
             if(!player.isSuspended()) remoteView.notify(notification);
         } catch (RemoteException e) {
+            System.out.println(player.getName() + " disconnected.\n>>>");
             super.suspendPlayer();
         }
     }
@@ -50,6 +52,7 @@ public class RMIViewProxy extends ViewProxy {
         try {
             if(!player.isSuspended()) remoteView.send(response);
         } catch (RemoteException e) {
+            System.out.println(player.getName() + " disconnected.\n>>>");
             super.suspendPlayer();
         }
     }
@@ -66,6 +69,7 @@ public class RMIViewProxy extends ViewProxy {
             try {
                 remoteView.ping();
             } catch (RemoteException e) {
+                System.out.println(player.getName() + " disconnected.\n>>>");
                 super.suspendPlayer();
             }
         }
