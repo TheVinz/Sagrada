@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.mockito.Mockito;
+import server.GameManager;
 import server.model.Model;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameList;
@@ -23,10 +24,11 @@ public class PennelloPerEglomiseTest {
 
     private ToolCard toolCard;
     private Player player;
+    private GameManager gameManager;
 
     @Before
     public void setUp() throws Exception {
-        Model model=new Model();
+        Model model=new Model(gameManager);
         toolCard = new PennelloPerEglomise(model);
         player = Mockito.mock(Player.class);
         WindowFrame frame = new WindowFrame(WindowFrameList.BATLLO);

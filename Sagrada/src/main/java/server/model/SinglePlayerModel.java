@@ -1,8 +1,10 @@
 package server.model;
 
+import server.GameManager;
 import server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard;
 import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
 import server.model.state.player.Player;
+import server.model.state.player.Points;
 import server.model.state.player.SinglePlayer;
 import server.model.state.toolcards.ToolCard;
 import server.model.state.utilities.PointsComparator;
@@ -19,8 +21,8 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
     private Observer observer=null;
     SinglePlayer player = null;
 
-    public SinglePlayerModel(){
-        super();
+    public SinglePlayerModel(GameManager gameManager){
+        super(gameManager);
         getState().getDraftPool().increaseSizeByOne();
     }
 
@@ -36,9 +38,9 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
     }
 
     @Override
-    public Player addPlayer(String name, int id) throws Exception{ //da fare synchronized nel caso più giocatori si connettano contemporaneamente?
+    public Player addPlayer(String name) throws Exception{ //da fare synchronized nel caso più giocatori si connettano contemporaneamente?
         if(!getState().getPlayers().isEmpty()) throw new Exception("The game is full");
-        player = new SinglePlayer(name, id);
+        player = new SinglePlayer(name, 0);
         getState().addPlayer(player);
         return player;
     }
@@ -76,7 +78,12 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
             privateObjectiveCard = player.getPrivateObjectiveCard(0);
         }
         player.calculatePoints(super.getState());
-        observer.updateSinglePlayerEndGame(super.getState().getRoundTrack().calculatePoints(), player.getPoints(), privateObjectiveCard);
+        Points points = player.getPoints();
+        int total = points.getFinalPoints();
+        int target = super.getState().getRoundTrack().calculatePoints();
+        observer.updateSinglePlayerEndGame(target, points, privateObjectiveCard);
+        String message = total>target ? player.getName() + "won" : player.getName() + "lost";
+        super.notifyGameManager(message);
     }
 
     @Override
@@ -93,6 +100,14 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
     public void endGame() {
         super.getState().setGameFinished(true);
         observer.updatePrivateObjectiveCardChoice();
+    }
+
+    @Override
+    public synchronized void suspendPlayer(Player player){
+        if(player == this.player && !player.isSuspended()) {
+            player.setSuspended(true);
+            super.notifyGameManager(player.getName() + " disconnected.");
+        }
     }
 
 }

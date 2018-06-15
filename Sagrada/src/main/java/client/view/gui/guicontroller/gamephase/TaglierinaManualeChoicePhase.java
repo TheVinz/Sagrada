@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -37,23 +38,27 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
         VBox box = new VBox(10);
         HBox buttons = new HBox(10);
         Button oneMove = new Button("One");
+
         oneMove.setOnAction((event -> {
             dialog.close();
             try {
                 controller.command(new GameCommand(Response.CHOICE, Response.TAGLIERINA_MANUALE_ONE_MOVE));
             } catch (RemoteException e) {
-                e.printStackTrace();
+                exceptionRoutine();
             }
         }));
+
         Button twoMoves = new Button("Two");
+
         twoMoves.setOnAction((event) -> {
             dialog.close();
             try {
                 controller.command(new GameCommand(Response.CHOICE, Response.TAGLIERINA_MANUALE_TWO_MOVES));
             } catch (RemoteException e) {
-                e.printStackTrace();
+                exceptionRoutine();
             }
         });
+
         buttons.setAlignment(Pos.CENTER);
         buttons.getChildren().addAll(oneMove, twoMoves);
         box.setAlignment(Pos.CENTER);
@@ -62,5 +67,12 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
         dialog.setScene(scene);
         dialog.show();
         return new GamePhase(controller, gameController);
+    }
+
+    private void exceptionRoutine() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Connection error");
+        gameController.suspend();
     }
 }

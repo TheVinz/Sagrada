@@ -18,10 +18,11 @@ public class ModelTest {
 
     private Model model;
     private Player player;
+    private GameManager gameManager;
 
     @Before
     public void setUp() throws Exception {
-        model=new Model();
+        model=new Model(gameManager);
         player=mock(Player.class);
     }
 

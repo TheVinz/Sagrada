@@ -5,6 +5,7 @@ import common.exceptions.WrongParameter;
 import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
+import server.GameManager;
 import server.model.state.ModelObject.ModelObject;
 import server.model.state.ModelObject.ModelType;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -35,12 +36,13 @@ public class LathekinTest {
     private List<ModelObject> parameters;
     private WindowFrame frame;
     private WindowFrame secondFrame;
+    private GameManager gameManager;
 
 
     @Before
     public void setUp() throws Exception {
-
-        Model model = spy(new Model());
+        gameManager=new GameManager();
+        Model model = spy(new Model(gameManager));
         toolCard = new Lathekin(model);
         frame = new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
         secondFrame = new WindowFrame(WindowFrameList.AURORAE_MAGNIFICUS);

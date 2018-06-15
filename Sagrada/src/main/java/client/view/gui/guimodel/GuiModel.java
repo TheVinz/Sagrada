@@ -32,14 +32,12 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     @Override
     public void send(Response response) {
-        System.out.println("Response");
         lastResponse=response;
         Platform.runLater(() -> view.handleResponse(response));
     }
 
     @Override
     public void notify(Notification notification){
-        System.out.println("Notification");
         if(notification.getType()==Notification.WRONG_PARAMETER){
             Platform.runLater(() -> {
                 view.wrongParameter(notification.getMessage());
@@ -49,4 +47,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
             Platform.runLater(() -> view.error(notification.getMessage()));
         }
     }
+
+    @Override
+    public void ping() throws RemoteException {}
 }

@@ -6,6 +6,7 @@ import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import server.GameManager;
 import server.model.Model;
 import server.model.state.boards.draftpool.DraftPool;
 import server.model.state.boards.draftpool.DraftPoolCell;
@@ -29,12 +30,14 @@ public class DiluentePerPastaSaldaTest {
     private Player player;
     private ToolCard toolCard;
     private DraftPool draftPool;
+    private GameManager gameManager;
 
     @Before
     public void setUp() throws Exception {
+        gameManager=new GameManager();
         player=mock(Player.class);
         WindowFrame frame= new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
-        Model model= spy(new Model());
+        Model model= spy(new Model(gameManager));
         when(model.drawDice(player)).thenReturn(new Dice(YELLOW));
         toolCard=new DiluentePerPastaSalda(model);
         when(player.getWindowFrame()).thenReturn(frame);

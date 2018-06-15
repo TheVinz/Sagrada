@@ -3,6 +3,9 @@ package client.view.gui.guicontroller.gamephase;
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
 
 public class GamePhase {
 
@@ -18,19 +21,19 @@ public class GamePhase {
         gameController.unableAll();
     }
 
-    public GamePhase handleToolCard(int index){
+    public GamePhase handleToolCard(int index) throws RemoteException {
         return this;
     }
-    public GamePhase handleDraftPool(int index){
+    public GamePhase handleDraftPool(int index)throws RemoteException {
         return this;
     }
-    public GamePhase handleWindowFrame(int row, int col){
+    public GamePhase handleWindowFrame(int row, int col) throws RemoteException {
         return this;
     }
-    public GamePhase handleChoice(){
+    public GamePhase handleChoice() throws RemoteException {
         return this;
     }
-    public GamePhase handleRoundTrack(int round, int index){
+    public GamePhase handleRoundTrack(int round, int index) throws RemoteException {
         return this;
     }
 }

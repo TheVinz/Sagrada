@@ -17,12 +17,8 @@ public class DraftPoolPhase extends GamePhase{
     }
 
     @Override
-    public GamePhase handleDraftPool(int index){
-        try {
-            controller.command(new GameCommand(Response.DRAFT_POOL_CELL, index));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public GamePhase handleDraftPool(int index) throws RemoteException {
+        controller.command(new GameCommand(Response.DRAFT_POOL_CELL, index));
         return new GamePhase(controller, gameController);
     }
 }

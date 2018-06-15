@@ -231,10 +231,14 @@ public class GameController {
     public void setDraftPoolDice(final int i, int value, char color) {
         ImageView dice = Util.getImage(color, value);
         Pane pane = new Pane();
-        dice.setX(2);
-        dice.setY(2);
+        if(dice != null) {
+            dice.setX(2);
+            dice.setY(2);
+            pane.getChildren().add(dice);
+        }
+        else
+            pane.getStyleClass().add("empty");
         pane.getStyleClass().add("cell");
-        pane.getChildren().add(dice);
         draftPoolBox.getChildren().add(i, pane);
         pane.setOnDragDetected((event) -> handleStartDrag(event, i));
         pane.setOnMouseClicked((event) -> draftPoolCkick( i));
@@ -331,7 +335,7 @@ public class GameController {
     }
 
     public void removeToolCard(int index){
-        toolCardsBox.getChildren().remove(index);
+        toolCardsBox.getChildren().set(index, new Pane());
     }
 
     /*===========================================================================================================*/
@@ -472,5 +476,9 @@ public class GameController {
     @FXML
     private void close(){
         System.exit(0);
+    }
+
+    public void suspend() {
+        controller.suspend();
     }
 }

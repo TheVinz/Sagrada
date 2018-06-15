@@ -113,5 +113,6 @@ public class Controller implements TimerObserver {
 
 	public void reinsertPlayer() {
 		model.reinsertPlayer(player);
+		new Thread(() -> view.ping()).start();
 	}
 }

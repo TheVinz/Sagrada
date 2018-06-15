@@ -12,6 +12,7 @@ import server.model.state.player.Player;
 import server.model.state.toolcards.PinzaSgrossatrice;
 import server.model.state.utilities.Choice;
 import server.model.state.utilities.Color;
+import server.viewproxy.ViewProxy;
 
 import static org.junit.Assert.*;
 
@@ -19,11 +20,13 @@ public class ControllerTest {
 
     private Model model;
     private Player player;
+    private ViewProxy viewProxy;
     private Controller controller;
 
     @Before
     public void setUp() throws Exception {
         model = Mockito.spy(new Model());
+        viewProxy = Mockito.spy(new Vi)
         player= Mockito.spy(new Player("Scotti", 1));
         controller= new Controller(model, player);
         WindowFrame frame = new WindowFrame(WindowFrameList.SUN_CATCHER);
@@ -70,4 +73,5 @@ public class ControllerTest {
         assertTrue(player.getWindowFrame().getCell(1,1).isEmpty());
 
     }
+<<<<<<< HEAD
 }*/

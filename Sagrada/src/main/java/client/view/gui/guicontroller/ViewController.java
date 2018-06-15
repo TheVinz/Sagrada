@@ -88,7 +88,7 @@ public class ViewController {
                 try {
                     remoteController.command(new GameCommand(Response.CHOICE, difficulty));
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    handleRemoteException();
                 }
                 dialog.close();
             });
@@ -136,11 +136,27 @@ public class ViewController {
     }
 
     public void loadWindowFrameChoice(String[] reps, int[] tokens){
+        setGameBackground();
+        rootLayout.setCenter(windowFrameChoicesPane);
+        windowFrameChoiceController.setChoice(reps, tokens);
+    }
+
+    public void clear(){
+        FXMLLoader loader=new FXMLLoader();
+        loader.setLocation(MainApp.class.getResource("resources/fxml/Game.fxml"));
+        try {
+            gamePane=loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gameController=loader.getController();
+        gameController.addListener(this);
+    }
+
+    public void setGameBackground(){
         Image background = new Image(MainApp.class.getResource("resources/style/gamebackground.jpg").toString());
         BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(0,0,false,false,false,true));
         rootLayout.setBackground(new Background(backgroundImage));
-        rootLayout.setCenter(windowFrameChoicesPane);
-        windowFrameChoiceController.setChoice(reps, tokens);
     }
 
     public void startGame(){
@@ -162,7 +178,7 @@ public class ViewController {
         try {
             remoteController.command(new GameCommand(Response.CHOICE, index));
         } catch (RemoteException e) {
-            e.printStackTrace();
+            handleRemoteException();
         }
         startGame();
     }
@@ -328,15 +344,27 @@ public class ViewController {
                 break;
             case PINZA_SGROSSATRICE_CHOICE:
                 currentPhase = new PinzaSgrossatriceChoicePhase(remoteController, gameController);
-                currentPhase = currentPhase.handleChoice();
+                try {
+                    currentPhase = currentPhase.handleChoice();
+                } catch (RemoteException e) {
+                    handleRemoteException();
+                }
                 break;
             case TAGLIERINA_MANUALE_CHOICE:
                 currentPhase = new TaglierinaManualeChoicePhase(remoteController, gameController);
-                currentPhase = currentPhase.handleChoice();
+                try {
+                    currentPhase = currentPhase.handleChoice();
+                } catch (RemoteException e) {
+                    handleRemoteException();
+                }
                 break;
             case DILUENTE_PER_PASTA_SALDA_CHOICE:
                 currentPhase = new DiluentePerPastaSaldaChoicePhase(remoteController, gameController);
-                currentPhase = currentPhase.handleChoice();
+                try {
+                    currentPhase = currentPhase.handleChoice();
+                } catch (RemoteException e) {
+                    handleRemoteException();
+                }
                 break;
             case SUCCESS_MOVE_DONE:
                 GamePhase.diceMoved=true;
@@ -361,8 +389,17 @@ public class ViewController {
         }
     }
 
+    private void handleRemoteException() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Connection error");
+        alert.showAndWait();
+        suspend();
+    }
+
     public synchronized void suspend(){
-        endTurn();
+        currentPhase=new GamePhase(remoteController, gameController);
+        clear();
         Label label= new Label("Disconnected");
         Button button = new Button("Reconnect");
         button.setStyle("-fx-background-color: orange; -fx-text-fill: white; -fx-font-size: 32");
@@ -370,40 +407,60 @@ public class ViewController {
         button.setOnMouseClicked((event) -> {
             try {
                 remoteController.command(new GameCommand(Response.ACTIVE_AGAIN));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(MainApp.class.getResource("resources/fxml/Game.fxml"));
+                try {
+                    gamePane = loader.load();
+                    gameController = loader.getController();
+                    gameController.addListener(this);
+                    gameController.log("Welcome back!\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                rootLayout.setCenter(gamePane);
             } catch (RemoteException e) {
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Connection error.");
+                return;
             }
         });
         VBox box = new VBox(50);
         box.setAlignment(Pos.CENTER);
         box.getChildren().addAll(label, button);
         rootLayout.setCenter(box);
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainApp.class.getResource("resources/fxml/Game.fxml"));
-        try {
-            gamePane = loader.load();
-            gameController = loader.getController();
-            gameController.addListener(this);
-            gameController.log("Welcome back!\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public synchronized void roundTrackClick(int round, int index) {
-        currentPhase=currentPhase.handleRoundTrack(round, index);
+        try {
+            currentPhase=currentPhase.handleRoundTrack(round, index);
+        } catch (RemoteException e) {
+            handleRemoteException();
+        }
     }
 
     public synchronized void toolCardClick(int index) {
-        currentPhase=currentPhase.handleToolCard(index);
+        try {
+            currentPhase=currentPhase.handleToolCard(index);
+        } catch (RemoteException e) {
+            handleRemoteException();
+        }
     }
 
     public synchronized void draftPoolClick(int index){
-        currentPhase=currentPhase.handleDraftPool(index);
+        try {
+            currentPhase=currentPhase.handleDraftPool(index);
+        } catch (RemoteException e) {
+            handleRemoteException();
+        }
     }
 
     public synchronized void windowFrameClick(int row, int col){
-        currentPhase=currentPhase.handleWindowFrame(row,col);
+        try {
+            currentPhase=currentPhase.handleWindowFrame(row,col);
+        } catch (RemoteException e) {
+            handleRemoteException();
+        }
     }
 
 
@@ -412,7 +469,7 @@ public class ViewController {
             remoteController.command(new GameCommand(Response.END_TURN));
             gameController.unableAll();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            handleRemoteException();
         }
         currentPhase=new GamePhase(remoteController, gameController);
     }
@@ -427,7 +484,7 @@ public class ViewController {
             try {
                 remoteController.command(new GameCommand(Response.CHOICE,0));
             } catch (RemoteException e) {
-                notifyPlayerDisconnected(this.id);
+                handleRemoteException();
             }
         }));
         Pane second = new Pane();
@@ -439,7 +496,7 @@ public class ViewController {
             try {
                 remoteController.command(new GameCommand(Response.CHOICE,1));
             } catch (RemoteException e) {
-                notifyPlayerDisconnected(this.id);
+                handleRemoteException();
             }
         }));
         box.getChildren().addAll(first, second);
@@ -494,7 +551,7 @@ public class ViewController {
                 init(new GuiModel(this));
             } catch (RemoteException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Connection error");
+                alert.setTitle("Error");
                 alert.setHeaderText("Connection error.");
                 alert.showAndWait();
                 System.exit(-1);
@@ -547,10 +604,6 @@ public class ViewController {
             endGameBox.getChildren().add(playerBox);
         }
         rootLayout.setCenter(endGameBox);
-    }
-
-    public void debug(String message) {
-        gameController.log(message);
     }
 
     public synchronized void error(String message) {

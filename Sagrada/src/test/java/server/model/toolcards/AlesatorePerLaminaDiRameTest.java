@@ -6,6 +6,7 @@ import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
+import server.GameManager;
 import server.model.Model;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameList;
@@ -23,9 +24,11 @@ public class AlesatorePerLaminaDiRameTest {
     private Model model;
     private ToolCard toolCard;
     private Player player;
+    private GameManager gameManager;
     @Before
     public void setUp() throws Exception {
-        model= Mockito.mock(Model.class);
+        gameManager = new GameManager();
+        model= Mockito.spy(new Model(gameManager));
         player=Mockito.mock(Player.class);
         WindowFrame frame = new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
         when(player.getWindowFrame()).thenReturn(frame);
@@ -69,15 +72,15 @@ public class AlesatorePerLaminaDiRameTest {
 
 
 
-        WindowFrame frame=new WindowFrame(WindowFrameList.FIRELIGHT);
+        WindowFrame secondFrame=new WindowFrame(WindowFrameList.FIRELIGHT);
         toolCard.start(player);
         try {
-            toolCard.setParameter(frame);
+            toolCard.setParameter(secondFrame);
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
         try {
-            toolCard.setParameter(frame.getCell(0, 0));
+            toolCard.setParameter(secondFrame.getCell(0, 0));
         } catch (WrongParameter wrongParameter) {
             wrongParameter.printStackTrace();
         }
@@ -97,6 +100,7 @@ public class AlesatorePerLaminaDiRameTest {
             assertEquals("Wrong parameter", e.getMessage());
         }
 
+        player.getWindowFrame().getCell(0,0).put(new Dice(Color.RED, 4));
         toolCard.start(player);
         try {
             toolCard.setParameter(player.getWindowFrame());
@@ -124,6 +128,7 @@ public class AlesatorePerLaminaDiRameTest {
         }
 
         toolCard.start(player);
+        System.out.println(player.getWindowFrame().getCell(0,0).getDice().getColor());
         try {
             toolCard.setParameter(player.getWindowFrame());
         } catch (WrongParameter wrongParameter) {

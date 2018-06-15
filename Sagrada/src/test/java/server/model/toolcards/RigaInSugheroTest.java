@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import server.GameManager;
 import server.model.Model;
 import server.model.state.boards.draftpool.DraftPool;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -26,9 +27,11 @@ public class RigaInSugheroTest {
     private Model model;
     private DraftPool draftPool;
     private WindowFrame secondFrame;
+    private GameManager gameManager;
     @Before
     public void setUp() throws Exception {
-        model=Mockito.spy(new Model());
+        gameManager=new GameManager();
+        model=Mockito.spy(new Model(gameManager));
         toolCard=new RigaInSughero(model);
         player=Mockito.mock(Player.class);
         Mockito.when(player.getWindowFrame()).thenReturn(new WindowFrame(WindowFrameList.GRAVITAS));

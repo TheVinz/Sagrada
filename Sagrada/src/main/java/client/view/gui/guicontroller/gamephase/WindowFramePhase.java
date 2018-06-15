@@ -15,12 +15,8 @@ public class WindowFramePhase extends GamePhase {
     }
 
     @Override
-    public GamePhase handleWindowFrame(int row, int index){
-        try {
-            controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, row, index));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public GamePhase handleWindowFrame(int row, int index) throws RemoteException {
+        controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, row, index));
         return new MainPhase(controller, gameController);
     }
 }

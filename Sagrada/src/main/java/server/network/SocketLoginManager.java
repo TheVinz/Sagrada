@@ -1,6 +1,8 @@
 package server.network;
 
+import common.command.GameCommand;
 import server.GameManager;
+import server.LaunchServer;
 import server.model.Model;
 import server.model.state.player.Player;
 import server.viewproxy.SocketViewProxy;
@@ -10,47 +12,39 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Logger;
 
-public class SocketLoginManager implements Runnable{
-    private Socket socket;
-    private final ObjectInputStream in;
-    private GameManager gameManager;
-    private final ObjectOutputStream out;
-    private final Object lock;
+public class SocketLoginManager{
 
+    public void handleConnection(Socket s, GameManager gameManager) {
 
-    public SocketLoginManager(Socket s, GameManager gameManager, Object lock) throws IOException {
-        this.socket = s;
-        this.out = new ObjectOutputStream(s.getOutputStream());
-        this.in = new ObjectInputStream(s.getInputStream());
-        this.gameManager = gameManager;
-        this.lock = lock;
-    }
-
-
-    @Override
-    public void run() {
-        synchronized (lock) {
+        String name = "unnamed";
             try {
-                out.writeObject(new String("You are connected to the server!"));
-                String name = (String) in.readObject();
-                boolean singlePlayer = (Boolean) in.readObject();
-                Model model = gameManager.setModel(name, singlePlayer);
-                Player player = model.addPlayer(name, model.getState().getPlayers().size());
-                ViewProxy viewProxy = new SocketViewProxy(out, model, player);
-                new Thread(new ServerSocketHandler(in, viewProxy)).start();
-                model.addViewProxyPlayer(viewProxy, player);
-                gameManager.startGame(singlePlayer);
-                System.out.print(name + " connected\n>>>");
+                ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+                SocketViewProxy viewProxy;
+                synchronized (LaunchServer.lock) {
+                    out.writeObject(new String("You are connected to the server!"));
+                    name = (String) in.readObject();
+                    boolean singlePlayer = (Boolean) in.readObject();
+                    Model model = gameManager.getModel(name, singlePlayer);
+                    Player player = model.addPlayer(name);
+                    viewProxy = new SocketViewProxy(out, model, player);
+                    model.addViewProxyPlayer(viewProxy, player);
+                    gameManager.startGame(model);
+                    System.out.print(name + " connected\n>>>");
+                }
+                viewProxy.mainLoop(in);
+                s.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.print(name + " disconnected.\n>>>");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+                System.out.print(">>>");
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.print(">>>");
             }
-
-
-        }
     }
+
 }

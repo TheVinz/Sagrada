@@ -1,6 +1,9 @@
 package server.model;
 
+
+
 import common.exceptions.InvalidMoveException;
+import server.GameManager;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard;
@@ -23,17 +26,18 @@ import java.util.List;
 import java.util.Map;
 
 public class Model implements Observable {
-    private List<Observer> activeObservers;
+
     private Map<Player, Observer> playerObserverMap = new HashMap<>();
 
     private final State state;
     private final Util util;
     private RoundManager roundManager;
+    private GameManager gameManager;
 
-    public Model(){
+    public Model(GameManager gameManager){
+        this.gameManager = gameManager;
         state = new State(this);
         util = new Util();
-        activeObservers =new ArrayList<>();
     }
 
 
@@ -49,13 +53,28 @@ public class Model implements Observable {
     }
 
     public void addViewProxyPlayer(ViewProxy viewProxy, Player player){
-            addObserver(viewProxy);
-            playerObserverMap.put(player, viewProxy);
+
+            if(playerObserverMap.keySet().contains(player)) {
+                playerObserverMap.replace(player, viewProxy);
+                reinsertPlayer(player);
+            }
+            else
+                playerObserverMap.put(player, viewProxy);
     }
 
-    public Player addPlayer(String name, int id) throws Exception{ //da fare synchronized nel caso più giocatori si connettano contemporaneamente?
+    public synchronized Player addPlayer(String name) throws Exception{
+        Player player;
+
+        for(Player p : state.getPlayers()) {
+            if (p.getName().equals(name)) {
+                return p;
+            }
+        }
+
         if(state.getPlayers().size()==4) throw new Exception("The game is full");
-        Player player = new Player(name, id);
+
+
+        player = new Player(name, state.getPlayers().size());
         state.addPlayer(player);
         return player;
     }
@@ -93,26 +112,20 @@ public class Model implements Observable {
         }
         notifyRefillDraftPool(state.getDraftPool().getDraftPool().toArray(new Cell[0]));
         roundManager.startRound();
-        Player active;
-        do {
-            active = roundManager.next();
-        } while(active.isSuspended()); //da controllare quando sono tutti sospesi
+        Player active = roundManager.next();
         active.setActive();
         notifyStartTurn(active);
     }
     public void endTurn(Player player) {
         Player active = player;
-        do {
-            active.endTurn();
-            if(!roundManager.hasNext())
-            {
-                endRound();
-                return;
-            }
-            active = roundManager.next();
-        } while(active.isJumpSecondTurn()||active.isSuspended());
-        active.setActive();
-        notifyStartTurn(active);
+        active.endTurn();
+        if(!state.isGameFinished()) {
+            if (roundManager.hasNext()) {
+                active = roundManager.next();
+                active.setActive();
+                notifyStartTurn(active);
+            } else endRound();
+        }
     }
     private void endRound() {
         try {
@@ -136,12 +149,25 @@ public class Model implements Observable {
         }
         scoreboard.sort(new PointsComparator());
         notifyEndGame(scoreboard.toArray(new Player[0]));
+        Player winner = getWinner(scoreboard);
+        notifyGameManager("Winner: "+winner.getName());
+        this.playerObserverMap = null;
     }
 
-    public void reinsertPlayer(Player player){
+    /** @requires scoreboard.size()>0; **/
+    private Player getWinner( List<Player> scoreboard){
+        for(int i=0; i<scoreboard.size(); i++)
+            if(!scoreboard.get(i).isSuspended()) return scoreboard.get(i);
+        return scoreboard.get(0);
+    }
+
+    public void notifyGameManager(String message){
+        gameManager.endGame(this, message);
+    }
+
+    public synchronized void reinsertPlayer(Player player){
         player.setSuspended(false);
         Observer o = playerObserverMap.get(player);
-        activeObservers.add(o);
         o.updateObjectiveCards(state.getPublicObjectiveCards().toArray(new PublicObjectiveCard[0]));
         o.updateToolCards(state.getToolCards().toArray(new ToolCard[0]));
         o.updateMutableData();
@@ -151,12 +177,15 @@ public class Model implements Observable {
 
 
 
-    public void suspendPlayer(Player player){
-        player.setSuspended(true);
-        activeObservers.remove(playerObserverMap.get(player));
-        if(activeObservers.isEmpty())
-            endGame();
-        notifySuspendPlayer(player);
+    public synchronized void suspendPlayer(Player player){
+        if(!player.isSuspended()) {
+            player.setSuspended(true);
+            notifySuspendPlayer(player);
+            int cont = 0;
+            for (Player p : state.getPlayers())
+                if (!p.isSuspended()) cont++;
+            if (cont < 2) endGame();
+        }
     }
 
 
@@ -220,7 +249,6 @@ public class Model implements Observable {
 
     public void remove(Player player, DraftPoolCell cell) throws InvalidMoveException{
         Dice dice = cell.removeDice();
-        //state.getBag().insert(dice);        ??? Il dado non viene rimosso dal gioco??
         notifyRemovedDice(player, cell);
     }
 
@@ -243,101 +271,100 @@ public class Model implements Observable {
 
     @Override
     public void addObserver(Observer o) {
-        activeObservers.add(o);
     }
 
     @Override
     public void removeObserver(Observer o) {
-        activeObservers.remove(o);
     }
 
     @Override
     public void notifyMove(Player player, Cell source, Cell target) {
-        for(Observer o: activeObservers) o.updateMove(player, source, target);
+        for(Observer o: playerObserverMap.values()) o.updateMove(player, source, target);
     }
 
     @Override
     public void notifyCellChangement(Player player, Cell cell) {
-        for(Observer o: activeObservers) o.updateCellChangement(player, cell);
+        for(Observer o: playerObserverMap.values()) o.updateCellChangement(player, cell);
     }
 
     @Override
     public void notifyRefillDraftPool(Cell[] draftPool) {
-        for(Observer o: activeObservers) o.updateRefillDraftPool(draftPool);
+        for(Observer o: playerObserverMap.values()) o.updateRefillDraftPool(draftPool);
     }
 
     @Override
     public void notifyToolCards() {
-
-        for(Observer o: activeObservers)
+        for(Observer o: playerObserverMap.values())
             o.updateToolCards(state.getToolCards().toArray(new ToolCard[0]));
     }
 
     @Override
     public void notifyObjectiveCards() {
-        for(Observer o: activeObservers)
+        for(Observer o: playerObserverMap.values())
             o.updateObjectiveCards(state.getPublicObjectiveCards().toArray(new PublicObjectiveCard[0]));
     }
 
     @Override
     public void notifyWindowFrameChoices() {
-        for(Observer o: activeObservers) {
+        for(Observer o: playerObserverMap.values()) {
             o.updateWindowFrameChoices(util.getWindowFrameChoice());
         }
     }
 
     @Override
     public void notifyPlayers(Player[] players) {
-        for(Observer o: activeObservers) o.updatePlayers(players);
+        for(Observer o: playerObserverMap.values()) o.updatePlayers(players);
     }
 
     @Override
     public void notifyToolCardUsed(Player player, ToolCard toolCard, int tokens) {
-        for(Observer o: activeObservers) o.updateToolCardUsed(player, toolCard, tokens);
+        for(Observer o: playerObserverMap.values()) o.updateToolCardUsed(player, toolCard, tokens);
     }
 
     @Override
     public void notifyDraw(Player player, Dice dice) {
-        for(Observer o : activeObservers) o.updateDiceDraw(player, dice.getColor());
+        for(Observer o : playerObserverMap.values()) o.updateDiceDraw(player, dice.getColor());
     }
 
     @Override
     public void notifyPrivateObjectiveCard() {
-        for(Observer o: activeObservers) {
+        for(Observer o: playerObserverMap.values()) {
             o.updatePrivateObjectiveCard(util.getCard());
         }
     }
 
     @Override
     public void notifyStartTurn(Player player) {
-        for(Observer o : activeObservers)
+        for(Observer o : playerObserverMap.values())
             o.updateStartTurn(player);
     }
     @Override
     public void notifyRoundTrackUpdate(int round, Cell[] cells){
-        for(Observer o : activeObservers) o.updateRoundTrack(round, cells);
+        for(Observer o : playerObserverMap.values()) o.updateRoundTrack(round, cells);
     }
 
     @Override
     public void notifyEndGame(Player[] scoreboard){
-        for (Observer o: activeObservers) o.updateEndGame(scoreboard);
+        for (Observer o: playerObserverMap.values()) o.updateEndGame(scoreboard);
+        for (Player p : state.getPlayers()) p.endGame();
+
     }
 
     @Override
     public void notifyReinsertPlayer(Player player) {
-        for(Observer o : activeObservers)
+        for(Observer o : playerObserverMap.values())
             o.updateReinsertPlayer(player);
     }
 
     @Override
     public void notifySuspendPlayer(Player player){
-        for(Observer o : activeObservers)
+        for(Observer o : playerObserverMap.values())
             o.updateSuspendPlayer(player);
     }
 
     @Override
     public void notifyRemovedDice(Player player, DraftPoolCell cell) {
-        for(Observer o : activeObservers)
+        for(Observer o : playerObserverMap.values())
             o.updateRemovedDice(player, cell);
     }
 
