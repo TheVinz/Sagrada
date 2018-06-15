@@ -18,7 +18,7 @@ public class CliLaunchClient {
             choice = sc.nextLine();
         }while(!choice.equals("y")&&!choice.equals("n"));
 
-        boolean singlePlayer = choice.equals("y") ? true : false;
+        boolean singlePlayer = choice.equals("y");
 
         RemoteView viewModel=null;
 

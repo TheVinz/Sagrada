@@ -24,7 +24,7 @@ public class SocketLoginManager{
                 ObjectInputStream in = new ObjectInputStream(s.getInputStream());
                 SocketViewProxy viewProxy;
                 synchronized (LaunchServer.lock) {
-                    out.writeObject(new String("You are connected to the server!"));
+                    out.writeObject("You are connected to the server!");
                     name = (String) in.readObject();
                     boolean singlePlayer = (Boolean) in.readObject();
                     Model model = gameManager.getModel(name, singlePlayer);

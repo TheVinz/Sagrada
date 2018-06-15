@@ -93,22 +93,23 @@ public class Controller implements TimerObserver {
 
 	public void notifyTimeout() {
 		if(player.isActive()){ // forse questo controllo è meglio sostituirlo con un timer.stop() quando finisce il turno altrimenti continua a contare anche dopo il turno
-		if(lock.tryLock()){
-			try{
-				if(Thread.currentThread()==player.getTimer().getBlinker()){
-					timeFinished();
-					endTurn();
-				}
+			if(lock.tryLock()){
+				try{
+					if(Thread.currentThread()==player.getTimer().getBlinker()){
+						timeFinished();
+						endTurn();
+					}
 
-			}finally {
-				lock.unlock();
+				}finally {
+					lock.unlock();
+				}
 			}
-		}}
+		}
 	}
 
 	public void timeFinished(){
-		model.suspendPlayer(player);
 		view.notifyNextParameter(Response.SUSPENDED);
+		model.suspendPlayer(player);
 	}
 
 	public void reinsertPlayer() {

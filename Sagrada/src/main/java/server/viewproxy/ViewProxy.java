@@ -49,7 +49,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
 
     public void suspendPlayer(){
         new Thread(() -> {
-            model.suspendPlayer(this.player);
+            controller.timeFinished();
             controller.endTurn();
             ping = false;
         }).start();
@@ -187,8 +187,6 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     @Override
     synchronized public void updateStartTurn(Player player)  {
         change(new NewTurn(player.getId()));
-        if(player.equals(this.player) && (player.isSuspended() || player.isJumpSecondTurn()))
-            controller.endTurn();
     }
 
     @Override
