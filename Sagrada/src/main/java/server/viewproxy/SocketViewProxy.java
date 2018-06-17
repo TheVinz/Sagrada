@@ -15,15 +15,13 @@ import java.rmi.RemoteException;
 
 public class SocketViewProxy extends ViewProxy {
 
-    private final ObjectOutputStream out;
-    private Player player;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+    private boolean loop = true;
 
-    public SocketViewProxy(ObjectOutputStream out, Model model, Player player) throws RemoteException {
-        super(model, player);
+    public SocketViewProxy(ObjectOutputStream out) throws RemoteException {
+        super();
         this.out = out;
-        this.player = player;
-        change(new LoadId(player.getId()));
-        new Thread(this::ping).start();
     }
 
     @Override
@@ -44,34 +42,47 @@ public class SocketViewProxy extends ViewProxy {
     @Override
     public void ping() {
         while(ping) {
+            sendData(null);
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                return;
             }
-            sendData(null);
         }
     }
 
-    private void sendData(Object data){
+    @Override
+    public synchronized void closeConnection(){
+        loop=false;
+        try {
+            in.close();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private synchronized void sendData(Object data){
         try {
             if(!player.isSuspended()) out.writeObject(data);
         } catch (IOException e) {
-            System.out.print(player.getName()+" disconnected.\n>>>");
             super.suspendPlayer();
         }
     }
 
-    public void mainLoop(ObjectInputStream in) throws IOException,ClassNotFoundException {
+    public void mainLoop(ObjectInputStream in) throws ClassNotFoundException {
+        this.in = in;
         do {
             try {
                 command((GameCommand) in.readObject());
             } catch (IOException e) {
-                super.suspendPlayer();
-                throw e;
+                synchronized (this) {
+                    if(player.isSuspended())
+                        return;
+                    super.suspendPlayer();
+                }
             }
-        } while (true);
+        } while (loop);
     }
 
 

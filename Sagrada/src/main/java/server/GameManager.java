@@ -2,59 +2,72 @@ package server;
 
 import server.model.Model;
 import server.model.SinglePlayerModel;
+import server.model.state.player.Player;
 import server.model.state.utilities.Timer;
 import server.model.state.utilities.TimerObserver;
+import server.viewproxy.ViewProxy;
 
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GameManager implements TimerObserver {
 
-    private Map<String,Model> gamesMap = new HashMap<>();
-    private Model currentModel = null;
-    private SinglePlayerModel singlePlayerModel;
+    private Map<String,Model> gamesMap = new ConcurrentHashMap<>();
+    private Model currentModel = new Model(this);
     private Timer timer;
 
     public GameManager(){
-        timer = new Timer(this, 30);
+        timer = new Timer(this, 5);
     }
 
 
-    public synchronized Model getModel(String name, boolean singlePlayer) {
+    public synchronized void addPlayer(String name, ViewProxy viewProxy, boolean singlePlayer) {
+        Model model;
+        Player player;
         if(gamesMap.containsKey(name)){
+            model = gamesMap.get(name);
             System.out.print(name + " -- reconnecting --> " + gamesMap.get(name) + "\n>>>");
-            return gamesMap.get(name);
+            player = model.getState().getPlayers()
+                                                .stream()
+                                                .filter( p -> p.getName().equals(name))
+                                                .findFirst()
+                                                .orElse(null);
+
         }
         else if(singlePlayer)
         {
-            singlePlayerModel = new SinglePlayerModel(this);
-            gamesMap.put(name, singlePlayerModel);
-            printPlayers();
-            return singlePlayerModel;
+            model = new SinglePlayerModel(this);
+            player = model.addPlayer(name);
+            gamesMap.put(name, model);
         }else{
-            if(currentModel == null)
-            {
-                currentModel = new Model(this);
-                timer.start();
-            }
+            model = currentModel;
+            player = model.addPlayer(name);
             gamesMap.put(name, currentModel);
-            printPlayers();
-            return currentModel;
+            if(currentModel.getState().getPlayers().size()>1)
+                timer.start();
         }
+        viewProxy.setModel(model);
+        viewProxy.setPlayer(player);
+        model.addViewProxyPlayer(viewProxy, player);
+        printPlayers();
+        if(singlePlayer) startGame(model);
     }
 
     public synchronized void startGame(Model model){
         if(model.isSingleplayer())
-            model.startGame();
-        else if(model.equals(currentModel) && model.getState().getPlayers().size()==4) {
+            new Thread( model::startGame ).start();
+        else if(model.equals(currentModel)) {
             timer.stop();
-            currentModel.startGame();
-            currentModel = null;
+            new Thread( currentModel::startGame ).start();
+            System.out.print(currentModel.hashCode() + " starting...\n>>>");
+            currentModel = new Model(this);
         }
     }
 
-    public synchronized void endGame(Model model, String message){
+    public void endGame(Model model, String message){
 
         model.getState().getPlayers().forEach( player -> gamesMap.remove(player.getName()));
 
@@ -68,17 +81,15 @@ public class GameManager implements TimerObserver {
         System.out.print("\n>>>");
     }
 
+    public void removePlayer(String name){
+        gamesMap.remove(name);
+    }
+
     @Override
-    public synchronized void notifyTimeout() {
-        if(currentModel.getState().getPlayers().size()==1)
-        {
-            //da gestire
-        }
+    public void notifyTimeout() {
+        if(currentModel.getState().getPlayers().size()>1)
+            startGame(currentModel);
         else
-        {
-            currentModel.startGame();
-        }
-        timer.stop();
-        currentModel = null;
+            timer.start();
     }
 }

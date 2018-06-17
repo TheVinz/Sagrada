@@ -24,11 +24,8 @@ public class DraftPool{
 
 	/**
 	 * Increase the size of the DraftPool by two DraftPoolCells each calls.
-	 * @throws Exception when the DraftPool is bigger of nine DraftPoolCells.
 	 */
-    public void increaseSize() throws Exception{ //limite superiore?
-		if(draftPoolCells.size() == 9)
-			throw new Exception("The game is full");
+    public void increaseSize(){ //limite superiore?
 		int size=draftPoolCells.size();
 		draftPoolCells.add(new DraftPoolCell(size));
 		draftPoolCells.add(new DraftPoolCell(size+1));

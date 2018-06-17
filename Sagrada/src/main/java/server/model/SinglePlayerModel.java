@@ -38,8 +38,7 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
     }
 
     @Override
-    public Player addPlayer(String name) throws Exception{ //da fare synchronized nel caso più giocatori si connettano contemporaneamente?
-        if(!getState().getPlayers().isEmpty()) throw new Exception("The game is full");
+    public Player addPlayer(String name) { //da fare synchronized nel caso più giocatori si connettano contemporaneamente?
         player = new SinglePlayer(name, 0);
         getState().addPlayer(player);
         return player;
@@ -106,6 +105,7 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
     public synchronized void suspendPlayer(Player player){
         if(player == this.player && !player.isSuspended()) {
             player.setSuspended(true);
+            getState().setGameFinished(true);
             super.notifyGameManager(player.getName() + " disconnected.");
         }
     }

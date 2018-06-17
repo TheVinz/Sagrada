@@ -1,6 +1,7 @@
 package client.view.gui.guicontroller;
 
 import client.view.gui.guicontroller.gamephase.GamePhase;
+import client.view.gui.guimodel.GuiModel;
 import client.view.gui.util.Util;
 import javafx.fxml.FXML;
 import javafx.geometry.NodeOrientation;
@@ -19,6 +20,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import server.GameManager;
+
+import java.rmi.RemoteException;
 
 
 public class GameController {
@@ -480,6 +483,6 @@ public class GameController {
     }
 
     public void suspend() {
-        controller.suspend();
+        controller.handleIOException();
     }
 }

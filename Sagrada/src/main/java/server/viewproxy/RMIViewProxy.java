@@ -13,22 +13,19 @@ import java.rmi.RemoteException;
 public class RMIViewProxy extends ViewProxy {
 
     private RemoteView remoteView;
-    private Player player;
 
 
-    public RMIViewProxy(Model model, Player player) throws RemoteException {
-        super(model, player);
-        this.player = player;
-        new Thread(this::ping).start();
+    public RMIViewProxy() throws RemoteException {
+        super();
     }
 
-    synchronized public void bindRemoteView(RemoteView remoteView) {
+    public synchronized void bindRemoteView(RemoteView remoteView) {
         this.remoteView = remoteView;
         change(new LoadId(player.getId()));
     }
 
     @Override
-    void change(Changement changement) {
+    public synchronized void change(Changement changement) {
         try {
             if(!player.isSuspended()) remoteView.change(changement);
         } catch (RemoteException e) {
@@ -38,7 +35,7 @@ public class RMIViewProxy extends ViewProxy {
     }
 
     @Override
-    void notify(Notification notification) {
+    public synchronized void notify(Notification notification) {
         try {
             if(!player.isSuspended()) remoteView.notify(notification);
         } catch (RemoteException e) {
@@ -48,7 +45,7 @@ public class RMIViewProxy extends ViewProxy {
     }
 
     @Override
-    void send(Response response) {
+    public synchronized void send(Response response) {
         try {
             if(!player.isSuspended()) remoteView.send(response);
         } catch (RemoteException e) {
@@ -58,19 +55,24 @@ public class RMIViewProxy extends ViewProxy {
     }
 
     @Override
-    public void ping(){
+    public synchronized void closeConnection(){
+        remoteView=null;
+    }
+
+    @Override
+    public synchronized void ping(){
         while(ping) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                return;
-            }
             try {
                 remoteView.ping();
             } catch (RemoteException e) {
                 System.out.println(player.getName() + " disconnected.\n>>>");
                 super.suspendPlayer();
+            }
+            try {
+                wait(5000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
             }
         }
     }

@@ -30,7 +30,14 @@ public class ClientSocketConnection {
             out.writeObject(new Boolean(singlePlayer));
             clientSocketHandler = new ClientSocketHandler(in, out, viewModel);
             CliApp.getCliApp().setRemoteController(clientSocketHandler);
-            new Thread(clientSocketHandler).start();
+            new Thread(() -> {
+                try {
+                    clientSocketHandler.mainLoop();
+                    connection.close();
+                } catch (IOException e) {
+                    //TODO implementare disconnessione
+                }
+            }).start();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

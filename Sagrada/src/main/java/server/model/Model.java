@@ -19,15 +19,18 @@ import server.model.state.utilities.Util;
 import server.viewproxy.ViewProxy;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Model implements Observable {
 
-    private Map<Player, Observer> playerObserverMap = new HashMap<>();
+    private Map<Player, Observer> playerObserverMap = new ConcurrentHashMap<>();
 
     private final State state;
     private final Util util;
     private RoundManager roundManager;
     private GameManager gameManager;
+    private boolean acceptPlayers = true;
+    private boolean started = false;
 
     public Model(GameManager gameManager){
         this.gameManager = gameManager;
@@ -53,11 +56,13 @@ public class Model implements Observable {
                 playerObserverMap.replace(player, viewProxy);
                 reinsertPlayer(player);
             }
-            else
+            else {
                 playerObserverMap.put(player, viewProxy);
+                if(state.getPlayers().size() == 4) gameManager.startGame(this);
+            }
     }
 
-    public synchronized Player addPlayer(String name) throws Exception{
+    public synchronized Player addPlayer(String name) {
         Player player;
 
         for(Player p : state.getPlayers()) {
@@ -66,12 +71,18 @@ public class Model implements Observable {
             }
         }
 
-        if(state.getPlayers().size()==4) throw new Exception("The game is full");
+        //if(state.getPlayers().size()==4) throw new Exception("The game is full");
 
 
         player = new Player(name, state.getPlayers().size());
         state.addPlayer(player);
         return player;
+    }
+
+    public synchronized void removePlayer(Player player){
+        playerObserverMap.remove(player);
+        state.getPlayers().remove(player);
+        gameManager.removePlayer(player.getName());
     }
 
     /*
@@ -86,15 +97,16 @@ public class Model implements Observable {
         notifyToolCards();
         notifyObjectiveCards();
         notifyPlayers(state.getPlayers().toArray(new Player[0]));
+        started = true;
         startRound();
     }
 
     public void startGame() {
+        acceptPlayers = false;
         notifyPrivateObjectiveCard();
         for(Player p : state.getPlayers()) p.setActive();
         roundManager=new RoundManager(state.getPlayers());
         notifyWindowFrameChoices();
-
     }
 
     public void startRound() {
@@ -108,8 +120,9 @@ public class Model implements Observable {
         notifyRefillDraftPool(state.getDraftPool().getDraftPool().toArray(new Cell[0]));
         roundManager.startRound();
         Player active = roundManager.next();
-        if(active.isSuspended())
+        if(active.isSuspended()){
             endTurn(active);
+        }
         else {
             active.setActive();
             notifyStartTurn(active);
@@ -119,7 +132,7 @@ public class Model implements Observable {
     public void endTurn(Player player) {
         Player active = player;
         active.endTurn();
-        if(!state.isGameFinished()) {
+        if(!state.isGameFinished() && started) {
             if (roundManager.hasNext()) {
                 active = roundManager.next();
                 active.setActive();
@@ -159,9 +172,10 @@ public class Model implements Observable {
     }
 
     private Player getWinner(List<Player> scoreboard){
-        for(int i=0; i<scoreboard.size(); i++)
-            if(!scoreboard.get(i).isSuspended()) return scoreboard.get(i);
-        return scoreboard.get(0);
+        return scoreboard.stream()
+                .filter( player -> !player.isSuspended())
+                .findFirst()
+                .orElse(scoreboard.get(0));
     }
 
     public void notifyGameManager(String message){
@@ -180,13 +194,21 @@ public class Model implements Observable {
 
 
 
-    public synchronized void suspendPlayer(Player player){
-        if(!player.isSuspended()) {
+    public void suspendPlayer(Player player){
+        if(acceptPlayers) {
+            removePlayer(player);
+            player.setSuspended(true);
+            System.out.print(this.hashCode() + "\n");
+            state.getPlayers().stream().forEach(p -> System.out.print("\t" + p.getName() + "\n"));
+            System.out.print(">>>");
+        }
+        else if(!player.isSuspended() && started) {
             player.setSuspended(true);
             notifySuspendPlayer(player);
             int cont = 0;
-            for (Player p : state.getPlayers())
+            for (Player p : state.getPlayers()) {
                 if (!p.isSuspended()) cont++;
+            }
             if (cont < 2) endGame();
         }
     }
@@ -209,7 +231,7 @@ public class Model implements Observable {
         for(Player p : state.getPlayers()){
             if (p.getWindowFrame() == null) return;
         }
-        init();
+        if(!state.isGameFinished()) init();
     }
 
 

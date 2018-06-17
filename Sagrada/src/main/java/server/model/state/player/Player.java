@@ -158,6 +158,8 @@ public class Player {
 
     public void setSuspended(boolean suspended) {
         this.suspended = suspended;
+        if(suspended)
+            System.out.print(name + " disconnected.\n>>>");
     }
 
     public void endGame() {

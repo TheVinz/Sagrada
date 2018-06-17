@@ -6,6 +6,7 @@ import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class MainPhase extends GamePhase {
@@ -26,7 +27,7 @@ public class MainPhase extends GamePhase {
     }
 
     @Override
-    public GamePhase handleWindowFrame(int row, int col) throws RemoteException {
+    public GamePhase handleWindowFrame(int row, int col) throws IOException {
         destRow=row;
         destCol=col;
         if(sourceIndex!=-1){
@@ -37,7 +38,7 @@ public class MainPhase extends GamePhase {
     }
 
     @Override
-    public GamePhase handleToolCard(int index) throws RemoteException {
+    public GamePhase handleToolCard(int index) throws IOException {
         controller.command(new GameCommand(Response.TOOL_CARD, index));
         GamePhase phase = new GamePhase(controller, gameController);
         return phase;

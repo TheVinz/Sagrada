@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
+
 
 
 public class ViewController {
@@ -87,8 +87,8 @@ public class ViewController {
             button.setOnMouseClicked((event) -> {
                 try {
                     remoteController.command(new GameCommand(Response.CHOICE, difficulty));
-                } catch (RemoteException e) {
-                    handleRemoteException();
+                } catch (IOException e) {
+                    handleIOException();
                 }
                 dialog.close();
             });
@@ -177,10 +177,9 @@ public class ViewController {
     public void notifyChoice(int index) {
         try {
             remoteController.command(new GameCommand(Response.CHOICE, index));
-        } catch (RemoteException e) {
-            handleRemoteException();
+        } catch (IOException e) {
+            handleIOException();
         }
-        startGame();
     }
 
     public void loadToolCard(int[] toolCards) {
@@ -346,24 +345,24 @@ public class ViewController {
                 currentPhase = new PinzaSgrossatriceChoicePhase(remoteController, gameController);
                 try {
                     currentPhase = currentPhase.handleChoice();
-                } catch (RemoteException e) {
-                    handleRemoteException();
+                } catch (IOException e) {
+                    handleIOException();
                 }
                 break;
             case TAGLIERINA_MANUALE_CHOICE:
                 currentPhase = new TaglierinaManualeChoicePhase(remoteController, gameController);
                 try {
                     currentPhase = currentPhase.handleChoice();
-                } catch (RemoteException e) {
-                    handleRemoteException();
+                } catch (IOException e) {
+                    handleIOException();
                 }
                 break;
             case DILUENTE_PER_PASTA_SALDA_CHOICE:
                 currentPhase = new DiluentePerPastaSaldaChoicePhase(remoteController, gameController);
                 try {
                     currentPhase = currentPhase.handleChoice();
-                } catch (RemoteException e) {
-                    handleRemoteException();
+                } catch (IOException e) {
+                    handleIOException();
                 }
                 break;
             case SUCCESS_MOVE_DONE:
@@ -380,7 +379,7 @@ public class ViewController {
                 currentPhase = new MainPhase(remoteController, gameController);
                 break;
             case SUSPENDED:
-                suspend();
+                handleIOException();
                 break;
 
             default:
@@ -389,77 +388,49 @@ public class ViewController {
         }
     }
 
-    private void handleRemoteException() {
+    public void handleIOException() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText("Connection error");
+        alert.setHeaderText("You have been disconnected");
         alert.showAndWait();
-        suspend();
-    }
-
-    public synchronized void suspend(){
-        currentPhase=new GamePhase(remoteController, gameController);
-        clear();
-        Label label= new Label("Disconnected");
-        Button button = new Button("Reconnect");
-        button.setStyle("-fx-background-color: orange; -fx-text-fill: white; -fx-font-size: 32");
-        label.setStyle("-fx-background-color: rgba(255,255,255,0.7); -fx-font-size: 32");
-        button.setOnMouseClicked((event) -> {
-            try {
-                remoteController.command(new GameCommand(Response.ACTIVE_AGAIN));
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("resources/fxml/Game.fxml"));
-                try {
-                    gamePane = loader.load();
-                    gameController = loader.getController();
-                    gameController.addListener(this);
-                    gameController.log("Welcome back!\n");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                rootLayout.setCenter(gamePane);
-            } catch (RemoteException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Connection error.");
-                return;
-            }
-        });
-        VBox box = new VBox(50);
-        box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(label, button);
-        rootLayout.setCenter(box);
+        try {
+            String name = gameController.getPlayerName(this.id);
+            init(new GuiModel(this));
+            loginController.setName(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public synchronized void roundTrackClick(int round, int index) {
         try {
             currentPhase=currentPhase.handleRoundTrack(round, index);
-        } catch (RemoteException e) {
-            handleRemoteException();
+        } catch (IOException e) {
+            handleIOException();
         }
     }
 
     public synchronized void toolCardClick(int index) {
         try {
             currentPhase=currentPhase.handleToolCard(index);
-        } catch (RemoteException e) {
-            handleRemoteException();
+        } catch (IOException e) {
+            handleIOException();
         }
     }
 
     public synchronized void draftPoolClick(int index){
         try {
             currentPhase=currentPhase.handleDraftPool(index);
-        } catch (RemoteException e) {
-            handleRemoteException();
+        } catch (IOException e) {
+            handleIOException();
         }
     }
 
     public synchronized void windowFrameClick(int row, int col){
         try {
             currentPhase=currentPhase.handleWindowFrame(row,col);
-        } catch (RemoteException e) {
-            handleRemoteException();
+        } catch (IOException e) {
+            handleIOException();
         }
     }
 
@@ -468,8 +439,8 @@ public class ViewController {
         try {
             remoteController.command(new GameCommand(Response.END_TURN));
             gameController.unableAll();
-        } catch (RemoteException e) {
-            handleRemoteException();
+        } catch (IOException e) {
+            handleIOException();
         }
         currentPhase=new GamePhase(remoteController, gameController);
     }
@@ -483,8 +454,8 @@ public class ViewController {
         first.setOnMouseClicked((mouseEvent -> {
             try {
                 remoteController.command(new GameCommand(Response.CHOICE,0));
-            } catch (RemoteException e) {
-                handleRemoteException();
+            } catch (IOException e) {
+                handleIOException();
             }
         }));
         Pane second = new Pane();
@@ -495,15 +466,17 @@ public class ViewController {
         second.setOnMouseClicked((mouseEvent -> {
             try {
                 remoteController.command(new GameCommand(Response.CHOICE,1));
-            } catch (RemoteException e) {
-                handleRemoteException();
+            } catch (IOException e) {
+                handleIOException();
             }
         }));
         box.getChildren().addAll(first, second);
         rootLayout.setCenter(box);
     }
 
-    public void endSinglePlayerGame(char card, int[] points, int targetPoints){
+    public synchronized void endSinglePlayerGame(char card, int[] points, int targetPoints){
+
+
 
         String style = "-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 26";
 
@@ -549,7 +522,7 @@ public class ViewController {
         rematchButton.setOnMouseClicked((mouseEvent -> {
             try {
                 init(new GuiModel(this));
-            } catch (RemoteException e) {
+            } catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Connection error.");
@@ -573,7 +546,7 @@ public class ViewController {
         rootLayout.setCenter(box);
     }
 
-    public void endGame(char[] privateObjectiveCards, int[] ids, int[][] points){
+    public synchronized void endGame(char[] privateObjectiveCards, int[] ids, int[][] points){
         HBox endGameBox = new HBox(20);
         endGameBox.setAlignment(Pos.CENTER);
         for(int i=0; i<points.length; i++) {

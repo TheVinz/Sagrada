@@ -18,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 
@@ -43,7 +44,7 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
             dialog.close();
             try {
                 controller.command(new GameCommand(Response.CHOICE, Response.TAGLIERINA_MANUALE_ONE_MOVE));
-            } catch (RemoteException e) {
+            } catch (IOException e) {
                 exceptionRoutine();
             }
         }));
@@ -54,7 +55,7 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
             dialog.close();
             try {
                 controller.command(new GameCommand(Response.CHOICE, Response.TAGLIERINA_MANUALE_TWO_MOVES));
-            } catch (RemoteException e) {
+            } catch (IOException e) {
                 exceptionRoutine();
             }
         });

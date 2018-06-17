@@ -4,6 +4,7 @@ import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -13,6 +14,6 @@ public interface RemoteController extends Remote {
     void command(Response type, int index) throws RemoteException; //draftpool/toolCard
     void command(Response type, int x, int y) throws RemoteException; //windowframecell/roundtrackcell*/
 
-    void command(GameCommand gameCommand) throws  RemoteException;
+    void command(GameCommand gameCommand) throws IOException;
 
 }

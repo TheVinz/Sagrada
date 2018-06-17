@@ -29,40 +29,32 @@ public class Controller implements TimerObserver {
 		this.view=view;
 		currentState=new WaitingState(player, model);
 		lock = new ReentrantLock();
-		player.setTimer(new Timer(this, 60));
+		player.setTimer(new Timer(this, 10));
 	}
 
 	public synchronized void selectObject(ModelObject o) { //synchronized? e si eh
-		if(lock.tryLock()) {
+		if(model.getState().isGameFinished() && model.isSingleplayer())
+			currentState = new SelectingPrivateObjectiveCard(player, model);
+		PlayerState temp;
+		if (player.isActive() || currentState.getClass().equals(SelectingPrivateObjectiveCard.class)) {
 			try {
-				if(model.getState().isGameFinished() && model.getClass().equals(SinglePlayerModel.class))
-					currentState = new SelectingPrivateObjectiveCard(player, model);
-				PlayerState temp = null;
-				if (player.isActive() || currentState.getClass().equals(SelectingPrivateObjectiveCard.class)) {
-					try {
-						temp = currentState;
-						currentState = currentState.selectObject(o);
-					} catch (InvalidMoveException e) {
-						currentState = new WaitingState(player, model);
-						view.notifyError(e.getMessage());
-						if(player.getTimer().timeFinished())
-							timeFinished();
-						return;
-					} catch (WrongParameter e) {
-						view.notifyWrongParameter(e.getMessage());
-						return;
-					}
-					if (temp.nextParam() != null) {
-						view.notifyNextParameter(temp.nextParam());
-					}
-					else if(currentState.nextParam() != null)
-						view.notifyNextParameter(currentState.nextParam());
-					if (player.isDiceMoved() && player.isToolCardUsed()) {
-						endTurn();
-					}
-				}
-			}finally {
-				lock.unlock();
+				temp = currentState;
+				currentState = currentState.selectObject(o);
+			} catch (InvalidMoveException e) {
+				currentState = new WaitingState(player, model);
+				view.notifyError(e.getMessage());
+				return;
+			} catch (WrongParameter e) {
+				view.notifyWrongParameter(e.getMessage());
+				return;
+			}
+			if (temp.nextParam() != null) {
+				view.notifyNextParameter(temp.nextParam());
+			}
+			else if(currentState.nextParam() != null)
+				view.notifyNextParameter(currentState.nextParam());
+			if (player.isDiceMoved() && player.isToolCardUsed()) {
+				endTurn();
 			}
 		}
 	}
@@ -73,9 +65,10 @@ public class Controller implements TimerObserver {
 
 	public void endTurn() {
 		if(player.isActive()) {
+			model.endTurn(player);
 			currentState.abort();
 			currentState = new WaitingState(player, model);
-			model.endTurn(player);
+			player.getTimer().stop();
 		}
 	}
 
@@ -91,24 +84,15 @@ public class Controller implements TimerObserver {
 			view.notifyNextParameter(Response.DRAFT_POOL_MOVE);
 	}
 
-	public void notifyTimeout() {
-		if(player.isActive()){ // forse questo controllo è meglio sostituirlo con un timer.stop() quando finisce il turno altrimenti continua a contare anche dopo il turno
-			if(lock.tryLock()){
-				try{
-					if(Thread.currentThread()==player.getTimer().getBlinker()){
-						timeFinished();
-						endTurn();
-					}
-
-				}finally {
-					lock.unlock();
-				}
-			}
+	public synchronized void notifyTimeout() {
+		if(player.getTimer().getBlinker().equals(Thread.currentThread())) {
+			timeFinished();
+			endTurn();
 		}
 	}
 
-	public void timeFinished(){
-		view.notifyNextParameter(Response.SUSPENDED);
+	public synchronized void timeFinished(){
+		//view.notifyNextParameter(Response.SUSPENDED);
 		model.suspendPlayer(player);
 	}
 

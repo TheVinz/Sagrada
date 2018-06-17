@@ -27,8 +27,6 @@ public class GuiChanger implements Changer {
     @Override
     public void change(MutableData mutableData) {
         Platform.runLater(() -> {
-            view.setGameBackground();
-            view.startGame();
             view.loadPlayers(mutableData.getNames(), mutableData.getIds(), mutableData.getWindowFrameReps(), mutableData.getFavorTokens(), mutableData.getId());
             for(int i=0; i<mutableData.getIds().length; i++) {
                 view.setWindowFrameDices(i, mutableData.getWindowFrameValues()[i], mutableData.getWindowFrameColors()[i]);
@@ -37,6 +35,8 @@ public class GuiChanger implements Changer {
                 view.updateRoundTrack(i,mutableData.getRoundTrackValues()[i], mutableData.getRoundTrackColors()[i]);
             }
             view.setDraftPool(mutableData.getDraftPoolValues(), mutableData.getDraftPoolColors());
+            view.setGameBackground();
+            view.startGame();
         });
     }
 
@@ -75,7 +75,10 @@ public class GuiChanger implements Changer {
 
     @Override
     public void change(LoadPlayers loadPlayers) {
-        Platform.runLater(() -> view.loadPlayers(loadPlayers.getNames(), loadPlayers.getIds(), loadPlayers.getWindowFrameReps(), loadPlayers.getWindowFrameFavorTokens(), id));
+        Platform.runLater(() -> {
+            view.loadPlayers(loadPlayers.getNames(), loadPlayers.getIds(), loadPlayers.getWindowFrameReps(), loadPlayers.getWindowFrameFavorTokens(), id);
+            view.startGame();
+        });
     }
 
     @Override

@@ -5,6 +5,7 @@ import client.network.ClientSocketHandler;
 import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
 import common.login.RemoteLoginManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import java.io.IOException;
@@ -64,8 +65,15 @@ public class LoginController {
             out.writeObject(name);
             out.writeObject(new Boolean(singleplayer));
             ClientSocketHandler clientSocketHandler = new ClientSocketHandler(in, out,new GuiModel(listener));
-            new Thread(clientSocketHandler).start();
             listener.notifyLogin(clientSocketHandler, singleplayer);
+            new Thread(() -> {
+                try {
+                    clientSocketHandler.mainLoop();
+                    connection.close();
+                } catch (IOException e) {
+                    Platform.runLater(() -> listener.handleIOException());
+                }
+            }).start();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -94,6 +102,10 @@ public class LoginController {
 
     public void addListener(ViewController viewController) {
         this.listener=viewController;
+    }
+
+    public void setName(String name){
+        textField.setText(name);
     }
 
 }

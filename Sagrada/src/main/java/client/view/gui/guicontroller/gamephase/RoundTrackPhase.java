@@ -6,6 +6,7 @@ import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class RoundTrackPhase extends GamePhase {
@@ -16,7 +17,7 @@ public class RoundTrackPhase extends GamePhase {
     }
 
     @Override
-    public GamePhase handleRoundTrack(int round, int index) throws RemoteException {
+    public GamePhase handleRoundTrack(int round, int index) throws IOException {
         controller.command(new GameCommand(Response.ROUND_TRACK_CELL, round, index));
         return new GamePhase(controller, gameController);
     }

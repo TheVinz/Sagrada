@@ -6,6 +6,7 @@ import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class DraftPoolPhase extends GamePhase{
@@ -17,7 +18,7 @@ public class DraftPoolPhase extends GamePhase{
     }
 
     @Override
-    public GamePhase handleDraftPool(int index) throws RemoteException {
+    public GamePhase handleDraftPool(int index) throws IOException {
         controller.command(new GameCommand(Response.DRAFT_POOL_CELL, index));
         return new GamePhase(controller, gameController);
     }

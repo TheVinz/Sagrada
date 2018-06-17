@@ -25,13 +25,10 @@ public class RMILoginManager extends UnicastRemoteObject implements RemoteLoginM
     @Override
     public RemoteController connect(String name, RemoteView remoteView, boolean singlePlayer) throws Exception {
         synchronized (LaunchServer.lock) {
-            Model model = gameManager.getModel(name, singlePlayer);
-            Player player = model.addPlayer(name);
-            ViewProxy viewProxy = new RMIViewProxy(model, player);
-            model.addViewProxyPlayer(viewProxy, player);
-            ((RMIViewProxy) viewProxy).bindRemoteView(remoteView);
-            gameManager.startGame(model);
             System.out.print(name + " connected\n>>>");
+            ViewProxy viewProxy = new RMIViewProxy();
+            ((RMIViewProxy) viewProxy).bindRemoteView(remoteView);
+            gameManager.addPlayer(name, viewProxy, singlePlayer);
             return viewProxy;
         }
     }

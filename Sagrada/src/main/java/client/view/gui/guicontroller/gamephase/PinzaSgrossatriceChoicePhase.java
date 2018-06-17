@@ -18,7 +18,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
+import java.io.IOException;
 
 public class PinzaSgrossatriceChoicePhase extends GamePhase {
     public PinzaSgrossatriceChoicePhase(RemoteController controller, GameController gameController) {
@@ -40,7 +41,7 @@ public class PinzaSgrossatriceChoicePhase extends GamePhase {
         increase.setOnAction((event) -> {
             try {
                 controller.command(new GameCommand(Response.CHOICE, Response.PINZA_SGROSSATRICE_INCREASE));
-            } catch (RemoteException e) {
+            } catch (IOException e) {
                 exceptionRoutine();
                 dialog.close();
                 return;
@@ -53,7 +54,7 @@ public class PinzaSgrossatriceChoicePhase extends GamePhase {
         decrease.setOnAction((event) -> {
             try {
                 controller.command(new GameCommand(Response.CHOICE, Response.PINZA_SGROSSATRICE_DECREASE));
-            } catch (RemoteException e) {
+            } catch (IOException e) {
                 exceptionRoutine();
                 dialog.close();
                 return;

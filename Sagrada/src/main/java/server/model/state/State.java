@@ -32,7 +32,7 @@ public class State{
 		this.gameFinished = false;
 	}
 
-	public void addPlayer(Player player) throws Exception{
+	public void addPlayer(Player player) {
 		players.add(player);
 		draftPool.increaseSize();
 

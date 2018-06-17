@@ -19,25 +19,21 @@ public class SocketLoginManager{
     public void handleConnection(Socket s, GameManager gameManager) {
 
         String name = "unnamed";
+
             try {
                 ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(s.getInputStream());
                 SocketViewProxy viewProxy;
-                synchronized (LaunchServer.lock) {
-                    out.writeObject("You are connected to the server!");
-                    name = (String) in.readObject();
-                    boolean singlePlayer = (Boolean) in.readObject();
-                    Model model = gameManager.getModel(name, singlePlayer);
-                    Player player = model.addPlayer(name);
-                    viewProxy = new SocketViewProxy(out, model, player);
-                    model.addViewProxyPlayer(viewProxy, player);
-                    gameManager.startGame(model);
-                    System.out.print(name + " connected\n>>>");
-                }
+                out.writeObject("You are connected to the server!");
+                name = (String) in.readObject();
+                System.out.print(name + " connected\n>>>");
+                boolean singlePlayer = (Boolean) in.readObject();
+                viewProxy = new SocketViewProxy(out);
+                gameManager.addPlayer(name, viewProxy, singlePlayer);
                 viewProxy.mainLoop(in);
                 s.close();
             } catch (IOException e) {
-                System.out.print(name + " disconnected.\n>>>");
+                System.out.print("Connection error.\n>>>");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
                 System.out.print(">>>");

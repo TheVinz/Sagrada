@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class ClientSocketHandler implements RemoteController, Runnable {
+public class ClientSocketHandler implements RemoteController {
 
     private final ObjectInputStream in;
     private final ObjectOutputStream out;
@@ -26,16 +26,11 @@ public class ClientSocketHandler implements RemoteController, Runnable {
     }
 
     @Override
-    public void command(GameCommand gameCommand)  {
-        try {
-            out.writeObject(gameCommand);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void command(GameCommand gameCommand) throws IOException {
+        out.writeObject(gameCommand);
     }
 
-    @Override
-    public void run() {
+    public void mainLoop() throws IOException {
         try{
             do {
                 Object o = in.readObject();
@@ -46,8 +41,6 @@ public class ClientSocketHandler implements RemoteController, Runnable {
                 else if(o instanceof Changement)
                     viewModel.change((Changement) o);
             }while (true);
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

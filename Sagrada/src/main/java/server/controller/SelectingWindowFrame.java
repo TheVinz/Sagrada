@@ -19,20 +19,20 @@ public class SelectingWindowFrame extends PlayerState {
     }
 
     @Override
-    public PlayerState selectObject(ModelObject modelObject) throws InvalidMoveException {
+    public PlayerState selectObject(ModelObject modelObject) {
         if(modelObject.getType()==ModelType.CHOICE) {
-            try {
-                model.windowFrameChoice(player, windowFrameLists[((Choice) modelObject).getChoice()]);
-            } catch (IndexOutOfBoundsException e) {
-                e.printStackTrace();
-                throw new InvalidMoveException("Index out of bound");
-            }
-            if(model.getClass().equals(Model.class))
-                return new WaitingState(player, model);
-            else
+            model.windowFrameChoice(player, windowFrameLists[((Choice) modelObject).getChoice()]);
+            if(model.isSingleplayer())
                 return new SelectingToolCards(player, model);
+            else
+                return new WaitingState(player, model);
         }
         else return this;
+    }
+
+    @Override
+    public void abort(){
+        selectObject(new Choice(0));
     }
 
 }

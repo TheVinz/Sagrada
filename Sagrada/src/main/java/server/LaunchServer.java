@@ -49,7 +49,6 @@ public class LaunchServer {
             System.out.print("Listening on " + port + "\n>>>");
             while (!stopSignal) {
                 Socket clientSocket = serverSocket.accept();
-                System.out.print("New connection " + clientSocket.getRemoteSocketAddress() + "\n>>>");
                 pool.submit(() -> new SocketLoginManager().handleConnection(clientSocket, gameManager));
             }
         } catch (IOException e) {

@@ -6,6 +6,7 @@ import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class MovingDraftPoolPhase extends GamePhase{
@@ -25,7 +26,7 @@ public class MovingDraftPoolPhase extends GamePhase{
         return this;
     }
     @Override
-    public GamePhase handleWindowFrame(int row, int col) throws RemoteException {
+    public GamePhase handleWindowFrame(int row, int col) throws IOException{
         destRow=row;
         destCol=col;
         controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));

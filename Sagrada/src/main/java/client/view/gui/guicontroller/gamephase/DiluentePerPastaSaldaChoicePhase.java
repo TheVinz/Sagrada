@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
@@ -63,7 +64,7 @@ public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
                 try {
                     controller.command(new GameCommand(Response.CHOICE, index));
                     stage.close();
-                } catch (RemoteException e) {
+                } catch (IOException e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setHeaderText("Connection error.");

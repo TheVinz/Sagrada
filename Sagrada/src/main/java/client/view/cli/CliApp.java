@@ -1,5 +1,6 @@
 package client.view.cli;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class CliApp {
         }}
         try {
             remoteController.command(commandBuffer.poll());
-        }catch (RemoteException e){
+        }catch (IOException e){
             CliDisplayer.getDisplayer().displayText(e.getMessage());
             currentState = new MenuPhase();
         }
