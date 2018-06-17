@@ -23,7 +23,7 @@ public class MovingWindowFramePhase extends GamePhase {
     }
 
     @Override
-    public GamePhase handleWindowFrame(int row, int col) throws IOException {
+    public GamePhase handleWindowFrame(int row, int col) {
         if(first){
             sourceRow=row;
             sourceCol=col;
@@ -36,8 +36,14 @@ public class MovingWindowFramePhase extends GamePhase {
             if (sourceRow == targetRow && sourceCol == targetCol)
                 return new MovingWindowFramePhase(controller, gameController);
             else {
-                controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, sourceRow, sourceCol));
-                controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, targetRow, targetCol));
+                new Thread(() -> {
+                    try {
+                        controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, sourceRow, sourceCol));
+                        controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, targetRow, targetCol));
+                    } catch (IOException e) {
+                        gameController.suspend();
+                    }
+                }).start();
                 return new GamePhase(controller, gameController);
             }
         }

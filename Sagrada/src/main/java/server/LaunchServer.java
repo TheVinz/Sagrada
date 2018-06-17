@@ -27,7 +27,7 @@ public class LaunchServer {
     }
 
     private static void startRMIServer(GameManager gameManager) {
-        String ip = "192.168.1.65";
+        String ip = "localhost";
         int port = 1099;
         try {
             System.out.print(">>>");

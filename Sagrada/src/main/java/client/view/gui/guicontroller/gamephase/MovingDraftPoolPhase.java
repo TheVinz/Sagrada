@@ -29,8 +29,14 @@ public class MovingDraftPoolPhase extends GamePhase{
     public GamePhase handleWindowFrame(int row, int col) throws IOException{
         destRow=row;
         destCol=col;
-        controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
-        controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
+        new Thread(() -> {
+            try {
+                controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
+                controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
+            } catch (IOException e) {
+                gameController.suspend();
+            }
+        }).start();
         gameController.unableAll();
         return new GamePhase(controller, gameController);
     }

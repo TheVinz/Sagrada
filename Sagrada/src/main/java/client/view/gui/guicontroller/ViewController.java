@@ -13,6 +13,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -139,6 +140,10 @@ public class ViewController {
         setGameBackground();
         rootLayout.setCenter(windowFrameChoicesPane);
         windowFrameChoiceController.setChoice(reps, tokens);
+    }
+
+    public void show(Node node){
+        rootLayout.setCenter(node);
     }
 
     public void clear(){

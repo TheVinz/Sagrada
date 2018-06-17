@@ -52,6 +52,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         this.controller = new Controller(model, player, this);
         change(new LoadId(player.getId()));
         new Thread(this::ping).start();
+        //change(new LoadId(player.getId()));
     }
     public void setModel(Model model){
         this.model = model;

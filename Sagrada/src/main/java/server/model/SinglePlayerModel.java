@@ -47,6 +47,7 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
 
     @Override
     public void init() {
+        started = true;
         player.setActive();
         notifyToolCardsChoice();
     }

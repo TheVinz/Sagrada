@@ -30,7 +30,7 @@ public class Model implements Observable {
     private RoundManager roundManager;
     private GameManager gameManager;
     private boolean acceptPlayers = true;
-    private boolean started = false;
+    protected boolean started = false;
 
     public Model(GameManager gameManager){
         this.gameManager = gameManager;

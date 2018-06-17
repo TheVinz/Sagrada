@@ -21,7 +21,6 @@ public class RMIViewProxy extends ViewProxy {
 
     public synchronized void bindRemoteView(RemoteView remoteView) {
         this.remoteView = remoteView;
-        change(new LoadId(player.getId()));
     }
 
     @Override
@@ -55,7 +54,7 @@ public class RMIViewProxy extends ViewProxy {
     }
 
     @Override
-    public synchronized void closeConnection(){
+    public void closeConnection(){
         remoteView=null;
     }
 

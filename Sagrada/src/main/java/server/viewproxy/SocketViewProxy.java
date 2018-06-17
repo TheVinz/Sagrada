@@ -74,7 +74,8 @@ public class SocketViewProxy extends ViewProxy {
         this.in = in;
         do {
             try {
-                command((GameCommand) in.readObject());
+                GameCommand command = (GameCommand) in.readObject();
+                command(command);
             } catch (IOException e) {
                 synchronized (this) {
                     if(player.isSuspended())

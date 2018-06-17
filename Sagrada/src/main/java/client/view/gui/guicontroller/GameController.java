@@ -198,7 +198,7 @@ public class GameController {
     public void windowFramePhase(){
         unableAll();
         activeFrame.getStyleClass().add(clickable);
-        log("Select a dice from your window frame\n");
+        log("Select a cell from your window frame\n");
     }
     public void draftPoolPhase(){
         unableAll();

@@ -39,7 +39,14 @@ public class WindowFrameChoiceController {
                 tokensBox.getChildren().add(token);
             }
             Button button = new Button("pick");
-            button.setOnAction((event) -> viewController.notifyChoice(x));
+            button.setOnAction((event) -> {
+                viewController.notifyChoice(x);
+                Label label = new Label("Waiting for other players");
+                label.setStyle("-fx-background-color: rgba(0,0,0,0.4); -fx-text-fill: white; -fx-font-size: 32");
+                label.setAlignment(Pos.CENTER);
+                viewController.show(label);
+
+            });
             button.setStyle("-fx-background-color: black; -fx-text-fill: white");
             boxes[i]=new VBox();
             boxes[i].setSpacing(10);

@@ -27,12 +27,18 @@ public class MainPhase extends GamePhase {
     }
 
     @Override
-    public GamePhase handleWindowFrame(int row, int col) throws IOException {
+    public GamePhase handleWindowFrame(int row, int col) {
         destRow=row;
         destCol=col;
         if(sourceIndex!=-1){
-            controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
-            controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
+            new Thread(() -> {
+                try {
+                    controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
+                    controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
+                }catch(IOException e){
+                    gameController.suspend();
+                }
+            }).start();
         }
         return new GamePhase(controller, gameController);
     }
