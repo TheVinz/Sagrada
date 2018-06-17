@@ -1,4 +1,4 @@
-package client.view.cli;
+/*package client.view.cli;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -158,3 +158,4 @@ public class CliDisplayerTest {
         cliDisplayer.printResults(c,s,m);
     }
 }
+*/

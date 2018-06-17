@@ -9,6 +9,7 @@ import common.exceptions.WrongParameter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
+import server.GameManager;
 import server.model.Model;
 import server.model.state.ModelObject.ModelType;
 import server.model.state.boards.draftpool.DraftPool;
@@ -24,9 +25,11 @@ public class TamponeDiamantatoTest {
         private ToolCard toolCard;
         private Player player;
         private DraftPool draftPool = new DraftPool();
+        private GameManager gameManager;
         @Before
         public void setUp() throws Exception {
-            model = Mockito.spy(new Model());
+            gameManager=new GameManager();
+            model = Mockito.spy(new Model(gameManager));
             player = Mockito.mock(Player.class);
             toolCard = new TamponeDiamantato(model);
             draftPool = model.getState().getDraftPool();

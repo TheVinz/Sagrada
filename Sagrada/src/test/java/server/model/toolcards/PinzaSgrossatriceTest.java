@@ -6,6 +6,7 @@ import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import server.GameManager;
 import server.model.Model;
 import server.model.state.ModelObject.ModelType;
 import server.model.state.boards.draftpool.DraftPool;
@@ -23,12 +24,13 @@ public class PinzaSgrossatriceTest {
     private ToolCard toolCard;
     private Player player;
     private DraftPool draftPool = new DraftPool();
-    private int choice;
     private Model model;
+    private GameManager gameManager;
 
     @Before
     public void setUp() throws Exception {
-        model = Mockito.spy(new Model());
+        gameManager=new GameManager();
+        model = Mockito.spy(new Model(gameManager));
         toolCard = new PinzaSgrossatrice(model);
         draftPool = model.getState().getDraftPool();
         player = mock(Player.class);

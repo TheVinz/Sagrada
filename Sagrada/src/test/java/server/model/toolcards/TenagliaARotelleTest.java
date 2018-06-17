@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import server.GameManager;
 import server.model.Model;
 import server.model.state.boards.draftpool.DraftPool;
 import server.model.state.boards.windowframe.WindowFrame;
@@ -28,11 +29,13 @@ public class TenagliaARotelleTest {
     private Player player;
     private DraftPool draftPool;
     private WindowFrame windowFrame;
+    private GameManager gameManager;
 
 
     @Before
     public void setUp() throws Exception {
-        model = Mockito.spy(new Model());
+        gameManager= new GameManager();
+        model = Mockito.spy(new Model(gameManager));
         player = Mockito.mock(Player.class);
         toolCard = new TenagliaARotelle(model);
         draftPool = model.getState().getDraftPool();

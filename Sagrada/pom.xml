@@ -12,13 +12,24 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <sonar.junit.reportPaths>target/surefire-reports</sonar.junit.reportPaths>
+
+        <!-- Sonar -->
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.language>java</sonar.language>
     </properties>
+
+
+
+
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+            <scope>test</scope>
         </dependency>
 
 
@@ -27,6 +38,12 @@
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.7.5.201505241946</version>
         </dependency>
 
     </dependencies>
@@ -55,7 +72,8 @@
                 <version>3.4.0.905</version>
             </plugin>
 
-            <!--Copy esources-->
+            <!--Copy resources-->
+
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
@@ -79,6 +97,45 @@
                     </execution>
                 </executions>
             </plugin>
+
+
+            <!--Jacoco-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+               <!-- <version>0.6.0.201210061924</version>-->
+                <version>0.7.5.201505241946</version>
+                <configuration>
+                    <destFile>target/jacoco.exec</destFile>
+                    <dataFile>target/jacoco.exec</dataFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-site</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
 
         </plugins>
     </build>

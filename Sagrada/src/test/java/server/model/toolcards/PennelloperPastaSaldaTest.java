@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import server.GameManager;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.dice.Dice;
@@ -23,10 +24,12 @@ public class PennelloperPastaSaldaTest {
     private Player player;
     private ToolCard toolCard;
     private Model model;
+    private GameManager gameManager;
 
     @Before
     public void setUp() throws Exception {
-        model=Mockito.spy(new Model());
+        gameManager=new GameManager();
+        model=Mockito.spy(new Model(gameManager));
         toolCard =new PennelloperPastaSalda(model);
         player=Mockito.mock(Player.class);
         WindowFrame frame=new WindowFrame(WindowFrameList.GRAVITAS);

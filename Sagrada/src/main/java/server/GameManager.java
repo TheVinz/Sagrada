@@ -29,12 +29,17 @@ public class GameManager implements TimerObserver {
         Player player;
         if(gamesMap.containsKey(name)){
             model = gamesMap.get(name);
-            System.out.print(name + " -- reconnecting --> " + gamesMap.get(name) + "\n>>>");
             player = model.getState().getPlayers()
-                                                .stream()
-                                                .filter( p -> p.getName().equals(name))
-                                                .findFirst()
-                                                .orElse(null);
+                                        .stream()
+                                        .filter( p -> p.getName().equals(name))
+                                        .findFirst()
+                                        .orElse(null);
+            if(player.isSuspended())
+                System.out.print(name + " -- reconnecting --> " + gamesMap.get(name) + "\n>>>");
+            else{
+                //TODO caso in cui voglio connettermi con lo stesso nome di un giocatore che sta già giocando
+                return;
+            }
 
         }
         else if(singlePlayer)

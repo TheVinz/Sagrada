@@ -73,4 +73,5 @@ public class ControllerTest {
         assertTrue(player.getWindowFrame().getCell(1,1).isEmpty());
 
     }
+<<<<<<< HEAD
 }*/

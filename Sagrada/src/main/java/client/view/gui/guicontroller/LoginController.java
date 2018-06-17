@@ -26,6 +26,7 @@ public class LoginController {
     private boolean singleplayer=false;
 
     private String ip = "localhost" ;
+
     private int port = 1099;
     private int socketPort = 8010;
 

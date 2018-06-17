@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
 import org.omg.CORBA.CODESET_INCOMPATIBLE;
+import server.GameManager;
 import server.model.Model;
 import server.model.state.ModelObject.ModelType;
 import server.model.state.boards.draftpool.DraftPool;
@@ -31,10 +32,12 @@ public class TaglierinaManualeTest {
     private RoundTrack roundTrack;
     private WindowFrame windowFrame;
     private WindowFrame secondFrame;
+    private GameManager gameManager;
 
     @Before
     public void setUp() throws Exception {
-        model = Mockito.spy(new Model());
+        gameManager=new GameManager();
+        model = Mockito.spy(new Model(gameManager));
         player = Mockito.mock(Player.class);
         toolCard = new TaglierinaManuale(model);
         when(player.getWindowFrame()).thenReturn(new WindowFrame(WindowFrameList.AURORA_SAGRADIS));

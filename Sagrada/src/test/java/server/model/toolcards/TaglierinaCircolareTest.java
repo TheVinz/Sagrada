@@ -5,6 +5,7 @@ import common.exceptions.WrongParameter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
+import server.GameManager;
 import server.model.Model;
 import server.model.state.boards.draftpool.DraftPool;
 import server.model.state.boards.roundtrack.RoundTrack;
@@ -24,10 +25,12 @@ public class TaglierinaCircolareTest {
     private Player player;
     private DraftPool draftPool = new DraftPool();
     private RoundTrack roundTrack = new RoundTrack();
+    private GameManager gameManager;
 
     @Before
     public void setUp() throws Exception {
-        model = Mockito.spy(new Model());
+        gameManager = new GameManager();
+        model = Mockito.spy(new Model(gameManager));
         player = Mockito.mock(Player.class);
         toolCard = new TaglierinaCircolare(model);
         draftPool = model.getState().getDraftPool();

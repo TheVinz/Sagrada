@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import server.GameManager;
 import server.model.state.boards.draftpool.DraftPool;
 import server.model.state.boards.draftpool.DraftPoolCell;
 import server.model.state.dice.Dice;
@@ -27,9 +28,11 @@ public class MartellettoTest {
     private Player player;
     private DraftPool draftPool;
     private Model model;
+    private GameManager gameManager;
     @Before
     public void setUp() throws Exception {
-        model=new Model();
+        gameManager=new GameManager();
+        model=new Model(gameManager);
         player=mock(Player.class);
         draftPool = model.getState().getDraftPool();
         draftPool.increaseSize();
