@@ -4,10 +4,10 @@ import common.Notification;
 import common.RemoteMVC.RemoteView;
 import common.response.Response;
 import common.viewchangement.Changement;
-import common.viewchangement.LoadId;
-import server.model.Model;
-import server.model.state.player.Player;
+
+import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 
 public class RMIViewProxy extends ViewProxy {
@@ -28,7 +28,7 @@ public class RMIViewProxy extends ViewProxy {
         try {
             if(!player.isSuspended()) remoteView.change(changement);
         } catch (RemoteException e) {
-            System.out.println(player.getName() + " disconnected.\n>>>");
+            System.out.print(player.getName() + " disconnected.\n>>>");
             super.suspendPlayer();
         }
     }
@@ -55,7 +55,12 @@ public class RMIViewProxy extends ViewProxy {
 
     @Override
     public void closeConnection(){
-        remoteView=null;
+        try {
+            System.out.println("Closed");
+            UnicastRemoteObject.unexportObject(this, true);
+        } catch (NoSuchObjectException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

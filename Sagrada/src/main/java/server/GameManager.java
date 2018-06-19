@@ -90,6 +90,14 @@ public class GameManager implements TimerObserver {
         gamesMap.remove(name);
     }
 
+    public Model getCurrentModel() {
+        return this.currentModel;
+    }
+
+    public Map<String, Model> getGamesMap(){
+        return new HashMap<>(gamesMap);
+    }
+
     @Override
     public void notifyTimeout() {
         if(currentModel.getState().getPlayers().size()>1)

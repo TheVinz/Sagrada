@@ -89,7 +89,9 @@ public class Model implements Observable {
     * =================================================================================================================
     * Game routine
     */
-    public void init(){
+    public synchronized void init(){
+        if(started)
+            return;
         for(ToolCard t : util.getToolCards(this, 3))
             state.getToolCards().add(t);
         for(PublicObjectiveCard p : util.getPublicObjectiveCards(false))
@@ -115,6 +117,7 @@ public class Model implements Observable {
         }
         catch(InvalidMoveException e){
             System.err.println("Error on Model.startRound()");
+            e.printStackTrace();
             System.exit(1);
         }
         notifyRefillDraftPool(state.getDraftPool().getDraftPool().toArray(new Cell[0]));

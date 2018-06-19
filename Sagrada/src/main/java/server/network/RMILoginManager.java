@@ -5,8 +5,6 @@ import common.RemoteMVC.RemoteView;
 import common.login.RemoteLoginManager;
 import server.GameManager;
 import server.LaunchServer;
-import server.model.Model;
-import server.model.state.player.Player;
 import server.viewproxy.RMIViewProxy;
 import server.viewproxy.ViewProxy;
 
@@ -23,13 +21,19 @@ public class RMILoginManager extends UnicastRemoteObject implements RemoteLoginM
     }
 
     @Override
-    public RemoteController connect(String name, RemoteView remoteView, boolean singlePlayer) throws Exception {
+    public RemoteController connect(String name, RemoteView remoteView, boolean singlePlayer) {
         synchronized (LaunchServer.lock) {
-            System.out.print(name + " connected\n>>>");
-            ViewProxy viewProxy = new RMIViewProxy();
-            ((RMIViewProxy) viewProxy).bindRemoteView(remoteView);
-            gameManager.addPlayer(name, viewProxy, singlePlayer);
-            return viewProxy;
+            try {
+                System.out.print(name + " connected\n>>>");
+                ViewProxy viewProxy = null;
+                viewProxy = new RMIViewProxy();
+                ((RMIViewProxy) viewProxy).bindRemoteView(remoteView);
+                gameManager.addPlayer(name, viewProxy, singlePlayer);
+                return viewProxy;
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 

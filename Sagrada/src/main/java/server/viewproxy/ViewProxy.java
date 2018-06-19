@@ -344,6 +344,8 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
 
     @Override
     public void command(GameCommand gameCommand) {
+        if(gameCommand == null)
+            return;
         switch (gameCommand.getType()) {
             case DRAFT_POOL_CELL:
                 controller.selectObject(state.getDraftPool().getCell(gameCommand.getX()));

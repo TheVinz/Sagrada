@@ -21,14 +21,12 @@ public class Controller implements TimerObserver {
 
 	private PlayerState currentState;
 
-	private Lock lock;
 
 	public Controller(Model model, Player player, ViewProxy view){
 		this.player=player;
 		this.model=model;
 		this.view=view;
 		currentState=new WaitingState(player, model);
-		lock = new ReentrantLock();
 		player.setTimer(new Timer(this, 10));
 	}
 
@@ -96,6 +94,7 @@ public class Controller implements TimerObserver {
 		model.suspendPlayer(player);
 	}
 
+	@Deprecated
 	public void reinsertPlayer() {
 		model.reinsertPlayer(player);
 		new Thread(() -> view.ping()).start();

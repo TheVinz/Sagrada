@@ -3,17 +3,14 @@ package client.view.gui.guicontroller.gamephase;
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
 import common.command.GameCommand;
-import common.exceptions.InvalidMoveException;
 import common.response.Response;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 public class MovingDraftPoolPhase extends GamePhase{
 
-    private int sourceIndex=-1;
-    private int destRow;
-    private int destCol;
+    private boolean send = false;
+    private int sourceIndex;
 
     public MovingDraftPoolPhase(RemoteController controller, GameController gameController) {
         super(controller, gameController);
@@ -23,21 +20,23 @@ public class MovingDraftPoolPhase extends GamePhase{
     @Override
     public GamePhase handleDraftPool(int index){
         sourceIndex=index;
+        send = true;
         return this;
     }
     @Override
     public GamePhase handleWindowFrame(int row, int col) throws IOException{
-        destRow=row;
-        destCol=col;
-        new Thread(() -> {
-            try {
-                controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
-                controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
-            } catch (IOException e) {
-                gameController.suspend();
-            }
-        }).start();
-        gameController.unableAll();
-        return new GamePhase(controller, gameController);
+        if(send) {
+            new Thread(() -> {
+                try {
+                    controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
+                    controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, row, col));
+                } catch (IOException e) {
+                    gameController.suspend();
+                }
+            }).start();
+            gameController.unableAll();
+            return new GamePhase(controller, gameController);
+        }
+        else return this;
     }
 }

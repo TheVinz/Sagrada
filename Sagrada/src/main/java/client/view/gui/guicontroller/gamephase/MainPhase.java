@@ -5,15 +5,15 @@ import common.RemoteMVC.RemoteController;
 import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;
 import common.response.Response;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class MainPhase extends GamePhase {
 
-    private int sourceIndex=-1;
-    private int destRow;
-    private int destCol;
+    private boolean send = false;
+    private int sourceIndex;
 
     public MainPhase(RemoteController controller, GameController gameController) {
         super(controller, gameController);
@@ -23,24 +23,27 @@ public class MainPhase extends GamePhase {
     @Override
     public GamePhase handleDraftPool(int index){
         sourceIndex=index;
+        send = true;
         return this;
     }
 
     @Override
     public GamePhase handleWindowFrame(int row, int col) {
-        destRow=row;
-        destCol=col;
-        if(sourceIndex!=-1){
+        if(send){
             new Thread(() -> {
                 try {
-                    controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
-                    controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
+                    send(sourceIndex, row, col);
                 }catch(IOException e){
-                    gameController.suspend();
+                    Platform.runLater(() -> gameController.suspend());
                 }
             }).start();
         }
         return new GamePhase(controller, gameController);
+    }
+
+    private void send(int sourceIndex, int destRow, int destCol) throws IOException {
+        controller.command(new GameCommand(Response.DRAFT_POOL_CELL, sourceIndex));
+        controller.command(new GameCommand(Response.WINDOW_FRAME_CELL, destRow, destCol));
     }
 
     @Override

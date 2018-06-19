@@ -393,7 +393,7 @@ public class ViewController {
         }
     }
 
-    public void handleIOException() {
+    public synchronized void handleIOException() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("You have been disconnected");

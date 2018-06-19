@@ -35,7 +35,7 @@ public abstract class ToolCard implements ModelObject {
 
 	public abstract void start(Player player) throws InvalidMoveException;
 	public void setParameter(ModelObject o) throws InvalidMoveException, WrongParameter {
-		if(o.getType()!=expectedParameters.poll()) throw new WrongParameter("Wrong parameter");
+		if(o.getType()!=expectedParameters.poll()) throw new WrongParameter("This exception should never be thrown in GUI (Error in ToolCard.java)");
 		else {
 			parameters.add(o);
 			if(!hasNext()) doAbility();
