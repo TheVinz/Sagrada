@@ -5,7 +5,7 @@ import server.controller.Controller;
 import static java.lang.Thread.sleep;
 
 public class Timer implements Runnable {
-    private int cont = 0;
+    private int cont = 60;
     private final int MAX_CONT;
     private volatile Thread blinker;
     private TimerObserver timerObserver;

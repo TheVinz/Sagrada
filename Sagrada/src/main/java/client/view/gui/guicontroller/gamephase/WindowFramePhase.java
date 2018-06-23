@@ -1,7 +1,7 @@
 package client.view.gui.guicontroller.gamephase;
 
 import client.view.gui.guicontroller.GameController;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import common.RemoteMVC.RemoteController;
 import common.command.GameCommand;
 import common.exceptions.InvalidMoveException;

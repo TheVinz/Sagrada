@@ -345,38 +345,19 @@ public class CliDisplayer {
     }
 
     public void printResults(char[] cards, int[] scoreboardIds, int[][] points) {
-        displayText("\t\t\tSCOREBOARD:\n");
+        displayText("\t\t\t\t\t\tSCOREBOARD:\n\n");
         int max=0;
         for(int i=0;i<scoreboardIds.length;i++)
             if(max<cliState.getCliPlayerState(scoreboardIds[i]).getName().length())
                 max=cliState.getCliPlayerState(scoreboardIds[i]).getName().length();
-        int space=0;
         if(max+2<18){
-            max=18;
-            displayText("    \tNAME\t  "); }  //da implementare
-        else {
-            space = max - 18;
-            if (space % 2 == 0) {
-                for (int i = 0; i < space; i++)
-                    displayText("  ");
-                displayText("    \tNAME\t  ");
-                for (int i = 0; i < space; i++)
-                    displayText("  ");
-            }
-            else {
-                for (int i = 0; i < space; i++)
-                displayText(" ");
-                displayText("    \tNAME\t  ");
-                for (int i = 0; i < space; i++)
-                    displayText(" ");
-            }
+            max=18;}
+        displayText("    \tNAME\t    ");
+        for(int i=0;i<max+2-20;i++){
+            displayText(" ");
         }
-
-        displayText("  |     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
-        if(max<14)
-        displayText("\t\t\t");
-        else
-            for(int s=0;s<max+2;s++)
+        displayText("|     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
+        for(int s=0;s<max+2;s++)
                 displayText(" ");
         displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |        |\n");
 
@@ -384,16 +365,20 @@ public class CliDisplayer {
             switch (cards[i]){
                 case 'r':
                     displayText("" + (i + 1) + ")" +(char)27+"[1;31m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    break;
                 case 'b':
                     displayText("" + (i + 1) + ")" +(char)27+"[1;36m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    break;
                 case 'g':
                     displayText("" + (i + 1) + ")" +(char)27+"[1;32m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    break;
                 case 'y':
                     displayText("" + (i + 1) + ")" +(char)27+"[1;33m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    break;
                 case 'p':
                     displayText("" + (i + 1) + ")" +(char)27+"[1;35m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    break;
             }
-
                 for(int s=0;s<max-cliState.getCliPlayerState(scoreboardIds[i]).getName().length();s++){
                 displayText(" ");
                 }
@@ -414,23 +399,13 @@ public class CliDisplayer {
                 displayText("   " + points[scoreboardIds[i]][3] + "   |");
             else
                 displayText("    " + points[scoreboardIds[i]][3] + "   |");
-            if (points[scoreboardIds[i]][4] > 9)    //favor
-                displayText("   " + points[scoreboardIds[i]][4] + "   |");
-            else
-                displayText("   " + points[scoreboardIds[i]][4] + "  |");
-            if(points[scoreboardIds[i]][5]>0){     //empty
-                if (points[scoreboardIds[i]][5] > 9)
-                    displayText("  " + points[scoreboardIds[i]][5] + "   |");
-                else
-                    displayText("    " + points[scoreboardIds[i]][5] + "    |");
+            displayText("   " + points[scoreboardIds[i]][4] + "  |");  //favor
+            if(points[scoreboardIds[i]][5]<-9){   //empty
+                displayText("   "+points[scoreboardIds[i]][5]+"   |");
             }
-            else{
-                if(points[scoreboardIds[i]][5]<-9){
-                    displayText("   "+points[scoreboardIds[i]][5]+"   |");
-                }
-                else
-                    displayText("   "+points[scoreboardIds[i]][5]+"    |");
-            }                             //total points
+            else
+                displayText("   "+points[scoreboardIds[i]][5]+"    |");
+                                        //total points
             if(points[scoreboardIds[i]][6]>0){
                 if (points[scoreboardIds[i]][6] > 9)
                     displayText("   " + points[scoreboardIds[i]][6] + "   |\n");
