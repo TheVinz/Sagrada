@@ -6,6 +6,9 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class CliLaunchClient {
+
+    private static CliConnectionFactory cliConnectionFactory;
+
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         System.out.print("\t\t\t\tWelcome to:\t");
@@ -30,8 +33,19 @@ public class CliLaunchClient {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-
-        new CliConnectionFactory(choice, sc, name, viewModel, singlePlayer);
+        cliConnectionFactory = new CliConnectionFactory(sc, name, viewModel, singlePlayer);
         CliApp.getCliApp().mainLoop();
+        sc.close();
+        cliConnectionFactory.close();
+        System.exit(1);
+    }
+
+    public static void reconnect(Scanner sc, String name){
+        try {
+            cliConnectionFactory.close();
+            cliConnectionFactory = new CliConnectionFactory(sc, name, new CliModel(false), false);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }

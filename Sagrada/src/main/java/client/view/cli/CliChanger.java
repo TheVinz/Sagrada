@@ -141,6 +141,7 @@ public class CliChanger implements Changer {
         CliDisplayer.getDisplayer().printSinglePlayerPoints(singlePlayerEndGame);
       //  CliDisplayer.getDisplayer().displayText(singlePlayerEndGame.getFinalScore()+" - "+singlePlayerEndGame.getVectorPoints()[4]);
         CliState.getCliState().setGameFinished(true);
+        CliApp.getCliApp().setWaitingPhase(false);
     }
 
     public void change(LoadPlayers loadPlayers) {
@@ -240,6 +241,8 @@ public class CliChanger implements Changer {
     }
 
     public void change(MutableData mutableData){
+
+        CliApp.getCliApp().setId(mutableData.getId());
         CliState cliState = CliState.getCliState();
         cliState.resetPrivate();
 
@@ -278,6 +281,7 @@ public class CliChanger implements Changer {
 
                 }
         }
+
     }
 
     public void change(ReinsertedPlayer reinsertedPlayer)  {
@@ -300,5 +304,6 @@ public class CliChanger implements Changer {
     public void change(EndGame endGame){
         CliDisplayer.getDisplayer().printResults(endGame.getCharCards(),endGame.getScoreboardIds(),endGame.getMatrixPoins());
         CliState.getCliState().setGameFinished(true);
+        CliApp.getCliApp().setWaitingPhase(false);
     }
 }

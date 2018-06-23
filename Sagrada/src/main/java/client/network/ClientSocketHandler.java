@@ -7,6 +7,9 @@ import common.RemoteMVC.RemoteView;
 import common.command.GameCommand;
 import common.response.Response;
 import common.viewchangement.Changement;
+import common.viewchangement.EndGame;
+import common.viewchangement.SinglePlayerEndGame;
+import server.model.state.player.SinglePlayer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -38,8 +41,11 @@ public class ClientSocketHandler implements RemoteController {
                     viewModel.notify((Notification) o);
                 else if(o instanceof Response)
                     viewModel.send((Response) o);
-                else if(o instanceof Changement)
+                else if(o instanceof Changement) {
                     viewModel.change((Changement) o);
+                    if(o instanceof EndGame || o instanceof SinglePlayerEndGame)
+                        return;
+                }
             }while (true);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

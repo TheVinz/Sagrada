@@ -106,6 +106,7 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
     public synchronized void suspendPlayer(Player player){
         if(player == this.player && !player.isSuspended()) {
             player.setSuspended(true);
+            observer.updateSuspendPlayer(player);
             getState().setGameFinished(true);
             super.notifyGameManager(player.getName() + " disconnected.");
         }

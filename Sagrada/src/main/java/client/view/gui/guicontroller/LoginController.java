@@ -7,14 +7,16 @@ import common.RemoteMVC.RemoteView;
 import common.login.RemoteLoginManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.MalformedURLException;
 import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
-
+import java.rmi.RemoteException;
 
 
 public class LoginController {
@@ -41,14 +43,35 @@ public class LoginController {
             RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+port+"/RMILoginManager");
             remoteController=login.connect(name, model, singleplayer);
             listener.notifyLogin(remoteController, singleplayer);
+            new Thread(() -> {
+                while(true) {
+                    try {
+                        remoteController.command(null);
+                        Thread.sleep(1000);
+                    } catch (IOException e) {
+                        Platform.runLater(() -> listener.handleIOException());
+                        return;
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+            }).start();
         }
         catch (NotBoundException e) {
-            e.printStackTrace();
-        }
-        catch (Exception e) {
+            rmiError();
+        } catch (RemoteException e) {
+            rmiError();
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void rmiError(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("RMI server is not working, start rmiregistry and try again.");
+        alert.showAndWait();
     }
 
     @FXML

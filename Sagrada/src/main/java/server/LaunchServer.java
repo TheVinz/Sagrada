@@ -20,7 +20,7 @@ public class LaunchServer {
     public static final Object lock = new Object();
     private static boolean stopSignal=false;
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
         GameManager gameManager = new GameManager();
         startRMIServer(gameManager);
         new Thread(() -> startSocketServer(gameManager)).start();
@@ -36,7 +36,7 @@ public class LaunchServer {
             Naming.rebind("rmi://" + ip + ":" + port + "/RMILoginManager", loginManager);
             System.out.print("RMI Server on\n>>>");
         } catch (RemoteException e) {
-            System.out.println("Working just on Sockets, retry!");
+            System.out.println("Working just on Sockets, retry!\n" + e.getCause());
         } catch (MalformedURLException e) {
             System.err.println("Malformed url.");
         }

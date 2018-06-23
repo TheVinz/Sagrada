@@ -21,15 +21,13 @@ public class Controller implements TimerObserver {
 
 	private PlayerState currentState;
 
-	private Lock lock;
 
 	public Controller(Model model, Player player, ViewProxy view){
 		this.player=player;
 		this.model=model;
 		this.view=view;
 		currentState=new WaitingState(player, model);
-		lock = new ReentrantLock();
-		player.setTimer(new Timer(this, 10));
+		player.setTimer(new Timer(this, 60));
 	}
 
 	public synchronized void selectObject(ModelObject o) { //synchronized? e si eh
@@ -86,6 +84,7 @@ public class Controller implements TimerObserver {
 
 	public synchronized void notifyTimeout() {
 		if(player.getTimer().getBlinker().equals(Thread.currentThread())) {
+			view.setPing(false);
 			timeFinished();
 			endTurn();
 		}
@@ -96,6 +95,7 @@ public class Controller implements TimerObserver {
 		model.suspendPlayer(player);
 	}
 
+	@Deprecated
 	public void reinsertPlayer() {
 		model.reinsertPlayer(player);
 		new Thread(() -> view.ping()).start();

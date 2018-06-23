@@ -383,9 +383,7 @@ public class ViewController {
                 GamePhase.diceMoved = true;
                 currentPhase = new MainPhase(remoteController, gameController);
                 break;
-            case SUSPENDED:
-                handleIOException();
-                break;
+
 
             default:
                 currentPhase=new MainPhase(remoteController, gameController);
@@ -393,7 +391,7 @@ public class ViewController {
         }
     }
 
-    public void handleIOException() {
+    public synchronized void handleIOException() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("You have been disconnected");

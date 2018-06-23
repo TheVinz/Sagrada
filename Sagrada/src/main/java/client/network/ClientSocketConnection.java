@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientSocketConnection {
+public class ClientSocketConnection implements ClientConnection{
 
     private final int port=8010;
     private Socket connection;
@@ -33,9 +33,8 @@ public class ClientSocketConnection {
             new Thread(() -> {
                 try {
                     clientSocketHandler.mainLoop();
-                    connection.close();
                 } catch (IOException e) {
-                    //TODO implementare disconnessione
+                    CliApp.getCliApp().suspend();
                 }
             }).start();
         } catch (IOException e) {
@@ -47,4 +46,14 @@ public class ClientSocketConnection {
     }
 
 
+    @Override
+    public void close() {
+        try {
+            in.close();
+            out.close();
+            connection.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

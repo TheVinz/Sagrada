@@ -69,7 +69,6 @@ public class GuiChanger implements Changer {
 
     @Override
     public void change(WindowFrameChoices windowFrameChoices) {
-        //Multi-threading e javafx danno problemi, risolti con Platform.runLater()
         Platform.runLater(() -> view.loadWindowFrameChoice(windowFrameChoices.getReps(), windowFrameChoices.getFavorTokens()));
     }
 
