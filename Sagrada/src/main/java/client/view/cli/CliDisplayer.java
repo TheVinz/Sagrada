@@ -345,31 +345,16 @@ public class CliDisplayer {
     }
 
     public void printResults(char[] cards, int[] scoreboardIds, int[][] points) {
-        displayText("\t\t\tSCOREBOARD:\n");
+        displayText("\t\t\t\t\t\tSCOREBOARD:\n\n");
         int max=0;
         for(int i=0;i<scoreboardIds.length;i++)
             if(max<cliState.getCliPlayerState(scoreboardIds[i]).getName().length())
                 max=cliState.getCliPlayerState(scoreboardIds[i]).getName().length();
-        int space=0;
         if(max+2<18){
-            max=18;
-            displayText("    \tNAME\t    "); }
-        else {
-            space = max - 18;
-            if (space % 2 == 0) {
-                for (int i = 0; i < space; i++)
-                    displayText("  ");
-                displayText("    \tNAME\t  ");
-                for (int i = 0; i < space; i++)
-                    displayText("  ");
-            }
-            else {
-                for (int i = 0; i < space; i++)
-                displayText(" ");
-                displayText("    \tNAME\t  ");
-                for (int i = 0; i < space; i++)
-                    displayText(" ");
-            }
+            max=18;}
+        displayText("    \tNAME\t    ");
+        for(int i=0;i<max+2-20;i++){
+            displayText(" ");
         }
         displayText("|     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
         for(int s=0;s<max+2;s++)
