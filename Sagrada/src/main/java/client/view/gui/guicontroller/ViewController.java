@@ -383,9 +383,7 @@ public class ViewController {
                 GamePhase.diceMoved = true;
                 currentPhase = new MainPhase(remoteController, gameController);
                 break;
-            case SUSPENDED:
-                handleIOException();
-                break;
+
 
             default:
                 currentPhase=new MainPhase(remoteController, gameController);

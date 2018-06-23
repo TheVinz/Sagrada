@@ -28,10 +28,9 @@ public class SocketLoginManager{
                 name = (String) in.readObject();
                 System.out.print(name + " connected\n>>>");
                 boolean singlePlayer = (Boolean) in.readObject();
-                viewProxy = new SocketViewProxy(out);
+                viewProxy = new SocketViewProxy(out, s);
                 gameManager.addPlayer(name, viewProxy, singlePlayer);
                 viewProxy.mainLoop(in);
-                s.close();
             } catch (IOException e) {
                 System.out.print("Connection error.\n>>>");
             } catch (ClassNotFoundException e) {
@@ -40,6 +39,12 @@ public class SocketLoginManager{
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.print(">>>");
+            } finally {
+                try {
+                    s.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
     }
 

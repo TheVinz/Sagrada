@@ -26,11 +26,10 @@ public class CliApp {
 
     private RemoteController remoteController;
     private CliPhaseState currentState;
-    private CliState cliState;
     private int id;
     private boolean waitingPhase=true;
     private ArrayDeque<GameCommand> commandBuffer = new ArrayDeque<GameCommand>();
-    Scanner scanner = new Scanner(System.in);
+    Scanner scanner;
 
     private static CliApp cliApp;
 
@@ -63,9 +62,9 @@ public class CliApp {
 
 
     public void mainLoop(){
+        scanner = new Scanner(System.in);
         String input = "";
-        while(!CliState.getCliState().isGameFinished()){
-           // System.out.println("error0\n");
+        while(true){
             synchronized (this) {
                 while (waitingPhase) {
                     try {
@@ -75,11 +74,17 @@ public class CliApp {
                     }
                 }
             }
-            //System.out.println("error1\n");
+
+            if(CliState.getCliState().isGameFinished()){
+                scanner.close();
+                return;
+            }
+
+
             do {
                 input = scanner.nextLine();
             }while(input.equals(""));
-            //System.out.println("error2\n");
+
             try {
                 currentState.handle(input);
             } catch (InvalidInput e) {
@@ -119,12 +124,16 @@ public class CliApp {
                 e.printStackTrace();
             }
         }}
-        try {
-            remoteController.command(commandBuffer.poll());
-        }catch (IOException e){
-            CliDisplayer.getDisplayer().displayText(e.getMessage());
-            currentState = new MenuPhase();
-        }
+        new Thread( () ->
+        {
+            try {
+
+                remoteController.command(commandBuffer.poll());
+            } catch (IOException e) {
+                CliDisplayer.getDisplayer().displayText(e.getMessage());
+                suspend();
+            }
+        }).start();
 
     }
 
@@ -138,7 +147,13 @@ public class CliApp {
         sendCommand();
         setCurrentState(new SelectingWindowFrameCell());
         sendCommand();
+    }
 
+    public void suspend(){ //forse va synchro
+        String name = CliState.getCliState().getCliPlayerState(id).getName();
+        CliState.getCliState().resetCliState();
+        setCurrentState(new Suspended(scanner, name));
+        setWaitingPhase(false);
     }
 
 

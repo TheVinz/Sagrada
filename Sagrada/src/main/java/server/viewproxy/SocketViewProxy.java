@@ -11,17 +11,20 @@ import server.model.state.player.Player;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.rmi.RemoteException;
 
 public class SocketViewProxy extends ViewProxy {
 
     private ObjectOutputStream out;
+    private Socket socket;
     private ObjectInputStream in;
     private boolean loop = true;
 
-    public SocketViewProxy(ObjectOutputStream out) throws RemoteException {
+    public SocketViewProxy(ObjectOutputStream out, Socket socket) throws RemoteException {
         super();
         this.out = out;
+        this.socket = socket;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class SocketViewProxy extends ViewProxy {
 
     @Override
     public void ping() {
-        while(ping) {
+        while(super.isPing()) {
             sendData(null);
             try {
                 Thread.sleep(5000);
@@ -55,6 +58,7 @@ public class SocketViewProxy extends ViewProxy {
     public synchronized void closeConnection(){
         loop=false;
         try {
+            socket.close();
             in.close();
             out.close();
         } catch (IOException e) {
@@ -81,6 +85,7 @@ public class SocketViewProxy extends ViewProxy {
                     if(player.isSuspended())
                         return;
                     super.suspendPlayer();
+                    loop = false;
                 }
             }
         } while (loop);

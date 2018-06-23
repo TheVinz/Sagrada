@@ -20,7 +20,7 @@ public class GameManager implements TimerObserver {
     private Timer timer;
 
     public GameManager(){
-        timer = new Timer(this, 5);
+        timer = new Timer(this, 15);
     }
 
 
@@ -75,7 +75,7 @@ public class GameManager implements TimerObserver {
     public void endGame(Model model, String message){
 
         model.getState().getPlayers().forEach( player -> gamesMap.remove(player.getName()));
-
+        //ma la partita viene eliminata?
         System.out.println(model.hashCode()+" terminated. --> "+message+"\n>>>");
         printPlayers();
     }

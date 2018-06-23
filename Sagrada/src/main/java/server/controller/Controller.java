@@ -27,7 +27,7 @@ public class Controller implements TimerObserver {
 		this.model=model;
 		this.view=view;
 		currentState=new WaitingState(player, model);
-		player.setTimer(new Timer(this, 10));
+		player.setTimer(new Timer(this, 60));
 	}
 
 	public synchronized void selectObject(ModelObject o) { //synchronized? e si eh
@@ -84,6 +84,7 @@ public class Controller implements TimerObserver {
 
 	public synchronized void notifyTimeout() {
 		if(player.getTimer().getBlinker().equals(Thread.currentThread())) {
+			view.setPing(false);
 			timeFinished();
 			endTurn();
 		}

@@ -65,7 +65,7 @@ public class RMIViewProxy extends ViewProxy {
 
     @Override
     public synchronized void ping(){
-        while(ping) {
+        while(isPing()) {
             try {
                 remoteView.ping();
             } catch (RemoteException e) {

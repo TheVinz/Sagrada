@@ -32,7 +32,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     private State state;
     private Controller controller;
     private Model model;
-    boolean ping = true;
+    private boolean ping = true;
 
     SinglePlayerEndGame endGameDataSinglePlayer = null;
     EndGame endGameDataMultiPlayer = null;
@@ -41,10 +41,33 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         super();
     }
 
+    /**
+     * Send a changement of the state to the client.
+     * @param changement the changement to send to the client.
+     */
     abstract void change(Changement changement);
+
+    /**
+     * Notify the client about the mistake of his last action.
+     * @param notification the notification to send to the client.
+     */
     abstract void notify(Notification notification);
+
+    /**
+     * Inform the client about his next expected action in reaction to his last action.
+     * @param response the response to send to the client
+     */
     abstract void send(Response response);
+
+    /**
+     * Inform the client that he has been suspended by closing the connection.
+     */
     public abstract void closeConnection();
+
+
+    /**
+     * Ping the client in order to know if he's still connected, otherwise he will be suspended.
+     */
     public abstract void ping();
 
     public void setPlayer(Player player){
@@ -391,4 +414,11 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         }
     }
 
+    public boolean isPing() {
+        return ping;
+    }
+
+    public void setPing(boolean ping) {
+        this.ping = ping;
+    }
 }

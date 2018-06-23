@@ -26,7 +26,8 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     @Override
     public void change(Changement changement) {
-        changement.change(changer);
+        new Thread( () -> {
+        changement.change(changer);}).start();
     }
 
 
@@ -85,10 +86,6 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
                 CliApp.getCliApp().setCurrentState(new DiluentePerPastaSaldaChoice());
                 CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setWaitingPhase(true);
-                break;
-            case SUSPENDED:
-                CliApp.getCliApp().setWaitingPhase(false);
-                CliApp.getCliApp().setCurrentState(new Suspended());
                 break;
             default:
                 return;

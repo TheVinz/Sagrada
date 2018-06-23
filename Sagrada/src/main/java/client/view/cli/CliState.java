@@ -26,6 +26,10 @@ public class CliState {
             cliState = new CliState();
         return cliState;
     }
+
+    public void resetCliState(){
+        cliState = new CliState();
+    }
     public void resetPrivate(){
         privateObjectiveCard.clear();
     }
@@ -62,7 +66,7 @@ public class CliState {
     }
     public CliPlayerState getCliPlayerState(String name) {
         for(CliPlayerState cps : this.cliPlayerStates)
-            if(cps.getName() == name)
+            if(cps.getName().equals(name))
                 return cps;
         return null; //da togliere
     }
