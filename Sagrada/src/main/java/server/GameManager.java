@@ -23,7 +23,7 @@ public class GameManager implements TimerObserver {
         timer = new Timer(this, 15);
     }
 
-
+    //gestire quando uno si vuole connettere ma la partita è finita
     public synchronized void addPlayer(String name, ViewProxy viewProxy, boolean singlePlayer) {
         Model model;
         Player player;

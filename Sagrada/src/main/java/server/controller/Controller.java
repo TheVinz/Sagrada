@@ -91,13 +91,7 @@ public class Controller implements TimerObserver {
 	}
 
 	public synchronized void timeFinished(){
-		//view.notifyNextParameter(Response.SUSPENDED);
 		model.suspendPlayer(player);
 	}
 
-	@Deprecated
-	public void reinsertPlayer() {
-		model.reinsertPlayer(player);
-		new Thread(() -> view.ping()).start();
-	}
 }

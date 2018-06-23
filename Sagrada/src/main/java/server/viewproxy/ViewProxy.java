@@ -392,25 +392,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
             case SIMPLE_MOVE_REQUEST:
                 controller.isDiceMove();
                 break;
-            case ACTIVE_AGAIN:
-                activeAgain();
-                break;
             default:
-        }
-    }
-
-    private void activeAgain(){
-        if(model.getState().isGameFinished()){
-            if(model.isSingleplayer()){
-                change(endGameDataSinglePlayer);
-                System.out.println(endGameDataSinglePlayer);
-            }
-            else
-                change(endGameDataMultiPlayer);
-        }
-        else {
-            controller.reinsertPlayer();
-            ping = true;
         }
     }
 

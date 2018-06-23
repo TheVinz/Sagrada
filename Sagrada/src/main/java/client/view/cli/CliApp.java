@@ -124,11 +124,12 @@ public class CliApp {
                 e.printStackTrace();
             }
         }}
+        GameCommand gameCommand = commandBuffer.poll();
         new Thread( () ->
         {
             try {
 
-                remoteController.command(commandBuffer.poll());
+                remoteController.command(gameCommand);
             } catch (IOException e) {
                 CliDisplayer.getDisplayer().displayText(e.getMessage());
                 suspend();
