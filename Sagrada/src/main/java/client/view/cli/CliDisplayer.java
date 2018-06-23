@@ -4,7 +4,6 @@ package client.view.cli;
 import common.viewchangement.SinglePlayerEndGame;
 
 public class CliDisplayer {
-    private CliState cliState = CliState.getCliState();
     private static CliDisplayer singleton;
     private ToolCardsEffects toolCardsEffects = new ToolCardsEffects();
     private ObjectiveCardsEffects objectiveCardsEffects = new ObjectiveCardsEffects();
@@ -25,10 +24,10 @@ public class CliDisplayer {
 
     public void printMenu() {
         if(!singlePlayer) {
-            if (cliState.getActivePlayer().isSecondTurn())
-                displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-" + cliState.getRound());
+            if (CliState.getCliState().getActivePlayer().isSecondTurn())
+                displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-" + CliState.getCliState().getRound());
             else
-                displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-" + cliState.getRound());
+                displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-" + CliState.getCliState().getRound());
             displayText("\n\t\t\t\tWhat would you like to see?\n");
             displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
             displayText("-Your State press\t\t\t\t\t V\n");    //(char)27+"[31m"   colore rosso
@@ -43,10 +42,10 @@ public class CliDisplayer {
         }
         else
         {
-            if (cliState.getActivePlayer().isSecondTurn())
-                displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-" + cliState.getRound());
+            if (CliState.getCliState().getActivePlayer().isSecondTurn())
+                displayText("\t\tIT'S YOUR SECOND TURN IN THE ROUND N-" + CliState.getCliState().getRound());
             else
-                displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-" + cliState.getRound());
+                displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-" + CliState.getCliState().getRound());
             displayText("\n\t\t\t\tWhat would you like to see?\n");
             displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
             displayText("-Your State press\t\t\t\t\t V\n");    //(char)27+"[31m"   colore rosso
@@ -156,33 +155,33 @@ public class CliDisplayer {
    public void printRoundTrack() {
         displayText("The RoundTrack is:\n");
        int max=0;
-       for(int i=0;i<cliState.getRound()-1;i++){
-           if(max<cliState.getRoundTrack()[i].length)
-               max=cliState.getRoundTrack()[i].length;
+       for(int i=0;i<CliState.getCliState().getRound()-1;i++){
+           if(max<CliState.getCliState().getRoundTrack()[i].length)
+               max=CliState.getCliState().getRoundTrack()[i].length;
        }
        displayText("Index:    ");
        for(int j=1;j<max+1;j++){
           displayText(j+" |  ");
        }
        displayText("\n");
-        for (int i = 0; i < cliState.getRound()-1; i++) {
+        for (int i = 0; i < CliState.getCliState().getRound()-1; i++) {
             displayText("Round "+(i+1) + ")");
-                for (int j = 0; j < cliState.getRoundTrack()[i].length; j++) {
-                    switch (cliState.getRoundTrack()[i][j].charAt(1)) {
+                for (int j = 0; j < CliState.getCliState().getRoundTrack()[i].length; j++) {
+                    switch (CliState.getCliState().getRoundTrack()[i][j].charAt(1)) {
                         case 'g':
-                            displayText((char) 27 + "[1;30;102m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");   //caso green
+                            displayText((char) 27 + "[1;30;102m" + "  " + CliState.getCliState().getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");   //caso green
                             break;
                         case 'b':
-                            displayText((char) 27 + "[1;30;106m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                            displayText((char) 27 + "[1;30;106m" + "  " + CliState.getCliState().getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
                             break;
                         case 'y':
-                            displayText((char) 27 + "[1;30;103m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                            displayText((char) 27 + "[1;30;103m" + "  " + CliState.getCliState().getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
                             break;
                         case 'r':
-                            displayText((char) 27 + "[1;30;41m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                            displayText((char) 27 + "[1;30;41m" + "  " + CliState.getCliState().getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
                             break;
                         case 'p':
-                            displayText((char) 27 + "[1;30;45m" + "  " + cliState.getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
+                            displayText((char) 27 + "[1;30;45m" + "  " + CliState.getCliState().getRoundTrack()[i][j].charAt(0) + " " + (char) 27 + "[0m" + "|");
                             break;
                     }
 
@@ -195,13 +194,13 @@ public class CliDisplayer {
      public void printToolCard() {
         displayText("You can use these ToolCards:\n");
         if(!singlePlayer){
-        for (int i = 0; i < cliState.getToolCardIds().length; i++) {
-            displayText(i + ")" +toolCardsEffects.returnName(cliState.getToolCardIds()[i])+ toolCardsEffects.returnEffects(cliState.getToolCardIds()[i]));     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
+        for (int i = 0; i < CliState.getCliState().getToolCardIds().length; i++) {
+            displayText(i + ")" +toolCardsEffects.returnName(CliState.getCliState().getToolCardIds()[i])+ toolCardsEffects.returnEffects(CliState.getCliState().getToolCardIds()[i]));     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
             //per ora un numero a cui dovremo associare la vera e propria ToolCard.
         }}
         else {
-            for (int i = 0; i < cliState.getToolCardIds().length; i++) {
-                displayText(i + ")" + toolCardsEffects.returnColoredName(cliState.getToolCardIds()[i]));
+            for (int i = 0; i < CliState.getCliState().getToolCardIds().length; i++) {
+                displayText(i + ")" + toolCardsEffects.returnColoredName(CliState.getCliState().getToolCardIds()[i]));
 
             }
         }
@@ -209,27 +208,27 @@ public class CliDisplayer {
 
     public void printDraftPool() {
         displayText("In the DraftPool there are those Dice\nIndex:   ");
-        for (int i = 0; i < cliState.getDraftPool().length; i++) {
+        for (int i = 0; i < CliState.getCliState().getDraftPool().length; i++) {
             displayText(i+" |  ");
         }
         displayText("\nDice:  ");
-        for (int j=0;j<cliState.getDraftPool().length;j++){
-            if (cliState.getDraftPool()[j].length() == 2) {
-                switch (cliState.getDraftPool()[j].charAt(1)) {
+        for (int j=0;j<CliState.getCliState().getDraftPool().length;j++){
+            if (CliState.getCliState().getDraftPool()[j].length() == 2) {
+                switch (CliState.getCliState().getDraftPool()[j].charAt(1)) {
                     case 'g':
-                        displayText((char) 27 + "[1;30;102m" +"  "+ cliState.getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");   //caso green
+                        displayText((char) 27 + "[1;30;102m" +"  "+ CliState.getCliState().getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");   //caso green
                         break;
                     case 'b':
-                        displayText((char) 27 + "[1;30;106m" +"  "+ cliState.getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");
+                        displayText((char) 27 + "[1;30;106m" +"  "+ CliState.getCliState().getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");
                         break;
                     case 'y':
-                        displayText((char) 27 + "[1;30;103m" +"  "+ cliState.getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");
+                        displayText((char) 27 + "[1;30;103m" +"  "+ CliState.getCliState().getDraftPool()[j].charAt(0)+" " + (char) 27 + "[0m"+"|");
                         break;
                     case 'r':
-                        displayText((char) 27 + "[1;30;41m"+"  " +cliState.getDraftPool()[j].charAt(0)+" " +(char) 27 + "[0m"+"|");
+                        displayText((char) 27 + "[1;30;41m"+"  " +CliState.getCliState().getDraftPool()[j].charAt(0)+" " +(char) 27 + "[0m"+"|");
                         break;
                     case 'p':
-                        displayText((char) 27 + "[1;30;45m"+"  "+ cliState.getDraftPool()[j].charAt(0)+" "+ (char) 27 + "[0m"+"|" );
+                        displayText((char) 27 + "[1;30;45m"+"  "+ CliState.getCliState().getDraftPool()[j].charAt(0)+" "+ (char) 27 + "[0m"+"|" );
                         break;
                 }
 
@@ -243,15 +242,15 @@ public class CliDisplayer {
 
     public void printPublicObjectiveCards() {
         displayText("There are these PublicObjectiveCard:\n");
-        for (int i = 0; i < cliState.getPublicObjectiveCardIds().length; i++) {
-            Integer j = cliState.getPublicObjectiveCardIds()[i];
+        for (int i = 0; i < CliState.getCliState().getPublicObjectiveCardIds().length; i++) {
+            Integer j = CliState.getCliState().getPublicObjectiveCardIds()[i];
             displayText(i + ")" + objectiveCardsEffects.returnEffects(j));
         }
     }
 
     public void printPrivateObjectiveCard() {
-       for(int i=0; i<cliState.getPrivateObjectiveCard().length; i++)
-            printColoredPrvCard(cliState.getPrivateObjectiveCard()[i]);
+       for(int i=0; i<CliState.getCliState().getPrivateObjectiveCard().length; i++)
+            printColoredPrvCard(CliState.getCliState().getPrivateObjectiveCard()[i]);
     }
 
     public void printFavorTokens() {
@@ -272,8 +271,8 @@ public class CliDisplayer {
 
     public void printState(String name) {
         displayText("The state of " + name + " is:\n");
-        printFavorTokens(cliState.getCliPlayerState(name));
-        printWindowFrame(cliState.getCliPlayerState(name));
+        printFavorTokens(CliState.getCliState().getCliPlayerState(name));
+        printWindowFrame(CliState.getCliState().getCliPlayerState(name));
     }
     public void printRep(String rep,int favorTokens){
         displayText("\n  || 0  | 1  | 2  | 3  | 4  |\n- - ");
@@ -348,8 +347,8 @@ public class CliDisplayer {
         displayText("\t\t\t\t\t\tSCOREBOARD:\n\n");
         int max=0;
         for(int i=0;i<scoreboardIds.length;i++)
-            if(max<cliState.getCliPlayerState(scoreboardIds[i]).getName().length())
-                max=cliState.getCliPlayerState(scoreboardIds[i]).getName().length();
+            if(max<CliState.getCliState().getCliPlayerState(scoreboardIds[i]).getName().length())
+                max=CliState.getCliState().getCliPlayerState(scoreboardIds[i]).getName().length();
         if(max+2<18){
             max=18;}
         displayText("    \tNAME\t    ");
@@ -364,22 +363,22 @@ public class CliDisplayer {
         for(int i=0;i<scoreboardIds.length;i++) {
             switch (cards[i]){
                 case 'r':
-                    displayText("" + (i + 1) + ")" +(char)27+"[1;31m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    displayText("" + (i + 1) + ")" +(char)27+"[1;31m"+CliState.getCliState().getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
                     break;
                 case 'b':
-                    displayText("" + (i + 1) + ")" +(char)27+"[1;36m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    displayText("" + (i + 1) + ")" +(char)27+"[1;36m"+CliState.getCliState().getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
                     break;
                 case 'g':
-                    displayText("" + (i + 1) + ")" +(char)27+"[1;32m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    displayText("" + (i + 1) + ")" +(char)27+"[1;32m"+CliState.getCliState().getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
                     break;
                 case 'y':
-                    displayText("" + (i + 1) + ")" +(char)27+"[1;33m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    displayText("" + (i + 1) + ")" +(char)27+"[1;33m"+CliState.getCliState().getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
                     break;
                 case 'p':
-                    displayText("" + (i + 1) + ")" +(char)27+"[1;35m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    displayText("" + (i + 1) + ")" +(char)27+"[1;35m"+CliState.getCliState().getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
                     break;
             }
-                for(int s=0;s<max-cliState.getCliPlayerState(scoreboardIds[i]).getName().length();s++){
+                for(int s=0;s<max-CliState.getCliState().getCliPlayerState(scoreboardIds[i]).getName().length();s++){
                 displayText(" ");
                 }
                 displayText("|");
@@ -421,7 +420,7 @@ public class CliDisplayer {
             }
 
         }
-        for(int i=0;i<CliState.getCliState().getPublicObjectiveCardIds().length;i++)
+        for(int i=0;i<CliState.getCliState().getCliState().getPublicObjectiveCardIds().length;i++)
         displayText("PublicObjectiveCard "+i+" is "+objectiveCardsEffects.returnName(CliState.getCliState().getPublicObjectiveCardIds()[i])+"\n");
         displayText("\n");
     }
@@ -462,8 +461,8 @@ public class CliDisplayer {
         else
             displayText("\t\t\t\t\tYOU LOSE");
         displayText("\nYour Total Points are "+singlePlayerEndGame.getVectorPoints()[4]+" instead the score to beat was "+singlePlayerEndGame.getTargetPoints()+".\n");
-        displayText("Points from PublicObjectiveCard:\n-"+objectiveCardsEffects.returnName(cliState.getPublicObjectiveCardIds()[0]));
-        displayText(": "+singlePlayerEndGame.getVectorPoints()[0]+";\n-"+objectiveCardsEffects.returnName(cliState.getPublicObjectiveCardIds()[1]));
+        displayText("Points from PublicObjectiveCard:\n-"+objectiveCardsEffects.returnName(CliState.getCliState().getPublicObjectiveCardIds()[0]));
+        displayText(": "+singlePlayerEndGame.getVectorPoints()[0]+";\n-"+objectiveCardsEffects.returnName(CliState.getCliState().getPublicObjectiveCardIds()[1]));
         displayText(": "+singlePlayerEndGame.getVectorPoints()[1]+";\nPoints from PrivateObjectiveCard: "+singlePlayerEndGame.getVectorPoints()[2]);
         displayText(";\nPoints from empty cell: "+singlePlayerEndGame.getVectorPoints()[3]+";\n");
     }

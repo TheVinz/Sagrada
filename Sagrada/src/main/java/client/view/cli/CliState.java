@@ -84,6 +84,7 @@ public class CliState {
         return activePlayer;
     }
     public void setRoundDices(int round, String[] roundDices) {
+        System.out.println("DEBUG -> "  + round);
         this.round=round+1;
         roundTrack[round-1]=roundDices;
     }

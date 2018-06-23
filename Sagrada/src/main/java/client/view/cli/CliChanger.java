@@ -236,7 +236,7 @@ public class CliChanger implements Changer {
         for (int i=0; i<roundDices.length; i++){
             roundDices[i]=""+loadLastRoundTrack.getValues()[i]+loadLastRoundTrack.getColors()[i];
         }
-        CliDisplayer.getDisplayer().displayText("Round track is updated.\n");
+        CliDisplayer.getDisplayer().displayText("Round track for round "+loadLastRoundTrack.getRound()+" is updated.\n");
         CliState.getCliState().setRoundDices(loadLastRoundTrack.getRound(), roundDices);
     }
 
@@ -281,6 +281,8 @@ public class CliChanger implements Changer {
 
                 }
         }
+
+        CliDisplayer.getDisplayer().printWindowFrame();
 
     }
 
