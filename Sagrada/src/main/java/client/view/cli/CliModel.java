@@ -26,8 +26,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     @Override
     public void change(Changement changement) {
-        new Thread( () -> {
-        changement.change(changer);}).start();
+        changement.change(changer);
     }
 
 
