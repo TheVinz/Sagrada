@@ -24,10 +24,12 @@ public class GameManager implements TimerObserver {
     }
 
     //gestire quando uno si vuole connettere ma la partita è finita
-    public synchronized void addPlayer(String name, ViewProxy viewProxy, boolean singlePlayer) {
+    public synchronized void addPlayer(String name, ViewProxy viewProxy, boolean singlePlayer) throws Exception{
         Model model;
         Player player;
         if(gamesMap.containsKey(name)){
+            if(singlePlayer)
+                throw new Exception("Single player exception.");
             model = gamesMap.get(name);
             player = model.getState().getPlayers()
                                         .stream()
@@ -37,10 +39,8 @@ public class GameManager implements TimerObserver {
             if(player.isSuspended())
                 System.out.print(name + " -- reconnecting --> " + gamesMap.get(name) + "\n>>>");
             else{
-                //TODO caso in cui voglio connettermi con lo stesso nome di un giocatore che sta già giocando
-                return;
+                throw new Exception("Invalid username.");
             }
-
         }
         else if(singlePlayer)
         {

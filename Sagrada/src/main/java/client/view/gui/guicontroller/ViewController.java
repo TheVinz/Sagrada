@@ -40,6 +40,7 @@ public class ViewController {
     private WindowFrameChoiceController windowFrameChoiceController;
     private int id;
     private GamePhase currentPhase;
+    private Stage dialog;
 
     @FXML
     private BorderPane rootLayout;
@@ -66,8 +67,8 @@ public class ViewController {
         }
     }
 
-    public void choseDifficulty(){
-        final Stage dialog = new Stage();
+    public synchronized void choseDifficulty(){
+        dialog = new Stage();
         dialog.setTitle("Difficulty Choice");
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setAlwaysOnTop(true);
@@ -97,10 +98,9 @@ public class ViewController {
         }
         dialogBox.getChildren().add(buttonsBox);
         Scene scene = new Scene(dialogBox,700, 150);
-        scene.getStylesheets().add(rootLayout.getScene().getStylesheets().get(0));
+        scene.getStylesheets().add(MainApp.class.getResource("resources/style/main.css").toString());
         dialog.setScene(scene);
-        dialog.showAndWait();
-    }
+        dialog.showAndWait();    }
 
     public void notifyLogin(RemoteController remoteController, boolean singleplayer){
         this.remoteController=remoteController;
@@ -392,10 +392,19 @@ public class ViewController {
     }
 
     public synchronized void handleIOException() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("You have been disconnected");
-        alert.showAndWait();
+        Platform.runLater(() ->{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("You have been disconnected");
+            alert.showAndWait();
+        });
+
+        Platform.runLater(() ->{
+            if(currentPhase != null)
+                currentPhase.close();
+            if(dialog != null)
+                dialog.close();
+        });
         try {
             String name = gameController.getPlayerName(this.id);
             init(new GuiModel(this));
@@ -403,6 +412,8 @@ public class ViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 
     public synchronized void roundTrackClick(int round, int index) {

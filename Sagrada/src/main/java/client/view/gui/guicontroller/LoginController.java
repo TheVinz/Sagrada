@@ -76,33 +76,24 @@ public class LoginController {
 
     @FXML
     private void socketLogin(){
-        Socket connection;
-        ObjectOutputStream out;
-        ObjectInputStream in;
         name = textField.getText();
         textField.setText(null);
-        try{
-            connection = new Socket(ip, socketPort);
-            out = new ObjectOutputStream(connection.getOutputStream());
-            in = new ObjectInputStream(connection.getInputStream());
-            System.out.println((String) in.readObject());
-            out.writeObject(name);
-            out.writeObject(new Boolean(singleplayer));
-            ClientSocketHandler clientSocketHandler = new ClientSocketHandler(in, out,new GuiModel(listener));
-            listener.notifyLogin(clientSocketHandler, singleplayer);
-            new Thread(() -> {
-                try {
-                    clientSocketHandler.mainLoop();
-                    connection.close();
-                } catch (IOException e) {
-                    Platform.runLater(() -> listener.handleIOException());
-                }
-            }).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> {
+            try(Socket connection = new Socket(ip, socketPort)){
+                ObjectOutputStream out = new ObjectOutputStream(connection.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(connection.getInputStream());
+                System.out.println((String) in.readObject());
+                out.writeObject(name);
+                out.writeObject(new Boolean(singleplayer));
+                ClientSocketHandler clientSocketHandler = new ClientSocketHandler(in, out,new GuiModel(listener));
+                listener.notifyLogin(clientSocketHandler, singleplayer);
+                clientSocketHandler.mainLoop();
+            }catch (IOException e) {
+                Platform.runLater(() -> listener.handleIOException());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @FXML

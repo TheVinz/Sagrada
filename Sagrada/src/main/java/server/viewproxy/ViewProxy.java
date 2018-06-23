@@ -69,13 +69,12 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
      * Ping the client in order to know if he's still connected, otherwise he will be suspended.
      */
     public abstract void ping();
-
+    
     public void setPlayer(Player player){
         this.player = player;
         this.controller = new Controller(model, player, this);
         change(new LoadId(player.getId()));
         new Thread(this::ping).start();
-        //change(new LoadId(player.getId()));
     }
     public void setModel(Model model){
         this.model = model;

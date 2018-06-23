@@ -59,8 +59,6 @@ public class SocketViewProxy extends ViewProxy {
         loop=false;
         try {
             socket.close();
-            in.close();
-            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,19 +74,18 @@ public class SocketViewProxy extends ViewProxy {
 
     public void mainLoop(ObjectInputStream in) throws ClassNotFoundException {
         this.in = in;
-        do {
-            try {
+        try{
+            while(loop) {
                 GameCommand command = (GameCommand) in.readObject();
                 command(command);
-            } catch (IOException e) {
-                synchronized (this) {
-                    if(player.isSuspended())
-                        return;
-                    super.suspendPlayer();
-                    loop = false;
-                }
             }
-        } while (loop);
+        } catch (IOException e) {
+            synchronized (this) {
+                if(player.isSuspended())
+                    return;
+                super.suspendPlayer();
+            }
+        }
     }
 
 
