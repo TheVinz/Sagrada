@@ -353,7 +353,7 @@ public class CliDisplayer {
         int space=0;
         if(max+2<18){
             max=18;
-            displayText("    \tNAME\t  "); }  //da implementare
+            displayText("    \tNAME\t    "); }
         else {
             space = max - 18;
             if (space % 2 == 0) {
@@ -371,14 +371,10 @@ public class CliDisplayer {
                     displayText(" ");
             }
         }
-
         displayText("|     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
-        if(max<14)
-        displayText("\t\t\t");
-        else
-            for(int s=0;s<max+2;s++)
+        for(int s=0;s<max+2;s++)
                 displayText(" ");
-        displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t    |      |  \t     |        |\n");
+        displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |        |\n");
 
         for(int i=0;i<scoreboardIds.length;i++) {
             switch (cards[i]){
@@ -398,7 +394,6 @@ public class CliDisplayer {
                     displayText("" + (i + 1) + ")" +(char)27+"[1;35m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
                     break;
             }
-
                 for(int s=0;s<max-cliState.getCliPlayerState(scoreboardIds[i]).getName().length();s++){
                 displayText(" ");
                 }
@@ -419,23 +414,13 @@ public class CliDisplayer {
                 displayText("   " + points[scoreboardIds[i]][3] + "   |");
             else
                 displayText("    " + points[scoreboardIds[i]][3] + "   |");
-            if (points[scoreboardIds[i]][4] > 9)    //favor
-                displayText("   " + points[scoreboardIds[i]][4] + "   |");
-            else
-                displayText("   " + points[scoreboardIds[i]][4] + "  |");
-            if(points[scoreboardIds[i]][5]>0){     //empty
-                if (points[scoreboardIds[i]][5] > 9)
-                    displayText("  " + points[scoreboardIds[i]][5] + "   |");
-                else
-                    displayText("    " + points[scoreboardIds[i]][5] + "    |");
+            displayText("   " + points[scoreboardIds[i]][4] + "  |");  //favor
+            if(points[scoreboardIds[i]][5]<-9){   //empty
+                displayText("   "+points[scoreboardIds[i]][5]+"   |");
             }
-            else{
-                if(points[scoreboardIds[i]][5]<-9){
-                    displayText("   "+points[scoreboardIds[i]][5]+"   |");
-                }
-                else
-                    displayText("   "+points[scoreboardIds[i]][5]+"    |");
-            }                             //total points
+            else
+                displayText("   "+points[scoreboardIds[i]][5]+"    |");
+                                        //total points
             if(points[scoreboardIds[i]][6]>0){
                 if (points[scoreboardIds[i]][6] > 9)
                     displayText("   " + points[scoreboardIds[i]][6] + "   |\n");
