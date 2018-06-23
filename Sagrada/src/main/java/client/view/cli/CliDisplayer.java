@@ -372,26 +372,31 @@ public class CliDisplayer {
             }
         }
 
-        displayText("  |     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
+        displayText("|     PUBLIC CARDS   |   PRV  |  FV  |  EMPTY  |  TOTAL:\n");
         if(max<14)
         displayText("\t\t\t");
         else
             for(int s=0;s<max+2;s++)
                 displayText(" ");
-        displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t  |      |  \t   |        |\n");
+        displayText("|   "+0+"  |   "+1+"  |   "+2+"  |  \t    |      |  \t     |        |\n");
 
         for(int i=0;i<scoreboardIds.length;i++) {
             switch (cards[i]){
                 case 'r':
                     displayText("" + (i + 1) + ")" +(char)27+"[1;31m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    break;
                 case 'b':
                     displayText("" + (i + 1) + ")" +(char)27+"[1;36m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    break;
                 case 'g':
                     displayText("" + (i + 1) + ")" +(char)27+"[1;32m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    break;
                 case 'y':
                     displayText("" + (i + 1) + ")" +(char)27+"[1;33m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    break;
                 case 'p':
                     displayText("" + (i + 1) + ")" +(char)27+"[1;35m"+cliState.getCliPlayerState(scoreboardIds[i]).getName()+(char)27+"[0m");
+                    break;
             }
 
                 for(int s=0;s<max-cliState.getCliPlayerState(scoreboardIds[i]).getName().length();s++){
