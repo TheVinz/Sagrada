@@ -14,5 +14,6 @@ public class SinglePlayerCliChanger extends CliChanger {
     public void change(ToolCardUsed toolCardUsed) {
         CliPlayerState playerState=CliState.getCliState().getCliPlayerState(toolCardUsed.getId());
         CliDisplayer.getDisplayer().displayText("You used tool card No. " + CliState.getCliState().getToolCardIds()[toolCardUsed.getIndex()] + "\n");
+        CliState.getCliState().getToolCardUsed()[toolCardUsed.getIndex()] = true;
     }
 }

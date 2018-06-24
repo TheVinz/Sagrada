@@ -218,7 +218,8 @@ public class CliDisplayer {
         }}
         else {
             for (int i = 0; i < CliState.getCliState().getToolCardIds().length; i++) {
-                displayText(i + ")" + toolCardsEffects.returnColoredName(CliState.getCliState().getToolCardIds()[i]));
+                if(!CliState.getCliState().getToolCardUsed()[i])
+                    displayText(i + ")" + toolCardsEffects.returnColoredName(CliState.getCliState().getToolCardIds()[i]));
 
             }
         }
