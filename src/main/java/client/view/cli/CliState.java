@@ -10,6 +10,7 @@ public class CliState {
     private CliPlayerState activePlayer;
     private CliPlayerState[] cliPlayerStates;
     private int[] toolCardIds;
+    private boolean[] toolCardUsed;
     private int[] publicObjectiveCardIds;
     private String[] draftPool;
     private String[][] roundTrack = new String[10][];
@@ -98,6 +99,10 @@ public class CliState {
     }
 
     public void setToolCardIds(int[] toolCardIds) {
+        this.toolCardUsed = new boolean[toolCardIds.length];
+        for(int i=0; i<toolCardIds.length; i++){
+            toolCardUsed[i]=false;
+        }
         this.toolCardIds = toolCardIds;
     }
 
@@ -112,4 +117,9 @@ public class CliState {
     public void setGameFinished(boolean gameFinished) {
         this.gameFinished = gameFinished;
     }
+
+    public boolean[] getToolCardUsed() {
+        return toolCardUsed;
+    }
+
 }

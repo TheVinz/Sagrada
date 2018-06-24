@@ -146,9 +146,6 @@ public class Util { //non può essere static nel multipartita per la private
                     break;
             }
         }
-        result[0] = new TaglierinaCircolare(model);
-        result[1] = new PennelloperPastaSalda(model);
-        result[2] = new DiluentePerPastaSalda(model);
 
         return result;
     }
