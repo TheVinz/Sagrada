@@ -9,7 +9,8 @@ import java.util.Scanner;
 
 public class CliConnectionFactory{
 
-    private final String ip = "localhost";
+    //private final String ip = "151.64.41.194";
+    private final String ip ="localhost";
     ClientConnection clientConnection = null;
 
     public CliConnectionFactory(Scanner sc, String name, RemoteView viewModel, boolean singlePlayer) {
