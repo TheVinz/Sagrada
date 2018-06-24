@@ -3,6 +3,9 @@ package client.view.cli;
 
 import common.viewchangement.SinglePlayerEndGame;
 
+/**
+ * The <tt>CliDisplayer</tt> class implements the methods that prints messages or different states in the terminal while playing with the Cli.
+ */
 public class CliDisplayer {
     private static CliDisplayer singleton;
     private ToolCardsEffects toolCardsEffects = new ToolCardsEffects();
@@ -15,13 +18,18 @@ public class CliDisplayer {
     }
 
 
-
-
+    /**
+     * Prints the string given as parameter.
+     * @param text a string that is gonna be printed on the terminal.
+     */
     public void displayText(String text) {
         System.out.print(text);
     }
 
 
+    /**
+     *Prints the Menu, which represents the possible input for the client during the game.
+     */
     public void printMenu() {
         if(!singlePlayer) {
             if (CliState.getCliState().getActivePlayer().isSecondTurn())
@@ -29,8 +37,8 @@ public class CliDisplayer {
             else
                 displayText("\t\tIT'S YOUR FIRST TURN IN THE ROUND N-" + CliState.getCliState().getRound());
             displayText("\n\t\t\t\tWhat would you like to see?\n");
-            displayText("-DraftPool press\t\t\t\t\t P\n");      //ho assegnato a ogni comando una lettera
-            displayText("-Your State press\t\t\t\t\t V\n");    //(char)27+"[31m"   colore rosso
+            displayText("-DraftPool press\t\t\t\t\t P\n");
+            displayText("-Your State press\t\t\t\t\t V\n");
             displayText("-ToolCards press\t\t\t\t\t T\n");
             displayText("-PublicObjectiveCard press\t\t\t O\n");
             displayText("-RoundTrack press\t\t\t\t\t R\n");
@@ -61,6 +69,10 @@ public class CliDisplayer {
         }
     }
 
+    /**
+     * Prints the {@link server.model.state.boards.windowframe.WindowFrame} of a {@link server.model.state.player.Player}.
+     * @param cliPlayerState the Player which WindowFrame is gonna be printed.
+     */
     public void printWindowFrame(CliPlayerState cliPlayerState) {
         displayText("The WindowFrame is:\n");
         displayText("");
@@ -148,10 +160,16 @@ public class CliDisplayer {
         }
     }
 
+    /**
+     *
+     */
     public void printWindowFrame() {
         printWindowFrame(CliState.getCliState().getCliPlayerState());
     }
 
+    /**
+     * Prints the {@link server.model.state.boards.roundtrack.RoundTrack} of a game.
+     */
    public void printRoundTrack() {
         displayText("The RoundTrack is:\n");
        int max=0;
