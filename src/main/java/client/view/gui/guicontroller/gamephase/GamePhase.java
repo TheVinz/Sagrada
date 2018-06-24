@@ -3,11 +3,12 @@ package client.view.gui.guicontroller.gamephase;
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
 
+import java.io.Closeable;
 import java.rmi.Remote;
 import java.io.IOException;
 
 
-public class GamePhase {
+public class GamePhase implements Closeable {
 
     public static boolean toolCardUsed=false;
     public static boolean diceMoved=false;
@@ -36,4 +37,6 @@ public class GamePhase {
     public GamePhase handleRoundTrack(int round, int index) throws IOException {
         return this;
     }
+
+    public void close(){}
 }

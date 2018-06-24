@@ -70,18 +70,29 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
      */
     public abstract void ping();
 
+    /**
+     * Set the model Player representing the remote player associated to this ViewProxy
+     * @param player the remote player representation on the Model
+     */
     public void setPlayer(Player player){
         this.player = player;
         this.controller = new Controller(model, player, this);
         change(new LoadId(player.getId()));
         new Thread(this::ping).start();
-        //change(new LoadId(player.getId()));
     }
+
+    /**
+     * Set the model associated to the game
+     * @param model the Model of the game
+     */
     public void setModel(Model model){
         this.model = model;
         this.state = model.getState();
     }
 
+    /**
+     * Suspend the associated player
+     */
     public void suspendPlayer(){
         controller.timeFinished();
         controller.endTurn();
@@ -396,10 +407,17 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         }
     }
 
+    /**
+     * @return true if the player is still active and must be pinged
+     */
     public boolean isPing() {
         return ping;
     }
 
+    /**
+     * Set the ping value
+     * @param ping true if the player should be pinged
+     */
     public void setPing(boolean ping) {
         this.ping = ping;
     }

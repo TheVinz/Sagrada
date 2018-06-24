@@ -23,13 +23,16 @@ import java.rmi.RemoteException;
 
 
 public class TaglierinaManualeChoicePhase extends GamePhase {
+
+    private Stage dialog = null;
+
     public TaglierinaManualeChoicePhase(RemoteController controller, GameController gameController) {
         super(controller, gameController);
     }
 
     @Override
     public GamePhase handleChoice(){
-        final Stage dialog = new Stage();
+        dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setAlwaysOnTop(true);
@@ -75,5 +78,11 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
         alert.setTitle("Error");
         alert.setHeaderText("Connection error");
         gameController.suspend();
+    }
+
+    @Override
+    public void close(){
+        if(dialog != null)
+            dialog.close();
     }
 }

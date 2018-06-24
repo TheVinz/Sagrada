@@ -4,7 +4,6 @@ import client.view.cli.CliApp;
 import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
 import common.login.RemoteLoginManager;
-import org.apache.velocity.runtime.visitor.NodeViewMode;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;

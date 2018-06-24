@@ -26,6 +26,7 @@ import java.rmi.RemoteException;
 
 public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
 
+    private Stage dialog = null;
     public static char color;
 
     public DiluentePerPastaSaldaChoicePhase(RemoteController controller, GameController gameController) {
@@ -34,7 +35,7 @@ public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
 
     @Override
     public GamePhase handleChoice(){
-        final Stage dialog = new Stage();
+        dialog = new Stage();
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setAlwaysOnTop(true);
         Platform.setImplicitExit(false);
@@ -73,5 +74,11 @@ public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
             });
             buttons.getChildren().add(button);
         }
+    }
+
+    @Override
+    public void close(){
+        if(dialog != null)
+            dialog.close();
     }
 }
