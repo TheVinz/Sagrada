@@ -1,7 +1,9 @@
 .idea
+.idea/
 **/*.class
 .directory
 **/*.iml
 **/target/
-classloading
+classes/
+**/META-INF/
 
