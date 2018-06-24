@@ -45,6 +45,13 @@ The whole architecture of the application follows the **MVC** pattern:
 * the **VIEW** displays the state to the user and it gets updated when the state changes
 * the **CONTROLLER** maps the user input from the view to methods to call on the model in order to change its state
 
-![MVC diagram](docs/MVC.png)
+<p align="center"><img src="docs/MVC.png"></p>
+
+## Controller ##
+
+Controller is implemented with a **STATE PATTERN**, where the class *Controller* refers to the *PlayerState* interface, as *currentState*, for performing the *selectObject(ModelObject o)* operation.
+In this way *Controller* is independent of how state-specific behavior is implemented. The *currentState* is updated every time a *selectObject(ModelObject o)* finishes, by retrieving is returned value.
+
+<p align="center"><img src="docs/controller.png"></p>
 
 
