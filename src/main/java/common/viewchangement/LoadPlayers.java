@@ -3,7 +3,7 @@ package common.viewchangement;
 import common.Changer;
 
 /**
- * The <tt>LoadPlayers</tt> class contains data about every {@link server.model.state.player.Player} into a game.
+ * The <tt>LoadPlayers</tt> class contains data to send to the client about every {@link server.model.state.player.Player} into a game.
  */
 public class LoadPlayers extends Changement {
     private final String[] names;
@@ -12,7 +12,7 @@ public class LoadPlayers extends Changement {
     private final int[] windowFrameFavorTokens;
 
     /**
-     * Creates a new <tt>LoadPlayers</tt> changement relative to a new game.
+     * Creates a new <tt>LoadPlayers</tt> changement relative to players of a game.
      * @param names the names of the players of a game.
      * @param ids the ids of the players of a game.
      * @param windowFrameReps the initial {@link server.model.state.boards.windowframe.WindowFrame} of every player.

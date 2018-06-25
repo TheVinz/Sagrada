@@ -209,6 +209,10 @@ public class CliDisplayer {
             displayText("\n");
         }
     }
+
+    /**
+     * Prints the {@link server.model.state.toolcards.ToolCard} in the game. In SinglePlayer prints the ToolCard that hasn't been used yet.
+     */
      public void printToolCard() {
         displayText("You can use these ToolCards:\n");
         if(!singlePlayer){
@@ -225,6 +229,9 @@ public class CliDisplayer {
         }
     }
 
+    /**
+     * Prints the {@link server.model.state.boards.draftpool.DraftPool} of the game.
+     */
     public void printDraftPool() {
         displayText("In the DraftPool there are those Dice\nIndex:   ");
         for (int i = 0; i < CliState.getCliState().getDraftPool().length; i++) {
@@ -259,6 +266,9 @@ public class CliDisplayer {
         displayText("\n");
     }
 
+    /**
+     * Prints the {@link server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard} in the game.
+     */
     public void printPublicObjectiveCards() {
         displayText("There are these PublicObjectiveCard:\n");
         for (int i = 0; i < CliState.getCliState().getPublicObjectiveCardIds().length; i++) {
@@ -267,19 +277,32 @@ public class CliDisplayer {
         }
     }
 
+    /**
+     * Prints the {@link server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard} of the player.
+     */
     public void printPrivateObjectiveCard() {
        for(int i=0; i<CliState.getCliState().getPrivateObjectiveCard().length; i++)
             printColoredPrvCard(CliState.getCliState().getPrivateObjectiveCard()[i]);
     }
 
+    /**
+     * Prints the FavorTokens of the player.
+     */
     public void printFavorTokens() {
         printFavorTokens(CliState.getCliState().getCliPlayerState());
     }
 
+    /**
+     * Prints the FavorTokens of the player.
+     * @param cliPlayerState the player which FavorTokens will be printed.
+     */
     public void printFavorTokens(CliPlayerState cliPlayerState) {
         displayText("The FavorTokens are " + cliPlayerState.getFavorTokens() + "\n");
     }
 
+    /**
+     * Prints the state of a player. The state includes the PrivateObjectiveCard, the WindowFrame and the FavorTokens of the player.
+     */
     public void printState() {
         displayText("Your State is:\n");
         printPrivateObjectiveCard();
@@ -288,11 +311,21 @@ public class CliDisplayer {
 
     }
 
+    /**
+     * Prints the state of a player. The state includes the PrivateObjectiveCard, the WindowFrame and the FavorTokens of the player.
+     * @param name the name of the player which state will be printed.
+     */
     public void printState(String name) {
         displayText("The state of " + name + " is:\n");
         printFavorTokens(CliState.getCliState().getCliPlayerState(name));
         printWindowFrame(CliState.getCliState().getCliPlayerState(name));
     }
+
+    /**
+     * Prints the initial WindowFrame, a {@link server.model.state.boards.windowframe.WindowFrameList}.
+     * @param rep a string that indicates the WindowFrame.
+     * @param favorTokens an int that indicates the FavorTokens bound with the WindowFrame indicated from the rep.
+     */
     public void printRep(String rep,int favorTokens){
         displayText("\n  || 0  | 1  | 2  | 3  | 4  |\n- - ");
         for (int k = 0; k < 8; k++) {
@@ -362,6 +395,12 @@ public class CliDisplayer {
         displayText("FAVOR TOKENS: "+favorTokens+"\n");
     }
 
+    /**
+     * Prints the final scoreboard.
+     * @param cards an array which contains the PrivateObjectiveCards of every player.
+     * @param scoreboardIds an array with player's id ordered by the final scoreboard.
+     * @param points a matrix that indicates how a player received the points.
+     */
     public void printResults(char[] cards, int[] scoreboardIds, int[][] points) {
         displayText("\t\t\t\t\t\tSCOREBOARD:\n\n");
         int max=0;
@@ -443,12 +482,26 @@ public class CliDisplayer {
         displayText("PublicObjectiveCard "+i+" is "+objectiveCardsEffects.returnName(CliState.getCliState().getPublicObjectiveCardIds()[i])+"\n");
         displayText("\n");
     }
+
+    /**
+     * Prints a string in bold characters.
+     * @param modify the string to prints in bold characters.
+     */
     public void printBold(String modify) {    //da mettere in inglese
         displayText((char) 27 + "[1m" + modify + (char) 27 + "[0m");
     }
+
+    /**
+     * A boolean that indicates if the game is in SinglePlayer mode or MultiPlayer mode.
+     * @param singlePlayer true if the game is in SinglePlayer mode, false if it isn't.
+     */
     public void setSinglePlayer(boolean singlePlayer) {
         this.singlePlayer = singlePlayer;}
 
+    /**
+     * Prints the PrivateObjectiveCard in colored characters.
+     * @param color the color of the PrivateObjectiveCard.
+     */
     public void printColoredPrvCard(String color){
         String card;
         switch(color){
@@ -473,6 +526,11 @@ public class CliDisplayer {
         }
         displayText(card);
     }
+
+    /**
+     * Prints the final points for the SinglePlayer mode.
+     * @param singlePlayerEndGame contains the data which indicates the points of the player.
+     */
     public void printSinglePlayerPoints(SinglePlayerEndGame singlePlayerEndGame){
         if(singlePlayerEndGame.getTargetPoints()<singlePlayerEndGame.getVectorPoints()[4]) {
             displayText("\t\t\t\t\tYOU WIN");
