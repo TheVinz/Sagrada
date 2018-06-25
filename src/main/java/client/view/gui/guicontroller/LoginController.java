@@ -89,4 +89,14 @@ public class LoginController extends ClientConnection {
     public void notifyDisconnection() {
         Platform.runLater(() -> listener.handleIOException());
     }
+
+    @Override
+    public void connectionError(){
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Your connection has been rejected.");
+            alert.setContentText("Try again with a different username or game mode.");
+            alert.showAndWait();
+        });
+    }
 }

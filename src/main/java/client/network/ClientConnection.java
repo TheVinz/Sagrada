@@ -22,6 +22,10 @@ public abstract class ClientConnection {
     public void connectRmi(String ip, String name, RemoteView remoteView, boolean singleplayer) throws RemoteException, MalformedURLException, NotBoundException {
         RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+RMIport+"/RMILoginManager");
         RemoteController remoteController=login.connect(name, remoteView, singleplayer);
+        if(remoteController == null){
+            connectionError();
+            return;
+        }
         setRemoteController(remoteController);
         new Thread(() -> {
             while(true) {
@@ -44,9 +48,13 @@ public abstract class ClientConnection {
             try(Socket connection = new Socket(ip, socketPort)){
                 ObjectOutputStream out = new ObjectOutputStream(connection.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(connection.getInputStream());
-                System.out.println((String) in.readObject());
                 out.writeObject(name);
                 out.writeObject(singleplayer);
+                String response = (String) in.readObject();
+                if(response.equals("ERROR")){
+                    connectionError();
+                    return;
+                }
                 ClientSocketHandler clientSocketHandler = new ClientSocketHandler(in, out, remoteView);
                 setRemoteController(clientSocketHandler);
                 clientSocketHandler.mainLoop();
@@ -60,4 +68,5 @@ public abstract class ClientConnection {
 
     public abstract void setRemoteController(RemoteController remoteController);
     public abstract void notifyDisconnection();
+    public abstract void connectionError();
 }
