@@ -44,4 +44,10 @@ public class CliConnectionFactory extends ClientConnection{
         CliApp.getCliApp().suspend();
     }
 
+    @Override
+    public void connectionError(){
+        System.out.println("Your connection has been rejected!\nTry again with a different username or connection mode.");
+        CliLaunchClient.connect();
+    }
+
 }

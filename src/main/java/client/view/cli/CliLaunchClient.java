@@ -7,12 +7,24 @@ import java.util.Scanner;
 
 public class CliLaunchClient {
 
-    private static CliConnectionFactory cliConnectionFactory;
+    private static Scanner sc;
 
     public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
+        sc = new Scanner(System.in);
         System.out.print("\t\t\t\tWelcome to:\t");
         CliDisplayer.getDisplayer().printBold("Sagrada");
+        connect();
+    }
+
+    public static void reconnect(Scanner sc, String name){
+        try {
+           new CliConnectionFactory(sc, name, new CliModel(false), false);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void connect(){
         System.out.print("\nUsername:\n>>> ");
         String name = sc.nextLine();
         String choice = null;
@@ -33,17 +45,9 @@ public class CliLaunchClient {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        cliConnectionFactory = new CliConnectionFactory(sc, name, viewModel, singlePlayer);
+        new CliConnectionFactory(sc, name, viewModel, singlePlayer);
         CliApp.getCliApp().mainLoop();
         sc.close();
         System.exit(1);
-    }
-
-    public static void reconnect(Scanner sc, String name){
-        try {
-            cliConnectionFactory = new CliConnectionFactory(sc, name, new CliModel(false), false);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
 }
