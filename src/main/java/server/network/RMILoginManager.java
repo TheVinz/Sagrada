@@ -32,9 +32,8 @@ public class RMILoginManager extends UnicastRemoteObject implements RemoteLoginM
             e.printStackTrace();
             return null;
         } catch (Exception e){
-            //TODO singleplayer and invalid username
+            return null;
         }
-        return null;
     }
 
 

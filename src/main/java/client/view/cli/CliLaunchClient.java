@@ -36,13 +36,11 @@ public class CliLaunchClient {
         cliConnectionFactory = new CliConnectionFactory(sc, name, viewModel, singlePlayer);
         CliApp.getCliApp().mainLoop();
         sc.close();
-        cliConnectionFactory.close();
         System.exit(1);
     }
 
     public static void reconnect(Scanner sc, String name){
         try {
-            cliConnectionFactory.close();
             cliConnectionFactory = new CliConnectionFactory(sc, name, new CliModel(false), false);
         } catch (RemoteException e) {
             e.printStackTrace();

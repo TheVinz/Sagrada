@@ -45,7 +45,7 @@ public class ViewController {
     @FXML
     private BorderPane rootLayout;
 
-    public void init(GuiModel model) {
+    public void init() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(MainApp.class.getResource("resources/fxml/Login.fxml"));
         try {
@@ -55,7 +55,6 @@ public class ViewController {
             Image background = new Image(MainApp.class.getResource("resources/style/background.jpg").toString());
             BackgroundImage backgroundImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(0,0,false,false,false,true));
             rootLayout.setBackground(new Background(backgroundImage));
-            loginController.setModel(model);
             loginController.addListener(this);
             loader=new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("resources/fxml/WindowFrameChoice.fxml"));
@@ -405,15 +404,9 @@ public class ViewController {
             if(dialog != null)
                 dialog.close();
         });
-        try {
-            String name = gameController.getPlayerName(this.id);
-            init(new GuiModel(this));
-            loginController.setName(name);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        String name = gameController.getPlayerName(this.id);
+        init();
+        loginController.setName(name);
     }
 
     public synchronized void roundTrackClick(int round, int index) {
@@ -534,15 +527,7 @@ public class ViewController {
 
         Button rematchButton = new Button("Play again");
         rematchButton.setOnMouseClicked((mouseEvent -> {
-            try {
-                init(new GuiModel(this));
-            } catch (IOException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Connection error.");
-                alert.showAndWait();
-                System.exit(-1);
-            }
+            init();
             rootLayout.setTop(null);
         }));
         Button exitButton = new Button("Exit");
