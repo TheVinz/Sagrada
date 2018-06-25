@@ -89,4 +89,10 @@ public class SocketViewProxy extends ViewProxy {
     }
 
 
+    @Override
+    public void setPlayer(Player player){
+        sendData("OK");
+        super.setPlayer(player);
+    }
+
 }

@@ -24,7 +24,6 @@ public class SocketLoginManager{
             viewProxy = new SocketViewProxy(out, s);
             try {
                 gameManager.addPlayer(name, viewProxy, singlePlayer);
-                out.writeObject("OK");
                 viewProxy.mainLoop(in);
             } catch (Exception e) {
                 out.writeObject("ERROR");
