@@ -3,15 +3,14 @@ package common.viewchangement;
 import common.Changer;
 
 /**
- * The <tt>LoadPrivateObjectiveCard</tt> class contains data about a {@link server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard}
- * of a {@link server.model.state.player.Player}.
+ * The <tt>LoadPrivateObjectiveCard</tt> class contains data to send to the client about a {@link server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard}.
  */
 public class LoadPrivateObjectiveCard extends Changement{
 
     private final char color;
 
     /**
-     * Creates a new <tt>LoadPrivateObjectiveCard</tt> changement relative to a new game.
+     * Creates a new <tt>LoadPrivateObjectiveCard</tt> changement relative to a PrivateObjectiveCard.
      * @param color of the PrivateObjectiveCard.
      */
     public LoadPrivateObjectiveCard(char color){

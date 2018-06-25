@@ -10,7 +10,7 @@ public class DiceDraw extends Changement {
     private final char color;
 
     /**
-     * Creates a new <tt>DiceDraw</tt> changement relative to a dice.
+     * Creates a new <tt>DiceDraw</tt> changement relative to a Dice.
      * @param id the id of the {@link server.model.state.player.Player} that drawn the Dice.
      * @param color of the dice drawn.
      */
