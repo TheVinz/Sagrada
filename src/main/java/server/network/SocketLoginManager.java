@@ -19,6 +19,7 @@ public class SocketLoginManager{
              ObjectInputStream in = new ObjectInputStream(s.getInputStream())) {
             SocketViewProxy viewProxy;
             name = (String) in.readObject();
+            Thread.currentThread().setName(name + " - socket connection");
             System.out.print(name + " connected\n>>>");
             boolean singlePlayer = (Boolean) in.readObject();
             viewProxy = new SocketViewProxy(out, s);

@@ -78,6 +78,7 @@ public class GameManager implements TimerObserver {
         //ma la partita viene eliminata?
         System.out.println(model.hashCode()+" terminated. --> "+message+"\n>>>");
         printPlayers();
+        System.gc();
     }
 
     private void printPlayers(){

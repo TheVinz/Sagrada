@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-
+import java.rmi.server.UnicastRemoteObject;
 
 
 public class ViewController {
@@ -34,6 +34,7 @@ public class ViewController {
     private RemoteController remoteController;
     private GameController gameController;
     private LoginController loginController;
+
 
     private AnchorPane gamePane;
     private AnchorPane windowFrameChoicesPane;
@@ -103,9 +104,6 @@ public class ViewController {
 
     public void notifyLogin(RemoteController remoteController, boolean singleplayer){
         this.remoteController=remoteController;
-        Label label = new Label("Waiting server...");
-        label.setStyle("-fx-font-size: 40; -fx-text-fill: white; -fx-background-color: black");
-        rootLayout.setCenter(label);
         FXMLLoader loader=new FXMLLoader();
         if(!singleplayer)
             loader.setLocation(MainApp.class.getResource("resources/fxml/Game.fxml"));
@@ -117,8 +115,6 @@ public class ViewController {
             e.printStackTrace();
         }
         gameController=loader.getController();
-        if(!singleplayer)
-            gameController.log("Waiting for other players...\n");
         gameController.addListener(this);
     }
 
@@ -145,17 +141,6 @@ public class ViewController {
         rootLayout.setCenter(node);
     }
 
-    public void clear(){
-        FXMLLoader loader=new FXMLLoader();
-        loader.setLocation(MainApp.class.getResource("resources/fxml/Game.fxml"));
-        try {
-            gamePane=loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        gameController=loader.getController();
-        gameController.addListener(this);
-    }
 
     public void setGameBackground(){
         Image background = new Image(MainApp.class.getResource("resources/style/gamebackground.jpg").toString());
@@ -265,9 +250,10 @@ public class ViewController {
             message = gameController.getPlayerName(player) + " ";
         message = message + "used "+gameController.getToolCardName(index) +  "\n";
         gameController.log(message);
-        gameController.decreaseFavorTokens(player, tokens);
         if(loginController.isSingleplayer())
             gameController.removeToolCard(index);
+        else
+            gameController.decreaseFavorTokens(player, tokens);
     }
 
     public void notifyDiceDraw(int player, char color) {
@@ -305,21 +291,16 @@ public class ViewController {
     }
 
     public void updateCell(int player, Response type, int index, int value, char color) {
-        String message;
         if(type == Response.DRAFT_POOL_CELL){
-            message = gameController.getPlayerName(player) + " modified a dice in the draft pool\n";
             gameController.updateDraftPool(index, value, color);
         }
-    }
-
-    public void updateCell(int player, Response type, int param1, int param2, int value, char color) {
     }
 
     public synchronized void startTurn(int id) {
         if(id==this.id) {
             gameController.log("Is your turn!!\n");
-            GamePhase.diceMoved=false;
-            GamePhase.toolCardUsed=false;
+            GamePhase.unsetDiceMoved();
+            GamePhase.unsetToolCardUsed();
             this.currentPhase=new MainPhase(remoteController, gameController);
         }
         else {
@@ -370,16 +351,16 @@ public class ViewController {
                 }
                 break;
             case SUCCESS_MOVE_DONE:
-                GamePhase.diceMoved=true;
+                GamePhase.setDiceMoved();
                 currentPhase = new MainPhase(remoteController, gameController);
                 break;
             case SUCCESS_USED_TOOL_CARD:
-                GamePhase.toolCardUsed=true;
+                GamePhase.setToolCardUsed();
                 currentPhase = new MainPhase(remoteController, gameController);
                 break;
             case SUCCESS_TOOL_CARD_WITH_MOVE:
-                GamePhase.toolCardUsed = true;
-                GamePhase.diceMoved = true;
+                GamePhase.setToolCardUsed();
+                GamePhase.setDiceMoved();
                 currentPhase = new MainPhase(remoteController, gameController);
                 break;
 
@@ -391,6 +372,7 @@ public class ViewController {
     }
 
     public synchronized void handleIOException() {
+
         Platform.runLater(() ->{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -445,7 +427,6 @@ public class ViewController {
     public synchronized void endTurn() {
         try {
             remoteController.command(new GameCommand(Response.END_TURN));
-            gameController.unableAll();
         } catch (IOException e) {
             handleIOException();
         }
@@ -482,8 +463,6 @@ public class ViewController {
     }
 
     public synchronized void endSinglePlayerGame(char card, int[] points, int targetPoints){
-
-
 
         String style = "-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 26";
 
@@ -527,11 +506,17 @@ public class ViewController {
 
         Button rematchButton = new Button("Play again");
         rematchButton.setOnMouseClicked((mouseEvent -> {
+            loginController.closeConnection();
             init();
             rootLayout.setTop(null);
         }));
+
         Button exitButton = new Button("Exit");
-        exitButton.setOnMouseClicked((mouseEvent -> System.exit(0)));
+        exitButton.setOnMouseClicked((mouseEvent -> {
+            loginController.closeConnection();
+            System.exit(0);
+        }));
+
         style = "-fx-background-color: orange; -fx-font-size: 24";
         exitButton.setStyle(style);
         rematchButton.setStyle(style);
@@ -546,6 +531,7 @@ public class ViewController {
     }
 
     public synchronized void endGame(char[] privateObjectiveCards, int[] ids, int[][] points){
+
         HBox endGameBox = new HBox(20);
         endGameBox.setAlignment(Pos.CENTER);
         for(int i=0; i<points.length; i++) {

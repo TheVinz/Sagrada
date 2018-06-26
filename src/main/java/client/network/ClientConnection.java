@@ -15,6 +15,7 @@ import java.rmi.RemoteException;
 
 public abstract class ClientConnection {
 
+    protected boolean ping = true;
     private final int socketPort = 8010;
     private final int RMIport = 1099;
 
@@ -28,12 +29,14 @@ public abstract class ClientConnection {
         }
         setRemoteController(remoteController);
         new Thread(() -> {
-            while(true) {
+            while(ping) {
+                Thread.currentThread().setName("RMI ping");
                 try {
                     remoteController.command(null);
                     Thread.sleep(1000);
                 } catch (IOException e) {
-                    notifyDisconnection();
+                    if(ping)
+                        notifyDisconnection();
                     return;
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -45,6 +48,7 @@ public abstract class ClientConnection {
 
     public void connectSocket(String ip, RemoteView remoteView, String name, boolean singleplayer){
         new Thread(() -> {
+            Thread.currentThread().setName("Socket connection handler");
             try(Socket connection = new Socket(ip, socketPort)){
                 ObjectOutputStream out = new ObjectOutputStream(connection.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(connection.getInputStream());

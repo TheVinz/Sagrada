@@ -13,18 +13,31 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-
+/**
+ * The <tt>WindowFrameChoiceController</tt> in the controller associated to the window frame
+ * choice screen. This class set the center of the main {@link javafx.scene.layout.BorderPane}
+ * to an {@link javafx.scene.layout.AnchorPane} containing a {@link GridPane} with the four
+ * window frame schemes sent by the server, by which the player can choose the one he wants to
+ * play with, and a {@link VBox} with the private objective cards associated to the player,
+ * one in case of multi-player game or two in case of single-player. The client's {@link ViewController}
+ * is updated when the choice is made. The AnchorPane is loaded by the FXML file
+ * WindowFrameChoice.fxml in the fxml resource directory.
+ */
 public class WindowFrameChoiceController {
 
-    ViewController viewController;
-    GridPane[] frames = new GridPane[4];
+    private ViewController viewController;
+    private GridPane[] frames = new GridPane[4];
 
     @FXML
     private GridPane grid;
     @FXML
     private VBox cardBox;
 
-
+    /**
+     * Initializes and shows the {@link GridPane} containing the four schemes the player can choose.
+     * @param reps the array of scheme representations.
+     * @param tokens the array of favor tokens associated to the corresponding scheme.
+     */
     public void setChoice(String[] reps, int[] tokens){
         VBox[] boxes= new VBox[reps.length];
         for(int i=0; i<boxes.length; i++){
@@ -67,11 +80,20 @@ public class WindowFrameChoiceController {
         grid.add(boxes[3], 1, 1);
     }
 
+    /**
+     * Adds an {@link ImageView} with the private objective card images to the cards {@link VBox}.
+     * @param color the color of the private objective card.
+     */
     public void setPrivateObjectiveCard(char color){
         ImageView card = Util.getPrivateObjectiveCard(color);
         cardBox.getChildren().add(card);
     }
 
+    /**
+     * Sets the {@link ViewController} of the GUI client.
+     * @param viewController the ViewController to be notified after the player has
+     *                       selected his scheme.
+     */
     public void addListener(ViewController viewController) {
         this.viewController=viewController;
     }

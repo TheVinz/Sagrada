@@ -53,12 +53,16 @@ public class LaunchServer {
 
     private static void startSocketServer(GameManager gameManager){
         int port = 8010;
+        Thread.currentThread().setName("Sagrada - socket connection handler");
         ExecutorService pool = Executors.newCachedThreadPool();
         try(ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.print("Listening on " + port + "\n>>>");
             while (!stopSignal) {
                 Socket clientSocket = serverSocket.accept();
-                pool.submit(() -> new SocketLoginManager().handleConnection(clientSocket, gameManager));
+                pool.submit(() -> {
+                    new SocketLoginManager().handleConnection(clientSocket, gameManager);
+                    Thread.currentThread().setName("Thread parked");
+                });
             }
         } catch (IOException e) {
             e.printStackTrace();

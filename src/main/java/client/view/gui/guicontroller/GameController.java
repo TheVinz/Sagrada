@@ -1,13 +1,11 @@
 package client.view.gui.guicontroller;
 
 import client.view.gui.guicontroller.gamephase.GamePhase;
-import client.view.gui.guimodel.GuiModel;
 import client.view.gui.util.Util;
 import javafx.fxml.FXML;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
@@ -19,11 +17,25 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import server.GameManager;
 
-import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 
+/**
+ * The <tt>GameController</tt> class is the class that controls all the graphic related
+ * to the playing phase either for single-player and multi-player games. The FXML files
+ * associated to this controller (Game.fxml for multi-player and SinglePlayer.fxml for
+ * single-player, both in fxml resource directory) are composed by:
+ * <ul>
+ *     <li>an {@link HBox} for draft pool's dices;</li>
+ *     <li>a {@link VBox} showing the player's window frame;</li>
+ *     <li>an HBox for other players frames (not present in single-player games);</li>
+ *     <li>an HBox for tool card image {@link ImageView}s;</li>
+ *     <li>an HBox for both private and public objective card image ImageViews;</li>
+ *     <li>an HBox for the round track images and dices;</li>
+ *     <li>a {@link Label} for showing some text.</li>
+ * </ul>
+ */
 public class GameController {
     @FXML
     private HBox draftPoolBox;
@@ -56,23 +68,23 @@ public class GameController {
 
     private ViewController controller;
 
-    /*Init phase*/
-    public void addListener(ViewController controller){
+
+    void addListener(ViewController controller){
         this.controller=controller;
     }
 
-    public String getPlayerName(int id){
+    String getPlayerName(int id){
         return playerNames[id];
     }
-    public GridPane getPlayerFrame(int id){
+    GridPane getPlayerFrame(int id){
         return frames[id];
     }
-    public String getToolCardName(int index){
+    String getToolCardName(int index){
         Node card = toolCardsBox.getChildren().get(index);
         return card.getAccessibleText();
     }
 
-    public void loadPlayer(String name, int id, String rep, int windowFrameFavorToken) {
+    void loadPlayer(String name, int id, String rep, int windowFrameFavorToken) {
         GridPane windowFrame = Util.getWindowFrame(rep);
         Reflection reflection = new Reflection();
         reflection.setFraction(0.7f);
@@ -97,29 +109,29 @@ public class GameController {
         this.tokens[id]=tokens;
     }
 
-    public void loadToolCard(int toolCard, final int i) {
+    void loadToolCard(int toolCard, final int i) {
         Pane card=Util.getToolCard(toolCard);
         toolCardsBox.getChildren().add(card);
         card.setOnMouseClicked((event) -> handleToolCardClick(i));
     }
 
-    public void setPrivateObjectiveCard(char color) {
+    void setPrivateObjectiveCard(char color) {
         VBox box=new VBox();
         box.setAlignment(Pos.CENTER);
         box.getChildren().add(Util.getPrivateObjectiveCard(color));
         objectiveCardsBox.getChildren().add(box);
     }
 
-    public void setPublicObjectiveCards(int[] cards) {
-        for(int i=0; i<cards.length; i++) {
-            VBox box=new VBox();
+    void setPublicObjectiveCards(int[] cards) {
+        for (int card : cards) {
+            VBox box = new VBox();
             box.setAlignment(Pos.CENTER);
-            box.getChildren().add(Util.getPublicObjectiveCard(cards[i]));
+            box.getChildren().add(Util.getPublicObjectiveCard(card));
             objectiveCardsBox.getChildren().add(box);
         }
     }
 
-    public void setActiveFrame(String name, int id, String rep, int tokens) {
+    void setActiveFrame(String name, int id, String rep, int tokens) {
         GridPane frame = Util.getWindowFrame(rep);
         Reflection reflection = new Reflection();
         reflection.setFraction(0.7f);
@@ -157,7 +169,8 @@ public class GameController {
     /*==========================================================================================*/
     /*Round routine*/
 
-    public void unableAll(){
+
+    private void unableAll(){
         draftPoolBox.getStyleClass().remove(draggable);
         draftPoolBox.getStyleClass().remove(clickable);
         activeFrame.getStyleClass().remove(clickable);
@@ -167,50 +180,99 @@ public class GameController {
         toolCardsBox.getStyleClass().remove(clickable);
         canEnd = false;
     }
+
+    /**
+     * This method sets the graphic for the {@link GamePhase}:
+     * removes all the dragging and clicking hover properties.
+     */
+    public void gamePhase(){
+        unableAll();
+    }
+
+    /**
+     * This method sets the graphic for the {@link client.view.gui.guicontroller.gamephase.MainPhase}:
+     * <ul>
+     *     <li>drag from draft pool to window frame;</li>
+     *     <li>click on tool cards.</li>
+     * </ul>
+     */
     public void mainPhase(){
         unableAll();
-        if(!GamePhase.diceMoved) {
+        if(!GamePhase.isDiceMoved()) {
             draftPoolBox.getStyleClass().add(draggable);
             activeFrame.getStyleClass().add(droppable);
         }
-        if(!GamePhase.toolCardUsed)
+        if(!GamePhase.isToolCardUsed())
             toolCardsBox.getStyleClass().add(clickable);
         log("What do you want to do?");
         canEnd = true;
     }
+
+    /**
+     * This method sets the graphic for the {@link client.view.gui.guicontroller.gamephase.MovingDraftPoolPhase}:
+     * <ul>
+     *     <li>drag from draft pool to window frame.</li>
+     * </ul>
+     */
     public void movingDraftPoolPhase(){
         unableAll();
         draftPoolBox.getStyleClass().add(draggable);
         activeFrame.getStyleClass().add(droppable);
         log("Move a dice from the draft pool to your window frame\n");
     }
+
+    /**
+     * This method sets the graphic for the {@link client.view.gui.guicontroller.gamephase.MovingWindowFramePhase}:
+     * <ul>
+     *     <li>drag from window frame to window frame.</li>
+     * </ul>
+     */
     public void movingWindowFrame(){
         unableAll();
         activeFrame.getStyleClass().add(droppable);
         activeFrame.getStyleClass().add(draggable);
         log("Move a dice in your window frame\n");
     }
+
+    /**
+     * This method sets the graphic for the {@link client.view.gui.guicontroller.gamephase.RoundTrackPhase}:
+     * <ul>
+     *     <li>click on round track dices.</li>
+     * </ul>
+     */
     public void roundTrackPhase(){
         unableAll();
         roundTrack.getStyleClass().add(clickable);
         log("Select a dice from the round track\n");
     }
+
+    /**
+     * This method sets the graphic for the {@link client.view.gui.guicontroller.gamephase.WindowFramePhase}:
+     * <ul>click on window frame cells.</ul>
+     */
     public void windowFramePhase(){
         unableAll();
         activeFrame.getStyleClass().add(clickable);
         log("Select a cell from your window frame\n");
     }
+
+    /**
+     * This method sets the graphic for the {@link client.view.gui.guicontroller.gamephase.DraftPoolPhase}:
+     * <ul>
+     *     <li>click on draft pool dices.</li>
+     * </ul>
+     */
     public void draftPoolPhase(){
         unableAll();
         draftPoolBox.getStyleClass().add(clickable);
         log("Select a dice from the draft pool\n");
     }
 
-    public void cleanDraftPool() {
+    void cleanDraftPool() {
         draftPoolBox.getChildren().clear();
     }
 
-    public void addRoundTrackBox(int round, int[] values, char[] colors) {
+    void addRoundTrackBox(int round, int[] values, char[] colors) {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
         box.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
@@ -232,7 +294,7 @@ public class GameController {
         }
     }
 
-    public void setDraftPoolDice(final int i, int value, char color) {
+    void setDraftPoolDice(final int i, int value, char color) {
         ImageView dice = Util.getImage(color, value);
         Pane pane = new Pane();
         if(dice != null) {
@@ -244,33 +306,32 @@ public class GameController {
             pane.getStyleClass().add("empty");
         pane.getStyleClass().add("cell");
         draftPoolBox.getChildren().add(i, pane);
-        pane.setOnDragDetected((event) -> handleStartDrag(event, i));
-        pane.setOnMouseClicked((event) -> draftPoolCkick( i));
+        pane.setOnDragDetected(event -> handleStartDrag(event, i));
+        pane.setOnMouseClicked(event -> draftPoolCkick( i));
     }
 
-    public synchronized void log(String message){
+    synchronized void log(String message){
         textLabel.setText(message);
     }
     /*======================================================================================*/
     /*Modifiers*/
 
-    public void decreaseFavorTokens(int id, int tokens){
+    void decreaseFavorTokens(int id, int tokens){
         HBox tokensBox=this.tokens[id];
         tokensBox.getChildren().remove(0);
         if(tokens==2)
             tokensBox.getChildren().remove(0);
     }
 
-    public void updateDraftPool(int index, int value, char color) {
+    void updateDraftPool(int index, int value, char color) {
         Pane cell = (Pane) draftPoolBox.getChildren().get(index);
         ImageView image = Util.getImage(color, value);
         cell.getChildren().clear();
-        if(cell.getStyleClass().contains("empty"))
-            cell.getStyleClass().remove("empty");
+        cell.getStyleClass().remove("empty");
         cell.getChildren().add(0, image);
     }
 
-    public ImageView getFromDraftPool(int index) {
+    ImageView getFromDraftPool(int index) {
         Pane pane = (Pane) draftPoolBox.getChildren().get(index);
         ImageView image = (ImageView) (pane).getChildren().get(0);
         pane.getChildren().clear();
@@ -278,7 +339,7 @@ public class GameController {
         return image;
     }
 
-    public ImageView getFromWindowFrame(int player, int row, int col) {
+    synchronized ImageView getFromWindowFrame(int player, int row, int col) {
         GridPane frame = frames[player];
         Pane pane = null;
         for (Node n : frame.getChildren())
@@ -301,7 +362,7 @@ public class GameController {
         return image;
     }
 
-    public void setFromWindowFrame(int id, int row, int col, ImageView source) {
+    synchronized void setFromWindowFrame(int id, int row, int col, ImageView source) {
         ImageView image;
         GridPane grid = frames[id];
         Pane target=null;
@@ -327,7 +388,7 @@ public class GameController {
         }
     }
 
-    public void setFromRoundTrack(int round, int index, ImageView source) {
+    void setFromRoundTrack(int round, int index, ImageView source) {
         ImageView image = new ImageView(source.getImage());
         image.setY(2);
         image.setX(2);
@@ -338,7 +399,7 @@ public class GameController {
         pane.getChildren().set(0, image);
     }
 
-    public void removeToolCard(int index){
+    void removeToolCard(int index){
         toolCardsBox.getChildren().set(index, new Pane());
     }
 
@@ -371,16 +432,15 @@ public class GameController {
     private void handleFrameDrag(MouseEvent event, Node n) {
         int row = GridPane.getRowIndex(n);
         int col = GridPane.getColumnIndex(n);
-        ImageView image = (ImageView) ((Pane) n).getChildren().get(0);
+        Image image = ((ImageView) ((Pane) n).getChildren().get(0)).getImage();
         if(activeFrame.getStyleClass().contains(draggable) && hasDice[row][col]) {
             Pane pane = (Pane) n;
             int index = row*5 + col;
             char emptyImage = reps[id].charAt(index);
-            pane.getChildren().clear();
-            pane.getChildren().add(Util.getImage(emptyImage));
+            ((ImageView) pane.getChildren().get(0)).setImage(Util.getImage(emptyImage).getImage());
             Dragboard db = n.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
-            content.putImage(image.getImage());
+            content.putImage(image);
             db.setContent(content);
             event.consume();
         }
@@ -399,15 +459,14 @@ public class GameController {
         Dragboard db = event.getDragboard();
         Node source =(Node) event.getGestureSource();
         if(activeFrame.getStyleClass().contains(droppable)) {
-            boolean success = false;
             if (db.hasImage()) {
-                if(activeFrame.getChildren().contains(source))
+                event.setDropCompleted(true);
+                event.consume();
+                if(activeFrame.getChildren().contains(source)) {
                     controller.windowFrameClick(GridPane.getRowIndex(source), GridPane.getColumnIndex(source));
+                }
                 controller.windowFrameClick(GridPane.getRowIndex(n), GridPane.getColumnIndex(n));
-                success = true;
             }
-            event.setDropCompleted(success);
-            event.consume();
         }
     }
 
@@ -482,6 +541,10 @@ public class GameController {
         System.exit(0);
     }
 
+    /**
+     * This method is called in case of connection drops, calling the handle IOException
+     * routine on the {@link ViewController}.
+     */
     public void suspend() {
         controller.handleIOException();
     }

@@ -44,6 +44,7 @@ public class SocketViewProxy extends ViewProxy {
 
     @Override
     public void ping() {
+        Thread.currentThread().setName(player.getName() + " socket ping");
         while(super.isPing()) {
             sendData(null);
             try {

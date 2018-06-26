@@ -16,6 +16,7 @@ public class Timer implements Runnable {
     }
     @Override
     public synchronized void run() {
+        Thread.currentThread().setName("Sagrada - timer");
         while(blinker == Thread.currentThread()) {
             if(cont == 0 ){
                 timerObserver.notifyTimeout();

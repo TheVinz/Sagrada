@@ -3,7 +3,6 @@ package client.view.gui.guicontroller.gamephase;
 import client.view.gui.guicontroller.GameController;
 import common.RemoteMVC.RemoteController;
 import common.command.GameCommand;
-import common.exceptions.InvalidMoveException;
 import common.response.Response;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -19,17 +18,35 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
-
+/**
+ * The <tt>TaglierinaManualeChoicePhase</tt> handle the user's input in case of request,
+ * by the server, of the number of dice moves, thanks to the "Taglierina Manuale" card
+ * effect, the user would like to perform.
+ * So it just overrides the method handle choice by the {@link GamePhase} class, which
+ * shows a popup window with the "one" or "two" choices.
+ */
 public class TaglierinaManualeChoicePhase extends GamePhase {
 
     private Stage dialog = null;
 
+    /**
+     * Initializes the <tt>TaglierinaManualeChoicePhase</tt> by setting the {@link RemoteController}
+     * it will send the {@link GameCommand}s to, and the {@link GameController} of the current game graphical
+     * interface.
+     * @param controller the RemoteController for sending commands.
+     * @param gameController the GameController of the GUI.
+     */
     public TaglierinaManualeChoicePhase(RemoteController controller, GameController gameController) {
         super(controller, gameController);
     }
 
+    /**
+     * Initializes and shows the choice popup.
+     * @return a new {@link GamePhase} for waiting server response.
+     *
+     * @see Response
+     */
     @Override
     public GamePhase handleChoice(){
         dialog = new Stage();
@@ -80,6 +97,10 @@ public class TaglierinaManualeChoicePhase extends GamePhase {
         gameController.suspend();
     }
 
+    /**
+     * In case of connection drops, if the choice popup is still open, this method
+     * closes it.
+     */
     @Override
     public void close(){
         if(dialog != null)

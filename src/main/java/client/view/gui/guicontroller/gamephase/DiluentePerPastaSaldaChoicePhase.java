@@ -7,7 +7,6 @@ import common.command.GameCommand;
 import common.response.Response;
 import javafx.application.Platform;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -19,20 +18,35 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
+/**
+ * The <tt>DiluentePerPastaSaldaChoicePhase</tt> handle the user's input in case of request,
+ * by the server, of a value for the dice drawn thanks to the "Diluente Per Pasta Salda".
+ * So it just overrides the method handle choice by the {@link GamePhase} class, which
+ * shows a popup window with six buttons, one for each possible dice value.
+ */
 public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
 
     private Stage dialog = null;
     public static char color;
 
+    /**
+     * Initializes the <tt>DiluentePerPastaSaldaChoicePhase</tt> by setting the {@link RemoteController}
+     * it will send the {@link GameCommand}s to, and the {@link GameController} of the current game graphical
+     * interface.
+     * @param controller the RemoteController for sending commands.
+     * @param gameController the GameController of the GUI.
+     */
     public DiluentePerPastaSaldaChoicePhase(RemoteController controller, GameController gameController) {
         super(controller, gameController);
     }
 
+    /**
+     * Initializes and shows the choices popup.
+     * @return a new {@link GamePhase} for waiting server {@link Response}.
+     */
     @Override
     public GamePhase handleChoice(){
         dialog = new Stage();
@@ -76,6 +90,10 @@ public class DiluentePerPastaSaldaChoicePhase extends GamePhase{
         }
     }
 
+    /**
+     * In case of connection drops while the popup is still open, this method will
+     * close it.
+     */
     @Override
     public void close(){
         if(dialog != null)
