@@ -21,7 +21,11 @@ public class GameManagerTest {
     public void addPlayer() {
         ViewProxy connection1 = Mockito.mock(ViewProxy.class);
         Model model = test.getCurrentModel();
-        test.addPlayer("test1", connection1, false);
+        try {
+            test.addPlayer("test1", connection1, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         assertEquals(model, test.getCurrentModel());
         assertTrue(test.getGamesMap().containsKey("test1"));
