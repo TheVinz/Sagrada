@@ -63,42 +63,82 @@ public class MutableData extends Changement {
         return draftPoolValues;
     }
 
+    /**
+     * Gets an array of char which indicates the colors of the Dice in the DraftPool.
+     * @return an array of char which indicates the colors of the Dice in the DraftPool.
+     */
     public char[] getDraftPoolColors() {
         return draftPoolColors;
     }
 
+    /**
+     * Gets an array of int which indicates the values of the Dice in the RoundTrack.
+     * @return an array of int which indicates the values of the Dice in the RoundTrack.
+     */
     public int[][] getRoundTrackValues() {
         return roundTrackValues;
     }
 
+    /**
+     * Gets an array of char which indicates the colors of the Dice in the RoundTrack.
+     * @return an array of char which indicates the colors of the Dice in the RoundTrack.
+     */
     public char[][] getRoundTrackColors() {
         return roundTrackColors;
     }
 
+    /**
+     * Gets an array of string which indicates the names of the players in the game.
+     * @return an array of string which indicates the names of the players in the game.
+     */
     public String[] getNames() {
         return names;
     }
 
+    /**
+     * Gets an array of int which indicates the ids of the players in the game.
+     * @return an array of int which indicates the ids of the players in the game.
+     */
     public int[] getIds() {
         return ids;
     }
 
+    /**
+     * Gets an array of int which indicates the FavorTokens of the players in the game.
+     * @return an array of int which indicates the FavorTokens of the players in the game.
+     */
     public int[] getFavorTokens() {
         return favorTokens;
     }
 
+    /**
+     * Gets an array of string which indicates the initial WindowFrame of the players in the game.
+     * @return an array of string which indicates the initial WindowFrame of the players in the game.
+     */
     public String[] getWindowFrameReps() {
         return windowFrameReps;
     }
 
+    /**
+     * Gets an array of matrix which indicates the values in every WindowFrameCell of the players in the game.
+     * @return an array of matrix which indicates the values in every WindowFrameCell of the players in the game.
+     */
     public int[][][] getWindowFrameValues() {
         return windowFrameValues;
     }
 
+    /**
+     * Gets an array of matrix which indicates the colors in every WindowFrameCell of the player in the game.
+     * @return an array of matrix which indicates the colors in every WindowFrameCell of the player in the game.
+     */
     public char[][][] getWindowFrameColors() {
         return windowFrameColors;
     }
 
+    /**
+     * Delegate the handling of this <tt>MutableData</tt> Changement to a specific {@link common.Changer}.
+     * @param changer will handle this <tt>MutableData</tt> Changement.
+     */
     public void change(Changer changer){
         changer.change(this);
     }

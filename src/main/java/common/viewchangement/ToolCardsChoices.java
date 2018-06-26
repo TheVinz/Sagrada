@@ -3,7 +3,7 @@ package common.viewchangement;
 import common.Changer;
 
 /**
- * The <tt>ToolCardChoices</tt> class contains the data to send to the client
+ * The <tt>ToolCardChoices</tt> class informs the client that he have to choose the number of ToolCards.
  */
 public class ToolCardsChoices extends Changement {
     /**

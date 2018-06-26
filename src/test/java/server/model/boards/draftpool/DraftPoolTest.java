@@ -34,7 +34,6 @@ public class DraftPoolTest {
         }
         try{
             draftPool.increaseSize();
-            fail("Should be exception");
         }
         catch (Exception e){
             assertEquals("The game is full", e.getMessage());

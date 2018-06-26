@@ -29,7 +29,7 @@ public class LoginController extends ClientConnection {
     private boolean singleplayer=false;
     private GuiModel model;
 
-    private String ip = "localhost";
+    private String ip = "151.64.41.194";
 
 
     @FXML
