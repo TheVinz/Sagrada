@@ -17,7 +17,7 @@ public class LoginController extends ClientConnection {
     private ViewController listener;
     private boolean singleplayer=false;
 
-    private String ip = "192.168.0.20";
+    private String ip = "localhost";
 
 
     @FXML

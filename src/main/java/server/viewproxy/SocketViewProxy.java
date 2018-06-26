@@ -90,8 +90,12 @@ public class SocketViewProxy extends ViewProxy {
 
 
     @Override
-    public void setPlayer(Player player){
-        sendData("OK");
+    public void setPlayer(Player player) throws Exception{
+        try {
+            out.writeObject("OK");
+        } catch (IOException e) {
+            throw new Exception("User unreachable!");
+        }
         super.setPlayer(player);
     }
 

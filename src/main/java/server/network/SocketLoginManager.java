@@ -26,6 +26,7 @@ public class SocketLoginManager{
                 gameManager.addPlayer(name, viewProxy, singlePlayer);
                 viewProxy.mainLoop(in);
             } catch (Exception e) {
+                e.printStackTrace();
                 out.writeObject("ERROR");
             }
         } catch (RemoteException e) {

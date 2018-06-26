@@ -74,7 +74,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
      * Set the model Player representing the remote player associated to this ViewProxy
      * @param player the remote player representation on the Model
      */
-    public void setPlayer(Player player){
+    public void setPlayer(Player player) throws Exception{
         this.player = player;
         this.controller = new Controller(model, player, this);
         change(new LoadId(player.getId()));
