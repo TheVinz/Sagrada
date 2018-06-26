@@ -151,6 +151,8 @@ public class CliApp {
     }
 
     public void suspend(){ //forse va synchro
+        if(CliState.getCliState().isGameFinished())
+            return;
         String name = CliState.getCliState().getCliPlayerState(id).getName();
         CliState.getCliState().resetCliState();
         setCurrentState(new Suspended(scanner, name));
