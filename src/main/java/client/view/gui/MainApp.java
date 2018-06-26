@@ -29,12 +29,8 @@ public class MainApp extends Application {
         primaryStage.setTitle("Sagrada");
         primaryStage.setOnCloseRequest((event) -> System.exit(0));
         initRootLayout();
-        try {
-            GuiModel model = new GuiModel(controller);
-            controller.init(model);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+
+        controller.init();
     }
 
     private void initRootLayout() {

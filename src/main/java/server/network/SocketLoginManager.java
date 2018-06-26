@@ -18,13 +18,17 @@ public class SocketLoginManager{
         try (ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
              ObjectInputStream in = new ObjectInputStream(s.getInputStream())) {
             SocketViewProxy viewProxy;
-            out.writeObject("You are connected to the server!");
             name = (String) in.readObject();
             System.out.print(name + " connected\n>>>");
             boolean singlePlayer = (Boolean) in.readObject();
             viewProxy = new SocketViewProxy(out, s);
-            gameManager.addPlayer(name, viewProxy, singlePlayer);
-            viewProxy.mainLoop(in);
+            try {
+                gameManager.addPlayer(name, viewProxy, singlePlayer);
+                viewProxy.mainLoop(in);
+            } catch (Exception e) {
+                e.printStackTrace();
+                out.writeObject("ERROR");
+            }
         } catch (RemoteException e) {
             System.out.print(name + " connection error.\n>>>");
         } catch (IOException e) {
@@ -32,8 +36,6 @@ public class SocketLoginManager{
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.print(">>>");
-        } catch (Exception e) {
-            //TODO inserire codice in caso di riconnessioni con username o singleplayer invalido
         } finally {
             try {
                 s.close();

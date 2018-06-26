@@ -11,34 +11,43 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class LaunchServer {
 
+    private static String ip;
+
     public static final Object lock = new Object();
     private static boolean stopSignal=false;
 
     public static void main(String[] args) {
+        if(args.length > 0)
+            ip = args[0];
+        else
+            ip = "localhost";
         GameManager gameManager = new GameManager();
         startRMIServer(gameManager);
         new Thread(() -> startSocketServer(gameManager)).start();
     }
 
     private static void startRMIServer(GameManager gameManager) {
-        String ip = "localhost";
         int port = 1099;
+
+        System.setProperty("java.rmi.server.hostname", ip);
+
         try {
+            Registry reg = LocateRegistry.createRegistry(port);
             System.out.print(">>>");
             RemoteLoginManager loginManager = new RMILoginManager(gameManager);
             System.out.print("Starting RMI server...\n>>>");
-            Naming.rebind("rmi://" + ip + ":" + port + "/RMILoginManager", loginManager);
+            reg.rebind("RMILoginManager", loginManager);
             System.out.print("RMI Server on\n>>>");
         } catch (RemoteException e) {
             System.out.println("Working just on Sockets, retry!\n" + e.getCause());
-        } catch (MalformedURLException e) {
-            System.err.println("Malformed url.");
         }
     }
 

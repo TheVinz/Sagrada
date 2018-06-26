@@ -172,7 +172,7 @@ public class AlesatorePerLaminaDiRameTest {
             try {
                 toolCard.setParameter(player.getWindowFrame());
             } catch (WrongParameter wrongParameter) {
-                assertEquals("Wrong parameter", wrongParameter.getMessage());
+                assertEquals("This exception should never be thrown in GUI (Error in ToolCard.java)", wrongParameter.getMessage());
             }
         }
         catch(InvalidMoveException e){
