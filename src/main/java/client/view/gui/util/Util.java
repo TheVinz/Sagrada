@@ -9,20 +9,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Path;
-import sun.applet.Main;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.stream.Stream;
-
+/**
+ * The <tt>Util</tt> GUI class only contains static methods used to load the pictures that represents the main game elements.
+ */
 public class Util {
 
+    private Util(){}
+
+    /**
+     * Initializes the difficulty choices buttons.
+     * @param difficulty the difficulty level the button should represent.
+     * @return the button representing the difficulty indicated.
+     */
     public static Pane getDifficultyButton(int difficulty){
         Image img = new Image(MainApp.class.getResource("resources/singleplayer/"+difficulty+".png").toString());
         ImageView button = new ImageView(img);
@@ -39,6 +38,12 @@ public class Util {
         return pane;
     }
 
+    /**
+     * @deprecated
+     * @param value the dice value.
+     * @return a no-colored dice with the indicated value.
+     */
+    @Deprecated
     public static Pane getEmptyDice(int value){
         ImageView result = new ImageView();
         Image image;
@@ -76,6 +81,11 @@ public class Util {
         return pane;
     }
 
+    /**
+     * Returns an {@link ImageView} representing a window frame cell with the restriction indicated by the argument.
+     * @param rep the char indicating the restriction. In case of <code>0</code> the cell will have no restriction.
+     * @return an ImageView representing the requested window frame cell.
+     */
     public static ImageView getImage(char rep){
         ImageView result = new ImageView();
         Image image;

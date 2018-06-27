@@ -29,7 +29,8 @@ public class LoginController extends ClientConnection {
     private boolean singleplayer=false;
     private GuiModel model;
 
-    private String ip = "151.64.41.194";
+    @FXML
+    private TextField ip;
 
 
     @FXML
@@ -37,6 +38,7 @@ public class LoginController extends ClientConnection {
 
     @FXML
     private void rmiLogin(){
+        String ip = this.ip.getText();
         String name=textField.getText();
         textField.setText(null);
         Label label = new Label("Waiting server...");
@@ -63,6 +65,7 @@ public class LoginController extends ClientConnection {
 
     @FXML
     private void socketLogin(){
+        String ip = this.ip.getText();
         String name = textField.getText();
         textField.setText(null);
         Label label = new Label("Waiting server...");
@@ -142,7 +145,7 @@ public class LoginController extends ClientConnection {
      */
     @Override
     public void notifyDisconnection() {
-        Platform.runLater(() -> listener.handleIOException());
+        listener.handleIOException();
     }
 
     /**

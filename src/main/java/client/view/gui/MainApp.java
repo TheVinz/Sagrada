@@ -1,7 +1,6 @@
 package client.view.gui;
 
 import client.view.gui.guicontroller.ViewController;
-import client.view.gui.guimodel.GuiModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,18 +9,25 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 public class MainApp extends Application {
 
-    ViewController controller;
-    Stage primaryStage;
-    BorderPane rootLayout;
+    private ViewController controller;
+    private Stage primaryStage;
+    private BorderPane rootLayout;
 
+    /**
+     * Launches the JavaFX application.
+     * @param args the command line's arguments.
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Initializes and shown the root layout.
+     * @param primaryStage the primary stage of the application.
+     */
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage=primaryStage;

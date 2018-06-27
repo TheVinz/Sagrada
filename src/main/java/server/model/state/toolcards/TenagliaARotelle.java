@@ -54,7 +54,6 @@ public class TenagliaARotelle extends ToolCard {
             throw new InvalidMoveException("PoolCell is empty");
         WindowFrame frame= (WindowFrame) parameters.get(1);
         WindowFrameCell cell= (WindowFrameCell) parameters.get(2);
-       // if(player.getWindowFrame()!=frame) throw new InvalidMoveException("On your window frame");
         if(!GameRules.validAllDiceRestriction(frame, poolCell.getDice(), cell) ||
                 !GameRules.validAllCellRestriction(poolCell.getDice(), cell))
             throw new InvalidMoveException("Move does not respect restrictions");

@@ -33,14 +33,16 @@ public class PennelloPerEglomise extends ToolCard {
     }
 
     @Override
-    public void start(Player player) {
+    public void start(Player player) throws InvalidMoveException {
+        this.player=player;
+        if(!playable())
+            throw new InvalidMoveException("No available moves");
         expectedParameters = new ArrayDeque<>(4);
         parameters = new ArrayList<>(4);
         expectedParameters.add(WINDOW_FRAME);
         expectedParameters.add(WINDOW_FRAME_CELL);
         expectedParameters.add(WINDOW_FRAME);
         expectedParameters.add(WINDOW_FRAME_CELL);
-        this.player=player;
     }
 
     @SuppressWarnings("Duplicates")
@@ -72,10 +74,42 @@ public class PennelloPerEglomise extends ToolCard {
 
     @Override
     public Response next() {   //trascinamento
-        if(expectedParameters.peek().equals(WINDOW_FRAME)&&expectedParameters.size()==4)
+        if (expectedParameters.peek().equals(WINDOW_FRAME) && expectedParameters.size() == 4)
             return Response.WINDOW_FRAME_MOVE;
         else
             return null;
+    }
+
+    private boolean playable(){
+        for(int i=0 ; i<WindowFrame.ROWS; i++){
+            for(int j=0; j<WindowFrame.COLUMNS; j++) {
+                if (validateCell(player.getWindowFrame().getCell(i, j)))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean validateCell(WindowFrameCell cell){
+        WindowFrame frame = player.getWindowFrame();
+        WindowFrameCell frameCell;
+        try {
+            Dice dice = cell.removeDice();
+            for(int i=0; i<WindowFrame.ROWS; i++){
+                for(int j=0; j<WindowFrame.COLUMNS; j++){
+                    frameCell = frame.getCell(i,j);
+                    if(!frameCell.equals(cell) && frameCell.isEmpty() && GameRules.validAllDiceRestriction(frame, dice, frameCell)
+                            && GameRules.validCellShade(dice, frameCell)){
+                        cell.put(dice);
+                        return true;
+                    }
+                }
+            }
+            cell.put(dice);
+            return false;
+        } catch (InvalidMoveException e) {
+            return false;
+        }
     }
 
 }

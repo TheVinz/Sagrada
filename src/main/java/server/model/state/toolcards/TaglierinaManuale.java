@@ -47,8 +47,6 @@ public class TaglierinaManuale extends ToolCard {
 
     @Override
     public void start(Player player) throws InvalidMoveException {
-        if(model.getState().getDraftPool().isEmpty())
-            throw new InvalidMoveException("Draft pool is empty");
         if(model.getState().getRoundTrack().isEmpty())
             throw new InvalidMoveException("Empty round track");
         expectedParameters=new ArrayDeque<>(10);

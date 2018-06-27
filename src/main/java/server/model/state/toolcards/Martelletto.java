@@ -43,7 +43,7 @@ public class Martelletto extends ToolCard {
     @Override
     void doAbility() throws InvalidMoveException {
         for(Cell cell : model.getState().getDraftPool().getDraftPool()){
-            if(cell.getDice()!=null){
+            if(!cell.isEmpty()){
                 Dice dice=cell.removeDice();
                 model.putDice(player, new Dice(dice.getColor()), cell);
             }
