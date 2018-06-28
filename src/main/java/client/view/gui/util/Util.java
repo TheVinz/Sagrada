@@ -1,6 +1,7 @@
 package client.view.gui.util;
 
 import client.view.gui.MainApp;
+import com.sun.istack.internal.NotNull;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
@@ -20,9 +21,11 @@ public class Util {
     /**
      * Initializes the difficulty choices buttons.
      * @param difficulty the difficulty level the button should represent.
-     * @return the button representing the difficulty indicated.
+     * @return the button representing the difficulty indicated, <code>null</code> if the difficulty value is less than 1 ore more than 5.
      */
     public static Pane getDifficultyButton(int difficulty){
+        if(difficulty < 1 || difficulty > 5 )
+            return null;
         Image img = new Image(MainApp.class.getResource("resources/singleplayer/"+difficulty+".png").toString());
         ImageView button = new ImageView(img);
         button.setFitHeight(100);
@@ -41,7 +44,7 @@ public class Util {
     /**
      * @deprecated
      * @param value the dice value.
-     * @return a no-colored dice with the indicated value.
+     * @return a no-colored dice with the indicated value, an empty white image if the value is more than 6 or less than 1.
      */
     @Deprecated
     public static Pane getEmptyDice(int value){
@@ -83,8 +86,11 @@ public class Util {
 
     /**
      * Returns an {@link ImageView} representing a window frame cell with the restriction indicated by the argument.
-     * @param rep the char indicating the restriction. In case of <code>0</code> the cell will have no restriction.
-     * @return an ImageView representing the requested window frame cell.
+     * The default cell image, in case the representation char is different from colors' chars (b,g,r,y,p) and values'
+     * chars (1,2,3,4,5,6), is the white empty cell: the cell without restrictions for the game logic.
+     * @param rep the char indicating the restriction.
+     * @return an ImageView representing the window frame cell with requested restriction, or the default one in case the
+     * char is not a valid char for window frame string encoding.
      */
     public static ImageView getImage(char rep){
         ImageView result = new ImageView();
@@ -135,6 +141,15 @@ public class Util {
         return result;
     }
 
+    /**
+     * Get method for ImageViews representing the game dices. This method return an image representing the dice with the
+     * given value and color. If the color char is different from the color encoding chars (b,y,r,g,p) or the value given
+     * is different from the six allowed (1,2,3,4,5,6) <code>null</code> is returned.
+     * @param color the dice's color.
+     * @param value the dice's value.
+     * @return the image view showing the dice's image if the color char is one from b,r,g,p or y and the value int is
+     * one from 1,2,3,4,5 or 6, <code>null</code> otherwise.
+     */
     public static ImageView getImage(char color, int value){
         String diceColor;
         String dicevalue;
@@ -187,6 +202,11 @@ public class Util {
         return result;
     }
 
+    /**
+     * Returns a {@link GridPane} representing the empty window frame from the given representation string.
+     * @param rep the window frame string representation.
+     * @return the GridPane showing the empty window frame represented by the given string.
+     */
     public static GridPane getWindowFrame(String rep){
         ImageView image;
         GridPane pane = new GridPane();
@@ -211,6 +231,13 @@ public class Util {
         return pane;
     }
 
+    /**
+     * Returns an ImageView with the tool card image with the given index inside a {@link Pane}. The pane is used to show
+     * some graphic effects on tool card hover (such as coloring card's border). If the index argument is less than 1 or more
+     * than 12, <code>null</code> is returned.
+     * @param index the tool card's index.
+     * @return the Pane containing the tool card image if the index is a number from 1 to 12
+     */
     public static Pane getToolCard(int index){
         String name;
         Image image;
@@ -282,6 +309,11 @@ public class Util {
         return pane;
     }
 
+    /**
+     * Returns a ImageView with the private objective card image with the given color.
+     * @param color the private objective card's color.
+     * @return the image view showing the private objective card's image.
+     */
     public static ImageView getPrivateObjectiveCard(char color){
         String path = "resources/objectivecards/privateobjectivecards/";
         switch(color){
