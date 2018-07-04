@@ -23,6 +23,10 @@ public class RMIViewProxy extends ViewProxy {
         this.remoteView = remoteView;
     }
 
+    /**
+     * Sends a changement of the state to the client.
+     * @param changement the changement to send to the client.
+     */
     @Override
     public synchronized void change(Changement changement) {
         try {
@@ -32,6 +36,10 @@ public class RMIViewProxy extends ViewProxy {
         }
     }
 
+    /**
+     * Notifies the client about the mistake of his last action.
+     * @param notification the notification to send to the client.
+     */
     @Override
     public synchronized void notify(Notification notification) {
         try {
@@ -41,6 +49,10 @@ public class RMIViewProxy extends ViewProxy {
         }
     }
 
+    /**
+     * Informs the client about his next expected action in reaction to his last action.
+     * @param response the response to send to the client.
+     */
     @Override
     public synchronized void send(Response response) {
         try {
@@ -50,6 +62,9 @@ public class RMIViewProxy extends ViewProxy {
         }
     }
 
+    /**
+     * Informs the client that he has been suspended by unexporting the instance of this class from the RMI registry.
+     */
     @Override
     public void closeConnection(){
         try {
@@ -59,6 +74,9 @@ public class RMIViewProxy extends ViewProxy {
         }
     }
 
+    /**
+     * Pings the client in order to know if he's still connected, otherwise he will be suspended.
+     */
     @Override
     public synchronized void ping(){
         while(isPing()) {

@@ -9,8 +9,6 @@ import server.model.state.toolcards.ToolCard;
 import java.rmi.RemoteException;
 
 public interface Observable {
-    void addObserver(Observer o);
-    void removeObserver(Observer o);
     void notifyMove(Player player, Cell source, Cell target) throws RemoteException;
     void notifyCellChangement(Player player, Cell cell) throws RemoteException;
     void notifyRefillDraftPool(Cell[] draftPool) throws RemoteException;
@@ -24,12 +22,7 @@ public interface Observable {
     void notifyStartTurn(Player player) throws RemoteException;
     void notifyRoundTrackUpdate(int round, Cell[] cells);
     void notifyEndGame(Player[] scoreboard);
-
     void notifyReinsertPlayer(Player player);
-
     void notifySuspendPlayer(Player player);
-
     void notifyRemovedDice(Player player, DraftPoolCell cell);
-
-
 }

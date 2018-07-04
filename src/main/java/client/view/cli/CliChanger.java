@@ -1,6 +1,7 @@
 package client.view.cli;
 
 import client.view.cli.cliphasestate.PrivateObjectiveCardChoice;
+import client.view.gui.guicontroller.ViewController;
 import common.Changer;
 import client.view.cli.cliphasestate.MenuPhase;
 import client.view.cli.cliphasestate.ToolCardsChoice;
@@ -11,10 +12,25 @@ import static common.response.Response.DRAFT_POOL_CELL;
 import static common.response.Response.ROUND_TRACK_CELL;
 import static common.response.Response.WINDOW_FRAME_CELL;
 
+/**
+ * The class <tt>CliChanger</tt> translates the {@link Changement}s received from the server in operations which change the {@link CliState}, in order to keep the current graphical representation of the game updated.
+ * Each different change receives as parameter the {@link Changement} containing info about how the game
+ * state changed and the player who performed this change.
+ */
 public class CliChanger implements Changer {
 
     private ToolCardsEffects toolCardsEffects = new ToolCardsEffects();
     private ObjectiveCardsEffects objectiveCardsEffects = new ObjectiveCardsEffects();
+
+    private static CliChanger cliChanger;
+
+    protected CliChanger(){}
+
+    public static CliChanger getCliChanger() {
+        if(cliChanger == null)
+            cliChanger = new CliChanger();
+        return cliChanger;
+    }
 
     public void change(LoadId loadId) {
         CliApp.getCliApp().setId(loadId.getId());

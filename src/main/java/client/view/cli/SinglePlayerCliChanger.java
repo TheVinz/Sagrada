@@ -5,9 +5,17 @@ import common.viewchangement.ToolCardUsed;
 import java.rmi.RemoteException;
 
 public class SinglePlayerCliChanger extends CliChanger {
-    public SinglePlayerCliChanger() {
+    private static  SinglePlayerCliChanger singlePlayerCliChanger;
+
+    private SinglePlayerCliChanger() {
         super();
         CliDisplayer.getDisplayer().setSinglePlayer(true);
+    }
+
+    public static SinglePlayerCliChanger getSinglePlayerCliChanger() {
+        if(singlePlayerCliChanger == null)
+            singlePlayerCliChanger = new SinglePlayerCliChanger();
+        return singlePlayerCliChanger;
     }
 
     @Override

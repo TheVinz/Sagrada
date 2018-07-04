@@ -27,7 +27,7 @@ public class CliLaunchClient {
 
     public static void reconnect(Scanner sc, String name){
         try {
-            viewModel = new CliModel(false);
+            viewModel = CliModel.getCliModel(false);
            new CliConnectionFactory(sc, name, viewModel, false);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -48,9 +48,9 @@ public class CliLaunchClient {
 
         try {
             if (!singlePlayer)
-                viewModel = new CliModel(false);
+                viewModel = CliModel.getCliModel(false);
             else
-                viewModel = new CliModel(true);
+                viewModel = CliModel.getCliModel(true);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

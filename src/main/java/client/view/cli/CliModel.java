@@ -10,26 +10,52 @@ import common.viewchangement.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-
+/**
+ * The <tt>CliModel</tt> is a singleton that represents the model for the CLI client MVC. This class receives
+ * {@link Changement}s, {@link Response}s and {@link Notification}s from the server and then
+ * notifies the {@link CliApp}. This class can either be used with both RMI and Socket connections
+ * so it does not know which of them is being used by the player.
+ */
 public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     private final Changer changer;
     private final boolean singlePlayer;
     private Response lastResponse;
+    private static CliModel cliModel;
 
-    public CliModel(boolean singlePlayer) throws RemoteException {
+
+    private CliModel(boolean singlePlayer) throws RemoteException {
         super();
 
         this.singlePlayer = singlePlayer;
-        changer = singlePlayer ? new SinglePlayerCliChanger() : new CliChanger();
+        changer = singlePlayer ? SinglePlayerCliChanger.getSinglePlayerCliChanger() : CliChanger.getCliChanger();
     }
 
+    /**
+     * Initialize the <tt>CliModel</tt> creating a new {@link CliChanger}.
+     * @param singlePlayer is true if tha game is in single player mode, in this case a {@link SinglePlayerCliChanger} is created.
+     * @throws RemoteException from the {@link UnicastRemoteObject} superclass constructor.
+     */
+    public static CliModel getCliModel(boolean singlePlayer) throws RemoteException{
+        if(cliModel == null)
+            cliModel = new CliModel(singlePlayer);
+        return cliModel;
+    }
+
+    /**
+     * Calls method change from the {@link Changer} passing the received {@link Changement}
+     * as argument, so the Changer can process it and update the CLI game representation.
+     * @param changement the Changement received from the server.
+     */
     @Override
     public void change(Changement changement) {
         changement.change(changer);
     }
 
-
+    /**
+     * Informs the {@link CliApp} about the {@link Response} received from the server.
+     * @param response the Response received from the server.
+     */
     @Override
     public void send(Response response) {
         lastResponse = response;
@@ -92,7 +118,12 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
         }}).start();
     }
 
-
+    /**
+     * Informs the CliApp about the {@link Notification} received from the server.
+     * If the Notification is a wrong parameter notification the method send of this class is called with the last
+     * response received from the server as parameter.
+     * @param notification the Notification received from the server.
+     */
     public void notify(Notification notification){
         new Thread(() -> {
             switch (notification.getType()) {
@@ -112,6 +143,10 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
 
     }
 
+    /**
+     * This method is called from the server to check if the client is still connected to the game.
+     * @throws RemoteException in case of connection drops.
+     */
     @Override
     public void ping() throws RemoteException {}
 

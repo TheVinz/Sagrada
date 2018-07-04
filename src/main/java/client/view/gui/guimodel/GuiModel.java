@@ -57,7 +57,7 @@ public class GuiModel extends UnicastRemoteObject implements RemoteView {
 
     /**
      * Informs the ViewController about the {@link Notification} received from the server.
-     * If the Notifications is a wrong parameter notification it send to the ViewController the last
+     * If the Notification is a wrong parameter notification it sends to the ViewController the last
      * response received from the server.
      * @param notification the Notification received from the server.
      */

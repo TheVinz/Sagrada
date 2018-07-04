@@ -42,37 +42,37 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     }
 
     /**
-     * Send a changement of the state to the client.
+     * Sends a changement of the state to the client.
      * @param changement the changement to send to the client.
      */
     abstract void change(Changement changement);
 
     /**
-     * Notify the client about the mistake of his last action.
+     * Notifies the client about the mistake of his last action.
      * @param notification the notification to send to the client.
      */
     abstract void notify(Notification notification);
 
     /**
-     * Inform the client about his next expected action in reaction to his last action.
-     * @param response the response to send to the client
+     * Informs the client about his next expected action in reaction to his last action.
+     * @param response the response to send to the client.
      */
     abstract void send(Response response);
 
     /**
-     * Inform the client that he has been suspended by closing the connection.
+     * Informs the client that he has been suspended by closing the connection.
      */
     public abstract void closeConnection();
 
 
     /**
-     * Ping the client in order to know if he's still connected, otherwise he will be suspended.
+     * Pings the client in order to know if he's still connected, otherwise he will be suspended.
      */
     public abstract void ping();
 
     /**
-     * Set the model Player representing the remote player associated to this ViewProxy
-     * @param player the remote player representation on the Model
+     * Sets the model Player representing the remote player associated to this ViewProxy.
+     * @param player the remote player representation on the Model.
      */
     public void setPlayer(Player player) throws Exception{
         this.player = player;
@@ -82,8 +82,8 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     }
 
     /**
-     * Set the model associated to the game
-     * @param model the Model of the game
+     * Sets the model associated to the game.
+     * @param model the Model of the game.
      */
     public void setModel(Model model){
         this.model = model;
@@ -91,7 +91,7 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     }
 
     /**
-     * Suspend the associated player
+     * Suspends the associated player.
      */
     public void suspendPlayer(){
         controller.timeFinished();
@@ -99,7 +99,11 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         ping = false;
     }
 
-    //da ViewProxy
+
+    /**
+     * Calls the send method of the instance of this class with the next parameter requested to the client and elaborated by the {@link Controller}.
+     * @param response the next parameter.
+     */
     @Override
     public void notifyNextParameter(Response response) {
         send(response);
@@ -107,18 +111,31 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
             player.getTimer().start();
     }
 
+    /**
+     * Creates a new {@link Notification} and calls the method notify of the instance of this class with it as parameter.
+     * @param message the message error elaborated by the Controller to add to the Notification.
+     */
     @Override
     public void notifyError(String message) {
             notify(new Notification(Notification.ERROR, message));
     }
 
+    /**
+     * Creates a new {@link Notification} and calls the method notify of the instance of this class with it as parameter.
+     * @param message the message of wrong parameter elaborated by the Controller to add to the Notification.
+     */
     @Override
     public void notifyWrongParameter(String message) {
             notify(new Notification(Notification.WRONG_PARAMETER, message));
     }
 
 
-
+    /**
+     * Creates the <tt>Changement</tt> {@link Move} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param player the player who made the move.
+     * @param source the source cell of the move.
+     * @param target the target cell of the move.
+     */
     @Override
     public void updateMove(Player player, Cell source, Cell target) {
         switch (source.getType()) {
@@ -376,6 +393,10 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     da RemoteController
 */
 
+    /**
+     * Receives a {@link GameCommand} from the client and lets the {@link Controller} to manage it.
+     * @param gameCommand received from the client
+     */
     @Override
     public void command(GameCommand gameCommand) {
         if(gameCommand == null)

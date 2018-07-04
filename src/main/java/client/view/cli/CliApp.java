@@ -33,6 +33,8 @@ public class CliApp {
 
     private static CliApp cliApp;
 
+    private CliApp(){ }
+
     public static CliApp getCliApp(){
         if(cliApp == null)
             cliApp = new CliApp();
