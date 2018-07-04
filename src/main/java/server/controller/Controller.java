@@ -2,8 +2,8 @@ package server.controller;
 import common.exceptions.InvalidMoveException;
 import common.exceptions.WrongParameter;
 import common.response.Response;
+import server.settings.Settings;
 import server.model.Model;
-import server.model.SinglePlayerModel;
 import server.model.state.ModelObject.ModelObject;
 import server.model.state.boards.windowframe.WindowFrameList;
 import server.model.state.player.Player;
@@ -11,8 +11,6 @@ import server.model.state.utilities.Timer;
 import server.model.state.utilities.TimerObserver;
 import server.viewproxy.ViewProxy;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Controller implements TimerObserver {
 	private Model model;
@@ -27,7 +25,7 @@ public class Controller implements TimerObserver {
 		this.model=model;
 		this.view=view;
 		currentState=new WaitingState(player, model);
-		player.setTimer(new Timer(this, 60));
+		player.setTimer(new Timer(this, Settings.getPlayerTimeout()));
 	}
 
 	public synchronized void selectObject(ModelObject o) { //synchronized? e si eh

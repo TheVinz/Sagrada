@@ -1,7 +1,6 @@
 package client.view.gui.util;
 
 import client.view.gui.MainApp;
-import com.sun.istack.internal.NotNull;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
