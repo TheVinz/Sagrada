@@ -25,6 +25,8 @@ public class LaunchServer {
     private static boolean stopSignal=false;
 
     public static void main(String[] args) {
+        String scottybello = System.getProperty("user.dir");
+        System.out.println(scottybello);
         if(args.length > 0)
             ip = args[0];
         else

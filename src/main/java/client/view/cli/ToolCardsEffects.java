@@ -1,5 +1,16 @@
 package client.view.cli;
+
+/**
+ * The <tt>ToolCardsEffects</tt> class is useful in the cli to gets the name and the effect of a {@link server.model.state.toolcards.ToolCard}
+ * given a number.
+ */
 public class ToolCardsEffects {
+
+    /**
+     * Returns a String with the name and the effect of the ToolCard represented by a number.
+     * @param toolCards an int which represents a ToolCard.
+     * @return a String with the name and the effect of the ToolCard.
+     */
    public String returnEffects(int toolCards) {
        switch (toolCards) {
            case 1:
@@ -23,7 +34,7 @@ public class ToolCardsEffects {
            case 10:
                return ":\n  After drafting,flip the die to its opposite side.\n(6 flips to 1, 5 to 2, 4 to 3, etc.)\n\n";
            case 11:
-               return ":\n  After drafting, return the die to the\n  Dice Bag and pull 1 die from the bag.\n(Choose a value and place the new die,\nobeying all placement restrictions,or\nreturn it to the Draf Pool)\n\n";
+               return ":\n  After drafting, return the die to the\n  Dice Bag and pull 1 die from the bag.\n(Choose a value and place the new die,\nobeying all placement restrictions,or\nreturn it to the DraftPool)\n\n";
            case 12:
                return ":\n  Move up to two die of the same\n  color that match the color of a die\n  on the Round Track.\n(You must obey all placement restrictions)\n\n";
            default:
@@ -31,81 +42,75 @@ public class ToolCardsEffects {
        }
    }
 
+    /**
+     * Returns a String with the name of the ToolCard represented by a number.
+     * @param toolCard an int which represents a ToolCard.
+     * @return a String with the name of the ToolCard.
+     */
     public String returnName(int toolCard) {
         switch (toolCard) {
             case 1:
-                return "GROZING PLIERS";   //viola
+                return "GROZING PLIERS";
             case 2:
-                return "EGLOMISE BRUSH";   //blu
+                return "EGLOMISE BRUSH";
             case 3:
-                return "COPPER FOIL BURNISHER";    //rosso
+                return "COPPER FOIL BURNISHER";
             case 4:
-                return "LATHEKIN";     //giallo
+                return "LATHEKIN";
             case 5:
-                return "LENS CUTTER";    //verde
+                return "LENS CUTTER";
             case 6:
-                return "FLUX BRUSH";   //viola
+                return "FLUX BRUSH";
             case 7:
-                return "GLAZING HAMMER";    //blu
+                return "GLAZING HAMMER";
             case 8:
-                return "RUNNING PLIERS";    //rosso
+                return "RUNNING PLIERS";
             case 9:
-                return "CORK-BACKED STRAIGHTEDGE";    //giallo
+                return "CORK-BACKED STRAIGHTEDGE";
             case 10:
-                return "GRINDING STONE";     //verde
+                return "GRINDING STONE";
             case 11:
-                return "FLUX REMOVER";    //viola
+                return "FLUX REMOVER";
             case 12:
-                return "TAP WHEEL";    //blu
+                return "TAP WHEEL";
             default:
                 return "Error";
         }
     }
 
+    /**
+     * Returns a String with the name and the color of the ToolCard represented by a number.
+     * @param toolCard an int which represents a ToolCard.
+     * @return a String with the name and the color of the ToolCard.
+     */
     public String returnColoredName(int toolCard){
         switch (toolCard) {
             case 1:
-                return (char)27+"[1;35m"+returnName(1)+(char)27+"[0m"+returnEffects(1);  //viola
+                return (char)27+"[1;35m"+returnName(1)+(char)27+"[0m"+returnEffects(1);
             case 2:
-                return (char)27+"[1;36m"+returnName(2)+(char)27+"[0m"+returnEffects(2);   //blu
+                return (char)27+"[1;36m"+returnName(2)+(char)27+"[0m"+returnEffects(2);
             case 3:
-                return (char)27+"[1;31m"+returnName(3)+(char)27+"[0m"+returnEffects(3);    //rosso
+                return (char)27+"[1;31m"+returnName(3)+(char)27+"[0m"+returnEffects(3);
             case 4:
-                return (char)27+"[1;33m"+returnName(4)+(char)27+"[0m"+returnEffects(4);     //giallo
+                return (char)27+"[1;33m"+returnName(4)+(char)27+"[0m"+returnEffects(4);
             case 5:
-                return (char)27+"[1;32m"+returnName(5)+(char)27+"[0m"+returnEffects(5);    //verde
+                return (char)27+"[1;32m"+returnName(5)+(char)27+"[0m"+returnEffects(5);
             case 6:
-                return (char)27+"[1;35m"+returnName(6)+(char)27+"[0m"+returnEffects(6);   //viola
+                return (char)27+"[1;35m"+returnName(6)+(char)27+"[0m"+returnEffects(6);
             case 7:
-                return (char)27+"[1;36m"+returnName(7)+(char)27+"[0m"+returnEffects(7);    //blu
+                return (char)27+"[1;36m"+returnName(7)+(char)27+"[0m"+returnEffects(7);
             case 8:
-                return (char)27+"[1;31m"+returnName(8)+(char)27+"[0m"+returnEffects(8);    //rosso
+                return (char)27+"[1;31m"+returnName(8)+(char)27+"[0m"+returnEffects(8);
             case 9:
-                return (char)27+"[1;33m"+returnName(9)+(char)27+"[0m"+returnEffects(9);    //giallo
+                return (char)27+"[1;33m"+returnName(9)+(char)27+"[0m"+returnEffects(9);
             case 10:
-                return (char)27+"[1;32m"+returnName(10)+(char)27+"[0m"+returnEffects(10);     //verde
+                return (char)27+"[1;32m"+returnName(10)+(char)27+"[0m"+returnEffects(10);
             case 11:
-                return (char)27+"[1;35m"+returnName(11)+(char)27+"[0m"+returnEffects(11);    //viola
+                return (char)27+"[1;35m"+returnName(11)+(char)27+"[0m"+returnEffects(11);
             case 12:
-                return (char)27+"[1;36m"+returnName(12)+(char)27+"[0m"+returnEffects(12);    //blu
+                return (char)27+"[1;36m"+returnName(12)+(char)27+"[0m"+returnEffects(12);
             default:
                 return "Error";
         }
     }
-
- /*   case "BLU":
-    card="Sum the values of every"+(char)27+"[1;36m"+" BLU "+(char)27+"[0m" +"dice on your WindowFrame\n";
-                break;
-            case "RED":
-    card="Sum the values of every"+(char)27+"[1;31m"+" RED "+(char)27+"[0m"+"dice on your WindowFrame\n";
-                break;
-            case "YELLOW":
-    card="Sum the values of every"+(char)27+"[1;33m"+" YELLOW "+(char)27+"[0m"+"dice on your WindowFrame\n";
-                break;
-            case "PURPLE":
-    card="Sum the values of every"+(char)27+"[1;35m"+" PURPLE "+(char)27+"[0m"+"dice on your WindowFrame\n";
-                break;
-            case "GREEN":
-    card="Sum the values of every"+(char)27+"[1;32m"+" GREEN "+(char)27+"[0m"+"dice on your WindowFrame\n";
-                break;*/
 }

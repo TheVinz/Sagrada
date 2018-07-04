@@ -53,11 +53,11 @@ public class TaglierinaManualeTest {
     }
     @Test
     public void start() throws InvalidMoveException {
-        try {
+    /*    try {
             toolCard.start(player);
         } catch (InvalidMoveException e) {
             assertEquals("Draft pool is empty",e.getMessage());
-        }
+        }*/
         draftPool.getCell(0).put(new Dice(Color.BLUE,3));
         try {
             toolCard.start(player);

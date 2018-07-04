@@ -1,5 +1,6 @@
 package client.view.gui.guicontroller;
 
+import client.settings.Settings;
 import client.network.ClientConnection;
 import client.view.gui.guimodel.GuiModel;
 import common.RemoteMVC.RemoteController;
@@ -8,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
 import java.net.MalformedURLException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
@@ -29,30 +31,34 @@ public class LoginController extends ClientConnection {
     private boolean singleplayer=false;
     private GuiModel model;
 
+
     @FXML
-    private TextField ip;
+    private TextField ipField;
 
 
     @FXML
     private TextField textField;
 
     @FXML
+    private void initialize(){
+        ipField.setText(Settings.getServerIp());
+        textField.setText(Settings.getUsername());
+    }
+
+    @FXML
     private void rmiLogin(){
-        String ip = this.ip.getText();
+        String ip = this.ipField.getText();
         String name=textField.getText();
-        textField.setText(null);
         Label label = new Label("Waiting server...");
         label.setStyle("-fx-font-size: 40; -fx-text-fill: white; -fx-background-color: black");
         listener.show(label);
-        try {
+        try{
             super.connectRmi(ip, name, model, singleplayer);
         }
-        catch (NotBoundException e) {
-            rmiError();
-        } catch (RemoteException e) {
+        catch (NotBoundException | RemoteException e) {
             rmiError();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            connectionError();
         }
 
     }
@@ -65,9 +71,8 @@ public class LoginController extends ClientConnection {
 
     @FXML
     private void socketLogin(){
-        String ip = this.ip.getText();
-        String name = textField.getText();
-        textField.setText(null);
+        String ip = this.ipField.getText();
+        String name = this.textField.getText();
         Label label = new Label("Waiting server...");
         label.setStyle("-fx-font-size: 40; -fx-text-fill: white; -fx-background-color: black");
         listener.show(label);
@@ -137,6 +142,7 @@ public class LoginController extends ClientConnection {
      */
     @Override
     public void setRemoteController(RemoteController remoteController) {
+        Settings.save(ipField.getText(), textField.getText());
         listener.notifyLogin(remoteController, singleplayer);
     }
 
@@ -162,3 +168,4 @@ public class LoginController extends ClientConnection {
         });
     }
 }
+

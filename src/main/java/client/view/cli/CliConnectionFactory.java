@@ -1,6 +1,7 @@
 package client.view.cli;
 
 import client.network.ClientConnection;
+import client.settings.Settings;
 import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
 
@@ -11,8 +12,8 @@ import java.util.Scanner;
 
 public class CliConnectionFactory extends ClientConnection{
 
-    String ip = "localhost";
     public CliConnectionFactory(Scanner sc, String name, RemoteView viewModel, boolean singlePlayer) {
+        String ip = Settings.getServerIp();
         String choice;
         do {
             System.out.print("RMI or Socket? (r/s):\n>>>");

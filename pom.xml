@@ -25,6 +25,15 @@
 
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -79,7 +88,7 @@
                 <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
+                        <id>copy-resources-client</id>
                         <!-- here the phase you need -->
                         <phase>validate</phase>
                         <goals>
@@ -90,6 +99,46 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/java/client/view/gui/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-settings-server</id>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes/server/settings</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/java/server/settings</directory>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                    </excludes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-settings-client</id>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes/client/settings</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/java/client/settings</directory>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                    </excludes>
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>
@@ -135,9 +184,30 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <!-- put your configurations here -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java/client/view/gui/resources</directory>
+            </resource>
+        </resources>
     </build>
 
 

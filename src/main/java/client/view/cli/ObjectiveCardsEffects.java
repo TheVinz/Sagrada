@@ -1,6 +1,15 @@
 package client.view.cli;
 
+/**
+ * The <tt>ObjectiveCardsEffects</tt> class is useful in the cli to gets the name and the effect of a {@link server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard}
+ *  * given a number.
+ */
 public class ObjectiveCardsEffects {
+    /**
+     * Returns a String with the name and the effect of the ObjectiveCard represented by a number.
+     * @param objectiveCard an int which represents an ObjectiveCard.
+     * @return a String with the name and the effect of the ObjectiveCard.
+     */
     public String returnEffects(int objectiveCard) {
         switch (objectiveCard) {
             case 0:
@@ -28,6 +37,11 @@ public class ObjectiveCardsEffects {
         }
     }
 
+    /**
+     * Returns a String with the name of the ObjectiveCard represented by a number.
+     * @param objectiveCard an int which represents an ObjectiveCard.
+     * @return a String with the name of an ObjectiveCard.
+     */
     public String returnName(int objectiveCard){
         switch(objectiveCard) {
             case 0:

@@ -297,13 +297,6 @@ public class Model implements Observable {
     * da Observable
     * */
 
-    @Override
-    public void addObserver(Observer o) {
-    }
-
-    @Override
-    public void removeObserver(Observer o) {
-    }
 
     @Override
     public synchronized void notifyMove(Player player, Cell source, Cell target) {

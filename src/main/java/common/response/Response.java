@@ -2,6 +2,9 @@ package common.response;
 
 import java.io.Serializable;
 
+/**
+ * Possible responses to send to the user in order to inform him about his next action.
+ */
 public enum Response implements Serializable {
     WINDOW_FRAME_CELL, DRAFT_POOL_CELL, ROUND_TRACK_CELL,
     PINZA_SGROSSATRICE_CHOICE, DILUENTE_PER_PASTA_SALDA_CHOICE,
