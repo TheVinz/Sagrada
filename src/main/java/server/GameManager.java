@@ -5,22 +5,23 @@ import server.model.SinglePlayerModel;
 import server.model.state.player.Player;
 import server.model.state.utilities.Timer;
 import server.model.state.utilities.TimerObserver;
+import server.settings.Settings;
 import server.viewproxy.ViewProxy;
 
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GameManager implements TimerObserver {
 
+
     private Map<String,Model> gamesMap = new ConcurrentHashMap<>();
     private Model currentModel = new Model(this);
     private Timer timer;
 
+
     public GameManager(){
-        timer = new Timer(this, 15);
+        timer = new Timer(this, Settings.getStartGameTimeout());
     }
 
     //gestire quando uno si vuole connettere ma la partita è finita
