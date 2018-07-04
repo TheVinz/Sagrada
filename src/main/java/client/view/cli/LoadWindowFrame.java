@@ -1,11 +1,21 @@
 package client.view.cli;
 
+/**
+ * The <tt>LoadWindowFrame</tt> class is useful in the cli to gets the name of a {@link server.model.state.boards.windowframe.WindowFrame}
+ * given a rep.
+ */
 public class LoadWindowFrame {
     private static LoadWindowFrame singleton;
     public static LoadWindowFrame getLoadWindowFrame() {
         if (singleton == null) singleton = new LoadWindowFrame();
         return singleton;
     }
+
+    /**
+     * Returns the name of the WindowFrame associated with the rep.
+     * @param rep a String that represents a {@link server.model.state.boards.windowframe.WindowFrameList}.
+     * @return a String which is the name of the WindowFrame
+     */
     public String returnName(String rep){
         switch(rep){
             case "yb001g050430r0g200by":
@@ -48,7 +58,7 @@ public class LoadWindowFrame {
                 return "WATER OF LIFE";
             case "000r500p4b0b3y6y2g1r":
                 return "RIPPLES OF LIGHT";
-            case "001001g3b2b546g0b5g0":  //tra 2 e 5 b e non g
+            case "001001g3b2b546g0b5g0":
                 return "LUX MUNDI";
             case "y02060405y000y512y30":
                 return "COMITAS";
