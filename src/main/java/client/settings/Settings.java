@@ -19,6 +19,8 @@ public class Settings {
         }
     }
 
+    private Settings(){}
+
     private static void initSettings(){
         File file = Paths.get("configurations/client_settings.json").toFile();
         try {
@@ -30,12 +32,8 @@ public class Settings {
             values = new Gson().fromJson(reader, Values.class);
             if(values == null) {
                 values = new Values();
-                try(PrintWriter writer = new PrintWriter(file)){
-                    writer.print(new Gson().toJson(values));
-                }
+                save(values.serverIp, values.username);
             }
-            if(values.serverIp == null)
-                values.serverIp = "localhost";
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -46,6 +44,10 @@ public class Settings {
     public static String getServerIp(){
         if(values == null)
             initSettings();
+        if(values.serverIp == null){
+            values.serverIp = "localhost";
+            save(values.serverIp, values.username);
+        }
         return values.serverIp;
     }
 
@@ -58,8 +60,12 @@ public class Settings {
     public static void save(String serverIp, String username){
         values.serverIp = serverIp;
         values.username = username;
-        String settingsPath = Settings.class.getResource("settings.json").getPath();
-        File file = new File(settingsPath);
+        File file = Paths.get("configurations/client_settings.json").toFile();
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try(PrintWriter writer = new PrintWriter(file)) {
             writer.print(new Gson().toJson(values));
         } catch (FileNotFoundException e) {
