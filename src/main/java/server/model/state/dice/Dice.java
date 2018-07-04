@@ -6,7 +6,7 @@ import server.model.state.utilities.Color;
 import java.util.Random;
 
 /**
- * The <tt>Dice</tt> class defines all the dices that can be draw from the bag.
+ * The <tt>Dice</tt> class defines all the dices that can be draw from the {@link server.model.state.bag.Bag}.
  * The class Dice include methods to change the value of a dice.
  *
  */
@@ -16,7 +16,6 @@ public class Dice{
 
 	/**
 	 * Initialize a newly dice with assigned {@link server.model.state.utilities.Color} and random value.
-	 *
 	 * @param color of the dice.
 	 */
 
@@ -27,7 +26,6 @@ public class Dice{
 
 	/**
 	 * Initialize a newly dice with assigned {@link server.model.state.utilities.Color} and random value.
-	 *
 	 * @param color of the dice.
 	 * @param value of the dice.
 	 */
@@ -85,7 +83,6 @@ public class Dice{
 	 * Increase the value of a dice by 1.
 	 * @throws InvalidMoveException if the current value is six
 	 */
-	//Aumenta di 1 il valore
 	public void increase() throws InvalidMoveException {
 		if(value==6) throw new InvalidMoveException("Cannot increase 6");
 		else value=value+1;
@@ -95,7 +92,6 @@ public class Dice{
 	 * Decrease the value of a dice by 1.
 	 * @throws InvalidMoveException if the current value is one
 	 */
-	//Diminuisce il valore del dado di 1
 	public void decrease() throws InvalidMoveException {
 		if(value==1) throw new InvalidMoveException("Cannot decrease 1");
 		else value=value-1;

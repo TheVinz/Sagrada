@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-//Una sola istanza per la classe
 
 /**
  * The <tt>RoundTrack</tt> class contains the remaining {@link server.model.state.dice.Dice} in the {@link server.model.state.boards.draftpool.DraftPool } at the end of the round.
@@ -14,10 +13,9 @@ import java.util.List;
  * His size is 10, number of the round of the game.
  */
 public class RoundTrack{
-	//Ogni casella sul tracciato dei round è rappresentato come un set di caselle poichè per ogni round posso avere più dadi
+
 	private HashMap<Integer, ArrayList<RoundTrackCell>> roundTrackSpaces;
 	public static final int MAX_ROUND=10;
-	//Round attuale
 	private int round;
 
 	/**
@@ -37,7 +35,6 @@ public class RoundTrack{
 	 * @param pool the DraftPool with the dice.
 	 * @throws Exception if the round is 10, because the game is finished.
 	 */
-	//Aumenta il round
 	public void endRound(DraftPool pool) throws Exception {
 		if(round == 11)
 			throw new Exception("Game is finished");
@@ -57,7 +54,6 @@ public class RoundTrack{
 	 * @param round to get the correct ArrayList and not all this RoundTrack.
 	 * @return ArrayList of RoundTrackCells of the round indicated.
 	 */
-	//Ritorna il set di dadi del turno indicato
 	public List<RoundTrackCell> getRoundSet(int round){
 		return roundTrackSpaces.get(round);
 	}

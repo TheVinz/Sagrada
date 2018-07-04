@@ -7,15 +7,27 @@ import common.command.GameCommand;
 import common.response.Response;
 
 
+/**
+ *  The <tt>MenuPhase</tt> class implements the method which prints to the client the Menu of the game which represents all
+ *  the possible input that the client can put and that are going to be processed.
+ */
 public class MenuPhase implements CliPhaseState{
 
 
+    /**
+     * Prints the menu to the client.
+     */
     public MenuPhase(){
         CliDisplayer.getDisplayer().printMenu();
         CliDisplayer.getDisplayer().displayText("Insert an option:\n>>>");
 
     }
 
+    /**
+     * Handles the input of the client.
+     * @param input the input of the client.
+     * @throws InvalidInput
+     */
     @Override
     synchronized public void handle(String input) throws InvalidInput {
 
@@ -53,14 +65,11 @@ public class MenuPhase implements CliPhaseState{
                 CliApp.getCliApp().addCommandToBuffer( new GameCommand(Response.SIMPLE_MOVE_REQUEST));
                 CliApp.getCliApp().sendCommand();
                 break;
-
             case "U":
                 CliDisplayer.getDisplayer().printToolCard();
                 CliApp.getCliApp().setCurrentState(new SelectingSendingToolCard());
                 break;
-
             case "N":
-
                 CliApp.getCliApp().addCommandToBuffer(new GameCommand(Response.END_TURN));
                 CliApp.getCliApp().sendCommand();
                 CliApp.getCliApp().setWaitingPhase(true);
@@ -70,6 +79,10 @@ public class MenuPhase implements CliPhaseState{
         }
     }
 
+    /**
+     * Reset the MenuPhase's {@link client.view.cli.cliphasestate.CliPhaseState}.
+     * @return a new MenuPhase.
+     */
     @Override
     public CliPhaseState reset() {
         return new MenuPhase();

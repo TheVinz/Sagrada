@@ -9,10 +9,10 @@ import java.util.List;
 /**
  * The <tt>DraftPool</tt> class represents the space where there are the {@link server.model.state.dice.Dice} drawn from the {@link server.model.state.bag.Bag}.
  * This is an ArrayList of {@link server.model.state.boards.draftpool.DraftPoolCell}.
- * The size of the DraftPool depends by the number of players.
+ * The size of the DraftPool depends by the number of {@link server.model.state.player.Player}s.
  */
 public class DraftPool{
-	//Dimensione della riserva
+
 	private List<DraftPoolCell> draftPoolCells = new ArrayList<>();
 
 	/**
