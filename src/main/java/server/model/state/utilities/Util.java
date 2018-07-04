@@ -146,10 +146,6 @@ public class Util { //non può essere static nel multipartita per la private
                     break;
             }
         }
-
-        for(int i=0; i<result.length; i++)
-            result[i] = new PennelloPerEglomise(model);
-
         return result;
     }
 
