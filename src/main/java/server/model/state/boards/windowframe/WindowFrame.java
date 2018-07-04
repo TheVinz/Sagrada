@@ -5,14 +5,13 @@ import server.model.state.ModelObject.ModelType;
 import server.model.state.utilities.Color;
 
 /**
- * The <tt>WindowFrame</tt> class represents the window where the players will put the {@link server.model.state.dice.Dice}s.
+ * The <tt>WindowFrame</tt> class represents the window where the {@link server.model.state.player.Player}
+ * will put the {@link server.model.state.dice.Dice}s.
  * This window is a matrix of {@link server.model.state.boards.windowframe.WindowFrameCell}. A matrix with 4 rows and 5 columns.
  * There are twenty WindowFrame defined in the class {@link server.model.state.boards.windowframe.WindowFrameList}.
  * Every WindowFrame has a different difficulty defined from FavorTokens.
- * @see WindowFrameCell
  */
 public class WindowFrame implements ModelObject {
-
 
 	private final WindowFrameCell[][] cells;
 	private final WindowFrameList windowFrameList;

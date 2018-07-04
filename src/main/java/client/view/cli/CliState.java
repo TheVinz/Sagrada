@@ -54,7 +54,7 @@ public class CliState {
     }
 
     /**
-     * Set the Player who's playing.
+     * Sets the Player who's playing.
      * @param id the id of the Player who's playing.
      */
     public void setActivePlayer(int id){
@@ -62,7 +62,7 @@ public class CliState {
     }
 
     /**
-     * Set the PrivateObjectiveCard.
+     * Sets the PrivateObjectiveCard.
      * @param color color of the PrivateObjectiveCard.
      */
     public void setPrivateObjectiveCard(String color){
@@ -70,7 +70,7 @@ public class CliState {
     }
 
     /**
-     * Set an array of CliPlayerStates which represents the states of the Player in the game.
+     * Sets an array of CliPlayerStates which represents the states of the Player in the game.
      * @param players an array of CliPlayerState.
      */
     public void setCliPlayerStates(CliPlayerState[] players) {
@@ -78,7 +78,7 @@ public class CliState {
     }
 
     /**
-     * Set the DraftPool in a new round.
+     * Sets the DraftPool in a new round.
      * @param dices an array which represents the {@link server.model.state.dice.Dice} in the DraftPool.
      */
     public void setDraftPool(String[] dices) {
@@ -169,7 +169,7 @@ public class CliState {
     }
 
     /**
-     * Set the Dice of a round in the RoundTrack.
+     * Sets the Dice of a round in the RoundTrack.
      * @param round the round.
      * @param roundDices an array of String which indicates the Dice to put in the RoundTrack in the given round.
      */
@@ -187,7 +187,7 @@ public class CliState {
     }
 
     /**
-     * Set the round of the game.
+     * Sets the round of the game.
      * @param round an int which represents the new round of the game.
      */
     public void setRound(int round) {
@@ -195,7 +195,7 @@ public class CliState {
     }
 
     /**
-     * Set the ToolCards in the game.
+     * Sets the ToolCards in the game.
      * @param toolCardIds an array of int which represents the ToolCards in the game.
      */
     public void setToolCardIds(int[] toolCardIds) {
@@ -207,7 +207,7 @@ public class CliState {
     }
 
     /**
-     * Set the PublicObjectiveCards in the game.
+     * Sets the PublicObjectiveCards in the game.
      * @param publicObjectiveCardIds an array of int which represents the PublicObjectiveCards in the game.
      */
     public void setPublicObjectiveCardIds(int[] publicObjectiveCardIds) {
@@ -223,7 +223,7 @@ public class CliState {
     }
 
     /**
-     * Set the boolean which indicates if the game is finished or not.
+     * Sets the boolean which indicates if the game is finished or not.
      * @param gameFinished a boolean which is true if the game is finished, false if it isn't.
      */
     public void setGameFinished(boolean gameFinished) {

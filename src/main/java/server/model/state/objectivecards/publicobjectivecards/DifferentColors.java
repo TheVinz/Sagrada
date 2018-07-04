@@ -5,6 +5,8 @@ import server.model.state.boards.windowframe.WindowFrame;
 /**
  * The <tt>DifferentColors</tt> class implements the method that add four point for every set of different
  * colored {@link server.model.state.dice.Dice } in the {@link server.model.state.boards.windowframe.WindowFrame}.
+ *  * @see server.model.state.dice.Dice
+ *  * @see WindowFrame
  */
 public class DifferentColors extends PublicObjectiveCard{
     /**
@@ -50,7 +52,7 @@ public class DifferentColors extends PublicObjectiveCard{
 
     /**
      * Gets the number that indicates the PublicObjectiveCard.
-     * @return an int corresponding to DIFFERENT_COLORS
+     * @return an int corresponding to DIFFERENT_COLORS.
      */
     @Override
     public int getNumber() {

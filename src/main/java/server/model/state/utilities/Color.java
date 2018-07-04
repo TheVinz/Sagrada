@@ -24,6 +24,6 @@ public enum Color{
             case YELLOW:
                 return 'y';
         }
-        return '\n'; //In compilatore voleva per forza avere un return quaggiù, nonostante questo sia codice morto che non verrà mai eseguito
+        return '\n';
     }
 }

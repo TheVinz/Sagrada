@@ -11,7 +11,7 @@ public abstract class Cell implements ModelObject {
 	private Dice dice;
 
 	/**
-	 * Gets the dice in this cell.
+	 * Gets the Dice in this cell.
 	 * @return the dice in the cell.
 	 */
 	public Dice getDice(){
@@ -19,7 +19,7 @@ public abstract class Cell implements ModelObject {
 	}
 
 	/**
-	 * Move a dice from this cell to another one, target.
+	 * Move a Dice from this cell to another one, target.
 	 * @param target cell where you want to move the dice.
 	 * @throws InvalidMoveException if there isn't a dice in this cell.
 	 */
@@ -33,7 +33,7 @@ public abstract class Cell implements ModelObject {
 	}
 
 	/**
-	 * Put a dice in this cell.
+	 * Put a Dice in this cell.
 	 * @param dice to put in this cell.
 	 * @throws InvalidMoveException if the cell is Already filled.
 	 */

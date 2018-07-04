@@ -9,11 +9,23 @@ import server.model.state.toolcards.PinzaSgrossatrice;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * The <tt>PinzaSgrossatriceChoice</tt> class implements the method which handles the {@link server.model.state.toolcards.PinzaSgrossatrice}'s choice.
+ */
 public class PinzaSgrossatriceChoice implements CliPhaseState {
 
+    /**
+     * Asks the client to insert 0 to increase the value of the {@link server.model.state.dice.Dice} or to decrease it.
+     */
     public PinzaSgrossatriceChoice(){
         CliDisplayer.getDisplayer().displayText("Insert 0 to increase or 1 to decrease:\n>>>");
     }
+
+    /**
+     * Handles the input of the client. If the input is ok calls the method which allows the ToolCard to continue.
+     * @param input the input of the client in the terminal.
+     * @throws InvalidInput if the input isn't zero or one.
+     */
     @Override
     public void handle(String input) throws InvalidInput {
         try (Scanner sc = new Scanner(input)) {
@@ -33,6 +45,10 @@ public class PinzaSgrossatriceChoice implements CliPhaseState {
         }
     }
 
+    /**
+     * Reset the PinzaSgrossatriceChoice's {@link client.view.cli.cliphasestate.CliPhaseState}.
+     * @return a new PinzaSgrossatriceChoice.
+     */
     @Override
     public CliPhaseState reset() {
         return new PinzaSgrossatriceChoice();

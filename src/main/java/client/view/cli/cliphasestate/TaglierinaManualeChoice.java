@@ -8,11 +8,22 @@ import common.response.Response;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * The <tt>DiluentePerPastaSaldaChoiche</tt> class implements the method which handles the {@link server.model.state.toolcards.TaglierinaManuale}'s choice.
+ */
 public class TaglierinaManualeChoice implements CliPhaseState {
+    /**
+     * Asks the client if he wants to move one {@link server.model.state.dice.Dice} of two Dice.
+     */
     public TaglierinaManualeChoice(){
         CliDisplayer.getDisplayer().displayText("Insert 3 to move another dice, or 2 to stop:\n>>>");
     }
 
+    /**
+     * Handles the input of the client. If it is ok calls the method which allows the ToolCard to continue.
+     * @param input the input of the client.
+     * @throws InvalidInput if the input isn't two or three.
+     */
     @Override
     public void handle(String input) throws InvalidInput {
         try (Scanner sc = new Scanner(input)) {
@@ -32,6 +43,10 @@ public class TaglierinaManualeChoice implements CliPhaseState {
         }
     }
 
+    /**
+     * Reset the TaglierinaManualeChoice's {@link client.view.cli.cliphasestate.CliPhaseState}.
+     * @return a new TaglierinaManualeChoice.
+     */
     @Override
     public CliPhaseState reset() {
         return new TaglierinaManualeChoice();

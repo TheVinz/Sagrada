@@ -1,9 +1,5 @@
 package server.model.state.utilities;
 
-
-//Classe con soli metodi statici, utile per non fare troppo casino nel controller mettendoci 20 mila metodi
-//I metodi qui implementati sono per lo più boolean per verificare la validità di una mossa
-
 import server.model.state.boards.Cell;
 import server.model.state.boards.windowframe.WindowFrame;
 import server.model.state.boards.windowframe.WindowFrameCell;
@@ -19,7 +15,7 @@ public class GameRules {
 
     /**
      * Verify that the first move is on the boards of the WindowFrame.
-     * @param windowFrame of the player.
+     * @param windowFrame of the {@link server.model.state.player.Player}.
      * @param cell of the WindowFrame.
      * @return true if the cell is on the board, false if it isn't.
      */
@@ -98,6 +94,13 @@ public class GameRules {
                 colorOK(color, getRight(windowFrame, cell)) && colorOK(color, getLeft(windowFrame, cell));
     }
 
+    /**Verify that the dice we wanna put respects the shade restriction with adjacent dices, meaning that there cannot be
+     * adjacent dice with same value.
+     * @param windowFrame of the player.
+     * @param dice to put in the cell.
+     * @param cell where we wanna put the dice.
+     * @return true if the dice respects the shade restriction, false if it doesn't.
+     */
 
     public static boolean validAdjacentShapes(WindowFrame windowFrame,Dice dice, WindowFrameCell cell) {
         int shape=dice.getValue();
