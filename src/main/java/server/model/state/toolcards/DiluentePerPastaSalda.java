@@ -18,6 +18,11 @@ import java.util.ArrayList;
 
 import static server.model.state.ModelObject.ModelType.*;
 
+/**
+ * The <tt>DiluentePerPastaSalda</tt> class represents the "Diluente per pasta salda" {@link ToolCard}. The methods
+ * in this class handles the ToolCard's effect: After drafting, return the {@link Dice} to the {@link server.model.state.bag.Bag}
+ * and pull one Dice from the Bag. Then choose a value for the drafted Dice and if it is possible place it in your {@link WindowFrame}.
+ */
 @SuppressWarnings("Duplicates")
 public class DiluentePerPastaSalda extends ToolCard {
 
@@ -27,20 +32,37 @@ public class DiluentePerPastaSalda extends ToolCard {
     private DraftPoolCell poolCell;
     private Dice dice;
 
+    /**
+     * Initializes the ToolCard DiluentePerPastaSalda.
+     * @param model the model of this game.
+     */
     public DiluentePerPastaSalda(Model model) {
         super(model);
     }
 
+    /**
+     * Gets the number of the ToolCard.
+     * @return 11 which represents the DiluentePerPastaSalda ToolCard.
+     */
     @Override
     public int getNumber() {
         return 11;
     }
 
+    /**
+     * Gets the {@link Color} of the ToolCard.
+     * @return the Color RED which represents the ToolCard's color.
+     */
     @Override
     public Color getColor() {
         return Color.PURPLE;
     }
 
+    /**
+     * Initialize an array with the ToolCard's expected parameters.
+     * @param player the {@link Player} whose using the ToolCard.
+     * @throws InvalidMoveException if the {@link Player} already moved a Dice and if the {@link server.model.state.boards.draftpool.DraftPool} is empty.
+     */
     @Override
     public void start(Player player) throws InvalidMoveException {
         if(player.isDiceMoved())
@@ -57,6 +79,11 @@ public class DiluentePerPastaSalda extends ToolCard {
         valueSetted=false;
     }
 
+    /**
+     *
+     * @param o
+     * @throws InvalidMoveException
+     */
     @Override
     public void setParameter(ModelObject o) throws InvalidMoveException {
         if(!drawDone) {
@@ -127,6 +154,9 @@ public class DiluentePerPastaSalda extends ToolCard {
         }
     }
 
+    /**
+     * @return
+     */
     @Override
     public boolean hasNext(){
         return !drawDone || !valueSetted || playable;
@@ -143,6 +173,10 @@ public class DiluentePerPastaSalda extends ToolCard {
         return false;
     }
 
+    /**
+     * Informs the player which the next parameters are.
+     * @return a Response which represents the next parameter.
+     */
     @Override
     public Response next() {  //scelta
         if(!drawDone)

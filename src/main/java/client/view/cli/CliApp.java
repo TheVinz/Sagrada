@@ -21,6 +21,9 @@ Mettere restrizioni sulla prima mossa*/
 
 /*Quando finisco il turno dopo aver mosso un dado e usato una toolcard mi stampa il menù*/
 
+/**
+ * <tt>CliApp</tt> is a singleton that gets the inputs of the user and contains the method that allow to change the current {@link CliPhaseState}.
+ */
 /*Al primo round non ho messo nulla e ora non posso mettere niente*/
 public class CliApp {
 
@@ -35,12 +38,20 @@ public class CliApp {
 
     private CliApp(){ }
 
+    /**
+     * Creates the unique instance of this class if it has never been created.
+     * @return the unique instance of this class.
+     */
     public static CliApp getCliApp(){
         if(cliApp == null)
             cliApp = new CliApp();
         return cliApp;
     }
 
+    /**
+     * Retrieves the Id of this user.
+     * @return the Id of this user.
+     */
     public int getId(){
         return this.id;
     }
@@ -48,6 +59,9 @@ public class CliApp {
         this.id=id;
     }
 
+    /**
+     * Sets the {@link CliPhaseState} needed for the move of a {@link server.model.state.dice.Dice} from the {@link server.model.state.boards.draftpool.DraftPool} to the {@link server.model.state.boards.windowframe.WindowFrame} in the proper order.
+     */
     public void moveFromDraftPool()
     {
         setCurrentState(new SelectingDraftPoolCell());
@@ -57,12 +71,19 @@ public class CliApp {
         setWaitingPhase(true);
     }
 
+    /**
+     * Sets a new {@link CliPhaseState} that will handle the input from the user.
+     * @param currentState
+     */
     public void setCurrentState(CliPhaseState currentState){
         this.currentState = currentState;
         setWaitingPhase(false);
     }
 
 
+    /**
+     * Keeps waiting for input from user and then passes it to the current <tt>CliPhaseState</tt>, that will handle it.
+     */
     public void mainLoop(){
         scanner = new Scanner(System.in);
         String input = "";
@@ -102,6 +123,11 @@ public class CliApp {
     }
 
 
+    /**
+     * Lets know the <tt>mainLoop</tt> method if the input inserted from the user needs to be processed.
+     * If the user is not allowed to type, this is notified on the display.
+     * @param waitingPhase is false only if the user is expected to insert input.
+     */
     public void setWaitingPhase(boolean waitingPhase) {
         this.waitingPhase = waitingPhase;
         if(waitingPhase)
@@ -112,11 +138,18 @@ public class CliApp {
             }
     }
 
+    /**
+     * Adds a {@link GameCommand} to the buffer that contains the <tt>GameCommands</tt> to send to the server.
+     * @param gameCommand
+     */
     public void addCommandToBuffer(GameCommand gameCommand){
         commandBuffer.add(gameCommand);
     }
 
 
+    /**
+     * Sends all the the <tt>GameCommand</tt>, still not processed, to the {@link RemoteController}.
+     */
     public void sendCommand() {
         synchronized (this){
         while(commandBuffer.isEmpty()) {
@@ -140,6 +173,10 @@ public class CliApp {
 
     }
 
+    /**
+     * Sets the {@link RemoteController} to that the <tt>GameCommand</tt>s will be sent.
+     * @param remoteController
+     */
     public void setRemoteController(RemoteController remoteController) {
         this.remoteController = remoteController;
     }
@@ -152,6 +189,9 @@ public class CliApp {
         sendCommand();
     }
 
+    /**
+     * Manages all the operations in the cases where the game is finished or this user has been suspended.
+     */
     public void suspend(){ //forse va synchro
         if(CliState.getCliState().isGameFinished())
             return;

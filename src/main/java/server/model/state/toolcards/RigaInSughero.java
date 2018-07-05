@@ -16,21 +16,43 @@ import java.util.ArrayList;
 
 import static server.model.state.ModelObject.ModelType.*;
 
+/**
+ * The <tt>RigaInSughero</tt> class represents the "Riga in sughero" {@link ToolCard}. The methods
+ * in this class handles the ToolCard's effect: After drafting, place the {@link server.model.state.dice.Dice}
+ * in a spot that is not adjacent to another Dice.
+ */
 public class RigaInSughero extends ToolCard {
+    /**
+     * Initializes the ToolCard RigaInSughero.
+     * @param model the model of this game.
+     */
     public RigaInSughero(Model model) {
         super(model);
     }
 
+    /**
+     * Gets the number of the ToolCard.
+     * @return 9 which represents the RigaInSughero ToolCard.
+     */
     @Override
     public int getNumber() {
         return 9;
     }
 
+    /**
+     * Gets the {@link Color} of the ToolCard.
+     * @return the Color YELLOW which represents the ToolCard's color.
+     */
     @Override
     public Color getColor() {
         return Color.YELLOW;
     }
 
+    /**
+     * Initialize an array with the ToolCard's expected parameters.
+     * @param player the {@link Player} whose using the ToolCard.
+     * @throws InvalidMoveException if there aren't available moves.
+     */
     @Override
     public void start(Player player) throws InvalidMoveException {
         this.player=player;
@@ -67,6 +89,10 @@ public class RigaInSughero extends ToolCard {
         }
     }
 
+    /**
+     * Informs the player which the next parameters are.
+     * @return a Response which represents the next parameter.
+     */
     @Override
     public Response next() {  //trascinamento da draftpool
         if(expectedParameters.peek().equals(DRAFT_POOL_CELL))
