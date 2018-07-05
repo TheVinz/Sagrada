@@ -16,7 +16,6 @@ public class MainApp extends Application {
     private ViewController controller;
     private Stage primaryStage;
     private BorderPane rootLayout;
-    private URL resource;
 
     /**
      * Launches the JavaFX application.
@@ -43,7 +42,7 @@ public class MainApp extends Application {
 
     private void initRootLayout() {
         FXMLLoader loader= new FXMLLoader();
-        loader.setLocation(resource);
+        loader.setLocation(MainApp.class.getResource("resources/fxml/RootLayout.fxml"));
         try {
             rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
