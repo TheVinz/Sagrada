@@ -52,7 +52,7 @@ public class PinzaSgrossatrice extends ToolCard {
     /**
      * Initialize an array with the ToolCard's expected parameters.
      * @param player the {@link Player} whose using the ToolCard.
-     * @throws InvalidMoveException if there aren't available moves.
+     * @throws InvalidMoveException if the DraftPool is empty.
      */
     public void start(Player player) throws InvalidMoveException {
         if(model.getState().getDraftPool().isEmpty())

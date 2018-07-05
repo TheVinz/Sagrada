@@ -37,11 +37,18 @@ public class CliChanger implements Changer {
         return cliChanger;
     }
 
+    /**
+     * Set the id of the current player in {@link CliApp}.
+     * @param loadId the id of the current player
+     */
     public void change(LoadId loadId) {
         CliApp.getCliApp().setId(loadId.getId());
     }
 
-
+    /**
+     * Informs {@link CliState} and {@link CliDisplayer} about a dice move represented by the {@link Move} Changement.
+     * @param move the Changement representing the move.
+     */
     public void change(Move move){
         CliPlayerState cliPlayerState = null;
         cliPlayerState = CliState.getCliState().getCliPlayerState(move.getPlayerId());
@@ -96,6 +103,12 @@ public class CliChanger implements Changer {
         }
     }
 
+    /**
+     * Informs CliState and CliDisplayer about dice re-draws and re-rolls, the {@link CellUpdate} Changement
+     * contains the cell coordinates and dice value and color. This method is called only for window frame cell's
+     * changes.
+     * @param cellUpdate the Changement containing cell coordinates and dice value and color.
+     */
     public void change(CellUpdate cellUpdate){
         String s= ""+cellUpdate.getValue()+cellUpdate.getColor();
         if(cellUpdate.getColumn()==-1){
@@ -116,7 +129,10 @@ public class CliChanger implements Changer {
         }
     }
 
-
+    /**
+     * Load the tool cards drawn at the beginning of the game.
+     * @param loadToolCards the Changement containing the tool cards identifiers.
+     */
     public void change(LoadToolCards loadToolCards) {
         CliState.getCliState().setToolCardIds(loadToolCards.getToolCards());
         for(int i=0; i<loadToolCards.getToolCards().length;i++){
@@ -124,7 +140,10 @@ public class CliChanger implements Changer {
         }
     }
 
-
+    /**
+     * Informs CliState and CliDisplayer about the dices drawn at the beginning of the new Round.
+     * @param refilledDraftPool the Changement containing the dices colors and values.
+     */
     public void change(RefilledDraftPool refilledDraftPool) {
         String[] s= new String[refilledDraftPool.getValues().length];
         for(int i=0;i<refilledDraftPool.getColors().length;i++){
@@ -134,6 +153,10 @@ public class CliChanger implements Changer {
         CliDisplayer.getDisplayer().displayText("The DraftPool is full.\n");
     }
 
+    /**
+     * Load the {@link server.model.state.objectivecards.publicobjectivecards.PublicObjectiveCard}s at the beginning of the game.
+     * @param loadPublicObjectiveCards the Changement containing the PublicObjectiveCards.
+     */
     public void change(LoadPublicObjectiveCards loadPublicObjectiveCards) {
         CliState.getCliState().setPublicObjectiveCardIds(loadPublicObjectiveCards.getPublicObjectiveCards());
         for (int i = 0; i < loadPublicObjectiveCards.getPublicObjectiveCards().length; i++) {
@@ -142,6 +165,10 @@ public class CliChanger implements Changer {
         }
     }
 
+    /**
+     * Loads the player's window frame scheme choice before the game starts.
+     * @param windowFrameChoices the Changement containing the window frame scheme's.
+     */
     public void change(WindowFrameChoices windowFrameChoices) { //c'era synchronized, booo
         CliDisplayer.getDisplayer().displayText("Choose a WindowFrame:\n");
         for(int i=0; i<windowFrameChoices.getReps().length; i++){
@@ -152,11 +179,20 @@ public class CliChanger implements Changer {
         CliApp.getCliApp().setCurrentState(new WindowFrameChoice());
     }
 
+
+    /**
+     * Loads the player's PrivateObjectiveCards choice at the end of the game.
+     * @param privateObjectiveCardsChoice the Changement containing the PrivateObjectiveCards.
+     */
     @Override
     public void change(PrivateObjectiveCardsChoice privateObjectiveCardsChoice) {
         CliApp.getCliApp().setCurrentState(new PrivateObjectiveCardChoice());
     }
 
+    /**
+     * Informs the CliState that the game is finished and informs the CliDisplayer on the final scoreboard.
+     * @param singlePlayerEndGame the Changement containing information about the final point in SinglePlayer mode.
+     */
     @Override
     public void change(SinglePlayerEndGame singlePlayerEndGame) {
         CliDisplayer.getDisplayer().printSinglePlayerPoints(singlePlayerEndGame);
@@ -165,6 +201,12 @@ public class CliChanger implements Changer {
         CliApp.getCliApp().setWaitingPhase(false);
     }
 
+    /**
+     * Informs the CliState about the other players playing the game, also including the id the server
+     * associated to the local client. In case of singleplayer games, this Changement only contains
+     * informations about the single player.
+     * @param loadPlayers the Changement containing information about the players.
+     */
     public void change(LoadPlayers loadPlayers) {
         CliPlayerState[] players =new CliPlayerState[loadPlayers.getNames().length];
         for(int i=0; i<loadPlayers.getNames().length; i++){
@@ -173,12 +215,20 @@ public class CliChanger implements Changer {
         CliState.getCliState().setCliPlayerStates(players);
     }
 
+    /**
+     * Informs the Players that he used a {@link server.model.state.toolcards.ToolCard}.
+     * @param toolCardUsed the Changement containing information about the used ToolCard.
+     */
     public void change(ToolCardUsed toolCardUsed) {
         CliPlayerState playerState=CliState.getCliState().getCliPlayerState(toolCardUsed.getId());
         CliDisplayer.getDisplayer().displayText(playerState.getName() + " used tool card  " + toolCardsEffects.returnName(CliState.getCliState().getToolCardIds()[toolCardUsed.getIndex()]) + ";\n -" + toolCardUsed.getTokens() + " favor tokens;\n");
         playerState.removeFavorTokens(toolCardUsed.getTokens());
     }
 
+    /**
+     * Loads the PrivateObjectiveCard of a player at the beginning of the game.
+     * @param loadPrivateObjectiveCard the Changement containing information about the PrivateObjectiveCard.
+     */
     public void change(LoadPrivateObjectiveCard loadPrivateObjectiveCard) {
         String card;
         switch(loadPrivateObjectiveCard.getColor()){
@@ -206,6 +256,10 @@ public class CliChanger implements Changer {
         CliDisplayer.getDisplayer().printColoredPrvCard(card);
     }
 
+    /**
+     * Loads the information about the NewTurn.
+     * @param newTurn the Changement containing information about the NewTurn.
+     */
     public void change(NewTurn newTurn) {
         CliPlayerState cliPlayerState=CliState.getCliState().getCliPlayerState(newTurn.getId());
 
@@ -225,6 +279,10 @@ public class CliChanger implements Changer {
             CliApp.getCliApp().setWaitingPhase(true);
     }
 
+    /**
+     * Informs the player about the drafted Dice.
+     * @param diceDraw the Changement containing the information about the drafted Dice.
+     */
     public void change(DiceDraw diceDraw) {
         CliPlayerState cliPlayerState=CliState.getCliState().getCliPlayerState(diceDraw.getId());
         String diceColor;
@@ -252,6 +310,10 @@ public class CliChanger implements Changer {
         CliDisplayer.getDisplayer().displayText(cliPlayerState.getName() + " drawn out a " + diceColor + " dice;\n");
     }
 
+    /**
+     * Loads in CliState the information about the Dice to insert in the {@link server.model.state.boards.roundtrack.RoundTrack}.
+     * @param loadLastRoundTrack the Changement containing the information about the Dice to put in the RoundTrack.
+     */
     public void change(LoadLastRoundTrack loadLastRoundTrack) {
         String[] roundDices=new String[loadLastRoundTrack.getValues().length];
         for (int i=0; i<roundDices.length; i++){
@@ -261,6 +323,11 @@ public class CliChanger implements Changer {
         CliState.getCliState().setRoundDices(loadLastRoundTrack.getRound(), roundDices);
     }
 
+    /**
+     * This method is called when the client reconnects to a game still in progress, so it set the whole
+     * view game state from the {@link MutableData} Changement and then re-initializes the game window.
+     * @param mutableData the Changement representing the game state.
+     */
     public void change(MutableData mutableData){
 
         CliApp.getCliApp().setId(mutableData.getId());
@@ -307,23 +374,43 @@ public class CliChanger implements Changer {
 
     }
 
+    /**
+     * Prints the name of the reinserted player.
+     * @param reinsertedPlayer the Changement containing the information on the reinserted player.
+     */
     public void change(ReinsertedPlayer reinsertedPlayer)  {
         CliDisplayer.getDisplayer().displayText(CliState.getCliState().getCliPlayerState(reinsertedPlayer.getIdPlayer()).getName()+" has been reinserted in the game!\n");
     }
 
+    /**
+     * Prints the name of the suspended player.
+     * @param suspendedPlayer the Changement containing the information on the suspended player.
+     */
     public void change(SuspendedPlayer suspendedPlayer)  {
         CliDisplayer.getDisplayer().displayText(CliState.getCliState().getCliPlayerState(suspendedPlayer.getPlayerId()).getName()+" has been suspended from the game!\n");
     }
 
+    /**
+     * Puts the CliApp in the ToolCardsChoice state.
+     * @param toolCardsChoices the Changement containing the information on the ToolCardChoice.
+     */
     public void change(ToolCardsChoices toolCardsChoices)  {
         CliApp.getCliApp().setCurrentState(new ToolCardsChoice());
     }
 
+    /**
+     * Removes a Dice in the DraftPool.
+     * @param removedDice the Changement containing the information about the removed Dice.
+     */
     public void change(RemovedDice removedDice) {
         CliState.getCliState().getDraftPool()[removedDice.getIndex()]="0";
         CliDisplayer.getDisplayer().displayText("A draftpool dice has been removed in order to use the toolcard!\n");
     }
 
+    /**
+     * Informs the CliState that the game is finished and informs the CliDisplayer on the final scoreboard.
+     * @param endGame the Changement containing information about the final point.
+     */
     public void change(EndGame endGame){
         CliDisplayer.getDisplayer().printResults(endGame.getCharCards(),endGame.getScoreboardIds(),endGame.getMatrixPoins());
         CliState.getCliState().setGameFinished(true);

@@ -1,5 +1,6 @@
 package client.view.cli;
 
+import client.settings.Settings;
 import common.RemoteMVC.RemoteView;
 
 import java.rmi.NoSuchObjectException;
@@ -37,6 +38,7 @@ public class CliLaunchClient {
     public static void connect(){
         System.out.print("\nUsername:\n>>> ");
         String name = sc.nextLine();
+        Settings.save(Settings.getServerIp(), name);
         String choice = null;
         do {
             System.out.print("Single Player? (y/n):\n>>>");
