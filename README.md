@@ -6,10 +6,17 @@ This is the repository for the java implementation of the board game *[Sagrada](
 
 ## General info ##
 
+### Contributors: ###
+* Andrea Scotti (846630)
+* Vincenzo Santomarco (846442)
+* Gabriele Stucchi (847482)
+
 ### Repository folders: ###
 
 * **src/main:** contains the java source code of the application.
 * **src/test:** application unit tests using junit.
+* **lib:** contains the compiled sources of external libraries.
+* **configurations:** contains the configurations files.
 
 ## Usage info ##
 
@@ -53,5 +60,28 @@ Controller is implemented with a **STATE PATTERN**, where the class *Controller*
 In this way *Controller* is independent of how state-specific behavior is implemented. The *currentState* is updated every time a *selectObject(ModelObject o)* finishes, by retrieving is returned value.
 
 <p align="center"><img src="docs/controller.png"></p>
+
+## Model ##
+
+The class *Model* contains:
+* a reference to the *State*
+* all the methods that can be called by *Controller* to change the *State*
+* a list of *Observer*s;
+
+This class inherit from the interface *Observable* all the methods which notify the *Observer*s of this class about a change of the state.
+
+<p align="center"><img src="docs/model.png"></p>
+
+<p align="center"><img src="docs/state.png"></p>
+
+## View ##
+
+### Cli ###
+
+Cli is implemented with a **STATE PATTERN**, where the class *CliApp* refers to the *CliPhaseState* interface, as the *currentState*.
+A loop inside *CliApp* keeps waiting for user input and it's handled by the current state. 
+<p align="center"><img src="docs/cli.png"></p>
+
+### Gui ###
 
 
