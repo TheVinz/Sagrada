@@ -37,7 +37,6 @@ public class MainApp extends Application {
         primaryStage.setTitle("Sagrada");
         primaryStage.setOnCloseRequest((event) -> System.exit(0));
         initRootLayout();
-
         controller.init();
     }
 
