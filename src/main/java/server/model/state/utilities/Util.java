@@ -16,7 +16,7 @@ import static server.model.state.objectivecards.privateobjectivecards.PrivateObj
 /**
  * In the <tt>Util</tt> class there are methods useful to instantiate the start of a game.
  */
-public class Util { //non può essere static nel multipartita per la private
+public class Util {
     private List<Integer> avalaiblePatterns=new LinkedList<>(Arrays.asList(new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12}));
     private List<PrivateObjectiveCard> availableCards=new LinkedList<>( Arrays.asList(new PrivateObjectiveCard[]{YELLOW_SHAPES, PURPLE_SHAPES, BLUE_SHAPES, GREEN_SHAPES, RED_SHAPES}));
 

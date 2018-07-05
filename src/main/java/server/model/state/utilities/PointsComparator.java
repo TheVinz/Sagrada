@@ -25,7 +25,5 @@ public class PointsComparator implements Comparator<Player> {
             return p2.getPointsFromPrivateCard() -p1.getPointsFromPrivateCard();
         else
             return p2.getPointsFromFavorTokens()- p1.getPointsFromFavorTokens();
-
-            //ultimo caso lo farà gabriele
     }
 }

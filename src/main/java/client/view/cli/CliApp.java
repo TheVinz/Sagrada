@@ -13,19 +13,11 @@ import common.RemoteMVC.RemoteController;
 import common.command.GameCommand;
 import common.response.Response;
 
-/*
-Mettere restrizioni sulla prima mossa*/
-
-/*Input per annullare la mossa (per esempio toolcard) */
-
-/*lens cutter, quando mi chiede di selezionare un dado dalla roundtrack, al primo tunro come la gestiamo?*/
-
-/*Quando finisco il turno dopo aver mosso un dado e usato una toolcard mi stampa il menù*/
 
 /**
  * <tt>CliApp</tt> is a singleton that gets the inputs of the user and contains the method that allow to change the current {@link CliPhaseState}.
  */
-/*Al primo round non ho messo nulla e ora non posso mettere niente*/
+
 public class CliApp {
 
     private RemoteController remoteController;

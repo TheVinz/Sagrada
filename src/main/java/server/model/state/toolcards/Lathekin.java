@@ -143,7 +143,7 @@ public class Lathekin extends ToolCard {
 
             if(GameRules.validAllDiceRestriction(player.getWindowFrame(), dice, firstTarget) &&
                     GameRules.validAllCellRestriction(dice, firstTarget)){
-                firstTarget.put(dice); //sarà seguito da firstTarget.move(firstSource) serve alla verify
+                firstTarget.put(dice);
             }
             else{
                 firstSource.put(dice);

@@ -492,7 +492,7 @@ public class GameController {
 
     public void setRound(int round) {
         if(round == 10)
-            return;     //la notifica avviene a fine round, dunque a fine round 10 è finito il gioco
+            return;
         for(Node n : roundTrack.getChildren())
             ((VBox) n).getChildren().get(0).getStyleClass().remove("selected");
         ((VBox) roundTrack.getChildren().get(round)).getChildren().get(0).getStyleClass().add("selected");

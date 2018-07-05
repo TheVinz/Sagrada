@@ -5,13 +5,7 @@ import common.response.Response;
 import java.io.Serializable;
 
 public class GameCommand implements Serializable {
-	/*
-	I diversi tipi di changement sono rappresentati mediante int, dandogli un nome simbolico mediante public static final 
-	rendiamo il codice più leggibile.
-	Le classi StateController (lato server) e View (lato client) non devono sapere della struttura interna di questa classe, il lavoro di
-	traduzione viene fatto dal RemoteController che invia il GameCommand alla RemoteView, questa traduce in elementi dello state e chiama metodi
-	del StateController.
-	*/
+
 
     private int x;
     private int y;

@@ -217,8 +217,7 @@ public class CliDisplayer {
         displayText("You can use these ToolCards:\n");
         if(!singlePlayer){
         for (int i = 0; i < CliState.getCliState().getToolCardIds().length; i++) {
-            displayText(i + ")" +toolCardsEffects.returnName(CliState.getCliState().getToolCardIds()[i])+ toolCardsEffects.returnEffects(CliState.getCliState().getToolCardIds()[i]));     //numero è riferito all'ordine nell'array, mentre j indica la ToolCard vera e propria,
-            //per ora un numero a cui dovremo associare la vera e propria ToolCard.
+            displayText(i + ")" +toolCardsEffects.returnName(CliState.getCliState().getToolCardIds()[i])+ toolCardsEffects.returnEffects(CliState.getCliState().getToolCardIds()[i]));
         }}
         else {
             for (int i = 0; i < CliState.getCliState().getToolCardIds().length; i++) {
