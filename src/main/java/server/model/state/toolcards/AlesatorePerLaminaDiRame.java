@@ -15,22 +15,44 @@ import java.util.ArrayList;
 
 import static server.model.state.ModelObject.ModelType.*;
 
+/**
+ * The <tt>AlesatorePerLaminaDiRame</tt> class represents the "Alesatore per lamina di rame" {@link ToolCard}. The methods
+ * in this class handles the ToolCard's effect: move any one {@link Dice} in your {@link WindowFrame}
+ * ignoring the shade restriction in the target {@link WindowFrameCell}.
+ */
 public class AlesatorePerLaminaDiRame extends ToolCard {
 
+    /**
+     * Initializes the ToolCard AlesatorePerLaminaDiRame.
+     * @param model the model of this game.
+     */
     public AlesatorePerLaminaDiRame(Model model){
         super(model);
     }
 
+    /**
+     * Gets the number of the ToolCard.
+     * @return 3 which represents the AlesatorePerLaminaDiRame ToolCard.
+     */
     @Override
     public int getNumber() {
         return 3;
     }
 
+    /**
+     * Gets the {@link Color} of the ToolCard.
+     * @return the Color RED which represents the ToolCard's color.
+     */
     @Override
     public Color getColor() {
         return Color.RED;
     }
 
+    /**
+     * Initialize an array with the ToolCard's expected parameters.
+     * @param player the {@link Player} whose using the ToolCard.
+     * @throws InvalidMoveException if there aren't available moves.
+     */
     @Override
     public void start(Player player) throws InvalidMoveException {
         this.player=player;
@@ -46,7 +68,7 @@ public class AlesatorePerLaminaDiRame extends ToolCard {
 
     @SuppressWarnings("Duplicates")
     @Override
-    public void doAbility() throws InvalidMoveException {
+    void doAbility() throws InvalidMoveException {
         WindowFrame sourceFrame= (WindowFrame) parameters.get(0);
         WindowFrameCell source= (WindowFrameCell) parameters.get(1);
         WindowFrame targetFrame=(WindowFrame) parameters.get(2);
@@ -72,6 +94,10 @@ public class AlesatorePerLaminaDiRame extends ToolCard {
         }
     }
 
+    /**
+     * Informs the player which the next parameters are.
+     * @return a Response which represents the next parameter.
+     */
     @Override
     public Response next() {   //trascinamento
         if(expectedParameters.peek().equals(WINDOW_FRAME) && expectedParameters.size()==4)

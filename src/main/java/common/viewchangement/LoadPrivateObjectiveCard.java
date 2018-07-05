@@ -19,7 +19,7 @@ public class LoadPrivateObjectiveCard extends Changement{
     }
 
     /**
-     * Gets the color of the PrivateObjectiveCard.
+     * Gets the {@link server.model.state.utilities.Color} of the PrivateObjectiveCard.
      * @return the color of the PrivateObjectiveCard.
      */
     public char getColor() {
