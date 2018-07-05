@@ -101,7 +101,7 @@ In the second one it's shown what happens when user sends the last parameter exp
 
 ## Network ##
 
-For the network we decided to hide the net to the *Model* and the *Client* by creating a *ViewProxy* class. This class receives updates and notifications, from *Model* and *Controller* respectively, sending them to the client and receiving *GameCommand*s from the remote player forwarding them to the controller. This way *Model* and *Controller* does not know which kind of connection the client is using, and so even if a disconnected player tries to reconnect with another kind of connection this will be totally transparent for the game.
+For the network we decided to hide the net to the *Model* and the *Client* by creating a *ViewProxy* class. This class receives updates and notifications, from *Model* and *Controller* respectively, sending them to the client and receiving *GameCommand*s from the remote player forwarding them to the controller. In this way *Model* and *Controller* does not know which kind of connection the client is using, and so even if a disconnected player tries to reconnect with another kind of connection this will be totally transparent to the game. The data sent to the client is managed by calling methods on a *RemoteView* that is implemented in two different way: for CLI with *CliModel* class and for gui with *GuiModel* class.
 
 ### RMI ###
 The class *RMILoginManager*, that extends the *RemoteLoginManager*, initialize the connection with the client who called remotely the method *connect* of this class.
