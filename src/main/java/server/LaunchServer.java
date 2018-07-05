@@ -14,12 +14,19 @@ import java.rmi.registry.Registry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * the <tt>LaunchServer</tt> is the class containing main method for the server.
+ */
 public class LaunchServer {
 
     private static String ip;
     private static final int RMI_PORT = 1099;
     private static final int SOCKET_PORT = 8080;
 
+    /**
+     * main method for starting server. Creates a new {@link GameManager} and initialized the rmi and the socket connection handlers.
+     * @param args the command line args.
+     */
     public static void main(String[] args) {
         ip = Settings.getServerIp();
         System.out.print(">>>Server IP : " + ip + "\n>>>");

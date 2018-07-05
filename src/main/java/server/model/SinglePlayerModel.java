@@ -7,44 +7,64 @@ import server.model.state.player.Player;
 import server.model.state.player.Points;
 import server.model.state.player.SinglePlayer;
 import server.model.state.toolcards.ToolCard;
-import server.model.state.utilities.PointsComparator;
 import server.observer.Observer;
 import server.observer.SinglePlayerObservable;
-import server.viewproxy.RMIViewProxy;
 import server.viewproxy.ViewProxy;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * The <tt>SinglePlayerModel</tt> class represents the {@link Model} class for the single-player games. So this class just overrides
+ * those methods required to implements single-player features.
+ */
 public class SinglePlayerModel extends Model implements SinglePlayerObservable {
 
     private Observer observer=null;
     SinglePlayer player = null;
 
+    /**
+     * Initializes a new Model setting the {@link GameManager} that will be notified at the end of the game.
+     * @param gameManager the GameManager of the Server.
+     */
     public SinglePlayerModel(GameManager gameManager){
         super(gameManager);
         getState().getDraftPool().increaseSizeByOne();
     }
 
+    /**
+     * Returns <code>true</code>.
+     * @return <code>true</code>.
+     */
     @Override
     public boolean isSingleplayer(){
         return true;
     }
 
+    /**
+     * Sets the {@link ViewProxy} for handling the connection with the remote client.
+     * @param viewProxy the view proxy handling the connection with the remote player.
+     * @param player the model player representing the remote player associated with the ViewProxy.
+     */
     @Override
     public void addViewProxyPlayer(ViewProxy viewProxy, Player player)  {
         super.addViewProxyPlayer(viewProxy, player);
         observer = viewProxy;
     }
 
+    /**
+     * Sets the {@link Player} that will play this game.
+     * @param name the player's username.
+     * @return the Player of this game.
+     */
     @Override
-    public Player addPlayer(String name) { //da fare synchronized nel caso più giocatori si connettano contemporaneamente?
+    public Player addPlayer(String name) {
         player = new SinglePlayer(name, 0);
         getState().addPlayer(player);
         return player;
     }
 
 
+    /**
+     * Notifies the player to select the game's difficulty.
+     */
     @Override
     public void init() {
         started = true;
@@ -52,6 +72,11 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
         notifyToolCardsChoice();
     }
 
+    /**
+     * Initializes the {@link ToolCard}s, depending on the difficulty, and notifies the player about the ToolCards,
+     * {@link PublicObjectiveCard}s and {@link PrivateObjectiveCard}s drawn and about his Player representation on the model.
+     * @param toolCards the number of tool cards chosen.
+     */
     @Override
     public void toolCardsChoice(int toolCards) {
         player.setInactive();
@@ -66,6 +91,10 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
 
     }
 
+    /**
+     * Set the PrivateObjectiveCard chosen by the client, calculates his points and notifies him about the game result.
+     * @param card the chosen private objective card index.
+     */
     @Override
     public void privateCardChoice(int card) {
         PrivateObjectiveCard privateObjectiveCard;
@@ -86,22 +115,35 @@ public class SinglePlayerModel extends Model implements SinglePlayerObservable {
         super.notifyGameManager(message);
     }
 
+    /**
+     * Notifies the PrivateObjectiveCards drawn to the player.
+     */
     @Override
     public void notifyPrivateObjectiveCard() {
         observer.updatePrivateObjectiveCard(getUtil().getCard());
         observer.updatePrivateObjectiveCard(getUtil().getCard());
     }
 
+    /**
+     * Notifies the player he has to chose the difficulty.
+     */
     public void notifyToolCardsChoice() {
         observer.updateToolCardsChoice();
     }
 
+    /**
+     * Ends this game and notifies the player the PrivateObjectiveCards he has to chose from.
+     */
     @Override
     public void endGame() {
         super.getState().setGameFinished(true);
         observer.updatePrivateObjectiveCardChoice();
     }
 
+    /**
+     * Suspends the player and ends the game.
+     * @param player the Player that is playing this game.
+     */
     @Override
     public synchronized void suspendPlayer(Player player){
         if(player == this.player && !player.isSuspended()) {

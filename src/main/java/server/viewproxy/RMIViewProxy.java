@@ -9,16 +9,25 @@ import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-
+/**
+ * The <tt>RMIViewProxy</tt> class handles the input and the output message from and to the associated client via RMI.
+ */
 public class RMIViewProxy extends ViewProxy {
 
     private RemoteView remoteView;
 
-
+    /**
+     * Createsa new RMIViewProxy.
+     * @throws RemoteException if a connection error occurs.
+     */
     public RMIViewProxy() throws RemoteException {
         super();
     }
 
+    /**
+     * Binds the client's {@link RemoteView}.
+     * @param remoteView the client's remote view.
+     */
     public synchronized void bindRemoteView(RemoteView remoteView) {
         this.remoteView = remoteView;
     }
