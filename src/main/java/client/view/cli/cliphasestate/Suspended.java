@@ -17,8 +17,9 @@ public class Suspended implements CliPhaseState {
     private final String name;
 
     /**
-     * @param sc
-     * @param name
+     * Initializes a new Suspended state.
+     * @param sc listening to the input of the player.
+     * @param name name of the player suspended.
      */
     public Suspended(Scanner sc, String name){
         this.sc = sc;
