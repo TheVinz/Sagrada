@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import client.settings.Settings;
 import client.view.cli.cliphasestate.*;
 import common.RemoteMVC.RemoteController;
 import common.command.GameCommand;
@@ -195,7 +196,7 @@ public class CliApp {
     public void suspend(){ //forse va synchro
         if(CliState.getCliState().isGameFinished())
             return;
-        String name = CliState.getCliState().getCliPlayerState(id).getName();
+        String name = Settings.getUsername();
         CliState.getCliState().resetCliState();
         setCurrentState(new Suspended(scanner, name));
         setWaitingPhase(false);

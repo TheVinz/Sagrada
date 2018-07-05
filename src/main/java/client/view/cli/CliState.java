@@ -238,4 +238,12 @@ public class CliState {
         return toolCardUsed;
     }
 
+    /**
+     * Retrieves the number of the players.
+     * @return the number of the players.
+     */
+    public int getNumberOfPlayers(){
+        return cliPlayerStates.length;
+    }
+
 }
