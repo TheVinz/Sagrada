@@ -51,6 +51,10 @@ public class CliPlayerState {
         this.windowFrame=windowFrame;
     }
 
+    /**
+     * Set the FavorTokens of the Player.
+     * @param favorTokens an int which represents the FavorTokens of the Player.
+     */
     public void setFavorTokens(int favorTokens){
         this.favorTokens=favorTokens;
     }

@@ -1,11 +1,13 @@
 package server.settings;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 
 import java.io.*;
 import java.nio.file.Paths;
 
+/**
+ * The <tt>Settings</tt> class only contains static methods for reading from the server_settings.json configuration files.
+ */
 public class Settings {
 
     private static Values values;
@@ -44,6 +46,10 @@ public class Settings {
         }
     }
 
+    /**
+     * Returns the timeout time for the player's move read from the settings file.
+     * @return the player move timeout.
+     */
     public static int getPlayerTimeout(){
         if(values == null)
             initSettings();
@@ -54,6 +60,10 @@ public class Settings {
         return values.playerTimeOut;
     }
 
+    /**
+     * Returns the start game timeout read from the settings file.
+     * @return the start game timeout.
+     */
     public static int getStartGameTimeout(){
         if(values == null)
             initSettings();
@@ -64,6 +74,10 @@ public class Settings {
         return values.startGameTimeout;
     }
 
+    /**
+     * Returns the server ip read from the settings file.
+     * @return the server ip.
+     */
     public static String getServerIp(){
         if(values == null)
             initSettings();

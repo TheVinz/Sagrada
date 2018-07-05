@@ -169,13 +169,13 @@ public class Model implements Observable {
         notifyRefillDraftPool(state.getDraftPool().getDraftPool().toArray(new Cell[0]));
         roundManager.startRound();
         Player active = roundManager.next();
-        if(active.isSuspended()){
-            endTurn(active);
+        while(active.isSuspended()){
+            if(roundManager.hasNext())
+                active = roundManager.next();
+            else endRound();
         }
-        else {
-            active.setActive();
-            notifyStartTurn(active);
-        }
+        active.setActive();
+        notifyStartTurn(active);
     }
 
     /**
@@ -184,8 +184,6 @@ public class Model implements Observable {
      * @param player the player whose turn will be ended.
      */
     public synchronized void endTurn(Player player) {
-        if(!player.isActive())
-            return;
         Player active = player;
         active.endTurn();
         if(!state.isGameFinished() && started) {
