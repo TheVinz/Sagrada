@@ -22,6 +22,11 @@ import java.util.ArrayList;
 
 import static server.model.state.ModelObject.ModelType.*;
 
+/**
+ * The <tt>TaglierinaManuale</tt> class represents the "Taglierina manuale" {@link ToolCard}. The methods
+ * in this class handles the ToolCard's effect: move up to two {@link Dice} of the same {@link Color}
+ * that match the color of a Dice on the {@link server.model.state.boards.roundtrack.RoundTrack}.
+ */
 @SuppressWarnings("Duplicates")
 public class TaglierinaManuale extends ToolCard {
 
@@ -31,20 +36,37 @@ public class TaglierinaManuale extends ToolCard {
     private boolean firstMoveDone;
     private boolean playable;
 
+    /**
+     * Initializes the ToolCard TaglierinaManuale.
+     * @param model the model of this game.
+     */
     public TaglierinaManuale(Model model) {
         super(model);
     }
 
+    /**
+     * Gets the number of the ToolCard.
+     * @return 12 which represents the TaglierinaManuale ToolCard.
+     */
     @Override
     public int getNumber() {
         return 12;
     }
 
+    /**
+     * Gets the {@link Color} of the ToolCard.
+     * @return the Color BLUE which represents the ToolCard's color.
+     */
     @Override
     public Color getColor() {
         return Color.BLUE;
     }
 
+    /**
+     * Initialize an array with the ToolCard's expected parameters.
+     * @param player the {@link Player} whose using the ToolCard.
+     * @throws InvalidMoveException if the RoundTrack is empty.
+     */
     @Override
     public void start(Player player) throws InvalidMoveException {
         if(model.getState().getRoundTrack().isEmpty())
@@ -62,6 +84,10 @@ public class TaglierinaManuale extends ToolCard {
         firstMoveDone=false;
     }
 
+    /**
+     * Returns true if there is still an expected parameter.
+     * @return true if there is still an expected parameter, false if it doesn't.
+     */
     @Override
     public boolean hasNext(){
         if(!firstMoveDone) return true;
@@ -80,6 +106,11 @@ public class TaglierinaManuale extends ToolCard {
         else return false;
     }
 
+    /**
+     * @param o
+     * @throws InvalidMoveException
+     * @throws WrongParameter
+     */
     @Override
     public void setParameter(ModelObject o) throws InvalidMoveException, WrongParameter {
         if(o.getType() != expectedParameters.poll())
@@ -157,6 +188,10 @@ public class TaglierinaManuale extends ToolCard {
         }
     }
 
+    /**
+     * Informs the player which the next parameters are.
+     * @return a Response which represents the next parameter.
+     */
     @Override
     public Response next() {   //da controllare
         if(parameters.size()==0)

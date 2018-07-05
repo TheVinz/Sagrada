@@ -45,6 +45,11 @@ public class TaglierinaCircolare extends ToolCard{
         return Color.GREEN;
     }
 
+    /**
+     * Initialize an array with the ToolCard's expected parameters.
+     * @param player the {@link Player} whose using the ToolCard.
+     * @throws InvalidMoveException if the DraftPool is empty or if the RoundTrack is empty.
+     */
     @Override
     public void start(Player player) throws InvalidMoveException{
         if(model.getState().getDraftPool().isEmpty())

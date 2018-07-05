@@ -51,7 +51,8 @@ public class RigaInSughero extends ToolCard {
     /**
      * Initialize an array with the ToolCard's expected parameters.
      * @param player the {@link Player} whose using the ToolCard.
-     * @throws InvalidMoveException if there aren't available moves.
+     * @throws InvalidMoveException if the player still don't put the first dice or if the DraftPool is empty
+     *                              or if there aren't available moves or if the player already put a dice in the turn.
      */
     @Override
     public void start(Player player) throws InvalidMoveException {
