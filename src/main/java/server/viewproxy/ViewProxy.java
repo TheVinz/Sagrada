@@ -25,7 +25,12 @@ import server.observer.Observer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-
+/**
+ * The <tt>ViewProxy</tt> class is used to be the View for the Server MVC, this way this class can hide the net the {@link Model}
+ * and the {@link Controller}. This class receives updates from the and notifications from the Controller sending them to the client, other than
+ * receive commands from the remote player and forwording them to the Controller.
+ * notifications
+ */
 public abstract class ViewProxy extends UnicastRemoteObject implements Observer, RemoteController {
 
     protected Player player;
@@ -37,6 +42,10 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
     SinglePlayerEndGame endGameDataSinglePlayer = null;
     EndGame endGameDataMultiPlayer = null;
 
+    /**
+     * Creates a new ViewProxy.
+     * @throws RemoteException if a connection error occurs.
+     */
     public ViewProxy() throws RemoteException{
         super();
     }

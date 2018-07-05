@@ -4,8 +4,6 @@ import common.Notification;
 import common.command.GameCommand;
 import common.response.Response;
 import common.viewchangement.Changement;
-import common.viewchangement.LoadId;
-import server.model.Model;
 import server.model.state.player.Player;
 
 import java.io.IOException;
@@ -14,6 +12,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
+/**
+ * The <tt>SocketViewProxy</tt> class is the {@link ViewProxy} used to handle socket connections with the client.
+ */
 public class SocketViewProxy extends ViewProxy {
 
     private ObjectOutputStream out;
@@ -21,6 +22,13 @@ public class SocketViewProxy extends ViewProxy {
     private ObjectInputStream in;
     private boolean loop = true;
 
+    /**
+     * Creates a new ViewProxy with the selected {@link ObjectInputStream} to send message and {@link Socket} to send message
+     * to the client. The socket will be closed when the {@link Player} will be disconnected.
+     * @param out the output stream to send message to the client.
+     * @param socket the client socket.
+     * @throws RemoteException
+     */
     public SocketViewProxy(ObjectOutputStream out, Socket socket) throws RemoteException {
         super();
         this.out = out;
@@ -78,6 +86,8 @@ public class SocketViewProxy extends ViewProxy {
         loop=false;
         try {
             socket.close();
+            in.close();
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

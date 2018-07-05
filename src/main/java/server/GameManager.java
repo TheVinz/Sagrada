@@ -8,10 +8,15 @@ import server.model.state.utilities.TimerObserver;
 import server.settings.Settings;
 import server.viewproxy.ViewProxy;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * The <tt>GameManager</tt> class is the class used to implement the advanced feature of the multi-game server. This class
+ * contains a username-model map, mapping each username to the {@link Model} representing the game he is playing. So every time
+ * a new player tries to connect to the Server the GameManager class knows if he has to reconnect to an existing game, if his username
+ * is still used by an other logged and playing {@link Player} or if he can start a new single-player or join a new multi-player game.
+ */
 public class GameManager implements TimerObserver {
 
 
@@ -20,11 +25,22 @@ public class GameManager implements TimerObserver {
     private Timer timer;
 
 
+    /**
+     * Creates a new <tt>GameManager</tt> setting the timeout {@link Timer} for starting the game by reading it by the settings file.
+     */
     public GameManager(){
         timer = new Timer(this, Settings.getStartGameTimeout());
     }
 
-    //gestire quando uno si vuole connettere ma la partita è finita
+    /**
+     * Handle method for the new connections. If the player name is still present into the player returns the {@link Player}
+     * instance with this name, if the player is inactive, or throws an Exception. If the player name is not present in the map,
+     * returns a new Player instance.
+     * @param name the client's username.
+     * @param viewProxy the view proxy bound to the remote player.
+     * @param singlePlayer the player's choice to play a single-player or a multi-player game.
+     * @throws Exception if the player username is still in use by an active player.
+     */
     public synchronized void addPlayer(String name, ViewProxy viewProxy, boolean singlePlayer) throws Exception{
         Model model;
         Player player;
@@ -62,6 +78,10 @@ public class GameManager implements TimerObserver {
         if(singlePlayer) startGame(model);
     }
 
+    /**
+     * Starts the game represented by the model.
+     * @param model the model representing the starting game.
+     */
     public synchronized void startGame(Model model){
         if(model.isSingleplayer())
             new Thread( model::startGame ).start();
@@ -73,10 +93,14 @@ public class GameManager implements TimerObserver {
         }
     }
 
+    /**
+     * Removes the model's player from the map and prints info about the ended game.
+     * @param model the model representing the ended game.
+     * @param message a message containing informations about the ended game.
+     */
     public void endGame(Model model, String message){
 
         model.getState().getPlayers().forEach( player -> gamesMap.remove(player.getName()));
-        //ma la partita viene eliminata?
         System.out.println(model.hashCode()+" terminated. --> "+message+"\n>>>");
         printPlayers();
         System.gc();
@@ -88,23 +112,25 @@ public class GameManager implements TimerObserver {
         System.out.print("\n>>>");
     }
 
+    /**
+     * Removes a player from the game map.
+     * @param name the client's username.
+     */
     public void removePlayer(String name){
         gamesMap.remove(name);
     }
 
-    public Model getCurrentModel() {
-        return this.currentModel;
-    }
-
-    public Map<String, Model> getGamesMap(){
-        return new HashMap<>(gamesMap);
-    }
-
+    /**
+     * If the current multi-player model has more than one player then his game starts. This method works only if called
+     * by the blinker thread of this class' {@link Timer}
+     */
     @Override
     public void notifyTimeout() {
-        if(currentModel.getState().getPlayers().size()>1)
-            startGame(currentModel);
-        else
-            timer.start();
+        if(Thread.currentThread().equals(timer.getBlinker())) {
+            if (currentModel.getState().getPlayers().size() > 1)
+                startGame(currentModel);
+            else
+                timer.start();
+        }
     }
 }

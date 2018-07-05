@@ -51,16 +51,17 @@ public class LoginController extends ClientConnection {
         String name=textField.getText();
         Label label = new Label("Waiting server...");
         label.setStyle("-fx-font-size: 40; -fx-text-fill: white; -fx-background-color: black");
-        listener.show(label);
         try{
             super.connectRmi(ip, name, model, singleplayer);
         }
         catch (NotBoundException | RemoteException e) {
             rmiError();
+            return;
         } catch (MalformedURLException e) {
             connectionError();
+            return;
         }
-
+        listener.show(label);
     }
 
     private void rmiError(){
@@ -165,6 +166,7 @@ public class LoginController extends ClientConnection {
             alert.setHeaderText("Your connection has been rejected.");
             alert.setContentText("Try again with a different username.");
             alert.showAndWait();
+            listener.show(ipField.getParent().getParent());
         });
     }
 }

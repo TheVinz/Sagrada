@@ -9,8 +9,18 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
+/**
+ * The <tt>SocketLoginManager</tt> is the class used to handle the Socket connections to the server.
+ */
 public class SocketLoginManager{
 
+    /**
+     * Reads the username from the Socket input stream and sends it to the {@link GameManager} to handle the client's connection,
+     * then creates a new {@link server.viewproxy.ViewProxy} to start the socket input main loop. If the player cannot log in
+     * with the selected username the connection is closed sending an error message to the client.
+     * @param s the client's socket.
+     * @param gameManager the server's game manager.
+     */
     public void handleConnection(Socket s, GameManager gameManager) {
 
         String name = "unnamed";
@@ -27,7 +37,6 @@ public class SocketLoginManager{
                 gameManager.addPlayer(name, viewProxy, singlePlayer);
                 viewProxy.mainLoop(in);
             } catch (Exception e) {
-                e.printStackTrace();
                 out.writeObject("ERROR");
             }
         } catch (RemoteException e) {
