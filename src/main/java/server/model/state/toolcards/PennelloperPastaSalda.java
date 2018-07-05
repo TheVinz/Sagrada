@@ -57,7 +57,7 @@ public class PennelloperPastaSalda extends ToolCard {
     /**
      * Initialize an array with the ToolCard's expected parameters.
      * @param player the {@link Player} whose using the ToolCard.
-     * @throws InvalidMoveException if there aren't available moves.
+     * @throws InvalidMoveException if the DraftPool is empty or the player already place a Dice in the turn.
      */
     @Override
     public void start(Player player) throws InvalidMoveException {
@@ -139,7 +139,8 @@ public class PennelloperPastaSalda extends ToolCard {
     }
 
     /**
-     * @return
+     * Returns true if there is still an expected parameter.
+     * @return true if there is still an expected parameter, false if it doesn't.
      */
     @Override
     public boolean hasNext(){

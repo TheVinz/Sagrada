@@ -155,7 +155,8 @@ public class DiluentePerPastaSalda extends ToolCard {
     }
 
     /**
-     * @return
+     * Returns true if there is still an expected parameter.
+     * @return true if there is still an expected parameter, false if it doesn't.
      */
     @Override
     public boolean hasNext(){

@@ -15,22 +15,43 @@ import java.util.ArrayList;
 
 import static server.model.state.ModelObject.ModelType.*;
 
+/**
+ *  The <tt>TenagliaARotelle</tt> class represents the "Tenaglia a rotelle" {@link ToolCard}. The methods
+ *  in this class handles the ToolCard's effect: after your first turn immediately draft a {@link server.model.state.dice.Dice}.
+ */
 public class TenagliaARotelle extends ToolCard {
 
+    /**
+     * Initializes the ToolCard TenagliaARotelle.
+     * @param model the model of this game.
+     */
     public TenagliaARotelle(Model model) {
         super(model);
     }
 
+    /**
+     * Gets the number of the ToolCard.
+     * @return 8 which represents the TenagliaARotelle ToolCard.
+     */
     @Override
     public int getNumber() {
         return 8;
     }
 
+    /**
+     * Gets the {@link Color} of the ToolCard.
+     * @return the Color RED which represents the ToolCard's color.
+     */
     @Override
     public Color getColor() {
         return Color.RED;
     }
 
+    /**
+     * Initialize an array with the ToolCard's expected parameters.
+     * @param player the {@link Player} whose using the ToolCard.
+     * @throws InvalidMoveException if the {@link server.model.state.boards.draftpool.DraftPool} is empty.
+     */
     @Override
     public void start(Player player) throws InvalidMoveException {
         if(model.getState().getDraftPool().isEmpty())
@@ -64,6 +85,10 @@ public class TenagliaARotelle extends ToolCard {
         }
     }
 
+    /**
+     * Informs the player which the next parameters are.
+     * @return a Response which represents the next parameter.
+     */
     @Override
     public Response next() {   //doppio trascinamento dalla draftpool
         if(expectedParameters.peek().equals(DRAFT_POOL_CELL))

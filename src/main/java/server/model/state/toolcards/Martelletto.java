@@ -57,7 +57,8 @@ public class Martelletto extends ToolCard {
     }
 
     /**
-     * @return
+     * Returns false, there aren't expected parameters..
+     * @return false.
      */
     @Override
     public boolean hasNext(){
