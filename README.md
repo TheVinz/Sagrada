@@ -98,8 +98,18 @@ In the second one it's shown what happens when user sends the last parameter exp
 <p align="center"><img src="docs/sequence2.png"></p>
 
 ## Network ##
+The vi
 
+### RMI ###
+The class *RMILoginManager*, that extends the *RemoteLoginManager*, initialize the connection with the client who called remotely the method *connect* of this class.
+This method return to the user a *RemoteController* that it will be used to call remote methods on the the server.
+
+### Sockets ###
+The class *ServerSocketHandler* initialize the socket connection and calls the method *mainLoop* on the *ViewProxy* which starts a new thread which keeps waiting for user inputs.
 <p align="center"><img src="docs/network.png"></p>
+
+## Game Manager ##
+When a connection is set, the method *addPlayer* of the class *GameManager* is called and manages the player by the rules explained in the introduction.
 
 ### Limitations ###
 
@@ -108,5 +118,7 @@ Unfortunately, with this implementation, if a client connected in RMI gets disco
 ## Testing ##
 
 ### Sonar screens
+<p align="center"><img src="docs/sonar1.png"></p>
+<p align="center"><img src="docs/sonar2.png"></p>
 
 
