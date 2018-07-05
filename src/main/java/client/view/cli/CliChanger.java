@@ -106,7 +106,7 @@ public class CliChanger implements Changer {
     /**
      * Informs CliState and CliDisplayer about dice re-draws and re-rolls, the {@link CellUpdate} Changement
      * contains the cell coordinates and dice value and color. This method is called only for window frame cell's
-     * changes.
+     * changes or for DraftPool's changes.
      * @param cellUpdate the Changement containing cell coordinates and dice value and color.
      */
     public void change(CellUpdate cellUpdate){
