@@ -1,6 +1,8 @@
 package common;
 
+
 import common.viewchangement.*;
+
 
 public interface Changer {
     void change(CellUpdate cellUpdate);

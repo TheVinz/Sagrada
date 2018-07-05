@@ -26,6 +26,11 @@ public class CliChanger implements Changer {
 
     protected CliChanger(){}
 
+
+    /**
+     * Creates the unique instance of this class if this one has never been initialized.
+     * @return the unique instance of this class
+     */
     public static CliChanger getCliChanger() {
         if(cliChanger == null)
             cliChanger = new CliChanger();
