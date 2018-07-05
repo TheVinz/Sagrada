@@ -13,13 +13,15 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+/**
+ * The <tt>ClientConnection</tt> class is the superclass for the GUI and the CLI connection handler. This class contains the methods for RMI and Socket connection.
+ */
 public abstract class ClientConnection {
 
     protected boolean ping = true;
     private static final int SOCKET_PORT = 8080;
     private static final int RMI_PORT = 1099;
-
-
+    
     protected void connectRmi(String ip, String name, RemoteView remoteView, boolean singleplayer) throws RemoteException, MalformedURLException, NotBoundException {
         RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+RMI_PORT+"/RMILoginManager");
         RemoteController remoteController=login.connect(name, remoteView, singleplayer);

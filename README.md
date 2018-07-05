@@ -87,6 +87,8 @@ A loop inside *CliApp* keeps waiting for user input and it's handled by the curr
 
 ### Gui ###
 
+Our *Sagrada* GUI, made with JavaFX, is made with 5 main FXML file: "RootLayout.fxml" is the root *BorderPane* used to contains all other windows, "Login.fxml" is the login window, "WindowFrameChoice.fxml" is the window frame choice screen, "Game.fxml" for the single-player game window and "SinglePlayer.fxml" is the single-player game window. For handling the player input a state pattern has been implemented so the server responses, about the next move the player is supposed to perform, sets the appropriate gui state. This way the gui can sets game graphics (such as drag and drop and hover effects) depending on the next move the player should perform.
+
 ## MVC examples ##
 
 In these examples we shortly describe the MVC communications.
@@ -98,7 +100,8 @@ In the second one it's shown what happens when user sends the last parameter exp
 <p align="center"><img src="docs/sequence2.png"></p>
 
 ## Network ##
-The vi
+
+For the network we decided to hide the net to the *Model* and the *Client* by creating a *ViewProxy* class. This class receives updates and notifications, from *Model* and *Controller* respectively, sending them to the client and receiving *GameCommand*s from the remote player forwarding them to the controller. This way *Model* and *Controller* does not know which kind of connection the client is using, and so even if a disconnected player tries to reconnect with another kind of connection this will be totally transparent for the game.
 
 ### RMI ###
 The class *RMILoginManager*, that extends the *RemoteLoginManager*, initialize the connection with the client who called remotely the method *connect* of this class.
@@ -118,7 +121,7 @@ Unfortunately, with this implementation, if a client connected in RMI gets disco
 ## Testing ##
 
 ### Sonar screens
-<p align="center"><img src="docs/sonar1.png"></p>
-<p align="center"><img src="docs/sonar2.png"></p>
+<p align="center"><img src="docs/sonar1.jpg"></p>
+<p align="center"><img src="docs/sonar2.jpg"></p>
 
 
