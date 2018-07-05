@@ -161,7 +161,7 @@ public class CliDisplayer {
     }
 
     /**
-     *
+     *Prints the WindowFrame of the active Player.
      */
     public void printWindowFrame() {
         printWindowFrame(CliState.getCliState().getCliPlayerState());

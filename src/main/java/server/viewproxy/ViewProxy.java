@@ -158,6 +158,11 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         }
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link CellUpdate} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param player the player who made the CellUpdate.
+     * @param cell the Cell to update.
+     */
     @Override
     public void updateCellChangement(Player player, Cell cell) {
         switch (cell.getType()) {
@@ -175,6 +180,10 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         }
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link RefilledDraftPool} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param draftPool the new {@link server.model.state.boards.draftpool.DraftPool}.
+     */
     @Override
     public void updateRefillDraftPool(Cell[] draftPool) {
         char[] colors = new char[draftPool.length];
@@ -186,6 +195,10 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         change(new RefilledDraftPool(values, colors));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link LoadToolCards} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param toolCards the {@link ToolCard}s to put in the game.
+     */
     @Override
     public void updateToolCards(ToolCard[] toolCards) {
         int[] cards=new int[toolCards.length];
@@ -194,6 +207,10 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         change(new LoadToolCards(cards));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link LoadPublicObjectiveCards} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param publicObjectiveCards the {@link PublicObjectiveCard}s to put in the game.
+     */
     @Override
     public void updateObjectiveCards(PublicObjectiveCard[] publicObjectiveCards) {
         int[] cards= new int[publicObjectiveCards.length];
@@ -202,6 +219,10 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         change(new LoadPublicObjectiveCards(cards));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link WindowFrameChoices} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param windowFrameLists the list of {@link server.model.state.boards.windowframe.WindowFrame} available at the beginning of the game.
+     */
     @Override
     public void updateWindowFrameChoices(WindowFrameList[] windowFrameLists) {
         controller.windowFrameChoice(windowFrameLists);
@@ -214,6 +235,9 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         change(new WindowFrameChoices(reps, favorTokens));
     }
 
+    /**Creates the <tt>Changement</tt> {@link LoadPlayers} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param players the players of a game.
+     */
     @Override
     public void updatePlayers(Player[] players)  {
         String[] names=new String[players.length];
@@ -229,6 +253,12 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         change(new LoadPlayers(names, ids, windowFrameReps, windowFrameFavorTokens));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link ToolCardUsed} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param player the player who used the ToolCard.
+     * @param toolCard the ToolCard used.
+     * @param tokens the FavorTokens on the ToolCard.
+     */
     @Override
     public void updateToolCardUsed(Player player, ToolCard toolCard, int tokens) {
         int index=-1;
@@ -241,21 +271,40 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         }
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link LoadPrivateObjectiveCard} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param card the {@link PrivateObjectiveCard} to set to a player.
+     */
     @Override
     public void updatePrivateObjectiveCard(PrivateObjectiveCard card) {
         player.setPrivateObjectiveCard(card);
         change(new LoadPrivateObjectiveCard(card.getColor().asChar()));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link NewTurn} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param player the player who's gonna play.
+     */
     @Override
     public void updateStartTurn(Player player)  {
         change(new NewTurn(player.getId()));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link DiceDraw} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param player the player who drafted the Dice.
+     * @param color the color of the drafted Dice.
+     */
     @Override
     public void updateDiceDraw(Player player, Color color)  {
         change(new DiceDraw(player.getId(), color.asChar()));
     }
+
+    /**
+     * Creates the <tt>Changement</tt> {@link LoadLastRoundTrack} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param round the round just passed.
+     * @param cells the Dice to put in the {@link server.model.state.boards.roundtrack.RoundTrack} at the given round.
+     */
     @Override
     public void updateRoundTrack(int round, Cell[] cells) {
         int[] values = new int[cells.length];
@@ -267,6 +316,10 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         change(new LoadLastRoundTrack(round, values, colors));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link EndGame} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param scoreboard the final scoreboard, an array of ordered id.
+     */
     @Override
     public void updateEndGame(Player[] scoreboard){
         char[] charCards=new char[scoreboard.length];
@@ -290,6 +343,9 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         }
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link MutableData} and calls the method send of the instance of this class with this changement as a parameter.
+     */
     @Override
     public void updateMutableData() {
         int[] draftPoolValues = new int[state.getDraftPool().getSize()];
@@ -344,11 +400,19 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
         change(new MutableData(draftPoolValues, draftPoolColors, roundTrackValues, roundTrackColors, names, ids, favorTokens, windowFrameReps, windowFrameValues, windowFrameColors, player.getId()));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link ReinsertedPlayer} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param player the player who's gonna be reinserted into the game.
+     */
     @Override
     public void updateReinsertPlayer(Player player) {
         change(new ReinsertedPlayer(player.getId()));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link SuspendedPlayer} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param player the player who's gonna be suspended.
+     */
     @Override
     public void updateSuspendPlayer(Player player) {
         if(player.equals(this.player))
@@ -357,23 +421,40 @@ public abstract class ViewProxy extends UnicastRemoteObject implements Observer,
             change(new SuspendedPlayer(player.getId()));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link ToolCardsChoices} and calls the method send of the instance of this class with this changement as a parameter.
+     */
     @Override
     public void updateToolCardsChoice() {
         if(!player.isSuspended()) change(new ToolCardsChoices());
         else controller.selectObject(new Choice(0));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link RemovedDice} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param player the player who removed the Dice.
+     * @param cell the Cell where has been removed the Dice.
+     */
     @Override
     public void updateRemovedDice(Player player, DraftPoolCell cell) {
         change(new RemovedDice(player.getId(), Response.DRAFT_POOL_CELL, cell.getIndex()));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link PrivateObjectiveCardsChoice} and calls the method send of the instance of this class with this changement as a parameter.
+     */
     @Override
     public void updatePrivateObjectiveCardChoice() {
         if(!player.isSuspended()) change(new PrivateObjectiveCardsChoice(state.getPlayer(player.getId()).getPrivateObjectiveCard(0).getColor().asChar(), state.getPlayer(player.getId()).getPrivateObjectiveCard(1).getColor().asChar()));
         else controller.selectObject(new Choice(0));
     }
 
+    /**
+     * Creates the <tt>Changement</tt> {@link SinglePlayerEndGame} and calls the method send of the instance of this class with this changement as a parameter.
+     * @param targetPoints the score to beat in SinglePlayer mode.
+     * @param points the points achieved by the player.
+     * @param privateObjectiveCard the {@link Color} of the PrivateObjectiveCard chose by the player.
+     */
     @Override
     public void updateSinglePlayerEndGame(int targetPoints, Points points, PrivateObjectiveCard privateObjectiveCard){
         int[] vectorPoints = new int[5];

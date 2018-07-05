@@ -16,22 +16,44 @@ import java.util.*;
 
 import static server.model.state.ModelObject.ModelType.*;
 
+/**
+ *  The <tt>PennelloPerEglomise</tt> class represents the "Pennello per eglomise" {@link ToolCard}. The methods
+ *  in this class handles the ToolCard's effect: move any one {@link Dice} in your {@link WindowFrame}
+ *  ignoring the color restrictions.
+ */
 public class PennelloPerEglomise extends ToolCard {
 
+    /**
+     * Initializes the ToolCard PennelloPerEglomise.
+     * @param model the model of this game.
+     */
     public PennelloPerEglomise(Model model){
         super(model);
     }
 
+    /**
+     * Gets the number of the ToolCard.
+     * @return 2 which represents the PennelloPerEglomise ToolCard.
+     */
     @Override
     public int getNumber() {
         return 2;
     }
 
+    /**
+     * Gets the {@link Color} of the ToolCard.
+     * @return the Color BLUE which represents the ToolCard's color.
+     */
     @Override
     public Color getColor() {
         return Color.BLUE;
     }
 
+    /**
+     * Initialize an array with the ToolCard's expected parameters.
+     * @param player the {@link Player} whose using the ToolCard.
+     * @throws InvalidMoveException if there aren't available moves.
+     */
     @Override
     public void start(Player player) throws InvalidMoveException {
         this.player=player;
@@ -72,6 +94,10 @@ public class PennelloPerEglomise extends ToolCard {
         }
     }
 
+    /**
+     * Informs the player which the next parameters are.
+     * @return a Response which represents the next parameter.
+     */
     @Override
     public Response next() {   //trascinamento
         if (expectedParameters.peek().equals(WINDOW_FRAME) && expectedParameters.size() == 4)

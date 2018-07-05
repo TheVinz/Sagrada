@@ -16,6 +16,11 @@ import static server.model.state.ModelObject.ModelType.*;
 
 import java.util.*;
 
+/**
+ * The <tt>PennelloPerPastaSalda</tt> class represents the "Pennello per pasta salda" {@link ToolCard}. The methods
+ * in this class handles the ToolCard's effect: after drafting, re-roll the drafted {@link Dice} if it cannot be placed
+ * return it to the {@link server.model.state.boards.draftpool.DraftPool}.
+ */
 @SuppressWarnings("Duplicates")
 public class PennelloperPastaSalda extends ToolCard {
 
@@ -23,20 +28,37 @@ public class PennelloperPastaSalda extends ToolCard {
     private boolean rerollDone;
     private DraftPoolCell poolCell;
 
+    /**
+     * Initializes the ToolCard PennelloPerPastaSalda.
+     * @param model the model of this game.
+     */
     public PennelloperPastaSalda(Model model) {
         super(model);
     }
 
+    /**
+     * Gets the number of the ToolCard.
+     * @return 6 which represents the PennelloPerPastaSalda ToolCard.
+     */
     @Override
     public int getNumber() {
         return 6;
     }
 
+    /**
+     * Gets the {@link Color} of the ToolCard.
+     * @return the Color PURPLE which represents the ToolCard's color.
+     */
     @Override
     public Color getColor() {
         return Color.PURPLE;
     }
 
+    /**
+     * Initialize an array with the ToolCard's expected parameters.
+     * @param player the {@link Player} whose using the ToolCard.
+     * @throws InvalidMoveException if there aren't available moves.
+     */
     @Override
     public void start(Player player) throws InvalidMoveException {
         if(model.getState().getDraftPool().isEmpty())
@@ -52,6 +74,10 @@ public class PennelloperPastaSalda extends ToolCard {
         rerollDone=false;
     }
 
+    /**
+     * @param o
+     * @throws InvalidMoveException
+     */
     @Override
     public void setParameter(ModelObject o) throws InvalidMoveException {
         if(!rerollDone) {
@@ -112,6 +138,9 @@ public class PennelloperPastaSalda extends ToolCard {
         }
     }
 
+    /**
+     * @return
+     */
     @Override
     public boolean hasNext(){
         return !rerollDone || playable;
@@ -128,6 +157,10 @@ public class PennelloperPastaSalda extends ToolCard {
         return false;
     }
 
+    /**
+     * Informs the player which the next parameters are.
+     * @return a Response which represents the next parameter.
+     */
     @Override
     public Response next(){
         if(!rerollDone)

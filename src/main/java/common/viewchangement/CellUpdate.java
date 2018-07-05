@@ -23,8 +23,8 @@ public class CellUpdate extends Changement {
      * @param type indicates in which part of the board the cell has been updated.
      * @param row first index to localize the cell.
      * @param column second index to localize the cell.
-     * @param value the value of the {@link server.model.state.dice.Dice} (zero for no dice).
-     * @param color the color of the dice.
+     * @param value the value of the {@link server.model.state.dice.Dice} (zero for no Dice).
+     * @param color the {@link server.model.state.utilities.Color} of the Dice.
      */
     public CellUpdate(int player, Response type, int row, int column, int value, char color) {
         this.playerId = player;

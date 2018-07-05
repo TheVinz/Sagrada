@@ -17,26 +17,47 @@ import java.util.ArrayList;
 
 import static server.model.state.ModelObject.ModelType.*;
 
+/**
+ * The <tt>Lathekin</tt> class represents the "Lathekin" {@link ToolCard}. The methods
+ * in this class handles the ToolCard's effect:  move exactly two {@link Dice}, obeying all placement restrictions.
+ */
 public class Lathekin extends ToolCard {
 
     private boolean firstMoveDone;
     private WindowFrameCell possibleSource;
     private WindowFrameCell possibleTarget;
 
+    /**
+     * Initializes the ToolCard Lathekin.
+     * @param model the model of this game.
+     */
     public Lathekin(Model model) {
         super(model);
     }
 
+    /**
+     * Gets the number of the ToolCard.
+     * @return 4 which represents the Lathekin ToolCard.
+     */
     @Override
     public int getNumber() {
         return 4;
     }
 
+    /**
+     * Gets the {@link Color} of the ToolCard.
+     * @return the Color YELLOW which represents the ToolCard's color.
+     */
     @Override
     public Color getColor() {
         return Color.YELLOW;
     }
 
+    /**
+     * Initialize an array with the ToolCard's expected parameters.
+     * @param player the {@link Player} whose using the ToolCard.
+     * @throws InvalidMoveException if there aren't available moves.
+     */
     @Override
     public void start(Player player) throws InvalidMoveException {
         this.player=player;
@@ -57,6 +78,11 @@ public class Lathekin extends ToolCard {
         possibleTarget = null;
     }
 
+    /**
+     * @param o
+     * @throws InvalidMoveException
+     * @throws WrongParameter
+     */
     @Override
     public void setParameter(ModelObject o) throws InvalidMoveException, WrongParameter {
         if(!firstMoveDone) {
@@ -215,14 +241,21 @@ public class Lathekin extends ToolCard {
         return false;
     }
 
+    /**
+     * Informs the player which the next parameters are.
+     * @return a Response which represents the next parameter.
+     */
     @Override
-    public Response next() {   //trascinamento
+    public Response next() {  //trascinamento
         if(expectedParameters.peek().equals(WINDOW_FRAME)&&(expectedParameters.size()==8||expectedParameters.size()==4))
             return Response.WINDOW_FRAME_MOVE;
         else
             return null;
     }
 
+    /**
+     * Completes the move of the Player when the timer elapse.
+     */
     @Override
     public void abort(){
         try{

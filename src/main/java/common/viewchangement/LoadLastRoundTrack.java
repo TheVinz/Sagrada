@@ -14,7 +14,7 @@ public class LoadLastRoundTrack extends Changement {
      * Creates a new <tt>LoadLastRoundTrack</tt> changement relative to the RoundTrack.
      * @param round the round where the RoundTrack is changed.
      * @param values the values of the {@link server.model.state.dice.Dice} to put in the RoundTrack in this round.
-     * @param colors the colors of the {@link server.model.state.dice.Dice} to put in the RoundTrack in this round.
+     * @param colors the {@link server.model.state.utilities.Color}s of the {@link server.model.state.dice.Dice} to put in the RoundTrack in this round.
      */
     public LoadLastRoundTrack(int round, int[] values, char[] colors){
 
