@@ -21,7 +21,17 @@ public abstract class ClientConnection {
     protected boolean ping = true;
     private static final int SOCKET_PORT = 8080;
     private static final int RMI_PORT = 1099;
-    
+
+    /**
+     * Starts an RMI connection with the given username, server ip, {@link RemoteView} and game mode.
+     * @param ip the server ip.
+     * @param name the clients username.
+     * @param remoteView the client RemoteView.
+     * @param singleplayer the boolean indicating game modality.
+     * @throws RemoteException if a connection error occurs.
+     * @throws MalformedURLException if the URL is not valid.
+     * @throws NotBoundException if the class is not present in server registry.
+     */
     protected void connectRmi(String ip, String name, RemoteView remoteView, boolean singleplayer) throws RemoteException, MalformedURLException, NotBoundException {
         RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+RMI_PORT+"/RMILoginManager");
         RemoteController remoteController=login.connect(name, remoteView, singleplayer);
@@ -48,6 +58,13 @@ public abstract class ClientConnection {
         }).start();
     }
 
+    /**
+     * Connets to the server via Socket.
+     * @param ip the server ip.
+     * @param remoteView the client's view.
+     * @param name the client's username.
+     * @param singleplayer the boolean representing the game modality.
+     */
     protected void connectSocket(String ip, RemoteView remoteView, String name, boolean singleplayer){
         new Thread(() -> {
             Thread.currentThread().setName("Socket connection handler");

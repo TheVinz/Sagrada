@@ -1,6 +1,5 @@
 package client.network;
 
-import client.view.cli.CliApp;
 import common.Notification;
 import common.RemoteMVC.RemoteController;
 import common.RemoteMVC.RemoteView;
@@ -9,31 +8,48 @@ import common.response.Response;
 import common.viewchangement.Changement;
 import common.viewchangement.EndGame;
 import common.viewchangement.SinglePlayerEndGame;
-import server.model.state.player.SinglePlayer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * the <tt>ClientSocketHandler</tt> is the class that handles socket connection to the server.
+ */
 public class ClientSocketHandler implements RemoteController {
 
     private final ObjectInputStream in;
     private final ObjectOutputStream out;
     private final RemoteView viewModel;
 
-    public ClientSocketHandler(ObjectInputStream in, ObjectOutputStream out, RemoteView viewModel){
+    /**
+     * Creates a new <tt>ClientSocketHandler</tt> whit the given input and output stream and viewModel.
+     * @param in the socket input stream.
+     * @param out the socket output stream.
+     * @param viewModel the client Model.
+     */
+    ClientSocketHandler(ObjectInputStream in, ObjectOutputStream out, RemoteView viewModel){
 
         this.in = in;
         this.out = out;
         this.viewModel = viewModel;
     }
 
+    /**
+     * Serializes the command to the server.
+     * @param gameCommand the command to serialize.
+     * @throws IOException if the connection drops down.
+     */
     @Override
     public void command(GameCommand gameCommand) throws IOException {
         out.writeObject(gameCommand);
     }
 
-    public void mainLoop() throws IOException {
+    /**
+     * Starts main loop for reading the input buffer.
+     * @throws IOException if the connection drops down.
+     */
+    void mainLoop() throws IOException {
         try{
             do {
                 Object o = in.readObject();
