@@ -16,12 +16,12 @@ import java.rmi.RemoteException;
 public abstract class ClientConnection {
 
     protected boolean ping = true;
-    private final int socketPort = 8010;
-    private final int RMIport = 1099;
+    private static final int SOCKET_PORT = 8080;
+    private static final int RMI_PORT = 1099;
 
 
-    public void connectRmi(String ip, String name, RemoteView remoteView, boolean singleplayer) throws RemoteException, MalformedURLException, NotBoundException {
-        RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+RMIport+"/RMILoginManager");
+    protected void connectRmi(String ip, String name, RemoteView remoteView, boolean singleplayer) throws RemoteException, MalformedURLException, NotBoundException {
+        RemoteLoginManager login =(RemoteLoginManager) Naming.lookup("rmi://"+ip+":"+RMI_PORT+"/RMILoginManager");
         RemoteController remoteController=login.connect(name, remoteView, singleplayer);
         if(remoteController == null){
             connectionError();
@@ -46,10 +46,10 @@ public abstract class ClientConnection {
         }).start();
     }
 
-    public void connectSocket(String ip, RemoteView remoteView, String name, boolean singleplayer){
+    protected void connectSocket(String ip, RemoteView remoteView, String name, boolean singleplayer){
         new Thread(() -> {
             Thread.currentThread().setName("Socket connection handler");
-            try(Socket connection = new Socket(ip, socketPort)){
+            try(Socket connection = new Socket(ip, SOCKET_PORT)){
                 ObjectOutputStream out = new ObjectOutputStream(connection.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(connection.getInputStream());
                 out.writeObject(name);

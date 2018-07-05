@@ -551,11 +551,7 @@ public class ViewController {
                 currentPhase.close();
             if(dialog != null)
                 dialog.close();
-            String name = null;
-            if(gameController != null)
-                name = gameController.getPlayerName(this.id);
             init();
-            loginController.setName(name);
         });
 
     }

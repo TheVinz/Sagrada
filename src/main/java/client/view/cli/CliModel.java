@@ -124,6 +124,7 @@ public class CliModel extends UnicastRemoteObject implements RemoteView{
      * response received from the server as parameter.
      * @param notification the Notification received from the server.
      */
+    @Override
     public void notify(Notification notification){
         new Thread(() -> {
             switch (notification.getType()) {

@@ -10,6 +10,9 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
+/**
+ * The <t
+ */
 public class CliConnectionFactory extends ClientConnection{
 
     public CliConnectionFactory(Scanner sc, String name, RemoteView viewModel, boolean singlePlayer) {
