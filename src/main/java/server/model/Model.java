@@ -220,15 +220,20 @@ public class Model implements Observable {
      */
     public synchronized void endGame() {
         state.setGameFinished(true);
-        List <Player> scoreboard = new ArrayList<>();
-        for (Player player : state.getPlayers()) {
-            player.calculatePoints(state);
-            scoreboard.add(player);
+        if(started) {
+            List<Player> scoreboard = new ArrayList<>();
+            for (Player player : state.getPlayers()) {
+                player.calculatePoints(state);
+                scoreboard.add(player);
+            }
+            scoreboard.sort(new PointsComparator());
+            notifyEndGame(scoreboard.toArray(new Player[0]));
+            Player winner = getWinner(scoreboard);
+            notifyGameManager("Winner: " + winner.getName());
         }
-        scoreboard.sort(new PointsComparator());
-        notifyEndGame(scoreboard.toArray(new Player[0]));
-        Player winner = getWinner(scoreboard);
-        notifyGameManager("Winner: "+winner.getName());
+        else{
+            notifyGameManager("Everybody is disconnected!");
+        }
         this.playerObserverMap = null;
     }
 

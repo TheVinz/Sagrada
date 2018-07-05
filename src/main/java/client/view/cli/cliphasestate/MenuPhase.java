@@ -3,6 +3,7 @@ package client.view.cli.cliphasestate;
 import client.view.cli.CliApp;
 import client.view.cli.CliDisplayer;
 
+import client.view.cli.CliState;
 import common.command.GameCommand;
 import common.response.Response;
 

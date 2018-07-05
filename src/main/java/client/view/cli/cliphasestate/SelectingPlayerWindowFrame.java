@@ -40,7 +40,7 @@ public class SelectingPlayerWindowFrame implements CliPhaseState {
                 } catch (InputMismatchException e) {
                     throw new InvalidInput("Wrong Input\n");
                 }
-                if (nextInt < 0 || nextInt > 4) {
+                if (nextInt < 0 || nextInt >= CliState.getCliState().getNumberOfPlayers()) {
                     throw new InvalidInput("Wrong Input\n");
                 }
                 CliDisplayer.getDisplayer().printState(CliState.getCliState().getCliPlayerState(nextInt).getName());

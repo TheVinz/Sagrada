@@ -37,11 +37,18 @@ public class CliChanger implements Changer {
         return cliChanger;
     }
 
+    /**
+     * Set the id of the current player in {@link CliApp}.
+     * @param loadId the id of the current player
+     */
     public void change(LoadId loadId) {
         CliApp.getCliApp().setId(loadId.getId());
     }
 
-
+    /**
+     * Informs {@link CliState} and {@link CliDisplayer} about a dice move represented by the {@link Move} Changement.
+     * @param move the Changement representing the move.
+     */
     public void change(Move move){
         CliPlayerState cliPlayerState = null;
         cliPlayerState = CliState.getCliState().getCliPlayerState(move.getPlayerId());
@@ -96,6 +103,12 @@ public class CliChanger implements Changer {
         }
     }
 
+    /**
+     * Informs CliState and CliDisplayer about dice re-draws and re-rolls, the {@link CellUpdate} Changement
+     * contains the cell coordinates and dice value and color. This method is called only for window frame cell's
+     * changes.
+     * @param cellUpdate the Changement containing cell coordinates and dice value and color.
+     */
     public void change(CellUpdate cellUpdate){
         String s= ""+cellUpdate.getValue()+cellUpdate.getColor();
         if(cellUpdate.getColumn()==-1){
@@ -116,7 +129,10 @@ public class CliChanger implements Changer {
         }
     }
 
-
+    /**
+     * Load the tool cards drawn at the beginning of the game.
+     * @param loadToolCards the Changement containing the tool cards identifiers.
+     */
     public void change(LoadToolCards loadToolCards) {
         CliState.getCliState().setToolCardIds(loadToolCards.getToolCards());
         for(int i=0; i<loadToolCards.getToolCards().length;i++){
@@ -124,7 +140,10 @@ public class CliChanger implements Changer {
         }
     }
 
-
+    /**
+     * Informs CliState and CliDisplayer about the dices drawn at the beginning of the new Round.
+     * @param refilledDraftPool the Changement containing the dices colors and values.
+     */
     public void change(RefilledDraftPool refilledDraftPool) {
         String[] s= new String[refilledDraftPool.getValues().length];
         for(int i=0;i<refilledDraftPool.getColors().length;i++){
@@ -142,6 +161,10 @@ public class CliChanger implements Changer {
         }
     }
 
+    /**
+     * Loads the player's window frame sheme choice before the game starts.
+     * @param windowFrameChoices the Changement containing the window frame scheme's.
+     */
     public void change(WindowFrameChoices windowFrameChoices) { //c'era synchronized, booo
         CliDisplayer.getDisplayer().displayText("Choose a WindowFrame:\n");
         for(int i=0; i<windowFrameChoices.getReps().length; i++){
@@ -151,6 +174,7 @@ public class CliChanger implements Changer {
         }
         CliApp.getCliApp().setCurrentState(new WindowFrameChoice());
     }
+
 
     @Override
     public void change(PrivateObjectiveCardsChoice privateObjectiveCardsChoice) {
@@ -165,6 +189,12 @@ public class CliChanger implements Changer {
         CliApp.getCliApp().setWaitingPhase(false);
     }
 
+    /**
+     * Informs the CliState about the other players playing the game, also including the id the server
+     * associated to the local client. In case of singleplayer games, this Changement only contains
+     * informations about the single player.
+     * @param loadPlayers the Changement containing informations about the players.
+     */
     public void change(LoadPlayers loadPlayers) {
         CliPlayerState[] players =new CliPlayerState[loadPlayers.getNames().length];
         for(int i=0; i<loadPlayers.getNames().length; i++){
@@ -261,6 +291,11 @@ public class CliChanger implements Changer {
         CliState.getCliState().setRoundDices(loadLastRoundTrack.getRound(), roundDices);
     }
 
+    /**
+     * This method is called when the client reconnects to a game still in progress, so it set the whole
+     * view game state from the {@link MutableData} Changement and then re-initializes the game window.
+     * @param mutableData the Changement representing the game state.
+     */
     public void change(MutableData mutableData){
 
         CliApp.getCliApp().setId(mutableData.getId());
