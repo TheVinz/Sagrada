@@ -22,6 +22,7 @@ public class LaunchServer {
 
     public static void main(String[] args) {
         ip = Settings.getServerIp();
+        System.out.print(">>>Server IP : " + ip + "\n>>>");
         GameManager gameManager = new GameManager();
         startRMIServer(gameManager);
         new Thread(() -> startSocketServer(gameManager)).start();
