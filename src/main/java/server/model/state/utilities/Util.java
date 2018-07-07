@@ -147,9 +147,6 @@ public class Util {
             }
         }
 
-        result[0] = new PennelloperPastaSalda(model);
-        result[1] = new Martelletto(model);
-        result[2] = new TenagliaARotelle(model);
         return result;
     }
 

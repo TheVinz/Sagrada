@@ -27,6 +27,8 @@ public class Settings {
     private Settings(){}
 
     private static void initSettings(){
+        File dir = Paths.get("configurations").toFile();
+        dir.mkdir();
         File file = Paths.get("configurations/server_settings.json").toFile();
         try {
             file.createNewFile();

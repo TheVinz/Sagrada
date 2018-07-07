@@ -11,11 +11,13 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -714,10 +716,35 @@ public class ViewController {
      */
     public synchronized void endGame(char[] privateObjectiveCards, int[] ids, int[][] points){
 
+        VBox mainBox = new VBox(10);
+        mainBox.setAlignment(Pos.TOP_CENTER);
+
+        Button rematchButton = new Button("Play again");
+        rematchButton.setOnMouseClicked((mouseEvent -> {
+            loginController.closeConnection();
+            init();
+            rootLayout.setTop(null);
+        }));
+
+        Button exitButton = new Button("Exit");
+        exitButton.setOnMouseClicked((mouseEvent -> {
+            loginController.closeConnection();
+            System.exit(0);
+        }));
+
+        String buttonStyle = "-fx-background-color: orange; -fx-font-size: 22";
+        exitButton.setStyle(buttonStyle);
+        rematchButton.setStyle(buttonStyle);
+
+        HBox buttons = new HBox(50);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.getChildren().addAll(exitButton, rematchButton);
+
         HBox endGameBox = new HBox(20);
         endGameBox.setAlignment(Pos.CENTER);
         for(int i=0; i<points.length; i++) {
             VBox playerBox = new VBox(20);
+            playerBox.setPadding(new Insets(10,0,0,0));
             playerBox.setAlignment(Pos.CENTER);
             Label nameLabel=new Label(gameController.getPlayerName(ids[i]));
             nameLabel.setStyle("-fx-background-color: rgba(0,0,0,0.7); -fx-text-fill: white; -fx-font-size: 26");
@@ -743,7 +770,8 @@ public class ViewController {
             }
             endGameBox.getChildren().add(playerBox);
         }
-        rootLayout.setCenter(endGameBox);
+        mainBox.getChildren().addAll(endGameBox, buttons);
+        rootLayout.setCenter(mainBox);
     }
 
     /**
