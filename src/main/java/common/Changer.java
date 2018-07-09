@@ -3,7 +3,9 @@ package common;
 
 import common.viewchangement.*;
 
-
+/**
+ * The <tt>Changer</tt> interface defines the methods that translates each {@link Changement} to an action to be performed on a GUI or a CLI client.
+ */
 public interface Changer {
     void change(CellUpdate cellUpdate);
     void change(DiceDraw diceDraw);
