@@ -28,7 +28,7 @@ public class PennelloperPastaSaldaTest {
 
     @Before
     public void setUp() throws Exception {
-        gameManager=new GameManager();
+        gameManager = Mockito.mock(GameManager.class);
         model=Mockito.spy(new Model(gameManager));
         toolCard =new PennelloperPastaSalda(model);
         player=Mockito.mock(Player.class);

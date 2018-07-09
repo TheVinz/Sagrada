@@ -34,7 +34,7 @@ public class DiluentePerPastaSaldaTest {
 
     @Before
     public void setUp() throws Exception {
-        gameManager=new GameManager();
+        gameManager = Mockito.mock(GameManager.class);
         player=mock(Player.class);
         WindowFrame frame= new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
         Model model= spy(new Model(gameManager));

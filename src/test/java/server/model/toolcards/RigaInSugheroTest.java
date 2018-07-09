@@ -30,7 +30,7 @@ public class RigaInSugheroTest {
     private GameManager gameManager;
     @Before
     public void setUp() throws Exception {
-        gameManager=new GameManager();
+        gameManager = Mockito.mock(GameManager.class);
         model=Mockito.spy(new Model(gameManager));
         toolCard=new RigaInSughero(model);
         player=Mockito.mock(Player.class);

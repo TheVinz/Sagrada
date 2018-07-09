@@ -27,7 +27,7 @@ public class AlesatorePerLaminaDiRameTest {
     private GameManager gameManager;
     @Before
     public void setUp() throws Exception {
-        gameManager = new GameManager();
+        gameManager = Mockito.mock(GameManager.class);
         model= Mockito.spy(new Model(gameManager));
         player=Mockito.mock(Player.class);
         WindowFrame frame = new WindowFrame(WindowFrameList.AURORA_SAGRADIS);

@@ -25,10 +25,12 @@ public class PennelloPerEglomiseTest {
     private ToolCard toolCard;
     private Player player;
     private GameManager gameManager;
+    private Model model;
 
     @Before
     public void setUp() throws Exception {
-        Model model=new Model(gameManager);
+        gameManager = Mockito.mock(GameManager.class);
+        model=new Model(gameManager);
         toolCard = new PennelloPerEglomise(model);
         player = Mockito.mock(Player.class);
         WindowFrame frame = new WindowFrame(WindowFrameList.BATLLO);
