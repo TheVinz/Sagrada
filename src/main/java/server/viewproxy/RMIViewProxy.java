@@ -90,7 +90,7 @@ public class RMIViewProxy extends ViewProxy {
     public synchronized void ping(){
         while(isPing()) {
             try {
-                remoteView.ping();
+                if(!player.isSuspended()) remoteView.ping();
             } catch (RemoteException e) {
                 super.suspendPlayer();
             }

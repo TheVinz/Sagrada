@@ -89,7 +89,19 @@ public abstract class ClientConnection {
         }).start();
     }
 
+    /**
+     * Sets the {@link RemoteController} this client will use to send messages to the server.
+     * @param remoteController the Remote controller this class will use to send messages to the server.
+     */
     public abstract void setRemoteController(RemoteController remoteController);
+
+    /**
+     * Notifies the client he has been disconnected from the server.
+     */
     public abstract void notifyDisconnection();
+
+    /**
+     * Notifies the client that an error occurred during the connection to the server.
+     */
     public abstract void connectionError();
 }

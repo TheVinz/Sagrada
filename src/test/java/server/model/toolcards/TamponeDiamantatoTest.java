@@ -28,7 +28,7 @@ public class TamponeDiamantatoTest {
         private GameManager gameManager;
         @Before
         public void setUp() throws Exception {
-            gameManager=new GameManager();
+            gameManager = Mockito.mock(GameManager.class);
             model = Mockito.spy(new Model(gameManager));
             player = Mockito.mock(Player.class);
             toolCard = new TamponeDiamantato(model);

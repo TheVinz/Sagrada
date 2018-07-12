@@ -7,5 +7,11 @@ import server.model.state.boards.windowframe.WindowFrame;
  *
  */
 public interface ObjectiveCard {
+
+	/**
+	 * Calculates the points scored thanks to the <tt>ObjectiveCard</tt> inside the given {@link WindowFrame}.
+	 * @param windowFrame the window frame in which the card will calculate the points scored.
+	 * @return the points scored by the frame owner.
+	 */
 	int calculatePoints(WindowFrame windowFrame);
 }

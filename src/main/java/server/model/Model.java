@@ -44,7 +44,7 @@ public class Model implements Observable {
      */
     public Model(GameManager gameManager){
         this.gameManager = gameManager;
-        state = new State(this);
+        state = new State();
         util = new Util();
     }
 
@@ -144,7 +144,7 @@ public class Model implements Observable {
      * Closes the accepting player phase and notifies to the playing ones their {@link server.model.state.objectivecards.privateobjectivecards.PrivateObjectiveCard}
      * and the {@link server.model.state.boards.windowframe.WindowFrame} choice.
      */
-    public synchronized void startGame() {
+    public void startGame() {
         acceptPlayers = false;
         notifyPrivateObjectiveCard();
         for(Player p : state.getPlayers()) p.setActive();
@@ -157,7 +157,7 @@ public class Model implements Observable {
      * {@link server.model.state.bag.Bag} and setting active the next player returned by the {@link RoundManager} iterator,
      * iterating while the next player will not be suspended. Then notifies the new turn and the new draft pool to the players.
      */
-    synchronized void startRound() {
+    void startRound() {
         try {
             state.getDraftPool().draw(state.getBag());
         }
@@ -172,7 +172,10 @@ public class Model implements Observable {
         while(active.isSuspended()){
             if(roundManager.hasNext())
                 active = roundManager.next();
-            else endRound();
+            else {
+                endRound();
+                return;
+            }
         }
         active.setActive();
         notifyStartTurn(active);
@@ -183,7 +186,7 @@ public class Model implements Observable {
      * by the RoundManager, iterating while the selected player is suspended. If the RoundManager is empty, ends the current Round.
      * @param player the player whose turn will be ended.
      */
-    public synchronized void endTurn(Player player) {
+    public void endTurn(Player player) {
         Player active = player;
         active.endTurn();
         if(!state.isGameFinished() && started) {
@@ -198,12 +201,12 @@ public class Model implements Observable {
         }
     }
 
-    private synchronized void endRound() {
+    private void endRound() {
         try {
             state.getRoundTrack().endRound(state.getDraftPool());
         } catch (Exception e) {
-            System.err.println("Error on Model.endRound()");
-            System.exit(1);
+            notifyGameManager("Everybody disconnected.");
+            return;
         }
         for(Player player : state.getPlayers()) player.endRound();
         notifyRoundTrackUpdate(state.getRoundTrack().getRound()-1, state.getRoundTrack().getRoundSet(state.getRoundTrack().getRound()-1).toArray(new Cell[0]));
@@ -217,6 +220,8 @@ public class Model implements Observable {
      * the scoreboard to the players and the winner to the GameManager.
      */
     public synchronized void endGame() {
+        if(state.isGameFinished())
+            return;
         state.setGameFinished(true);
         if(started) {
             List<Player> scoreboard = new ArrayList<>();
@@ -229,10 +234,7 @@ public class Model implements Observable {
             Player winner = getWinner(scoreboard);
             notifyGameManager("Winner: " + winner.getName());
         }
-        else{
-            notifyGameManager("Everybody is disconnected!");
-        }
-        this.playerObserverMap = null;
+        //this.playerObserverMap = null;
     }
 
     private Player getWinner(List<Player> scoreboard){
@@ -270,7 +272,7 @@ public class Model implements Observable {
             state.getPlayers().stream().forEach(p -> System.out.print("\t" + p.getName() + "\n"));
             System.out.print(">>>");
         }
-        else if(!player.isSuspended() && started) {
+        else if(!player.isSuspended() && started && !state.isGameFinished()) {
             player.setSuspended(true);
             notifySuspendPlayer(player);
             int cont = 0;
@@ -309,7 +311,7 @@ public class Model implements Observable {
      * @param player the player who performed the choice.
      * @param windowFrameList the chosen frame's rep.
      */
-    public void windowFrameChoice(Player player, WindowFrameList windowFrameList){
+    public synchronized void windowFrameChoice(Player player, WindowFrameList windowFrameList){
         player.setWindowFrame(windowFrameList);
         player.setInactive();
         for(Player p : state.getPlayers()){

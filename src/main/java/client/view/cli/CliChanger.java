@@ -150,6 +150,7 @@ public class CliChanger implements Changer {
             s[i]=""+refilledDraftPool.getValues()[i]+refilledDraftPool.getColors()[i];
         }
         CliState.getCliState().setDraftPool(s);
+        CliState.getCliState().getCliPlayerState().setSecondTurn(true);
         CliDisplayer.getDisplayer().displayText("The DraftPool is full.\n");
     }
 

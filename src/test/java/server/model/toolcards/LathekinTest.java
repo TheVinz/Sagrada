@@ -5,6 +5,7 @@ import common.exceptions.WrongParameter;
 import common.response.Response;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import server.GameManager;
 import server.model.state.ModelObject.ModelObject;
 import server.model.state.ModelObject.ModelType;
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.when;
 public class LathekinTest {
 
     private Player player;
+    private Model model;
     private ToolCard toolCard;
     private boolean firstMoveDone;
     private List<ModelObject> parameters;
@@ -41,8 +43,8 @@ public class LathekinTest {
 
     @Before
     public void setUp() throws Exception {
-        gameManager=new GameManager();
-        Model model = spy(new Model(gameManager));
+        gameManager = Mockito.mock(GameManager.class);
+        model = spy(new Model(gameManager));
         toolCard = new Lathekin(model);
         frame = new WindowFrame(WindowFrameList.AURORA_SAGRADIS);
         secondFrame = new WindowFrame(WindowFrameList.AURORAE_MAGNIFICUS);

@@ -29,7 +29,7 @@ public class PinzaSgrossatriceTest {
 
     @Before
     public void setUp() throws Exception {
-        gameManager=new GameManager();
+        gameManager = Mockito.mock(GameManager.class);
         model = Mockito.spy(new Model(gameManager));
         toolCard = new PinzaSgrossatrice(model);
         draftPool = model.getState().getDraftPool();

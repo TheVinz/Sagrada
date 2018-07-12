@@ -1,8 +1,8 @@
 package server.model.state.utilities;
 
-import server.controller.Controller;
-
-import static java.lang.Thread.sleep;
+/**
+ * The <tt>Timer</tt> class contains the timer functions for the game.
+ */
 
 public class Timer implements Runnable {
     private int cont = 60;
@@ -10,10 +10,19 @@ public class Timer implements Runnable {
     private volatile Thread blinker;
     private TimerObserver timerObserver;
 
+    /**
+     * Creates a new <tt>Timer</tt> that waits for max_cont seconds and then notifies the {@link TimerObserver} associated.
+     * @param timerObserver the observer of the timer.
+     * @param max_cont the timeout of the timer.
+     */
     public Timer(TimerObserver timerObserver, int max_cont){
         this.timerObserver = timerObserver;
         this.MAX_CONT = max_cont;
     }
+
+    /**
+     * Starts the timer.
+     */
     @Override
     public synchronized void run() {
         Thread.currentThread().setName("Sagrada - timer");
@@ -33,20 +42,26 @@ public class Timer implements Runnable {
 
     }
 
+    /**
+     * Reset the timer count and then runs a new timer thread.
+     */
     public void start(){
         cont = MAX_CONT;
         blinker=new Thread(this);
         blinker.start();
     }
 
+    /**
+     * Stops this timer.
+     */
     public void stop(){
         blinker=null;
     }
 
-    public boolean timeFinished(){
-        return (cont==0);
-    }
-
+    /**
+     * Returns the current active timer's {@link Thread}.
+     * @return the last timer launched by the TimerObserver.
+     */
     public Thread getBlinker(){
         return this.blinker;
     }

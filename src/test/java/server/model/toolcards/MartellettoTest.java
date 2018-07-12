@@ -31,7 +31,7 @@ public class MartellettoTest {
     private GameManager gameManager;
     @Before
     public void setUp() throws Exception {
-        gameManager=new GameManager();
+        gameManager = Mockito.mock(GameManager.class);
         model=new Model(gameManager);
         player=mock(Player.class);
         draftPool = model.getState().getDraftPool();
