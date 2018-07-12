@@ -22,12 +22,12 @@ This is the repository for the java implementation of the board game *[Sagrada](
 
 #### Start the server launcher ####
 
-In order to play you first need to set the values of timeouts and ip in the configuration file **/lib/server_settings.json**.
+In order to play you first need to set the values of timeouts and ip in the configuration file **/configurations/server_settings.json**, this file will be automatically created on the first time the server is launched.
 Then start the server, to do that run `java -jar server.jar`, it will start automatically and wait for incoming RMI or Socket connections.
 
 #### Start the client launcher ####
 
-Before playing remember to set the values of the server ip in the configuration file **/lib/client_settings.json**.
+Before playing remember to set the values of the server ip in the configuration file **/configurations/client_settings.json**, this file will be automatically created on the first time the client is connected to the server.
 * ##### Cli Launcher ##### 
 
     If you want to play in the CLI environment  run `java -jar cliClient.jar`.
